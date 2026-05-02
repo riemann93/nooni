@@ -8,7 +8,7 @@
 
 Nooni is a small Danish family business creating personalized, 3D-printed products for everyday family life. The brand lives at the intersection of Nordic calm and warm, Boho character — functional objects that feel considered and personal, not mass-produced.
 
-The name says it all: "hej.nooni" — friendly, approachable, a little playful. This is a brand that speaks to parents who care about the details, who want their children's things to feel special without being loud about it.
+nooni — friendly, approachable, a little playful. This is a brand that speaks to parents who care about the details, who want their children's things to feel special without being loud about it.
 
 **Domain:** [nooni.dk](https://nooni.dk)  
 **Instagram:** [@hej.nooni](https://www.instagram.com/hej.nooni/)  
