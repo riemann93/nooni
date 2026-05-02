@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --color-nooni-bg: #FFFCF7;
+  --color-nooni-warm: #D9B4A7;
+  --color-nooni-cool: #D0E1C1;
+  --color-nooni-headline: #B48383;
+  --color-nooni-sub: #678061;
+  --color-nooni-ink: #3d3228;
+
+  --font-display: var(--font-fredoka-var), system-ui, sans-serif;
+  --font-editorial: "Filena", var(--font-opensans-var), system-ui, sans-serif;
+  --font-sans: var(--font-opensans-var), system-ui, sans-serif;
+}
+
+/* Place Filena.woff2 in /public/fonts/ to activate */
+@font-face {
+  font-family: "Filena";
+  src: url("/fonts/Filena.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  background-color: #FFFCF7;
+  color: #3d3228;
+}
