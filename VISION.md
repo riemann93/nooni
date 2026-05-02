@@ -21,14 +21,14 @@ nooni — friendly, approachable, a little playful. This is a brand that speaks 
 All products are produced in-house on **Bambu P2S** 3D printers. Small-batch, locally made, with craft and precision behind every order. The personalization workflow is central to the business — every product is configured by the customer, printed on demand, and fulfilled from home.
 
 ### Dots
-Small custom circles, ~1 cm diameter. Used to personalize children's clothing items (e.g. for daycare). Customer configures:
+Small custom circles, ~1,5 cm diameter. Used to personalize children's clothing items (e.g. for daycare). Customer configures:
 - **Main color**
 - **Secondary color**
 - **Logo** (lemon, cherry, car, smiley, etc.) — or —
 - **Name** (transforms the dot into an elongated oval with rounded ends to fit the text, same design language)
 
 ### Loops
-Larger than Dots, ~2 cm. Multi-purpose: bag tags, pencil case labels, keychains. Customer configures:
+Larger than Dots, ~2 cm x 5 cm. Multi-purpose: bag tags, pencil case labels, keychains. Customer configures:
 - **Main color**
 - **Secondary color**
 - **Name or logo**
