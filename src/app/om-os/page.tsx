@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ArchBackground from "@/components/ArchBackground";
 
 export const metadata: Metadata = {
   title: "Om os — Nooni",
@@ -7,24 +8,22 @@ export const metadata: Metadata = {
 
 export default function OmOs() {
   return (
-    <div className="max-w-2xl mx-auto px-6 py-20">
-      {/* Arch decoration */}
-      <div className="flex justify-center mb-12">
-        <div
-          className="w-32 h-48 opacity-40"
-          style={{
-            backgroundColor: "#D0E1C1",
-            borderRadius: "9999px 9999px 0 0",
-          }}
-        />
+    <>
+      {/* Page header with arch background */}
+      <div className="relative flex flex-col items-center justify-end text-center px-6 pt-20 pb-14 overflow-hidden min-h-[280px]">
+        <ArchBackground />
+        <div className="relative z-10">
+          <p className="font-sans text-xs uppercase tracking-[0.2em] text-nooni-sub mb-3">
+            Om os
+          </p>
+          <h1 className="font-display text-5xl font-semibold text-nooni-headline">
+            Bag Nooni
+          </h1>
+        </div>
       </div>
 
-      <p className="font-sans text-sm uppercase tracking-widest text-nooni-sub text-center mb-4">
-        Om os
-      </p>
-      <h1 className="font-display text-4xl font-semibold text-nooni-headline text-center mb-8">
-        Bag Nooni
-      </h1>
+    <div className="max-w-2xl mx-auto px-6 py-16">
+
       <div className="font-editorial text-nooni-ink/80 leading-relaxed space-y-5 text-lg">
         <p>
           Nooni er en lille dansk familivirksomhed, der laver personaliserede
@@ -50,5 +49,6 @@ export default function OmOs() {
         </p>
       </div>
     </div>
+    </>
   );
 }
