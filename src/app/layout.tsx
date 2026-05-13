@@ -1,12 +1,29 @@
+/**
+ * Root layout — defines the site chrome that wraps every page:
+ *   - <HeroArches />  fixed boho-arch backdrop (z-index: 0)
+ *   - <Navbar />      sticky liquid-glass nav (z-index: 2)
+ *   - <main>          page content; sections inside sit at z-index: 1
+ *   - <Footer />      site footer (z-index: 1)
+ *
+ * Stacking-context discipline (load-bearing — read before editing):
+ *   The body must NOT create a stacking context. Anything with
+ *   `transform`, `filter`, `will-change`, or `perspective` on the body,
+ *   <main>, or any wrapping element will isolate the backdrop-filter
+ *   blur and silently break the liquid-glass effect on .nooni-glass.
+ *   `flex` and `position: sticky` on siblings are fine.
+ */
+
 import type { Metadata } from "next";
-import { Fredoka, Open_Sans } from "next/font/google";
+import { Cormorant_Garamond, Fredoka, Open_Sans } from "next/font/google";
+import Footer from "@/components/Footer";
+import HeroArches from "@/components/HeroArches";
 import Navbar from "@/components/Navbar";
 import "./globals.css";
 
 const fredoka = Fredoka({
   variable: "--font-fredoka-var",
   subsets: ["latin"],
-  weight: ["400", "600"],
+  weight: ["400", "500", "600"],
 });
 
 const openSans = Open_Sans({
@@ -14,10 +31,17 @@ const openSans = Open_Sans({
   subsets: ["latin"],
 });
 
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant-var",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+});
+
 export const metadata: Metadata = {
   title: "Nooni — Smarte løsninger til familier",
   description:
-    "Personaliserede nøgleringe og navneskilte til børn. Håndlavede i Danmark med 3D-print.",
+    "Personaliserede 3D-printede mærker, tags og holdere til børn. Lavet hjemme i Danmark.",
 };
 
 export default function RootLayout({
@@ -26,14 +50,13 @@ export default function RootLayout({
   return (
     <html
       lang="da"
-      className={`${fredoka.variable} ${openSans.variable} antialiased`}
+      className={`${fredoka.variable} ${openSans.variable} ${cormorant.variable} antialiased`}
     >
       <body className="min-h-screen flex flex-col bg-nooni-bg text-nooni-ink font-sans">
+        <HeroArches />
         <Navbar />
         <main className="flex-1">{children}</main>
-        <footer className="py-8 text-center text-sm text-nooni-warm">
-          © {new Date().getFullYear()} Nooni — lavet med kærlighed i Danmark
-        </footer>
+        <Footer />
       </body>
     </html>
   );

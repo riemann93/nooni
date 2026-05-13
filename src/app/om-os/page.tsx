@@ -1,54 +1,40 @@
+/**
+ * /om-os — "Vores historie" page.
+ *
+ * The handoff designs the story as a section on a one-page site. We
+ * want separate pages so the site can grow without cluttering one
+ * scroll. So: same Story component, given a thin intro band above it
+ * that lets the fixed <HeroArches /> backdrop breathe before the
+ * warm Story background takes over.
+ *
+ * Closing CTA reused from the homepage so visitors who arrive here
+ * directly still get a path back to the product grid.
+ */
+
 import type { Metadata } from "next";
-import ArchBackground from "@/components/ArchBackground";
+import QuietCTA from "@/components/QuietCTA";
+import Story from "@/components/Story";
 
 export const metadata: Metadata = {
-  title: "Om os — Nooni",
-  description: "Mød familien bag Nooni.",
+  title: "Vores historie — Nooni",
+  description:
+    "Mød familien bag Nooni. Personliggjorte produkter, printet hjemme hos os i Danmark.",
 };
 
 export default function OmOs() {
   return (
     <>
-      {/* Page header with arch background */}
-      <div className="relative flex flex-col items-center justify-end text-center px-6 pt-20 pb-14 overflow-hidden min-h-[280px]">
-        <ArchBackground />
-        <div className="relative z-10">
-          <p className="font-sans text-xs uppercase tracking-[0.2em] text-nooni-sub mb-3">
-            Om os
-          </p>
-          <h1 className="font-display text-5xl font-semibold text-nooni-headline">
-            Bag Nooni
-          </h1>
+      {/* Intro band — short, lets the arch backdrop show through */}
+      <section className="relative z-[1] pt-24 pb-12 text-center">
+        <div className="mx-auto max-w-[1280px] px-10">
+          <span className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub">
+            Om Nooni
+          </span>
         </div>
-      </div>
+      </section>
 
-    <div className="max-w-2xl mx-auto px-6 py-16">
-
-      <div className="font-editorial text-nooni-ink/80 leading-relaxed space-y-5 text-lg">
-        <p>
-          Nooni er en lille dansk familivirksomhed, der laver personaliserede
-          produkter til hverdagslivet med børn. Alt er 3D-printet hos os
-          derhjemme — med omhu og præcision i hver eneste ordre.
-        </p>
-        <p>
-          Idéen er enkel: ting til børn skal løse et rigtigt problem og stadig
-          se godt ud. Ingen masseproduktion. Ingen kolde materialer. Bare
-          varme, holdbare produkter med dit barns navn på.
-        </p>
-        <p>
-          Vi er i gang med at bygge mere. Følg med på{" "}
-          <a
-            href="https://www.instagram.com/hej.nooni/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-nooni-sub underline underline-offset-2 hover:text-nooni-headline transition-colors"
-          >
-            @hej.nooni
-          </a>{" "}
-          på Instagram.
-        </p>
-      </div>
-    </div>
+      <Story />
+      <QuietCTA />
     </>
   );
 }

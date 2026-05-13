@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @theme {
+  /* Core palette (unchanged) */
   --color-nooni-bg: #FFFCF7;
   --color-nooni-warm: #D9B4A7;
   --color-nooni-cool: #D0E1C1;
@@ -8,12 +9,30 @@
   --color-nooni-sub: #678061;
   --color-nooni-ink: #3d3228;
 
+  /* Surface tones (handoff additions) */
+  --color-nooni-bg-warm:  #F7EFE5;
+  --color-nooni-nude:     #E4C9B6;
+  --color-nooni-ink-soft: #5a4d40;
+
+  /* Hairlines and dividers */
+  --color-nooni-line:      #E2D6C8;
+  --color-nooni-line-soft: #EFE6D8;
+
+  /* Arch stroke colour */
+  --color-nooni-arch:      #C9B8A4;
+
+  /* Fonts */
   --font-display: var(--font-fredoka-var), system-ui, sans-serif;
-  --font-editorial: "Filena", var(--font-opensans-var), system-ui, sans-serif;
   --font-sans: var(--font-opensans-var), system-ui, sans-serif;
+
+  /* Editorial serif — currently Cormorant Garamond as a Filena stand-in.
+     When Filena licence lands, change to:
+       --font-editorial: "Filena", "Cormorant Garamond", "Georgia", serif;
+     and drop Cormorant from the Google Fonts import in layout.tsx. */
+  --font-editorial: var(--font-cormorant-var), "Georgia", serif;
 }
 
-/* Place Filena.woff2 in /public/fonts/ to activate */
+/* Place Filena.woff2 in /public/fonts/ to activate (currently inactive). */
 @font-face {
   font-family: "Filena";
   src: url("/fonts/Filena.woff2") format("woff2");
@@ -25,4 +44,24 @@
 body {
   background-color: #FFFCF7;
   color: #3d3228;
+}
+
+/* Liquid-glass surface — used by section header, product cards, navbar.
+
+   Note: backdrop-filter only blurs what's painted underneath it in the
+   compositing order. The fixed <HeroArches /> sits at z-index:0 of the
+   body, and these surfaces sit at z-index:1+ inside sections — that's
+   the layout the handoff was designed around. Do NOT add transform,
+   filter, will-change, or perspective on any ancestor: those create
+   isolation that breaks the backdrop-filter sample. */
+.nooni-glass {
+  background: rgba(255, 252, 247, 0.32);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  border: 1px solid var(--color-nooni-line-soft);
+  border-radius: 20px;
+}
+
+.font-editorial {
+  font-family: var(--font-editorial);
 }

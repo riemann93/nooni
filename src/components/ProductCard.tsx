@@ -1,56 +1,54 @@
-import Link from "next/link";
+/**
+ * ProductCard — square liquid-glass card for the products grid.
+ *
+ * Square (aspect-ratio: 1 / 1) on the art block, content below.
+ */
 
-interface ProductCardProps {
+import Link from "next/link";
+import * as React from "react";
+import GlassSurface from "./GlassSurface";
+
+export interface ProductCardProps {
   name: string;
-  tagline: string;
+  tag: string;
+  price: string;
   description: string;
-  accentColor: string;
   href: string;
+  /** Square illustration component — see components/product-art/. */
+  art: React.ReactNode;
 }
 
 export default function ProductCard({
   name,
-  tagline,
+  tag,
+  price,
   description,
-  accentColor,
   href,
+  art,
 }: ProductCardProps) {
   return (
-    <div className="flex flex-col">
-      {/* Boho arch image placeholder — portrait with fully rounded top */}
-      <div
-        className="w-full"
-        style={{
-          height: "300px",
-          backgroundColor: accentColor,
-          borderRadius: "9999px 9999px 0 0",
-        }}
-      />
+    <GlassSurface as={Link} href={href} className="group flex flex-col p-5">
+      <div className="aspect-square overflow-hidden rounded-xl">{art}</div>
 
-      {/* Card content */}
-      <div
-        className="flex flex-col flex-1 px-6 pt-6 pb-8 gap-2"
-        style={{
-          backgroundColor: accentColor + "22", // 13% opacity tint
-          borderRadius: "0 0 24px 24px",
-        }}
-      >
-        <p className="text-xs font-sans uppercase tracking-widest text-nooni-sub">
-          {tagline}
-        </p>
-        <h3 className="font-display text-2xl font-semibold text-nooni-headline">
+      <div className="mt-5 flex items-baseline justify-between gap-4">
+        <h3 className="font-editorial text-3xl italic font-medium text-nooni-headline tracking-tight">
           {name}
         </h3>
-        <p className="font-sans text-sm leading-relaxed text-nooni-ink/70 flex-1">
-          {description}
-        </p>
-        <Link
-          href={href}
-          className="mt-3 self-start rounded-full border border-nooni-headline px-5 py-2 text-sm text-nooni-headline hover:bg-nooni-headline hover:text-white transition-colors"
-        >
-          Se mere →
-        </Link>
+        <span className="text-sm text-nooni-ink-soft whitespace-nowrap">{price}</span>
       </div>
-    </div>
+
+      <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-nooni-sub">
+        {tag}
+      </p>
+
+      <p className="mt-3 text-sm leading-relaxed text-nooni-ink-soft flex-1">
+        {description}
+      </p>
+
+      <span className="mt-5 inline-flex items-center gap-2 text-[13px] text-nooni-headline">
+        Tilpas dit eget
+        <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+      </span>
+    </GlassSurface>
   );
 }
