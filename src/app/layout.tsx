@@ -39,9 +39,19 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Nooni — Smarte løsninger til familier",
+  metadataBase: new URL("https://nooni.dk"),
+  title: {
+    default: "Nooni — Smarte løsninger til familier",
+    template: "%s · Nooni",
+  },
   description:
     "Personaliserede 3D-printede mærker, tags og holdere til børn. Lavet hjemme i Danmark.",
+  openGraph: {
+    type: "website",
+    locale: "da_DK",
+    siteName: "Nooni",
+    url: "https://nooni.dk",
+  },
 };
 
 export default function RootLayout({

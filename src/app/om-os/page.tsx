@@ -16,7 +16,7 @@ import QuietCTA from "@/components/QuietCTA";
 import Story from "@/components/Story";
 
 export const metadata: Metadata = {
-  title: "Vores historie — Nooni",
+  title: "Vores historie",
   description:
     "Mød familien bag Nooni. Personliggjorte produkter, printet hjemme hos os i Danmark.",
 };
