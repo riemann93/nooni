@@ -1,26 +1,37 @@
 /**
- * Homepage — products grid, value strip, closing CTA.
+ * Under-construction page — production branch only.
  *
- * Site chrome (<HeroArches />, <Navbar />, <Footer />) lives in
- * src/app/layout.tsx and wraps every page. This file owns only the
- * page-specific sections.
+ * Soft-launch holder for nooni.dk until the real site is ready to ship.
+ * Nooni wordmark + "Kommer snart" + Instagram link. No nav, no products,
+ * no arches — intentionally quiet.
  *
- * Note: each section sets its own `relative z-[1]` so it paints above
- * the fixed arches at z-index: 0. Do not wrap them in anything with
- * `transform`/`filter`/`will-change` — that creates a stacking context
- * which silently breaks the .nooni-glass backdrop-filter blur.
+ * When the real site is ready, merge main → production and this file
+ * is replaced by the full homepage.
  */
 
-import ProductsSection from "@/components/Hero";
-import QuietCTA from "@/components/QuietCTA";
-import ValueStrip from "@/components/ValueStrip";
-
-export default function Home() {
+export default function UnderConstruction() {
   return (
-    <>
-      <ProductsSection />
-      <ValueStrip />
-      <QuietCTA />
-    </>
+    <main className="min-h-screen flex flex-col items-center justify-center px-6 py-16 text-center">
+      <h1 className="font-display text-7xl sm:text-8xl font-medium text-nooni-headline tracking-tight leading-none">
+        nooni
+      </h1>
+
+      <p className="mt-8 font-editorial italic text-2xl sm:text-3xl text-nooni-ink-soft">
+        Kommer snart
+      </p>
+
+      <p className="mt-4 text-xs uppercase tracking-[0.22em] text-nooni-sub">
+        Smarte løsninger til familier
+      </p>
+
+      <a
+        href="https://www.instagram.com/hej.nooni/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-14 text-sm text-nooni-ink-soft hover:text-nooni-headline transition-colors"
+      >
+        Følg med på Instagram — @hej.nooni
+      </a>
+    </main>
   );
 }
