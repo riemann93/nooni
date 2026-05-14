@@ -5,6 +5,7 @@
  */
 
 import Link from "next/link";
+import Logo from "./Logo";
 
 export default function Footer() {
   return (
@@ -12,8 +13,8 @@ export default function Footer() {
       <div className="mx-auto max-w-[1280px] px-10">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            <div className="mb-4 font-display text-2xl font-medium leading-none text-nooni-headline">
-              nooni
+            <div className="mb-4">
+              <Logo className="text-2xl" />
             </div>
             <p className="text-sm leading-loose text-nooni-ink-soft">
               Smarte løsninger til familier. Personliggjort, 3D-printet og

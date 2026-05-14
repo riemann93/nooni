@@ -23,7 +23,8 @@ import "./globals.css";
 const fredoka = Fredoka({
   variable: "--font-fredoka-var",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  // 700 is required for the canonical Nooni wordmark (see BRAND.md).
+  weight: ["400", "500", "600", "700"],
 });
 
 const openSans = Open_Sans({

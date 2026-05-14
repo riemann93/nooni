@@ -9,17 +9,15 @@
  */
 
 import Link from "next/link";
+import Logo from "./Logo";
 
 export default function Navbar() {
   return (
     <header className="sticky top-0 z-[2] w-full">
       <div className="mx-auto max-w-[1280px] px-10 py-4">
         <div className="nooni-glass flex items-center justify-between px-6 py-3">
-          <Link
-            href="/"
-            className="font-display text-2xl font-medium tracking-tight text-nooni-headline leading-none"
-          >
-            nooni
+          <Link href="/" aria-label="Nooni — forsiden">
+            <Logo className="text-2xl" />
           </Link>
 
           <nav className="hidden items-center gap-8 text-sm text-nooni-ink-soft sm:flex">
