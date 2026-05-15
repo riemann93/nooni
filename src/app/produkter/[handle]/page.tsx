@@ -21,6 +21,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import type { Metadata } from "next";
+import AddToCartButton from "@/components/AddToCartButton";
 import { getProductByHandle } from "@/lib/shopify/products";
 
 // Re-fetch the underlying Shopify data at most every 60 seconds.
@@ -107,8 +108,23 @@ export default async function ProductPage({ params }: PageProps) {
             />
           )}
 
-          <div className="mt-10 rounded-xl border border-dashed border-nooni-line p-5 text-sm text-nooni-ink-soft">
-            Personalisering og kurv kommer i næste iteration.
+          <div className="mt-10">
+            {product.variants.nodes[0] ? (
+              <AddToCartButton
+                variantId={product.variants.nodes[0].id}
+                availableForSale={
+                  product.availableForSale &&
+                  product.variants.nodes[0].availableForSale
+                }
+              />
+            ) : (
+              <p className="text-sm text-nooni-ink-soft">
+                Dette produkt kan ikke købes lige nu.
+              </p>
+            )}
+            <p className="mt-3 text-xs text-nooni-ink-soft/70">
+              Personalisering kommer i næste iteration.
+            </p>
           </div>
         </div>
       </div>
