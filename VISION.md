@@ -142,6 +142,17 @@ The goal is something live before the local market appearance. Scope is delibera
 - Customer sees their color choices and name/logo applied to the model live
 - This is the signature feature that sets nooni.dk apart from any competitor
 
+**v2+ — Post-purchase delight**
+- After-checkout thank-you experience that mirrors the brand's hand-made warmth
+- Idea on the table: a small pixel-art animation of a 3D printer starting up
+  and beginning to print the customer's product. Plays once on the thank-you
+  page after a successful order — quiet, charming, tells the production
+  story visually.
+- Implementation will depend on whether Shopify Checkout Extensibility allows
+  enough customisation of the thank-you page, or whether we route customers
+  to a `/tak` page on `nooni.dk` post-purchase (set in Shopify checkout
+  settings) and own the experience fully.
+
 ### Design Assets
 - SVG source files live in `/design/` in the repository — version controlled, used directly in the frontend
 - PNGs alongside SVGs for any assets where visual reference is needed during development
