@@ -18,6 +18,7 @@ import { Cormorant_Garamond, Fredoka, Open_Sans } from "next/font/google";
 import Footer from "@/components/Footer";
 import HeroArches from "@/components/HeroArches";
 import Navbar from "@/components/Navbar";
+import { CartProvider } from "@/contexts/CartContext";
 import "./globals.css";
 
 const fredoka = Fredoka({
@@ -64,10 +65,12 @@ export default function RootLayout({
       className={`${fredoka.variable} ${openSans.variable} ${cormorant.variable} antialiased`}
     >
       <body className="min-h-screen flex flex-col bg-nooni-bg text-nooni-ink font-sans">
-        <HeroArches />
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <CartProvider>
+          <HeroArches />
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

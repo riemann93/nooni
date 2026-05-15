@@ -39,3 +39,43 @@ export interface Product {
   };
   variants: { nodes: ProductVariant[] };
 }
+
+/* ── Cart ─────────────────────────────────────────────────────────── */
+
+export interface CartLineMerchandise {
+  id: string; // Shopify variant ID
+  title: string; // variant title (e.g. "Default Title", "1 række")
+  product: {
+    handle: string;
+    title: string;
+    images: { nodes: ShopifyImage[] };
+  };
+  price: Money;
+}
+
+export interface CartLine {
+  id: string; // line ID, used for update/remove mutations
+  quantity: number;
+  merchandise: CartLineMerchandise;
+  cost: {
+    totalAmount: Money;
+  };
+}
+
+export interface Cart {
+  id: string; // GID — store this in localStorage
+  checkoutUrl: string; // where "Til kassen" sends the user
+  totalQuantity: number;
+  cost: {
+    subtotalAmount: Money;
+    totalAmount: Money;
+  };
+  lines: { nodes: CartLine[] };
+}
+
+/** Errors returned in the `userErrors` array on cart mutations. */
+export interface CartUserError {
+  field: string[] | null;
+  message: string;
+  code?: string;
+}
