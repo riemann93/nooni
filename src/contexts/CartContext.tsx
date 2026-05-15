@@ -40,6 +40,10 @@ interface CartContextValue {
   loading: boolean;
   /** Total line-item quantity across the cart. 0 for empty/uninitialized. */
   totalQuantity: number;
+  /** Drawer open state — owned here so any descendant can toggle it. */
+  isDrawerOpen: boolean;
+  openDrawer: () => void;
+  closeDrawer: () => void;
   addLine: (variantId: string, quantity?: number) => Promise<void>;
   updateQuantity: (lineId: string, quantity: number) => Promise<void>;
   removeLine: (lineId: string) => Promise<void>;
@@ -58,6 +62,10 @@ export function useCart(): CartContextValue {
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const openDrawer = useCallback(() => setIsDrawerOpen(true), []);
+  const closeDrawer = useCallback(() => setIsDrawerOpen(false), []);
 
   // Rehydrate cart from localStorage on mount.
   useEffect(() => {
@@ -104,6 +112,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           ? await apiAddToCart(cart.id, variantId, quantity)
           : await apiCreateCart(variantId, quantity);
         persistCart(updated);
+        // Auto-open the drawer so users see the new line confirmed.
+        setIsDrawerOpen(true);
       } finally {
         setLoading(false);
       }
@@ -148,11 +158,23 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       cart,
       loading,
       totalQuantity: cart?.totalQuantity ?? 0,
+      isDrawerOpen,
+      openDrawer,
+      closeDrawer,
       addLine,
       updateQuantity,
       removeLine,
     }),
-    [cart, loading, addLine, updateQuantity, removeLine],
+    [
+      cart,
+      loading,
+      isDrawerOpen,
+      openDrawer,
+      closeDrawer,
+      addLine,
+      updateQuantity,
+      removeLine,
+    ],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

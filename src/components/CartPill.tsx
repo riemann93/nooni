@@ -15,11 +15,12 @@
 import { useCart } from "@/contexts/CartContext";
 
 export default function CartPill() {
-  const { totalQuantity } = useCart();
+  const { totalQuantity, openDrawer } = useCart();
 
   return (
     <button
       type="button"
+      onClick={openDrawer}
       className="inline-flex items-center gap-2 rounded-full bg-nooni-headline px-4 py-2 text-xs text-white transition-colors hover:bg-[#9d6f6f]"
       aria-label="Åbn kurv"
     >
