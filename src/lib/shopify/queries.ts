@@ -146,30 +146,31 @@ export const CART_LINES_REMOVE_MUTATION = /* GraphQL */ `
 
 /**
  * Lightweight product summary — just what the homepage product cards
- * need (handle, title, primary image, price range). Keep this skinny;
- * the full product detail query stays separate.
+ * need (handle, title, primary image, price range). Looked up by
+ * handle one at a time and combined client-side, because Shopify's
+ * `products(query: "handle:foo OR handle:bar")` is search-style and
+ * doesn't behave as a strict handle filter (it returns everything by
+ * relevance and applies `first:` to that).
  */
-export const PRODUCTS_BY_HANDLES_QUERY = /* GraphQL */ `
-  query ProductsByHandles($first: Int!, $query: String!) {
-    products(first: $first, query: $query) {
-      nodes {
-        id
-        handle
-        title
-        availableForSale
-        images(first: 1) {
-          nodes {
-            url
-            altText
-            width
-            height
-          }
+export const PRODUCT_SUMMARY_BY_HANDLE_QUERY = /* GraphQL */ `
+  query ProductSummaryByHandle($handle: String!) {
+    product(handle: $handle) {
+      id
+      handle
+      title
+      availableForSale
+      images(first: 1) {
+        nodes {
+          url
+          altText
+          width
+          height
         }
-        priceRange {
-          minVariantPrice {
-            amount
-            currencyCode
-          }
+      }
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
         }
       }
     }

@@ -1,16 +1,17 @@
 /**
- * Hero — the new homepage opener.
+ * Hero — the homepage opener.
  *
  * Two-column layout on desktop (text left, photo right). On mobile the
  * photo dominates the top ~60vh and the text sits below it.
  *
- * The photo is contained in a Boho-arch shaped frame to tie the
- * lifestyle imagery into the brand language. The concentric-line arches
- * (Nooni's signature decoration, see BRAND.md) live INSIDE this section
- * — not as a fixed-viewport overlay — so they scroll out naturally when
- * the user moves past the hero. This keeps the brand DNA visible at the
- * top of the page and lets the product grid below breathe on a clean
- * background.
+ * The photo is square with a soft feathered margin (mask gradient) and
+ * a warm drop shadow — gives the image a "lifted from the page" feel
+ * without hard edges.
+ *
+ * The Boho-arch decoration is kept in code but currently disabled
+ * (SHOW_ARCHES = false). We're parking them until they have a clear
+ * purpose. Flip the flag to bring them back; the geometry is dialled
+ * in for the current hero proportions already.
  *
  * Primary CTA points to /produkter/dots-med-navn-3stk per the
  * "name version is the most functional" call.
@@ -20,68 +21,51 @@ import Image from "next/image";
 import Link from "next/link";
 import Arch from "@/components/Arch";
 
+const SHOW_ARCHES = false;
+
 const HERO_PHOTO = {
   src: "/images/dots_name_lifestyle.jpg",
   alt: "Nooni navnemærke med navnet “Elvira” hængende på et barns blomstrede rygsæk",
-  // Original is 1000x750 landscape; cropping handled via object-cover.
 };
 
 export default function Hero() {
   return (
     <section className="relative isolate overflow-hidden">
-      {/* Decorative arches — contained to this section. Negative z-index
-          keeps them below content without needing a stacking context on
-          the section itself. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 select-none"
-      >
-        <Arch
-          maskId="hero-arch-left"
-          direction="up"
-          width={520}
-          height={680}
-          peakOffset={200}
-          lines={6}
-          gap={38}
-          strokeWidth={3}
-          style={{ top: -10, left: -80 }}
-        />
-        <Arch
-          maskId="hero-arch-right"
-          direction="down"
-          width={520}
-          height={680}
-          peakOffset={200}
-          lines={6}
-          gap={38}
-          strokeWidth={3}
-          style={{ top: -10, right: -80 }}
-        />
-      </div>
+      {SHOW_ARCHES && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10 select-none"
+        >
+          <Arch
+            maskId="hero-arch-left"
+            direction="up"
+            width={520}
+            height={680}
+            peakOffset={200}
+            lines={6}
+            gap={38}
+            strokeWidth={3}
+            style={{ top: -10, left: -80 }}
+          />
+          <Arch
+            maskId="hero-arch-right"
+            direction="down"
+            width={520}
+            height={680}
+            peakOffset={200}
+            lines={6}
+            gap={38}
+            strokeWidth={3}
+            style={{ top: -10, right: -80 }}
+          />
+        </div>
+      )}
 
       <div className="mx-auto max-w-[1280px] px-6 pt-10 pb-20 md:px-10 md:pt-20 md:pb-32">
         <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-[1.05fr_0.95fr] md:gap-20">
           {/* ── Photo (renders FIRST on mobile, second on desktop) ── */}
           <div className="order-1 md:order-2">
-            <div
-              className="relative mx-auto w-full overflow-hidden bg-nooni-bg-warm"
-              style={{
-                // Boho arch — full semicircle top, square bottom.
-                borderRadius: "9999px 9999px 28px 28px",
-                aspectRatio: "4 / 5",
-                maxWidth: 520,
-              }}
-            >
-              <Image
-                src={HERO_PHOTO.src}
-                alt={HERO_PHOTO.alt}
-                fill
-                priority
-                sizes="(min-width: 768px) 45vw, 90vw"
-                className="object-cover"
-              />
-            </div>
+            <HeroPhoto />
           </div>
 
           {/* ── Text (renders second on mobile, first on desktop) ── */}
@@ -122,5 +106,48 @@ export default function Hero() {
         </div>
       </div>
     </section>
+  );
+}
+
+/**
+ * Photo composition: outer wrapper carries the drop shadow; inner
+ * wrapper applies the feathering mask. They're separated because
+ * `mask-image` clips the shadow if applied to the same element —
+ * the shadow needs its own un-masked layer to render against.
+ */
+function HeroPhoto() {
+  return (
+    <div
+      className="relative mx-auto w-full"
+      style={{
+        maxWidth: 520,
+        // Soft, warm drop shadow — uses the brand headline tone so the
+        // halo reads as Nooni-cohesive rather than generic.
+        filter:
+          "drop-shadow(0 24px 40px rgba(180, 131, 131, 0.18)) drop-shadow(0 8px 16px rgba(61, 50, 40, 0.08))",
+      }}
+    >
+      <div
+        className="relative aspect-square overflow-hidden"
+        style={{
+          // Soft, feathered edges. The image fades to transparent over
+          // the outermost ~10% so it dissolves into the page instead of
+          // ending in a hard rectangle.
+          WebkitMaskImage:
+            "radial-gradient(ellipse at center, black 70%, transparent 100%)",
+          maskImage:
+            "radial-gradient(ellipse at center, black 70%, transparent 100%)",
+        }}
+      >
+        <Image
+          src={HERO_PHOTO.src}
+          alt={HERO_PHOTO.alt}
+          fill
+          priority
+          sizes="(min-width: 768px) 45vw, 90vw"
+          className="object-cover"
+        />
+      </div>
+    </div>
   );
 }

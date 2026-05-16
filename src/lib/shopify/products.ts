@@ -7,8 +7,8 @@
 
 import { shopifyFetch } from "./client";
 import {
-  PRODUCTS_BY_HANDLES_QUERY,
   PRODUCT_BY_HANDLE_QUERY,
+  PRODUCT_SUMMARY_BY_HANDLE_QUERY,
 } from "./queries";
 import type { Money, Product, ShopifyImage } from "./types";
 
@@ -48,28 +48,26 @@ export async function getProductByHandle(
  * as the input array. Missing handles are silently dropped — the caller
  * can compare result length to input length if they need to detect that.
  *
- * Shopify's `query` arg uses the search-string format `handle:foo OR
- * handle:bar OR …` and returns results in relevance order, not the
- * order we asked for. We re-sort client-side so the homepage card grid
- * is deterministic.
+ * Implemented as parallel exact-handle lookups rather than a single
+ * `products(query: "handle:foo OR handle:bar")` call: the latter is
+ * search-style and returns the full catalogue ranked by relevance
+ * (only honouring `first:` for the slice). Per-handle is strict, fast
+ * enough for grid sizes, and the round-trips parallelise on the edge.
  */
 export async function getProductsByHandles(
   handles: string[],
 ): Promise<ProductSummary[]> {
   if (handles.length === 0) return [];
 
-  const query = handles.map((h) => `handle:${h}`).join(" OR ");
+  const results = await Promise.all(
+    handles.map(async (handle) => {
+      const data = await shopifyFetch<{ product: ProductSummary | null }>({
+        query: PRODUCT_SUMMARY_BY_HANDLE_QUERY,
+        variables: { handle },
+      });
+      return data.product;
+    }),
+  );
 
-  const data = await shopifyFetch<{
-    products: { nodes: ProductSummary[] };
-  }>({
-    query: PRODUCTS_BY_HANDLES_QUERY,
-    variables: { first: handles.length, query },
-  });
-
-  // Re-sort to match the input order.
-  const byHandle = new Map(data.products.nodes.map((p) => [p.handle, p]));
-  return handles
-    .map((h) => byHandle.get(h))
-    .filter((p): p is ProductSummary => p !== undefined);
+  return results.filter((p): p is ProductSummary => p !== null);
 }
