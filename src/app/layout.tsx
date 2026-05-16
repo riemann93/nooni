@@ -1,23 +1,29 @@
 /**
  * Root layout — defines the site chrome that wraps every page:
- *   - <HeroArches />  fixed boho-arch backdrop (z-index: 0)
  *   - <Navbar />      sticky liquid-glass nav (z-index: 2)
- *   - <main>          page content; sections inside sit at z-index: 1
- *   - <Footer />      site footer (z-index: 1)
+ *   - <main>          page content
+ *   - <Footer />      site footer
+ *   - <CartDrawer />  slide-in cart (lives at z-index: 11 when open)
  *
- * Stacking-context discipline (load-bearing — read before editing):
- *   The body must NOT create a stacking context. Anything with
- *   `transform`, `filter`, `will-change`, or `perspective` on the body,
- *   <main>, or any wrapping element will isolate the backdrop-filter
- *   blur and silently break the liquid-glass effect on .nooni-glass.
- *   `flex` and `position: sticky` on siblings are fine.
+ * Note on the Boho-arch backdrop:
+ *   Previously this layout mounted a fixed-viewport <HeroArches /> behind
+ *   every page. We moved the arches inside the <Hero /> component so
+ *   they appear only at the top of the homepage and scroll out
+ *   naturally — keeps the brand signature where it matters and lets
+ *   the product grid below sit on a clean background.
+ *
+ * Note on .nooni-glass (used by Navbar):
+ *   backdrop-filter only blurs what's painted underneath it. The navbar
+ *   blurs whatever scrolls behind it in the body — that still works
+ *   without the fixed arches. Don't add transform/filter/will-change
+ *   on body or main; either creates a stacking context that breaks the
+ *   blur.
  */
 
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Fredoka, Open_Sans } from "next/font/google";
 import CartDrawer from "@/components/CartDrawer";
 import Footer from "@/components/Footer";
-import HeroArches from "@/components/HeroArches";
 import Navbar from "@/components/Navbar";
 import { CartProvider } from "@/contexts/CartContext";
 import "./globals.css";
@@ -67,7 +73,6 @@ export default function RootLayout({
     >
       <body className="min-h-screen flex flex-col bg-nooni-bg text-nooni-ink font-sans">
         <CartProvider>
-          <HeroArches />
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />

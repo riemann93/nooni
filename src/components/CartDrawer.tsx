@@ -11,8 +11,8 @@
  *   - Body scroll locked while open
  *   - "Til kassen" redirects to cart.checkoutUrl (Shopify-hosted)
  *
- * z-index: 10 (backdrop) and 11 (drawer). Sits above the Navbar (z:2)
- * and Footer (z:1). HeroArches (z:0) stays behind everything.
+ * z-index: 10 (backdrop) and 11 (drawer). Sits above the sticky
+ * Navbar (z:2). Other content uses default z so the drawer always wins.
  *
  * Empty state: the drawer still renders even with an empty cart so the
  * user can dismiss it; it just shows a "Din kurv er tom" message.

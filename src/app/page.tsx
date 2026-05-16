@@ -1,25 +1,31 @@
 /**
- * Homepage — products grid, value strip, closing CTA.
+ * Homepage — top-level composition.
  *
- * Site chrome (<HeroArches />, <Navbar />, <Footer />) lives in
- * src/app/layout.tsx and wraps every page. This file owns only the
- * page-specific sections.
+ *   <Hero />          big photo + name-Dots CTA + contained arches
+ *   <ValueStrip />    trust signals
+ *   <ProductsGrid />  the four non-Dots products (Loops, Emblem,
+ *                     Deks, Tic Tac Take), fetched from Shopify
+ *   <Story />         family / process narrative
+ *   <QuietCTA />      closing call-to-action
  *
- * Note: each section sets its own `relative z-[1]` so it paints above
- * the fixed arches at z-index: 0. Do not wrap them in anything with
- * `transform`/`filter`/`will-change` — that creates a stacking context
- * which silently breaks the .nooni-glass backdrop-filter blur.
+ * Each section owns its own background and spacing. No glass / arch
+ * stacking constraints at this level — the Hero handles its own
+ * decoration.
  */
 
-import ProductsSection from "@/components/ProductsSection";
+import Hero from "@/components/Hero";
+import ProductsGrid from "@/components/ProductsGrid";
 import QuietCTA from "@/components/QuietCTA";
+import Story from "@/components/Story";
 import ValueStrip from "@/components/ValueStrip";
 
 export default function Home() {
   return (
     <>
-      <ProductsSection />
+      <Hero />
       <ValueStrip />
+      <ProductsGrid />
+      <Story />
       <QuietCTA />
     </>
   );
