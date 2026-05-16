@@ -53,10 +53,21 @@ export interface CartLineMerchandise {
   price: Money;
 }
 
+/**
+ * Line-item attribute (a.k.a. line item property in Shopify admin).
+ * Free-form key/value pairs that ride along with the cart line all the
+ * way to the order. Used for personalization (colors, name, motif).
+ */
+export interface CartLineAttribute {
+  key: string;
+  value: string;
+}
+
 export interface CartLine {
   id: string; // line ID, used for update/remove mutations
   quantity: number;
   merchandise: CartLineMerchandise;
+  attributes: CartLineAttribute[];
   cost: {
     totalAmount: Money;
   };

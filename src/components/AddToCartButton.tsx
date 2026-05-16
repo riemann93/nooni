@@ -1,13 +1,8 @@
 /**
  * AddToCartButton — adds a single variant to the cart via CartContext.
  *
- * Used on /produkter/[handle]. Client component because it reads from
- * CartContext and manages a small "just added" feedback state.
- *
- * For now this assumes the caller has already picked a variant
- * (typically the default variant since the test product has only one).
- * When products with multiple variants land (Decks 1-row vs 2-row),
- * a <VariantSelector /> will pick the variantId and pass it in.
+ * Used on /produkter/[handle] (usually wrapped by ProductPurchaseSection
+ * which feeds the personalization attributes in).
  *
  * Errors are logged to console but not surfaced in the UI yet — for
  * the soft launch a real error toast is over-engineering. Add one
@@ -18,15 +13,25 @@
 
 import { useState } from "react";
 import { useCart } from "@/contexts/CartContext";
+import type { CartLineAttribute } from "@/lib/shopify/types";
 
 interface AddToCartButtonProps {
   variantId: string;
   availableForSale: boolean;
+  /** Line-item properties to attach (personalization payload). */
+  attributes?: CartLineAttribute[];
+  /**
+   * External disabled flag — typically driven by personalization form
+   * validity. The cart's own loading state is OR'd in internally.
+   */
+  disabled?: boolean;
 }
 
 export default function AddToCartButton({
   variantId,
   availableForSale,
+  attributes,
+  disabled,
 }: AddToCartButtonProps) {
   const { addLine, loading } = useCart();
   const [justAdded, setJustAdded] = useState(false);
@@ -45,7 +50,7 @@ export default function AddToCartButton({
 
   async function handleClick() {
     try {
-      await addLine(variantId);
+      await addLine(variantId, 1, attributes);
       setJustAdded(true);
       window.setTimeout(() => setJustAdded(false), 1600);
     } catch (err) {
@@ -53,12 +58,14 @@ export default function AddToCartButton({
     }
   }
 
+  const isDisabled = loading || disabled;
+
   return (
     <button
       type="button"
       onClick={handleClick}
-      disabled={loading}
-      className="inline-flex items-center justify-center gap-2 rounded-full bg-nooni-headline px-8 py-3 text-sm text-white transition-colors hover:bg-[#9d6f6f] disabled:opacity-60 disabled:cursor-wait"
+      disabled={isDisabled}
+      className="inline-flex items-center justify-center gap-2 rounded-full bg-nooni-headline px-8 py-3 text-sm text-white transition-colors hover:bg-[#9d6f6f] disabled:opacity-50 disabled:cursor-not-allowed"
     >
       {loading ? "Tilføjer…" : justAdded ? "Tilføjet ✓" : "Læg i kurv"}
     </button>

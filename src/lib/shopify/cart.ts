@@ -23,7 +23,7 @@ import {
   CART_LINES_UPDATE_MUTATION,
   CART_QUERY,
 } from "./queries";
-import type { Cart, CartUserError } from "./types";
+import type { Cart, CartLineAttribute, CartUserError } from "./types";
 
 interface CartMutationResponse {
   cart: Cart | null;
@@ -54,30 +54,41 @@ export async function getCart(cartId: string): Promise<Cart | null> {
   return data.cart;
 }
 
-/** Create a new cart, optionally seeded with the first line item. */
+/**
+ * Create a new cart seeded with the first line item.
+ *
+ * `attributes` is optional and carries line-item properties (the
+ * personalization payload — colours, names, motifs). Shopify
+ * deduplicates lines by `merchandiseId + attributes`: same product +
+ * same config increments quantity; different config creates a new line.
+ */
 export async function createCart(
   variantId: string,
   quantity = 1,
+  attributes?: CartLineAttribute[],
 ): Promise<Cart> {
   const data = await shopifyFetch<{ cartCreate: CartMutationResponse }>({
     query: CART_CREATE_MUTATION,
-    variables: { lines: [{ merchandiseId: variantId, quantity }] },
+    variables: {
+      lines: [{ merchandiseId: variantId, quantity, attributes }],
+    },
     revalidate: 0,
   });
   return unwrapCartMutation(data.cartCreate);
 }
 
-/** Add a line to an existing cart. */
+/** Add a line to an existing cart. See createCart() re: attributes semantics. */
 export async function addToCart(
   cartId: string,
   variantId: string,
   quantity = 1,
+  attributes?: CartLineAttribute[],
 ): Promise<Cart> {
   const data = await shopifyFetch<{ cartLinesAdd: CartMutationResponse }>({
     query: CART_LINES_ADD_MUTATION,
     variables: {
       cartId,
-      lines: [{ merchandiseId: variantId, quantity }],
+      lines: [{ merchandiseId: variantId, quantity, attributes }],
     },
     revalidate: 0,
   });

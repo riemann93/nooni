@@ -21,7 +21,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { useCart } from "@/contexts/CartContext";
 import type { CartLine } from "@/lib/shopify/types";
 
@@ -223,6 +223,17 @@ function CartLineRow({
             {lineTotal}
           </p>
         </div>
+
+        {line.attributes.length > 0 && (
+          <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-2 text-xs text-nooni-ink-soft">
+            {line.attributes.map((attr) => (
+              <Fragment key={attr.key}>
+                <dt className="text-nooni-sub">{attr.key}:</dt>
+                <dd className="text-nooni-ink">{attr.value}</dd>
+              </Fragment>
+            ))}
+          </dl>
+        )}
 
         <div className="mt-3 flex items-center justify-between">
           <QuantityControl

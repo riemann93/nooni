@@ -21,8 +21,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import type { Metadata } from "next";
-import AddToCartButton from "@/components/AddToCartButton";
-import PersonalizationForm from "@/components/personalization/PersonalizationForm";
+import ProductPurchaseSection from "@/components/personalization/ProductPurchaseSection";
 import { getSchemaForHandle } from "@/lib/shopify/personalization";
 import { getProductByHandle } from "@/lib/shopify/products";
 
@@ -111,32 +110,20 @@ export default async function ProductPage({ params }: PageProps) {
             />
           )}
 
-          {schema && (
-            <div className="mt-10 border-t border-nooni-line-soft pt-8">
-              <PersonalizationForm schema={schema} />
-            </div>
+          {product.variants.nodes[0] ? (
+            <ProductPurchaseSection
+              variantId={product.variants.nodes[0].id}
+              availableForSale={
+                product.availableForSale &&
+                product.variants.nodes[0].availableForSale
+              }
+              schema={schema}
+            />
+          ) : (
+            <p className="mt-10 text-sm text-nooni-ink-soft">
+              Dette produkt kan ikke købes lige nu.
+            </p>
           )}
-
-          <div className="mt-10">
-            {product.variants.nodes[0] ? (
-              <AddToCartButton
-                variantId={product.variants.nodes[0].id}
-                availableForSale={
-                  product.availableForSale &&
-                  product.variants.nodes[0].availableForSale
-                }
-              />
-            ) : (
-              <p className="text-sm text-nooni-ink-soft">
-                Dette produkt kan ikke købes lige nu.
-              </p>
-            )}
-            {schema && (
-              <p className="mt-3 text-xs text-nooni-ink-soft/70">
-                Dine valg gemmes på ordren i næste iteration.
-              </p>
-            )}
-          </div>
         </div>
       </div>
     </section>

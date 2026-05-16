@@ -30,7 +30,7 @@ import {
   removeCartLines as apiRemoveCartLines,
   updateCartLineQuantity as apiUpdateCartLineQuantity,
 } from "@/lib/shopify/cart";
-import type { Cart } from "@/lib/shopify/types";
+import type { Cart, CartLineAttribute } from "@/lib/shopify/types";
 
 const STORAGE_KEY = "nooni.cartId";
 
@@ -44,7 +44,11 @@ interface CartContextValue {
   isDrawerOpen: boolean;
   openDrawer: () => void;
   closeDrawer: () => void;
-  addLine: (variantId: string, quantity?: number) => Promise<void>;
+  addLine: (
+    variantId: string,
+    quantity?: number,
+    attributes?: CartLineAttribute[],
+  ) => Promise<void>;
   updateQuantity: (lineId: string, quantity: number) => Promise<void>;
   removeLine: (lineId: string) => Promise<void>;
 }
@@ -105,12 +109,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const addLine = useCallback(
-    async (variantId: string, quantity = 1) => {
+    async (
+      variantId: string,
+      quantity = 1,
+      attributes?: CartLineAttribute[],
+    ) => {
       setLoading(true);
       try {
         const updated = cart
-          ? await apiAddToCart(cart.id, variantId, quantity)
-          : await apiCreateCart(variantId, quantity);
+          ? await apiAddToCart(cart.id, variantId, quantity, attributes)
+          : await apiCreateCart(variantId, quantity, attributes);
         persistCart(updated);
         // Auto-open the drawer so users see the new line confirmed.
         setIsDrawerOpen(true);
