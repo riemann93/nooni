@@ -119,104 +119,97 @@ export interface PersonalizationSchema {
 
 /* ── Per-handle schemas ───────────────────────────────────────────── */
 
-const dotsLikeFields: readonly FieldDef[] = [
-  { type: "color", key: "main_color", label: "Hovedfarve", required: true },
-  { type: "color", key: "secondary_color", label: "Sekundær farve", required: true },
-  {
-    type: "choice",
-    key: "personalization",
-    label: "Personalisering",
-    required: true,
-    options: [
+/**
+ * Shared field builders to keep the per-handle schemas concise.
+ * Tweak labels / lengths here once instead of in every entry.
+ */
+const mainColorField: FieldDef = {
+  type: "color",
+  key: "main_color",
+  label: "Hovedfarve",
+  required: true,
+};
+
+const secondaryColorField: FieldDef = {
+  type: "color",
+  key: "secondary_color",
+  label: "Sekundær farve",
+  required: true,
+};
+
+const motifField = (options: readonly MotifOption[]): FieldDef => ({
+  type: "select",
+  key: "motif",
+  label: "Motiv",
+  required: true,
+  options,
+});
+
+const nameField = (placeholder: string): FieldDef => ({
+  type: "text",
+  key: "name",
+  label: "Navn",
+  maxLength: 12,
+  placeholder,
+  required: true,
+});
+
+/**
+ * The single source of truth. Keys are Shopify product handles —
+ * confirmed against the live Storefront API. If you add a product in
+ * Shopify, add its handle here; without an entry the product page
+ * works but has no personalization form.
+ *
+ * The dev `nooni_test_product` schema is intentionally kept so the
+ * test product still validates personalization end-to-end. Remove
+ * this entry once the product is unpublished/deleted in Shopify.
+ */
+export const PERSONALIZATION_SCHEMAS: Record<string, PersonalizationSchema> = {
+  // ── Dev placeholder. Remove when the test product is deleted. ──
+  nooni_test_product: {
+    fields: [
+      mainColorField,
+      secondaryColorField,
       {
-        value: "motif",
-        label: "Motiv",
-        fields: [
-          {
-            type: "select",
-            key: "motif",
-            label: "Vælg motiv",
-            options: MOTIFS,
-            required: true,
-          },
-        ],
-      },
-      {
-        value: "name",
-        label: "Navn",
-        fields: [
-          {
-            type: "text",
-            key: "name",
-            label: "Navn",
-            maxLength: 12,
-            placeholder: "Alma",
-            required: true,
-          },
+        type: "choice",
+        key: "personalization",
+        label: "Personalisering",
+        required: true,
+        options: [
+          { value: "motif", label: "Motiv", fields: [motifField(MOTIFS)] },
+          { value: "name", label: "Navn", fields: [nameField("Alma")] },
         ],
       },
     ],
   },
-];
 
-/**
- * The single source of truth. Keys are Shopify product handles.
- *
- * `nooni_test_product` gets a Dots-like schema for development —
- * lets us validate the full pipeline (every field type, the choice
- * group, validation) end-to-end before real products exist.
- * Remove this entry once real products are in place.
- */
-export const PERSONALIZATION_SCHEMAS: Record<string, PersonalizationSchema> = {
-  // ── Dev placeholder. Remove once real products exist. ──────────
-  nooni_test_product: { fields: dotsLikeFields },
-
-  // ── Real product lineup (handles will be confirmed when wife
-  //    creates the products in Shopify). ───────────────────────────
-  dots: { fields: dotsLikeFields },
+  // ── Dots: 5stk er en pakke med 5 ens motiv-dots. Med-navn-3stk er
+  //    3 ens navne-dots (de er aflange og fylder mere). ─────────────
+  "dots-5stk": {
+    fields: [mainColorField, secondaryColorField, motifField(MOTIFS)],
+  },
+  "dots-med-navn-3stk": {
+    fields: [mainColorField, secondaryColorField, nameField("Alma")],
+  },
 
   loops: {
-    fields: [
-      { type: "color", key: "main_color", label: "Hovedfarve", required: true },
-      {
-        type: "color",
-        key: "secondary_color",
-        label: "Sekundær farve",
-        required: true,
-      },
-      {
-        type: "text",
-        key: "name",
-        label: "Tekst",
-        maxLength: 12,
-        placeholder: "Viggo",
-        required: true,
-      },
-    ],
+    fields: [mainColorField, secondaryColorField, nameField("Viggo")],
   },
 
   emblem: {
     fields: [
-      { type: "color", key: "main_color", label: "Hovedfarve", required: true },
-      {
-        type: "color",
-        key: "secondary_color",
-        label: "Sekundær farve",
-        required: true,
-      },
-      {
-        type: "select",
-        key: "motif",
-        label: "Motiv",
-        required: true,
-        options: [...MOTIFS, NOONI_LOGO_MOTIF],
-      },
+      mainColorField,
+      secondaryColorField,
+      motifField([...MOTIFS, NOONI_LOGO_MOTIF]),
     ],
   },
 
-  // Deck's 1-row vs 2-row is a Shopify VARIANT — not a personalization
-  // field. Only the colour choice lives here.
-  deck: {
+  // ── Deks: single (1 række) og duo (2 rækker) er separate Shopify-
+  //    produkter (forskellig pris), så de har hver sin schema-entry. ─
+  "deks-single": {
+    fields: [{ type: "color", key: "color", label: "Farve", required: true }],
+  },
+  "deks-duo": {
     fields: [{ type: "color", key: "color", label: "Farve", required: true }],
   },
 

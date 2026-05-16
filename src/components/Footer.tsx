@@ -23,10 +23,14 @@ export default function Footer() {
           </div>
 
           <FooterCol heading="Produkter">
-            <FooterLink href="/produkter/dots">Dots</FooterLink>
+            <FooterLink href="/produkter/dots-5stk">Dots 5 stk</FooterLink>
+            <FooterLink href="/produkter/dots-med-navn-3stk">
+              Dots med navn 3 stk
+            </FooterLink>
             <FooterLink href="/produkter/loops">Loops</FooterLink>
             <FooterLink href="/produkter/emblem">Emblem</FooterLink>
-            <FooterLink href="/produkter/decks">Decks</FooterLink>
+            <FooterLink href="/produkter/deks-single">Deks single</FooterLink>
+            <FooterLink href="/produkter/deks-duo">Deks duo</FooterLink>
             <FooterLink href="/produkter/tic-tac-take">Tic Tac Take</FooterLink>
           </FooterCol>
 

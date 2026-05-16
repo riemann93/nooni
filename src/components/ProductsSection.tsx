@@ -17,35 +17,41 @@ import DotsArt from "./product-art/DotsArt";
 import LoopsArt from "./product-art/LoopsArt";
 import DecksArt from "./product-art/DecksArt";
 
+// Note: the homepage card for Dots and Decks each points to one of the
+// two Shopify products in that family (the motif variant for Dots, the
+// single-row variant for Decks). The other variants are reachable via
+// the footer and (eventually) a /produkter listing page. Revisit during
+// the design polish phase — may want to expand to one card per Shopify
+// product, or build a small family/category surface.
 const PRODUCTS = [
   {
     key: "dots",
     name: "Dots",
     tag: "Til tøjet",
-    price: "Fra 39 kr.",
+    price: "Fra 59 kr.",
     description:
       "Små runde mærker på ~1,5 cm. Vælg farver og motiv — eller skriv et navn, der former sig til en aflang oval.",
-    href: "/produkter/dots",
+    href: "/produkter/dots-5stk",
     art: <DotsArt />,
   },
   {
     key: "loops",
     name: "Loops",
     tag: "Til tasker & nøgler",
-    price: "Fra 49 kr.",
+    price: "39 kr.",
     description:
       "Større tags på ~2×5 cm. Bruges som navneskilte på tasker, penalhuse eller som nøglering.",
     href: "/produkter/loops",
     art: <LoopsArt />,
   },
   {
-    key: "decks",
-    name: "Decks",
+    key: "deks",
+    name: "Deks",
     tag: "Til kortspil",
-    price: "Fra 89 kr.",
+    price: "Fra 69 kr.",
     description:
-      "En korteholder til børn — i én eller to rækker afhængigt af kortspillet. I Noonis klassiske farver.",
-    href: "/produkter/decks",
+      "En korteholder til børn — fås i én række (single) eller to rækker (duo). I Noonis klassiske farver.",
+    href: "/produkter/deks-single",
     art: <DecksArt />,
   },
 ];
