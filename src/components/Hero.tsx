@@ -4,9 +4,9 @@
  * Two-column layout on desktop (text left, photo right). On mobile the
  * photo dominates the top ~60vh and the text sits below it.
  *
- * The photo is square with a soft feathered margin (mask gradient) and
- * a warm drop shadow — gives the image a "lifted from the page" feel
- * without hard edges.
+ * The photo is square, framed in a Boho-arch shape (full semicircle
+ * top, slight bottom-corner radius), with a warm two-tone drop shadow
+ * that follows the arch outline.
  *
  * The Boho-arch decoration is kept in code but currently disabled
  * (SHOW_ARCHES = false). We're parking them until they have a clear
@@ -111,9 +111,9 @@ export default function Hero() {
 
 /**
  * Photo composition: outer wrapper carries the drop shadow; inner
- * wrapper applies the feathering mask. They're separated because
- * `mask-image` clips the shadow if applied to the same element —
- * the shadow needs its own un-masked layer to render against.
+ * wrapper clips the image to the Boho-arch outline via border-radius.
+ * `filter: drop-shadow` follows the rendered shape, so the halo
+ * traces the arch — not a hidden bounding rectangle.
  */
 function HeroPhoto() {
   return (
@@ -121,22 +121,18 @@ function HeroPhoto() {
       className="relative mx-auto w-full"
       style={{
         maxWidth: 520,
-        // Soft, warm drop shadow — uses the brand headline tone so the
-        // halo reads as Nooni-cohesive rather than generic.
+        // Warm two-tone drop shadow — uses the brand headline tone so
+        // the halo reads as Nooni-cohesive rather than generic.
         filter:
           "drop-shadow(0 24px 40px rgba(180, 131, 131, 0.18)) drop-shadow(0 8px 16px rgba(61, 50, 40, 0.08))",
       }}
     >
       <div
-        className="relative aspect-square overflow-hidden"
+        className="relative aspect-square overflow-hidden bg-nooni-bg-warm"
         style={{
-          // Soft, feathered edges. The image fades to transparent over
-          // the outermost ~10% so it dissolves into the page instead of
-          // ending in a hard rectangle.
-          WebkitMaskImage:
-            "radial-gradient(ellipse at center, black 70%, transparent 100%)",
-          maskImage:
-            "radial-gradient(ellipse at center, black 70%, transparent 100%)",
+          // Full semicircle on top, soft 28px corners on the bottom —
+          // a classic doorway-style Boho arch.
+          borderRadius: "9999px 9999px 28px 28px",
         }}
       >
         <Image
