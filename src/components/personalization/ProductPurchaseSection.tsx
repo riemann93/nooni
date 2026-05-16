@@ -1,11 +1,15 @@
 /**
- * ProductPurchaseSection — wraps the personalization form + add-to-cart
- * button so they can share state.
+ * ProductPurchaseSection — wraps the personalization form, the live
+ * preview (when supported for this handle), and the add-to-cart button
+ * so they can share state.
  *
- * The form's values live here. They're converted to Shopify line item
- * attributes via toLineItemAttributes and handed to AddToCartButton.
+ * The form's values live here. They're:
+ *   - rendered into a live SVG preview above the form (handle-scoped
+ *     via PREVIEW_SUPPORTED_HANDLES — currently `dots-5stk` only)
+ *   - converted to Shopify line item attributes via toLineItemAttributes
+ *     and handed to AddToCartButton
  *
- * If the product has no schema, the form simply isn't rendered and the
+ * If the product has no schema, the form/preview don't render and the
  * button works in its bare form (no attributes attached).
  *
  * The button is disabled until every required field has a value.
@@ -16,12 +20,17 @@
 import { useCallback, useMemo, useState } from "react";
 import AddToCartButton from "@/components/AddToCartButton";
 import PersonalizationForm from "@/components/personalization/PersonalizationForm";
+import ProductPreview, {
+  PREVIEW_SUPPORTED_HANDLES,
+} from "@/components/personalization/ProductPreview";
 import {
   toLineItemAttributes,
   type PersonalizationSchema,
 } from "@/lib/shopify/personalization";
 
 interface ProductPurchaseSectionProps {
+  /** Shopify product handle — used to gate the live preview. */
+  handle: string;
   variantId: string;
   availableForSale: boolean;
   /** null when the product has no personalization. */
@@ -29,6 +38,7 @@ interface ProductPurchaseSectionProps {
 }
 
 export default function ProductPurchaseSection({
+  handle,
   variantId,
   availableForSale,
   schema,
@@ -51,10 +61,18 @@ export default function ProductPurchaseSection({
     [schema, values],
   );
 
+  const showPreview = schema !== null && PREVIEW_SUPPORTED_HANDLES.has(handle);
+
   return (
     <>
-      {schema && (
+      {showPreview && (
         <div className="mt-10 border-t border-nooni-line-soft pt-8">
+          <ProductPreview values={values} />
+        </div>
+      )}
+
+      {schema && (
+        <div className={`mt-10 ${showPreview ? "" : "border-t border-nooni-line-soft pt-8"}`}>
           <PersonalizationForm schema={schema} onChange={handleFormChange} />
         </div>
       )}

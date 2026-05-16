@@ -112,6 +112,7 @@ export default async function ProductPage({ params }: PageProps) {
 
           {product.variants.nodes[0] ? (
             <ProductPurchaseSection
+              handle={handle}
               variantId={product.variants.nodes[0].id}
               availableForSale={
                 product.availableForSale &&
