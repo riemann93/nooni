@@ -22,6 +22,8 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import type { Metadata } from "next";
 import AddToCartButton from "@/components/AddToCartButton";
+import PersonalizationForm from "@/components/personalization/PersonalizationForm";
+import { getSchemaForHandle } from "@/lib/shopify/personalization";
 import { getProductByHandle } from "@/lib/shopify/products";
 
 // Re-fetch the underlying Shopify data at most every 60 seconds.
@@ -62,6 +64,7 @@ export default async function ProductPage({ params }: PageProps) {
     notFound();
   }
 
+  const schema = getSchemaForHandle(handle);
   const primaryImage = product.images.nodes[0];
   const minPrice = product.priceRange.minVariantPrice;
   const maxPrice = product.priceRange.maxVariantPrice;
@@ -108,6 +111,12 @@ export default async function ProductPage({ params }: PageProps) {
             />
           )}
 
+          {schema && (
+            <div className="mt-10 border-t border-nooni-line-soft pt-8">
+              <PersonalizationForm schema={schema} />
+            </div>
+          )}
+
           <div className="mt-10">
             {product.variants.nodes[0] ? (
               <AddToCartButton
@@ -122,9 +131,11 @@ export default async function ProductPage({ params }: PageProps) {
                 Dette produkt kan ikke købes lige nu.
               </p>
             )}
-            <p className="mt-3 text-xs text-nooni-ink-soft/70">
-              Personalisering kommer i næste iteration.
-            </p>
+            {schema && (
+              <p className="mt-3 text-xs text-nooni-ink-soft/70">
+                Dine valg gemmes på ordren i næste iteration.
+              </p>
+            )}
           </div>
         </div>
       </div>
