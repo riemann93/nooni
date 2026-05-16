@@ -25,8 +25,9 @@ export default function Footer() {
           <FooterCol heading="Produkter">
             <FooterLink href="/produkter/dots">Dots</FooterLink>
             <FooterLink href="/produkter/loops">Loops</FooterLink>
+            <FooterLink href="/produkter/emblem">Emblem</FooterLink>
             <FooterLink href="/produkter/decks">Decks</FooterLink>
-            <FooterLink href="#">Gavekort</FooterLink>
+            <FooterLink href="/produkter/tic-tac-take">Tic Tac Take</FooterLink>
           </FooterCol>
 
           <FooterCol heading="Om Nooni">

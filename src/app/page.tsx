@@ -11,7 +11,7 @@
  * which silently breaks the .nooni-glass backdrop-filter blur.
  */
 
-import ProductsSection from "@/components/Hero";
+import ProductsSection from "@/components/ProductsSection";
 import QuietCTA from "@/components/QuietCTA";
 import ValueStrip from "@/components/ValueStrip";
 

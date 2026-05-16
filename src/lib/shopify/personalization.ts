@@ -220,7 +220,7 @@ export const PERSONALIZATION_SCHEMAS: Record<string, PersonalizationSchema> = {
     fields: [{ type: "color", key: "color", label: "Farve", required: true }],
   },
 
-  "tic-tac-steal": {
+  "tic-tac-take": {
     fields: [
       {
         type: "color",

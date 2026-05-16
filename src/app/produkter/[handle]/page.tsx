@@ -1,21 +1,21 @@
 /**
  * Product detail page — /produkter/[handle].
  *
- * Fetches the product from Shopify Storefront by URL handle and renders
- * a minimal title + image + price + description view. This is the first
- * round-trip with Shopify; it intentionally has no personalization form
- * or cart wiring yet — those come in the next iteration.
+ * Fetches a product from Shopify Storefront by URL handle and renders:
+ *   - title, image, price, description (from Shopify)
+ *   - <ProductPurchaseSection /> which itself renders the schema-driven
+ *     personalization form (if the handle has a schema) and the
+ *     add-to-cart button with form-state-driven validation
  *
- * Caching: responses are cached on Vercel for 60s via shopifyFetch's
- * default revalidate. Edits in Shopify will appear on nooni.dk within
+ * Caching: ISR via Next's fetch cache, 60s. Shopify edits appear within
  * a minute without a redeploy.
  *
- * Notes for the next iteration:
- *   - Add <PersonalizationForm /> with per-product schema (Dots / Loops
- *     / Decks each have different fields)
- *   - Add <AddToCartButton /> that mutates the cart via Storefront API
- *   - generateStaticParams() once we lock the handles, so the three
- *     production routes are pre-rendered at build time
+ * Future polish (low priority):
+ *   - generateStaticParams() once the real product handles are locked
+ *     in, so the half-dozen production routes pre-render at build time
+ *     instead of on first request
+ *   - Variant selector when products with real Shopify variants exist
+ *     (Decks 1-row vs 2-row is the first case)
  */
 
 import { notFound } from "next/navigation";

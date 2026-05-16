@@ -4,6 +4,30 @@
 
 ---
 
+## Project Status
+
+A snapshot for anyone joining the project — for the long-form spec keep
+reading.
+
+- **Live:** `nooni.dk` serves a branded under-construction page (the
+  `production` branch). The full site lives on `main` and gets a Vercel
+  preview URL on every push.
+- **Shopify:** integrated headless via the Storefront API. Cart, line
+  items, personalization properties, and Shopify-hosted checkout all
+  work end-to-end. Test purchases verified.
+- **Personalization:** schema-driven form per product handle (see
+  `src/lib/shopify/personalization.ts`). Customer choices flow through
+  cart → checkout → order admin as Shopify line item properties.
+- **Brand wordmark:** locked in `BRAND.md` and the `<Logo />` component.
+- **What's next:** real products in Shopify (Dots / Loops / Emblem /
+  Decks / Tic Tac Take), shipping rates + MOMS configured, legal pages,
+  then a design polish pass and merge `main` → `production` for launch.
+
+For the day-to-day reading order: `BRAND.md` → this file → `AGENTS.md`
+→ `README.md`.
+
+---
+
 ## Brand Overview
 
 Nooni is a small Danish family business creating personalized, 3D-printed products for everyday family life. The brand lives at the intersection of Nordic calm and warm, Boho character — functional objects that feel considered and personal, not mass-produced.
@@ -168,14 +192,29 @@ The goal is something live before the local market appearance. Scope is delibera
 
 ---
 
-## Open Questions (To Resolve Early)
+## Open Questions
 
-- [ ] Payment methods: MobilePay is essential for Danish customers — confirm Shopify integration
-- [ ] Shipping: PostNord? GLS? Define zones and rates before launch
-- [ ] Production lead time: How many days from order to ship? This sets customer expectations everywhere
-- [ ] Photography: Do we have lifestyle shots? What needs to be shot before launch?
-- [ ] VAT/MOMS: Ensure 25% Danish VAT is correctly configured in Shopify Markets
-- [ ] Custom font licensing: Confirm Filena license covers web/commercial use
+Status as of mid-development. Items struck through have been answered.
+
+- [x] **Payment methods.** MobilePay activated through Shopify Payments
+      (test mode verified end-to-end; real-mode verification still TBD
+      with a 1 DKK live transaction).
+- [ ] **Shipping.** PostNord vs GLS, zones, rates, free-shipping
+      threshold. Still TBD — your wife's territory in Shopify admin.
+- [ ] **Production lead time.** "2–4 dage" appears throughout the site
+      copy as a placeholder. Confirm before launch.
+- [ ] **Photography.** Lifestyle shots vs the current stylised SVG
+      product-art placeholders. Open.
+- [x] **VAT/MOMS.** Decision: 25% inclusive in displayed prices
+      (Danish standard). Configuration still pending in Shopify Markets.
+- [x] **Custom font licensing.** Filena licence not pursued for v1.
+      Cormorant Garamond used as the editorial stand-in (Google Fonts,
+      free). `--font-editorial` in `globals.css` swaps cleanly if the
+      licence lands later.
+- [ ] **Sender email.** Order confirmations currently come from
+      Shopify's generic `t.shopifyemail.com` address. Plan: configure
+      `hej@nooni.dk` (forward to existing Gmail) + DKIM/SPF/DMARC so
+      Shopify can send as the Nooni domain.
 
 ---
 

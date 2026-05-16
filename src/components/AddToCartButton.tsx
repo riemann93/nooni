@@ -1,12 +1,14 @@
 /**
  * AddToCartButton — adds a single variant to the cart via CartContext.
  *
- * Used on /produkter/[handle] (usually wrapped by ProductPurchaseSection
- * which feeds the personalization attributes in).
+ * Used on /produkter/[handle], typically wrapped by ProductPurchaseSection
+ * which feeds the variant ID and the personalization line item attributes
+ * built from the personalization form's current state.
  *
- * Errors are logged to console but not surfaced in the UI yet — for
- * the soft launch a real error toast is over-engineering. Add one
- * once we have evidence of cart failures in production.
+ * Errors from the underlying cart mutation are console.error'd but not
+ * surfaced in the UI yet — for the soft launch a real error toast is
+ * over-engineering. Revisit once there's evidence of cart failures in
+ * production traffic.
  */
 
 "use client";
