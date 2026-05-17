@@ -196,9 +196,9 @@ The goal is something live before the local market appearance. Scope is delibera
 
 Status as of mid-development. Items struck through have been answered.
 
-- [x] **Payment methods.** MobilePay activated through Shopify Payments
-      (test mode verified end-to-end; real-mode verification still TBD
-      with a 1 DKK live transaction).
+- [ ] **Payment methods.** MobilePay activated through Shopify Payments.
+      Test-mode checkout verified end-to-end. Real-money verification not
+      yet done — needs a live 1 DKK transaction before launch.
 - [ ] **Shipping.** PostNord vs GLS, zones, rates, free-shipping
       threshold. Still TBD — your wife's territory in Shopify admin.
 - [ ] **Production lead time.** "2–4 dage" appears throughout the site
