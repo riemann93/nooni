@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "generate:motifs": "node scripts/generate-motifs.mjs",
+    "predev": "npm run generate:motifs",
+    "prebuild": "npm run generate:motifs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

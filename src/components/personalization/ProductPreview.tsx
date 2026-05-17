@@ -19,7 +19,7 @@
 "use client";
 
 import { NOONI_COLORS } from "@/lib/shopify/personalization";
-import { MOTIF_SVGS } from "./motifs";
+import MotifRenderer, { hasMotifRenderer } from "./motifs";
 
 /** Handles that should render a preview. Extend as more product types get one. */
 export const PREVIEW_SUPPORTED_HANDLES = new Set<string>(["dots-5stk"]);
@@ -41,7 +41,7 @@ export default function ProductPreview({ values }: ProductPreviewProps) {
   );
 
   const motifKey = values.motif;
-  const MotifRenderer = motifKey ? MOTIF_SVGS[motifKey] : null;
+  const showMotif = Boolean(motifKey && hasMotifRenderer(motifKey));
 
   return (
     <div>
@@ -57,7 +57,9 @@ export default function ProductPreview({ values }: ProductPreviewProps) {
           aria-label="Forhåndsvisning af din konfigurerede Dot"
         >
           <circle cx="50" cy="50" r="48" fill={mainHex} />
-          {MotifRenderer && <MotifRenderer color={secondaryHex} />}
+          {showMotif && motifKey && (
+            <MotifRenderer motifKey={motifKey} color={secondaryHex} />
+          )}
         </svg>
       </div>
 

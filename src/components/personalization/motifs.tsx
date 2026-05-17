@@ -1,75 +1,51 @@
 /**
- * Motif SVGs — small inline-rendered shapes used inside <ProductPreview />.
+ * Motif renderer — single React component that draws any motif from the
+ * auto-generated catalogue.
  *
- * Each motif is a React component that takes a colour and returns SVG
- * children sized to a 100x100 viewBox and roughly centred on (50, 50).
- * The parent (<ProductPreview />) draws the surrounding circle in the
- * main colour; these draw the motif on top in the secondary colour.
+ * The motif geometry lives in motifs.generated.ts (regenerated on every
+ * build by scripts/generate-motifs.mjs from design/motifs/*.svg). Source
+ * SVGs are pre-processed: viewBox normalised to fit a 0..100 box via a
+ * pre-computed transform, every fill/stroke colour rewritten to
+ * `currentColor`. So we just inject the inner markup and drive the
+ * colour via CSS `color`.
  *
- * Keep these simple. They're placeholder renderings for the live
- * preview, not final brand artwork — Camilla will hand-design proper
- * motif assets in a later iteration. The keys here MUST match the
- * motif `value` strings in src/lib/shopify/personalization.ts.
+ * dangerouslySetInnerHTML is the right tool here despite the name —
+ * we control the input (our own generator, our own design folder), and
+ * browsers render inline SVG markup correctly when used this way.
  */
 
-import type { ReactNode } from "react";
+import {
+  GENERATED_MOTIFS,
+  GENERATED_MOTIF_KEYS,
+} from "./motifs.generated";
 
-interface MotifProps {
+interface MotifRendererProps {
+  /** Motif key (e.g. "lemon", "cherry"). Must exist in motifs.generated. */
+  motifKey: string;
+  /** CSS colour. Applied to every `currentColor` in the motif markup. */
   color: string;
 }
 
-export const MOTIF_SVGS: Record<string, (props: MotifProps) => ReactNode> = {
-  lemon: ({ color }) => (
-    <g fill={color}>
-      {/* Lemon body — softly pointed ellipse */}
-      <path d="M50 30 C60 32 65 42 65 52 C65 64 58 73 50 73 C42 73 35 64 35 52 C35 42 40 32 50 30 Z" />
-      {/* Leaf */}
-      <path d="M50 28 Q57 22 60 28 Q55 30 50 28 Z" />
-    </g>
-  ),
-
-  cherry: ({ color }) => (
-    <g fill={color}>
-      <circle cx="40" cy="60" r="11" />
-      <circle cx="60" cy="60" r="11" />
-      <path
-        d="M40 49 Q45 36 50 30 Q55 36 60 49"
-        stroke={color}
-        strokeWidth="2.8"
-        fill="none"
-        strokeLinecap="round"
-      />
-      {/* Tiny leaf at the join */}
-      <path d="M50 28 Q58 24 60 30 Q54 30 50 28 Z" />
-    </g>
-  ),
-
-  car: ({ color }) => (
-    <g fill={color}>
-      {/* Roof + body, single silhouette */}
-      <path d="M28 56 L35 44 L65 44 L72 56 L76 56 L76 64 L24 64 L24 56 Z" />
-      {/* Wheels */}
-      <circle cx="35" cy="66" r="5" />
-      <circle cx="65" cy="66" r="5" />
-    </g>
-  ),
-
-  smiley: ({ color }) => (
-    <g>
-      <circle cx="42" cy="45" r="3" fill={color} />
-      <circle cx="58" cy="45" r="3" fill={color} />
-      <path
-        d="M40 58 Q50 66 60 58"
-        stroke={color}
-        strokeWidth="3"
-        fill="none"
-        strokeLinecap="round"
-      />
-    </g>
-  ),
-};
-
-/** Returns true if we have a renderer for this motif value. */
-export function hasMotifRenderer(motif: string): boolean {
-  return motif in MOTIF_SVGS;
+/**
+ * Renders a single motif as an SVG <g>. Designed to sit inside the
+ * 0 0 100 100 viewBox of <ProductPreview />'s outer <svg>.
+ */
+export default function MotifRenderer({ motifKey, color }: MotifRendererProps) {
+  const motif = GENERATED_MOTIFS[motifKey];
+  if (!motif) return null;
+  return (
+    <g
+      style={{ color }}
+      transform={motif.transform}
+      dangerouslySetInnerHTML={{ __html: motif.inner }}
+    />
+  );
 }
+
+/** Returns true if a renderer exists for this motif value. */
+export function hasMotifRenderer(motifKey: string): boolean {
+  return motifKey in GENERATED_MOTIFS;
+}
+
+/** All motif keys currently available, sorted alphabetically by the generator. */
+export const ALL_MOTIF_KEYS = GENERATED_MOTIF_KEYS;
