@@ -21,8 +21,8 @@ export default function StorySection() {
           style={{ borderRadius: "9999px 9999px 22px 22px" }}
         >
           <Image
-            src="/images/familie_1.jpg"
-            alt="Familien bag Nooni — Camilla, Steffan og deres to døtre"
+            src="/images/familie_2.jpg"
+            alt="Camilla og hendes datter — familien bag Nooni"
             fill
             className="object-cover object-top"
             sizes="(min-width: 768px) 45vw, 90vw"
