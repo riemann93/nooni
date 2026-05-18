@@ -2,12 +2,11 @@
  * StorySection — "Familien bag" narrative with stats.
  *
  * Left column: family photo in a Boho-arch frame (9999px top, 22px bottom).
- * The SVG illustration placeholder will be replaced with the real family
- * photo once the image is committed to public/images/.
- *
  * No backdrop arches — intentional visual pause after the busy product grid.
  * Used on the homepage (section 04) and on /om-os.
  */
+
+import Image from "next/image";
 
 export default function StorySection() {
   return (
@@ -18,33 +17,16 @@ export default function StorySection() {
     >
       <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-24 px-10 md:grid-cols-[0.95fr_1.05fr]">
         <div
-          className="relative aspect-[4/5] overflow-hidden rounded-[22px_22px_22px_22px] flex items-center justify-center"
-          style={{
-            borderRadius: "9999px 9999px 22px 22px",
-            backgroundColor: "var(--color-nooni-nude)",
-          }}
-          aria-hidden
+          className="relative aspect-[4/5] overflow-hidden"
+          style={{ borderRadius: "9999px 9999px 22px 22px" }}
         >
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage:
-                "repeating-linear-gradient(135deg, transparent 0 22px, color-mix(in oklab, #fff 10%, transparent) 22px 23px)",
-            }}
+          <Image
+            src="/images/familie_1.jpg"
+            alt="Familien bag Nooni — Camilla, Steffan og deres to døtre"
+            fill
+            className="object-cover object-top"
+            sizes="(min-width: 768px) 45vw, 90vw"
           />
-          <svg viewBox="0 0 320 400" className="relative w-[70%]">
-            <rect x="60" y="100" width="200" height="160" rx="14" fill="var(--color-nooni-bg)" stroke="#C9B4A0" strokeWidth="1.2" />
-            <rect x="80" y="120" width="160" height="100" rx="6" fill="#F2E3D9" />
-            <rect x="140" y="140" width="40" height="60" rx="3" fill="var(--color-nooni-headline)" />
-            <circle cx="160" cy="170" r="6" fill="var(--color-nooni-bg)" />
-            <line x1="80" y1="240" x2="240" y2="240" stroke="#C9B4A0" strokeWidth="1" />
-            <circle cx="100" cy="280" r="14" fill="var(--color-nooni-cool)" />
-            <rect x="140" y="266" width="80" height="28" rx="14" fill="var(--color-nooni-warm)" />
-            <circle cx="240" cy="280" r="10" fill="var(--color-nooni-headline)" />
-          </svg>
-          <span className="absolute bottom-6 left-6 font-mono text-[11px] tracking-[0.1em] text-[color-mix(in_oklab,var(--color-nooni-ink)_50%,transparent)]">
-            [ produktion · hjemmestue ]
-          </span>
         </div>
 
         <div>
