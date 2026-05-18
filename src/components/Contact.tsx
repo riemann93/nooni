@@ -2,21 +2,18 @@ export default function Contact() {
   return (
     <section id="kontakt" className="relative z-[1]" data-screen-label="06 Kontakt">
       {/*
-        Outer arch: full-width colored backdrop.
-        border-radius uses the "50% / Xpx" trick: the horizontal radii
-        are 50% so the curve spans the full width; the vertical radii
-        (160px) control how tall the arch bump is. Much more visually
-        dramatic than a fixed-pixel radius.
+        Outer arch: full-width colored backdrop, no bottom padding so the
+        inner arch sits flush against the bottom edge.
       */}
       <div
-        className="bg-nooni-cool/40 px-6 pt-24 pb-20 md:px-10 md:pt-32 md:pb-28"
+        className="bg-nooni-cool/40 px-6 pt-24 pb-0 md:px-10 md:pt-32"
         style={{ borderRadius: "50% 50% 0 0 / 160px 160px 0 0" }}
       >
         <div className="mx-auto max-w-[1280px]">
-          {/* Inner arch — content container */}
+          {/* Inner arch — copyright lives inside so the arch reaches the bottom */}
           <div
-            className="mx-auto max-w-[600px] overflow-hidden bg-nooni-bg px-10 pt-14 pb-12 text-center shadow-sm"
-            style={{ borderRadius: "9999px 9999px 28px 28px" }}
+            className="mx-auto max-w-[600px] overflow-hidden bg-nooni-bg px-10 pt-14 pb-10 text-center shadow-sm"
+            style={{ borderRadius: "9999px 9999px 0 0" }}
           >
             <span className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub after:h-px after:w-7 after:bg-nooni-sub">
               Sig hej
@@ -30,10 +27,11 @@ export default function Contact() {
               Spørgsmål, særlige ønsker, eller bare en god idé? Vi svarer hurtigt.
             </p>
 
-            <div className="mt-10 space-y-5">
+            {/* Links side by side */}
+            <div className="mt-10 flex items-center justify-center gap-8 flex-wrap">
               <a
                 href="mailto:hej@nooni.dk"
-                className="flex items-center justify-center gap-3 text-nooni-ink-soft transition-colors hover:text-nooni-headline"
+                className="flex items-center gap-2.5 text-nooni-ink-soft transition-colors hover:text-nooni-headline"
               >
                 <MailIcon />
                 <span className="font-sans text-[15px]">hej@nooni.dk</span>
@@ -42,18 +40,17 @@ export default function Contact() {
                 href="https://www.instagram.com/hej.nooni/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-3 text-nooni-ink-soft transition-colors hover:text-nooni-headline"
+                className="flex items-center gap-2.5 text-nooni-ink-soft transition-colors hover:text-nooni-headline"
               >
                 <InstagramIcon />
                 <span className="font-sans text-[15px]">@hej.nooni</span>
               </a>
             </div>
-          </div>
 
-          {/* Copyright — sits below the inner arch, inside the outer arch */}
-          <p className="mt-10 text-center text-xs tracking-[0.12em] text-nooni-ink-soft/60">
-            © {new Date().getFullYear()} Nooni — lavet med kærlighed i Danmark
-          </p>
+            <p className="mt-10 text-xs tracking-[0.12em] text-nooni-ink-soft/50">
+              © {new Date().getFullYear()} Nooni — lavet med kærlighed i Danmark
+            </p>
+          </div>
         </div>
       </div>
     </section>

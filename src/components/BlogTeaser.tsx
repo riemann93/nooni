@@ -41,13 +41,20 @@ export default async function BlogTeaser() {
               </Link>
             </div>
 
-            {/* Half-arch image column */}
-            <div className="relative min-h-[320px] md:min-h-0">
+            {/* Half-arch image column — clicking links to the post */}
+            <Link
+              href={`/blog/${post.slug}`}
+              className="group relative block min-h-[320px] md:min-h-0"
+              tabIndex={-1}
+              aria-hidden
+            >
               {/*
+                overflow-hidden on this div is what contains the zoom —
+                the arch shape stays perfectly still; only the image
+                inside scales on hover.
                 w-full on mobile → full arch visible.
-                w-[200%] on desktop → image is twice the column width;
-                the outer overflow-hidden clips the right half, leaving
-                only the left half of the arch visible.
+                w-[200%] on desktop → image is twice the column width so
+                the outer container clips the right half (half-arch teaser).
               */}
               <div
                 className="absolute top-0 bottom-0 left-0 w-full overflow-hidden md:w-[200%]"
@@ -55,13 +62,13 @@ export default async function BlogTeaser() {
               >
                 <Image
                   src={post.image}
-                  alt={post.title}
+                  alt=""
                   fill
-                  className="object-cover object-left"
+                  className="object-cover object-left transition-transform duration-500 ease-out group-hover:scale-110"
                   sizes="(min-width: 768px) 80vw, 100vw"
                 />
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
