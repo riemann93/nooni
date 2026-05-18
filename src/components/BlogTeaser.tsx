@@ -13,6 +13,12 @@ export default async function BlogTeaser() {
           Fra bloggen
         </span>
 
+        {/*
+          overflow-hidden on this container clips the half-arch on the right:
+          the image column's inner div is 200% wide on desktop so the arch
+          peak lands right at the container's right edge — only the left
+          half of the arch is visible, acting as a visual teaser.
+        */}
         <div className="mt-8 overflow-hidden rounded-[2rem] bg-nooni-bg-warm">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_0.85fr]">
             {/* Text */}
@@ -35,18 +41,24 @@ export default async function BlogTeaser() {
               </Link>
             </div>
 
-            {/* Image — arched top, right edge cropped by the container */}
+            {/* Half-arch image column */}
             <div className="relative min-h-[320px] md:min-h-0">
+              {/*
+                w-full on mobile → full arch visible.
+                w-[200%] on desktop → image is twice the column width;
+                the outer overflow-hidden clips the right half, leaving
+                only the left half of the arch visible.
+              */}
               <div
-                className="absolute inset-0 overflow-hidden"
+                className="absolute top-0 bottom-0 left-0 w-full overflow-hidden md:w-[200%]"
                 style={{ borderRadius: "9999px 9999px 0 0" }}
               >
                 <Image
                   src={post.image}
                   alt={post.title}
                   fill
-                  className="object-cover"
-                  sizes="(min-width: 768px) 40vw, 100vw"
+                  className="object-cover object-left"
+                  sizes="(min-width: 768px) 80vw, 100vw"
                 />
               </div>
             </div>

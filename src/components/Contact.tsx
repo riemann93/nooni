@@ -1,15 +1,21 @@
 export default function Contact() {
   return (
     <section id="kontakt" className="relative z-[1]" data-screen-label="06 Kontakt">
-      {/* Outer arch — full-width colored backdrop with curved top */}
+      {/*
+        Outer arch: full-width colored backdrop.
+        border-radius uses the "50% / Xpx" trick: the horizontal radii
+        are 50% so the curve spans the full width; the vertical radii
+        (160px) control how tall the arch bump is. Much more visually
+        dramatic than a fixed-pixel radius.
+      */}
       <div
-        className="bg-nooni-cool/40 px-6 pt-20 pb-32 md:px-10 md:pt-28 md:pb-40"
-        style={{ borderRadius: "80px 80px 0 0" }}
+        className="bg-nooni-cool/40 px-6 pt-24 pb-20 md:px-10 md:pt-32 md:pb-28"
+        style={{ borderRadius: "50% 50% 0 0 / 160px 160px 0 0" }}
       >
         <div className="mx-auto max-w-[1280px]">
           {/* Inner arch — content container */}
           <div
-            className="mx-auto max-w-[640px] overflow-hidden bg-nooni-bg px-10 pt-16 pb-14 text-center shadow-sm"
+            className="mx-auto max-w-[600px] overflow-hidden bg-nooni-bg px-10 pt-14 pb-12 text-center shadow-sm"
             style={{ borderRadius: "9999px 9999px 28px 28px" }}
           >
             <span className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub after:h-px after:w-7 after:bg-nooni-sub">
@@ -20,7 +26,7 @@ export default function Contact() {
               Kontakt
             </h2>
 
-            <p className="mx-auto mt-5 max-w-[380px] font-editorial text-lg leading-relaxed text-nooni-ink-soft">
+            <p className="mx-auto mt-5 max-w-[360px] font-editorial text-lg leading-relaxed text-nooni-ink-soft">
               Spørgsmål, særlige ønsker, eller bare en god idé? Vi svarer hurtigt.
             </p>
 
@@ -42,11 +48,12 @@ export default function Contact() {
                 <span className="font-sans text-[15px]">@hej.nooni</span>
               </a>
             </div>
-
-            <p className="mt-14 text-xs tracking-[0.12em] text-nooni-arch">
-              Lavet i Danmark med kærlighed
-            </p>
           </div>
+
+          {/* Copyright — sits below the inner arch, inside the outer arch */}
+          <p className="mt-10 text-center text-xs tracking-[0.12em] text-nooni-ink-soft/60">
+            © {new Date().getFullYear()} Nooni — lavet med kærlighed i Danmark
+          </p>
         </div>
       </div>
     </section>

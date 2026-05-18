@@ -23,7 +23,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Fredoka, Open_Sans } from "next/font/google";
 import CartDrawer from "@/components/CartDrawer";
-import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { CartProvider } from "@/contexts/CartContext";
 import "./globals.css";
@@ -75,7 +74,6 @@ export default function RootLayout({
         <CartProvider>
           <Navbar />
           <main className="flex-1">{children}</main>
-          <Footer />
           <CartDrawer />
         </CartProvider>
       </body>
