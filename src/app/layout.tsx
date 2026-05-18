@@ -2,8 +2,12 @@
  * Root layout — defines the site chrome that wraps every page:
  *   - <Navbar />      sticky liquid-glass nav (z-index: 2)
  *   - <main>          page content
- *   - <Footer />      site footer
  *   - <CartDrawer />  slide-in cart (lives at z-index: 11 when open)
+ *
+ * Note on the footer: the site-wide Footer component was removed when
+ * the homepage Contact section took over as the closing element. If
+ * inner pages (product, om-os) ever need a footer again, re-import
+ * Footer from @/components/Footer and add it back here.
  *
  * Note on the Boho-arch backdrop:
  *   Previously this layout mounted a fixed-viewport <HeroArches /> behind

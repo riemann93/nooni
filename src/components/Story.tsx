@@ -1,14 +1,12 @@
 /**
- * StorySection — family/process narrative with stats and an illustrated
- * production scene.
+ * StorySection — "Familien bag" narrative with stats.
  *
- * No backdrop arches behind this section — we removed them deliberately
- * so the section reads as a quieter visual pause after the busy
- * products + value-strip section above.
+ * Left column: family photo in a Boho-arch frame (9999px top, 22px bottom).
+ * The SVG illustration placeholder will be replaced with the real family
+ * photo once the image is committed to public/images/.
  *
- * The illustration is an inline SVG composition representing a 3D
- * printer + printed products. When real photography exists, replace
- * with an <Image> element.
+ * No backdrop arches — intentional visual pause after the busy product grid.
+ * Used on the homepage (section 04) and on /om-os.
  */
 
 export default function StorySection() {
@@ -16,7 +14,7 @@ export default function StorySection() {
     <section
       id="historie"
       className="relative z-[1] bg-nooni-bg-warm py-40"
-      data-screen-label="02 Story"
+      data-screen-label="04 Story"
     >
       <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-24 px-10 md:grid-cols-[0.95fr_1.05fr]">
         <div

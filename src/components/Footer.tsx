@@ -1,7 +1,11 @@
 /**
- * Footer — four-column footer. Solid background, sits above the arches.
+ * Footer — four-column footer. Solid background.
  *
- * Mounted in src/app/layout.tsx so it appears on every page.
+ * Currently NOT mounted anywhere. The homepage Contact section took over
+ * as the closing element and owns the copyright line. This file is kept
+ * because inner pages (product detail, om-os, future legal pages) may
+ * want a footer once the site grows. To re-enable, import this component
+ * in src/app/layout.tsx and add <Footer /> before <CartDrawer />.
  */
 
 import Link from "next/link";
