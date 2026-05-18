@@ -1,0 +1,77 @@
+export default function Contact() {
+  return (
+    <section id="kontakt" className="relative z-[1]" data-screen-label="06 Kontakt">
+      {/*
+        Outer arch: full-width colored backdrop, no bottom padding so the
+        inner arch sits flush against the bottom edge.
+      */}
+      <div
+        className="bg-nooni-cool/40 px-6 pt-24 pb-0 md:px-10 md:pt-32"
+        style={{ borderRadius: "50% 50% 0 0 / 160px 160px 0 0" }}
+      >
+        <div className="mx-auto max-w-[1280px]">
+          {/* Inner arch — copyright lives inside so the arch reaches the bottom */}
+          <div
+            className="mx-auto max-w-[600px] overflow-hidden bg-nooni-bg px-10 pt-14 pb-10 text-center shadow-sm"
+            style={{ borderRadius: "9999px 9999px 0 0" }}
+          >
+            <span className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub after:h-px after:w-7 after:bg-nooni-sub">
+              Sig hej
+            </span>
+
+            <h2 className="mt-5 font-editorial text-[clamp(36px,4vw,52px)] leading-[1.1] text-nooni-ink">
+              Kontakt
+            </h2>
+
+            <p className="mx-auto mt-5 max-w-[360px] font-editorial text-lg leading-relaxed text-nooni-ink-soft">
+              Spørgsmål, særlige ønsker, eller bare en god idé? Vi svarer hurtigt.
+            </p>
+
+            {/* Links side by side */}
+            <div className="mt-10 flex items-center justify-center gap-8 flex-wrap">
+              <a
+                href="mailto:hej@nooni.dk"
+                className="flex items-center gap-2.5 text-nooni-ink-soft transition-colors hover:text-nooni-headline"
+              >
+                <MailIcon />
+                <span className="font-sans text-[15px]">hej@nooni.dk</span>
+              </a>
+              <a
+                href="https://www.instagram.com/hej.nooni/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 text-nooni-ink-soft transition-colors hover:text-nooni-headline"
+              >
+                <InstagramIcon />
+                <span className="font-sans text-[15px]">@hej.nooni</span>
+              </a>
+            </div>
+
+            <p className="mt-10 text-xs tracking-[0.12em] text-nooni-ink-soft/50">
+              © {new Date().getFullYear()} Nooni — lavet med kærlighed i Danmark
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MailIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <rect x="2" y="4" width="20" height="16" rx="3" />
+      <path d="M2 7l10 7 10-7" />
+    </svg>
+  );
+}
+
+function InstagramIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <rect x="2" y="2" width="20" height="20" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
+    </svg>
+  );
+}

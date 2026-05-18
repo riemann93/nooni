@@ -47,7 +47,7 @@ export default async function ProductsGrid() {
   const cardsByHandle = new Map(CARDS.map((c) => [c.handle, c]));
 
   return (
-    <section id="produkter" className="bg-nooni-bg py-24 md:py-32">
+    <section id="produkter" className="bg-nooni-bg py-24 md:py-32" data-screen-label="03 Products">
       <div className="mx-auto max-w-[1280px] px-6 md:px-10">
         {/* Section header */}
         <div className="mb-14 max-w-2xl">

@@ -30,7 +30,7 @@ const HERO_PHOTO = {
 
 export default function Hero() {
   return (
-    <section className="relative isolate overflow-hidden">
+    <section className="relative isolate overflow-hidden" data-screen-label="01 Hero">
       {SHOW_ARCHES && (
         <div
           aria-hidden

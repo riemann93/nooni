@@ -32,7 +32,7 @@ const ITEMS: { icon: React.ReactNode; text: string }[] = [
 
 export default function ValueStrip() {
   return (
-    <div className="relative z-[1] border-y border-nooni-line-soft bg-nooni-bg py-5">
+    <div className="relative z-[1] border-y border-nooni-line-soft bg-nooni-bg py-5" data-screen-label="02 Value">
       <div className="mx-auto flex max-w-[1280px] flex-wrap items-center justify-between gap-12 px-10">
         {ITEMS.map(({ icon, text }, i) => (
           <span
