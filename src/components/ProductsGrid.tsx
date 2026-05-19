@@ -2,13 +2,11 @@
  * ProductsGrid — "Mest populære" row below the Hero.
  *
  * Per design/homepage-spec.md §2: three pre-selected products in a
- * single row on desktop. Each card is a photo with a fully arched top
- * (semicircle) and soft bottom corners, plus an info block below.
- *
- * Above every card sits a thin outer arch in the arch-line tone,
- * offset by ARCH_GAP px so a constant gap follows the photo's
- * curvature — the same concentric outline treatment used on the hero
- * (a cross-section visual rhyme).
+ * single row on desktop. Each card is one cream-tinted container
+ * (--color-nooni-bg-warm) shaped as a dome: a full semicircle top
+ * from the photo, soft rounded bottom corners under the info block.
+ * Photo and info share the same background, so the seam between them
+ * is just a clean horizontal transition inside the dome.
  *
  * Server-rendered with ISR (60s). Tagline copy is hand-curated below;
  * Shopify's product descriptions are too long for a grid teaser.
@@ -36,12 +34,18 @@ const CARDS: CardCopy[] = [
   { handle: "deks-single", tagline: "Korteholder til kortspil" },
 ];
 
-/** Gap between the outer arch and the photo, in px. Matches the hero. */
-const ARCH_GAP = 14;
-/** Outer-arch stroke weight, in px. Matches the hero border. */
-const ARCH_STROKE = 3;
-/** Bottom-corner radius of the photo card, in px. Top is a full semicircle. */
-const PHOTO_BOTTOM_RADIUS = 18;
+/** Bottom-corner radius of the card, in px. Top is a full semicircle. */
+const CARD_BOTTOM_RADIUS = 24;
+
+/**
+ * Warm two-tone shadow — same palette as the hero photo so the cards
+ * feel like part of the same brand family. Tailwind arbitrary value
+ * uses underscores in place of spaces; commas inside rgba() are fine.
+ */
+const SHADOW =
+  "shadow-[0_26px_48px_-10px_rgba(180,131,131,0.30),0_12px_22px_-6px_rgba(61,50,40,0.16)]";
+const SHADOW_HOVER =
+  "hover:shadow-[0_38px_64px_-12px_rgba(180,131,131,0.36),0_16px_28px_-6px_rgba(61,50,40,0.20)]";
 
 function formatPrice(amount: string, currencyCode: string): string {
   return new Intl.NumberFormat("da-DK", {
@@ -73,7 +77,7 @@ export default async function ProductsGrid() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 gap-y-16 gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-y-12 gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => {
             const card = cardsByHandle.get(product.handle);
             const image = product.images.nodes[0];
@@ -83,14 +87,24 @@ export default async function ProductsGrid() {
               <Link
                 key={product.handle}
                 href={`/produkter/${product.handle}`}
-                className="group block"
+                className={`group block overflow-hidden bg-nooni-bg-warm transition-shadow duration-300 ${SHADOW} ${SHADOW_HOVER}`}
+                style={{
+                  borderRadius: `9999px 9999px ${CARD_BOTTOM_RADIUS}px ${CARD_BOTTOM_RADIUS}px`,
+                }}
               >
-                <ProductPhoto
-                  src={image?.url}
-                  alt={image?.altText ?? product.title}
-                />
+                {image && (
+                  <div className="relative aspect-[3/4]">
+                    <Image
+                      src={image.url}
+                      alt={image.altText ?? product.title}
+                      fill
+                      sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
+                  </div>
+                )}
 
-                <div className="mt-6 flex flex-col gap-2 px-1">
+                <div className="flex flex-col gap-2 px-7 py-6">
                   {card && (
                     <p className="text-[11px] uppercase tracking-[0.2em] text-nooni-sub">
                       {card.tagline}
@@ -119,61 +133,5 @@ export default async function ProductsGrid() {
         </div>
       </div>
     </section>
-  );
-}
-
-/**
- * Card photo composition:
- *
- *   - Outer arch: a thin half-circle stroke offset ARCH_GAP px outside
- *     the photo's top semicircle. Built with CSS border + top
- *     border-radius — its box is exactly W × W/2, so the semicircle
- *     fills the box and no straight verticals show below it.
- *   - Inner photo: full semicircle top, soft PHOTO_BOTTOM_RADIUS px
- *     bottom corners, aspect-ratio 3:4. overflow-hidden clips the
- *     image to the shape.
- *
- * The wrapper has marginTop = ARCH_GAP so the outer arch fits within
- * the link's bounding box (otherwise it would extend above the row's
- * intended position).
- */
-function ProductPhoto({ src, alt }: { src?: string; alt: string }) {
-  if (!src) return null;
-  return (
-    <div
-      className="relative aspect-[3/4]"
-      style={{ marginTop: ARCH_GAP }}
-    >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute"
-        style={{
-          left: -ARCH_GAP,
-          right: -ARCH_GAP,
-          top: -ARCH_GAP,
-          aspectRatio: "2 / 1",
-          borderTopLeftRadius: "9999px",
-          borderTopRightRadius: "9999px",
-          borderTop: `${ARCH_STROKE}px solid var(--color-nooni-arch)`,
-          borderLeft: `${ARCH_STROKE}px solid var(--color-nooni-arch)`,
-          borderRight: `${ARCH_STROKE}px solid var(--color-nooni-arch)`,
-        }}
-      />
-
-      <div
-        className="absolute inset-0 overflow-hidden bg-nooni-bg-warm"
-        style={{
-          borderRadius: `9999px 9999px ${PHOTO_BOTTOM_RADIUS}px ${PHOTO_BOTTOM_RADIUS}px`,
-        }}
-      >
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-        />
-      </div>
-    </div>
   );
 }
