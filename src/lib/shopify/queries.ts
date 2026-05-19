@@ -177,6 +177,39 @@ export const PRODUCT_SUMMARY_BY_HANDLE_QUERY = /* GraphQL */ `
   }
 `;
 
+/**
+ * All-products listing for the /produkter page. Returns the same
+ * skinny summary shape as PRODUCT_SUMMARY_BY_HANDLE_QUERY so listing
+ * surfaces can share one card component. Sort order is whatever
+ * Shopify returns by default — no filtering or ranking applied here.
+ */
+export const PRODUCTS_QUERY = /* GraphQL */ `
+  query Products($first: Int!) {
+    products(first: $first) {
+      nodes {
+        id
+        handle
+        title
+        availableForSale
+        images(first: 1) {
+          nodes {
+            url
+            altText
+            width
+            height
+          }
+        }
+        priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const PRODUCT_BY_HANDLE_QUERY = /* GraphQL */ `
   query ProductByHandle($handle: String!) {
     product(handle: $handle) {

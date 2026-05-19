@@ -118,8 +118,10 @@ A single rounded rectangular box previewing the newest blog post.
 - **Right** — post hero image rendered as a **half-arch** (the right
   edge is cropped, hinting that more content lives behind it). The
   cropped edge invites the click.
-- The whole box, the button, and the image are all clickable and lead
-  to the full blog post / blog index page
+- The **button** and the **image** are clickable and lead to the
+  full blog post. The wrapping box itself is not a link — the two
+  affordances are enough, and a full-box link would conflict with
+  text selection inside the excerpt.
 
 ---
 

@@ -9,6 +9,7 @@ import { shopifyFetch } from "./client";
 import {
   PRODUCT_BY_HANDLE_QUERY,
   PRODUCT_SUMMARY_BY_HANDLE_QUERY,
+  PRODUCTS_QUERY,
 } from "./queries";
 import type { Money, Product, ShopifyImage } from "./types";
 
@@ -70,4 +71,20 @@ export async function getProductsByHandles(
   );
 
   return results.filter((p): p is ProductSummary => p !== null);
+}
+
+/**
+ * Fetch every published product, in whatever order Shopify returns
+ * them by default. Used by the /produkter listing page. No
+ * pagination yet — the catalogue is small enough that one round-trip
+ * is fine; revisit when we cross the first-page limit.
+ */
+export async function getAllProducts(
+  limit: number = 100,
+): Promise<ProductSummary[]> {
+  const data = await shopifyFetch<{ products: { nodes: ProductSummary[] } }>({
+    query: PRODUCTS_QUERY,
+    variables: { first: limit },
+  });
+  return data.products.nodes;
 }
