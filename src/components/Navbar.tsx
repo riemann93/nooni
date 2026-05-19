@@ -35,7 +35,7 @@ export default function Navbar() {
               Vores historie
             </Link>
             <Link
-              href="#"
+              href="/kontakt"
               className="transition-colors hover:text-nooni-headline"
             >
               Kontakt

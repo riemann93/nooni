@@ -1,9 +1,13 @@
 /**
- * StorySection — "Familien bag" narrative with stats.
+ * StorySection — "Familien bag" narrative.
  *
  * Left column: family photo in a Boho-arch frame (9999px top, 22px bottom).
  * No backdrop arches — intentional visual pause after the busy product grid.
  * Used on the homepage (section 04) and on /om-os.
+ *
+ * The earlier stats row ("1.412 print sendt" etc.) was removed because
+ * the figure was fabricated. Concrete production facts now live in
+ * <HowItWorks />, which sits between the hero and Mest populære.
  */
 
 import Image from "next/image";
@@ -51,23 +55,6 @@ export default function StorySection() {
               ordrebesked, der kommer ind.
             </p>
           </div>
-
-          <dl className="mt-11 grid max-w-[520px] grid-cols-3 gap-12 border-t border-nooni-line pt-9">
-            {[
-              ["1.412", "Print sendt"],
-              ["2–4", "Dage til afsendelse"],
-              ["100%", "Lavet i Danmark"],
-            ].map(([num, lbl]) => (
-              <div key={lbl}>
-                <dt className="font-display text-4xl font-medium text-nooni-headline leading-none tracking-tight">
-                  {num}
-                </dt>
-                <dd className="mt-2 text-xs uppercase tracking-[0.16em] text-nooni-ink-soft">
-                  {lbl}
-                </dd>
-              </div>
-            ))}
-          </dl>
         </div>
       </div>
     </section>
