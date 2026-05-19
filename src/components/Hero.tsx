@@ -40,7 +40,7 @@ const BORDER_GAP = 18;
  */
 const CORNER = PHOTO_RADIUS + BORDER_GAP;
 /** Stroke weight for both the vertical strips and the corner arcs, in px. */
-const STROKE = 2;
+const STROKE = 3;
 
 export default function Hero() {
   return (
