@@ -23,7 +23,7 @@ export default function Navbar() {
 
           <nav className="hidden items-center gap-8 text-sm text-nooni-ink-soft sm:flex">
             <Link
-              href="/#produkter"
+              href="/produkter"
               className="transition-colors hover:text-nooni-headline"
             >
               Produkter
