@@ -8,15 +8,10 @@
  *   <ProductsGrid />  three featured products + "Se alle produkter"
  *   <Story />         family / process narrative
  *   <BlogTeaser />    newest blog post preview
- *   <Contact />       contact info + social links (closing section)
  *
- * Each section owns its own background and spacing. No glass / arch
- * stacking constraints at this level — the Hero handles its own
- * decoration.
- *
- * ValueStrip is disabled for now — it was overlapping the Hero and
- * was already on the chopping board. Re-enable (and probably
- * redesign) if/when we want trust signals back on the homepage.
+ * The page closes with the site-wide arched <Footer /> mounted in
+ * layout.tsx — no per-page Contact section anymore. Each section
+ * owns its own background and spacing.
  */
 
 import Hero from "@/components/Hero";
@@ -24,7 +19,6 @@ import HowItWorks from "@/components/HowItWorks";
 import ProductsGrid from "@/components/ProductsGrid";
 import Story from "@/components/Story";
 import BlogTeaser from "@/components/BlogTeaser";
-import Contact from "@/components/Contact";
 
 export default function Home() {
   return (
@@ -34,7 +28,6 @@ export default function Home() {
       <ProductsGrid />
       <Story />
       <BlogTeaser />
-      <Contact />
     </>
   );
 }

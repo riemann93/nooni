@@ -27,11 +27,11 @@ The homepage scrolls top to bottom in this order:
 4. ~~"Mine kunder synes" — customer reviews~~ *(deferred — see §4)*
 5. About — "Hvem står bag Nooni" / Familien bag
 6. Blog
-7. Contact
 
-The site-wide `<Footer />` (mounted in `src/app/layout.tsx`) sits below
-every page including the homepage and owns the canonical copyright
-line.
+Every page (homepage and inner pages) then closes with the site-wide
+arched `<Footer />` mounted in `src/app/layout.tsx`. There is no
+separate "Contact" section — the footer absorbed that role. See §7
+below.
 
 ---
 
@@ -205,33 +205,55 @@ the footer, or as its own section.
 
 ---
 
-## 7. Contact
+## 7. Footer
 
-**Status:** shipped.
+**Status:** shipped. Site-wide chrome, not a homepage section.
 
-One arched-top "doorway" container holding the section copy and the
-contact affordances. Sits on the page background.
+The arched closing element. Mounted once in `src/app/layout.tsx` so
+every page (homepage, `/produkter`, `/produkter/[handle]`, `/om-os`,
+`/kontakt`, `/blog/[slug]`) ends with the same footer. The arch's
+bottom edge sits flush with the viewport bottom.
 
-- Eyebrow "Sig hej" with hairline marks before and after
-- Headline "Kontakt"
-- Short intro paragraph
-- Primary CTA **"Skriv til os"** → `/kontakt` (a dedicated contact
-  form page; see "Routes added" below)
-- Direct mail link `hej@nooni.dk`
-- Instagram link `@hej.nooni`
+Content inside the arch, top to bottom:
 
-### Sketch drift
+- **Nooni wordmark**, links to `/`. On the homepage that's effectively
+  "scroll to top"; from inner pages it takes the visitor home.
+- **Short prompt**: "Spørgsmål, særlige ønsker, eller bare en god
+  idé? Vi svarer hurtigt."
+- **Primary CTA** "Skriv til os" → `/kontakt`
+- **Inline contact links** — `hej@nooni.dk` (mailto) and `@hej.nooni`
+  (Instagram), each with a small icon
+- **Hairline divider**
+- **Copyright line**: "© {year} Nooni — lavet med kærlighed i Danmark"
 
-The sketch shows two stacked arches in this section. Camilla
-confirmed that was iteration — she drew a corrected arch on top of
-the first attempt, not a stacked design element. The build keeps the
-taller "doorway" arch (matches every other arch on the site, which
-are all tall semicircles) and drops the wide-shallow outer one. The
-container is widened from a previous 600 px to 880 px max-width to
-give room for future content.
+Shape: full semicircle top (`9999px 9999px 0 0`), 880 px max-width,
+cream `--color-nooni-bg-warm` background.
 
-The copyright line that used to live in this section moved to the
-global Footer.
+### History
+
+This component replaced two earlier elements:
+
+- A homepage-only `Contact` section (eyebrow + "Kontakt" headline +
+  intro + CTA inside an arch)
+- A separate 4-column rectangular `Footer` (logo + brand blurb +
+  product list + om-Nooni links + follow-us + ©) mounted under it
+
+The two have merged into one site-wide arched footer. The 4-column
+content was dropped wholesale — utility nav lives in the Navbar, the
+brand blurb duplicated the Hero, and the contact/social links
+already exist inside the arch.
+
+The "two arches" Camilla originally sketched for the Contact section
+were iteration (she drew a corrected arch on top of the first
+attempt), not stacked design elements — so the build keeps a single
+arch, which also matches every other arch on the site.
+
+### Backlog (accepted minor flaws)
+
+- On `/kontakt`, the "Skriv til os" CTA loops back to the page the
+  visitor is already on, and the intro prompt duplicates copy that's
+  already on that page. Hide both conditionally on that route next
+  time the footer gets touched.
 
 ---
 
