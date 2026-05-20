@@ -19,8 +19,8 @@
  */
 
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import type { Metadata } from "next";
+import ProductGallery from "@/components/ProductGallery";
 import ProductPurchaseSection from "@/components/personalization/ProductPurchaseSection";
 import { getSchemaForHandle } from "@/lib/shopify/personalization";
 import { getProductByHandle } from "@/lib/shopify/products";
@@ -64,7 +64,6 @@ export default async function ProductPage({ params }: PageProps) {
   }
 
   const schema = getSchemaForHandle(handle);
-  const primaryImage = product.images.nodes[0];
   const minPrice = product.priceRange.minVariantPrice;
   const maxPrice = product.priceRange.maxVariantPrice;
   const priceLabel =
@@ -73,31 +72,32 @@ export default async function ProductPage({ params }: PageProps) {
       : `${formatPrice(minPrice.amount, minPrice.currencyCode)} – ${formatPrice(maxPrice.amount, maxPrice.currencyCode)}`;
 
   return (
-    <section className="relative z-[1] mx-auto max-w-[1280px] px-10 py-24">
+    <section className="relative z-[1] mx-auto max-w-[1280px] px-6 py-24 md:px-10">
       <div className="grid grid-cols-1 gap-14 md:grid-cols-2">
-        {primaryImage && (
-          <div className="relative aspect-square overflow-hidden rounded-2xl bg-nooni-bg-warm">
-            <Image
-              src={primaryImage.url}
-              alt={primaryImage.altText ?? product.title}
-              width={primaryImage.width}
-              height={primaryImage.height}
-              className="h-full w-full object-cover"
-              priority
-            />
-          </div>
-        )}
+        <ProductGallery
+          images={product.images.nodes}
+          productTitle={product.title}
+        />
 
         <div className="flex flex-col">
-          <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
-            {product.availableForSale ? "På lager" : "Udsolgt"}
-          </p>
+          {/*
+            Availability pill: only render "Udsolgt" when the product is
+            unbuyable. We intentionally do NOT show a "På lager" pill,
+            since many Nooni products are made-to-order and inventory
+            isn't tracked — claiming stock we don't measure would be a
+            promise we can't keep.
+          */}
+          {!product.availableForSale && (
+            <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
+              Udsolgt
+            </p>
+          )}
 
-          <h1 className="mt-3 font-editorial text-5xl italic font-medium text-nooni-headline tracking-tight">
+          <h1 className="font-editorial text-5xl font-medium leading-[1.05] text-nooni-headline tracking-tight">
             {product.title}
           </h1>
 
-          <p className="mt-4 font-display text-2xl font-medium text-nooni-ink">
+          <p className="mt-5 font-editorial text-4xl font-medium text-nooni-ink">
             {priceLabel}
           </p>
 

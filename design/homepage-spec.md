@@ -86,16 +86,25 @@ heading and one sentence of body.
 Current steps:
 
 1. **Du designer selv** — vælg farver, motiv eller navn live på produktsiden
-2. **Vi printer hjemme** — 3D-printet hos os i Danmark, intet lager
-3. **Frem på 2–4 dage** — pakket selv og sendt med PostNord
+2. **Vi printer hjemme** — 3D-printet hos os i Danmark, kun det du har bestilt
+3. **Holder til hverdagen** — mærkerne tåler vask, kulde og børneliv
+
+Step 3 used to claim a "2–4 dages levering med PostNord" delivery
+window. Both halves of that were dropped: delivery time is out of
+Nooni's hands (depends on the carrier and the postal system) and
+the carrier name is incidental. Replaced with the durability claim,
+which is the unique value of 3D-printed thermoplastic over
+traditional sticker labels and is provable.
 
 This section is not in the original sketches. It was added to carry
 the production-transparency facts that used to live in a stats row
 inside the About section, and to fill the trust-signal slot until the
 reviews section can be turned on.
 
-Backdrop is `--color-nooni-bg-warm` so the strip reads as its own
-beat between the photo hero and the cream product cards.
+The strip sits inside a cream rounded pill on the regular page
+background (same pill treatment used by Story and BlogTeaser) — the
+cream tone signals "content beat" without filling the full viewport
+width. Step numbers use plain "1 / 2 / 3" (no leading zero).
 
 ---
 
@@ -163,6 +172,11 @@ A two-column section introducing the family behind Nooni.
 - **Right** — body copy: two paragraphs introducing the family and
   the print-on-demand process
 
+Both columns sit inside a cream rounded pill on the regular page
+background — same pill treatment used by HowItWorks and BlogTeaser,
+so the warm tone reads as "content beat" and the page edges stay on
+the lighter background.
+
 Reused on `/om-os` (with `QuietCTA` appended).
 
 ### Sketch drift
@@ -226,8 +240,15 @@ Content inside the arch, top to bottom:
 - **Hairline divider**
 - **Copyright line**: "© {year} Nooni — lavet med kærlighed i Danmark"
 
-Shape: full semicircle top (`9999px 9999px 0 0`), 880 px max-width,
-cream `--color-nooni-bg-warm` background.
+Shape: a true semi-circle dome at the full content width of the
+page (same `max-w-[1280px]` + side padding as every other section).
+Achieved with `aspect-ratio: 2 / 1` plus
+`border-radius: 50% 50% 0 0 / 100% 100% 0 0` — at 2:1 the elliptical
+border-radius becomes a half-circle. On narrow phones the box grows
+taller than the aspect ratio implies (content-driven) and the dome
+becomes a tall ellipse rather than a perfect half-circle — that's
+the right fallback for small screens. Background is
+`--color-nooni-bg-warm`.
 
 ### History
 

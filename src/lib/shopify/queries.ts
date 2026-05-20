@@ -219,7 +219,7 @@ export const PRODUCT_BY_HANDLE_QUERY = /* GraphQL */ `
       description
       descriptionHtml
       availableForSale
-      images(first: 4) {
+      images(first: 8) {
         nodes {
           url
           altText
