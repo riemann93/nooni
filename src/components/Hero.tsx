@@ -10,10 +10,12 @@
  *   - A cream wash veiling the left third so the copy stays legible
  *   - Left-aligned stack: small label, "Dots" headline, description,
  *     "Design din egen" CTA
- *   - A rounded-rect outline in the arch-line tone sitting BORDER_GAP px
- *     outside the photo on all sides — with the top and bottom
- *     horizontal segments removed. The corners flare outward at top and
- *     bottom following the photo's curvature
+ *
+ * The side-only outline that used to sit outside the photo has been
+ * removed — Camilla read those lines as markers for the photo edge in
+ * the original sketch, not as a real design element. design/homepage-spec.md
+ * §1 still describes them; that paragraph is now stale and worth a pass
+ * on the spec when we touch it next.
  *
  * Not yet wired (deferred — possibly past Dalager Marked):
  *   - The expand-on-click configurator
@@ -32,27 +34,12 @@ const HERO_PHOTO = {
 
 /** Border-radius of the photo frame, in px. */
 const PHOTO_RADIUS = 28;
-/** Gap between the photo edge and the surrounding border outline, in px. */
-const BORDER_GAP = 18;
-/**
- * Corner radius of the border outline. Photo radius + gap keeps the gap
- * constant all the way around the corner (concentric rounded rects).
- */
-const CORNER = PHOTO_RADIUS + BORDER_GAP;
-/** Stroke weight for both the vertical strips and the corner arcs, in px. */
-const STROKE = 3;
 
 export default function Hero() {
   return (
     <section className="relative" data-screen-label="01 Hero">
       <div className="mx-auto max-w-[1280px] px-6 pt-10 md:px-10 md:pt-16">
-        {/*
-         * Positioned wrapper: defines the hero's box so the photo frame
-         * (clipped) and the side borders (un-clipped) can co-exist as
-         * absolutely-positioned siblings at the same rect.
-         */}
         <div className="relative aspect-[4/5] md:aspect-[3/2]">
-          {/* ── Frame: photo + wash + copy ── */}
           <div
             className="absolute inset-0 overflow-hidden bg-nooni-bg-warm"
             style={{ borderRadius: PHOTO_RADIUS }}
@@ -108,87 +95,8 @@ export default function Hero() {
               </div>
             </div>
           </div>
-
-          <HeroSideBorders />
         </div>
       </div>
     </section>
-  );
-}
-
-/**
- * Side-only frame outline, per spec §1 "Resting state".
- *
- *   - A rounded rectangle in --color-nooni-arch sitting BORDER_GAP px
- *     outside the photo on every side (concentric rounded rects)
- *   - The two vertical sides and all four corners are drawn
- *   - The top and bottom horizontal segments are omitted, leaving a
- *     gap at the top centre and the bottom centre
- *   - The corners curve outward following the photo's curvature
- *     (standard rounded-rectangle corners, not "pinched")
- *
- * Implementation: a vertical strip (CSS div) for each side's straight
- * portion, plus a fixed-size SVG quarter-arc at each of the four
- * corners. The arc starts at the end of the vertical strip and traces
- * a full 90° quarter-circle to where the (omitted) horizontal edge
- * would begin, CORNER px in from the outline's actual corner.
- */
-function HeroSideBorders() {
-  const R = CORNER;
-  const S = STROKE;
-  const r = R - S / 2;
-  const stroke = "var(--color-nooni-arch)";
-
-  // Standard rounded-rect corners. For TL, the arc's centre is at
-  // (R, R) — inside the outline — so the curve bulges outward toward
-  // (0, 0). In SVG's y-down coords this means sweep-flag=1 (visually
-  // clockwise) for TL/BR and sweep-flag=0 for TR/BL.
-  const paths = {
-    tl: `M ${S / 2} ${R} A ${r} ${r} 0 0 1 ${R} ${S / 2}`,
-    tr: `M ${R - S / 2} ${R} A ${r} ${r} 0 0 0 0 ${S / 2}`,
-    bl: `M ${S / 2} 0 A ${r} ${r} 0 0 0 ${R} ${R - S / 2}`,
-    br: `M ${R - S / 2} 0 A ${r} ${r} 0 0 1 0 ${R - S / 2}`,
-  };
-
-  return (
-    <div
-      aria-hidden
-      className="pointer-events-none absolute"
-      style={{
-        top: -BORDER_GAP,
-        right: -BORDER_GAP,
-        bottom: -BORDER_GAP,
-        left: -BORDER_GAP,
-      }}
-    >
-      {/* Straight vertical strips, inset from top/bottom by CORNER. */}
-      <span
-        className="absolute left-0"
-        style={{ top: R, bottom: R, width: S, background: stroke }}
-      />
-      <span
-        className="absolute right-0"
-        style={{ top: R, bottom: R, width: S, background: stroke }}
-      />
-
-      <CornerArc d={paths.tl} className="absolute top-0 left-0" />
-      <CornerArc d={paths.tr} className="absolute top-0 right-0" />
-      <CornerArc d={paths.bl} className="absolute bottom-0 left-0" />
-      <CornerArc d={paths.br} className="absolute bottom-0 right-0" />
-    </div>
-  );
-}
-
-function CornerArc({ d, className }: { d: string; className?: string }) {
-  return (
-    <svg width={CORNER} height={CORNER} className={className}>
-      <path
-        d={d}
-        fill="none"
-        stroke="var(--color-nooni-arch)"
-        strokeWidth={STROKE}
-        strokeLinecap="round"
-      />
-    </svg>
   );
 }

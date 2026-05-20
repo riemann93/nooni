@@ -1,11 +1,14 @@
 /**
- * Footer — four-column footer. Solid background.
+ * Footer — site-wide utility footer.
  *
- * Currently NOT mounted anywhere. The homepage Contact section took over
- * as the closing element and owns the copyright line. This file is kept
- * because inner pages (product detail, om-os, future legal pages) may
- * want a footer once the site grows. To re-enable, import this component
- * in src/app/layout.tsx and add <Footer /> before <CartDrawer />.
+ * Mounted globally in src/app/layout.tsx so it appears on every page.
+ * Owns the canonical copyright line.
+ *
+ * Link discipline: every entry here should point at a real destination.
+ * If a target page doesn't exist yet, leave the entry out — empty
+ * columns are better than dead links. The fabricated CVR / payment
+ * tagline that used to live in the bottom strip was removed for the
+ * same reason.
  */
 
 import Link from "next/link";
@@ -14,7 +17,7 @@ import Logo from "./Logo";
 export default function Footer() {
   return (
     <footer className="relative z-[1] border-t border-nooni-line-soft bg-nooni-bg pb-10 pt-14">
-      <div className="mx-auto max-w-[1280px] px-10">
+      <div className="mx-auto max-w-[1280px] px-6 md:px-10">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
             <div className="mb-4">
@@ -27,6 +30,7 @@ export default function Footer() {
           </div>
 
           <FooterCol heading="Produkter">
+            <FooterLink href="/produkter">Alle produkter</FooterLink>
             <FooterLink href="/produkter/dots-5stk">Dots 5 stk</FooterLink>
             <FooterLink href="/produkter/dots-med-navn-3stk">
               Dots med navn 3 stk
@@ -40,23 +44,19 @@ export default function Footer() {
 
           <FooterCol heading="Om Nooni">
             <FooterLink href="/om-os">Vores historie</FooterLink>
-            <FooterLink href="#">Sådan printer vi</FooterLink>
-            <FooterLink href="#">Levering & retur</FooterLink>
-            <FooterLink href="#">Kontakt</FooterLink>
+            <FooterLink href="/kontakt">Kontakt</FooterLink>
           </FooterCol>
 
           <FooterCol heading="Følg med">
             <FooterLink href="https://www.instagram.com/hej.nooni/">
               Instagram — @hej.nooni
             </FooterLink>
-            <FooterLink href="#">Nyhedsbrev</FooterLink>
             <FooterLink href="mailto:hej@nooni.dk">hej@nooni.dk</FooterLink>
           </FooterCol>
         </div>
 
-        <div className="mt-12 flex items-center justify-between border-t border-nooni-line-soft pt-7 text-xs text-nooni-ink-soft">
-          <span>© {new Date().getFullYear()} Nooni ApS — lavet med kærlighed i Danmark</span>
-          <span>CVR 4242 4242 · MobilePay · DKK</span>
+        <div className="mt-12 border-t border-nooni-line-soft pt-7 text-xs text-nooni-ink-soft">
+          © {new Date().getFullYear()} Nooni — lavet med kærlighed i Danmark
         </div>
       </div>
     </footer>

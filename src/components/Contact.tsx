@@ -1,55 +1,68 @@
+/**
+ * Contact — homepage closing CTA section.
+ *
+ * One arched-top "doorway" container holding the eyebrow + headline +
+ * intro copy + contact links. Sits on the page background; the
+ * earlier wide-shallow outer arch backdrop was removed because the
+ * two arches in Camilla's sketch were iterations on the same shape,
+ * not stacked elements.
+ *
+ * The site-wide <Footer /> mounted in layout.tsx now owns the
+ * copyright line — keep it out of here.
+ */
+
+import Link from "next/link";
+
 export default function Contact() {
   return (
-    <section id="kontakt" className="relative z-[1]" data-screen-label="06 Kontakt">
-      {/*
-        Outer arch: full-width colored backdrop, no bottom padding so the
-        inner arch sits flush against the bottom edge.
-      */}
-      <div
-        className="bg-nooni-cool/40 px-6 pt-24 pb-0 md:px-10 md:pt-32"
-        style={{ borderRadius: "50% 50% 0 0 / 160px 160px 0 0" }}
-      >
-        <div className="mx-auto max-w-[1280px]">
-          {/* Inner arch — copyright lives inside so the arch reaches the bottom */}
-          <div
-            className="mx-auto max-w-[600px] overflow-hidden bg-nooni-bg px-10 pt-14 pb-10 text-center shadow-sm"
-            style={{ borderRadius: "9999px 9999px 0 0" }}
-          >
-            <span className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub after:h-px after:w-7 after:bg-nooni-sub">
-              Sig hej
-            </span>
+    <section
+      id="kontakt"
+      className="relative z-[1] bg-nooni-bg pt-24 pb-0 md:pt-32"
+      data-screen-label="06 Kontakt"
+    >
+      <div className="mx-auto max-w-[1280px] px-6 md:px-10">
+        <div
+          className="mx-auto max-w-[880px] overflow-hidden bg-nooni-bg-warm px-10 pt-16 pb-14 text-center shadow-sm md:px-16 md:pt-20"
+          style={{ borderRadius: "9999px 9999px 0 0" }}
+        >
+          <span className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub after:h-px after:w-7 after:bg-nooni-sub">
+            Sig hej
+          </span>
 
-            <h2 className="mt-5 font-editorial text-[clamp(36px,4vw,52px)] leading-[1.1] text-nooni-ink">
-              Kontakt
-            </h2>
+          <h2 className="mt-5 font-editorial text-[clamp(40px,5vw,64px)] leading-[1.05] text-nooni-ink">
+            Kontakt
+          </h2>
 
-            <p className="mx-auto mt-5 max-w-[360px] font-editorial text-lg leading-relaxed text-nooni-ink-soft">
-              Spørgsmål, særlige ønsker, eller bare en god idé? Vi svarer hurtigt.
-            </p>
+          <p className="mx-auto mt-6 max-w-[460px] font-editorial text-lg leading-relaxed text-nooni-ink-soft">
+            Spørgsmål, særlige ønsker, eller bare en god idé? Vi svarer hurtigt.
+          </p>
 
-            {/* Links side by side */}
-            <div className="mt-10 flex items-center justify-center gap-8 flex-wrap">
-              <a
-                href="mailto:hej@nooni.dk"
-                className="flex items-center gap-2.5 text-nooni-ink-soft transition-colors hover:text-nooni-headline"
-              >
-                <MailIcon />
-                <span className="font-sans text-[15px]">hej@nooni.dk</span>
-              </a>
-              <a
-                href="https://www.instagram.com/hej.nooni/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2.5 text-nooni-ink-soft transition-colors hover:text-nooni-headline"
-              >
-                <InstagramIcon />
-                <span className="font-sans text-[15px]">@hej.nooni</span>
-              </a>
-            </div>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+            <Link
+              href="/kontakt"
+              className="inline-flex items-center gap-2 rounded-full bg-nooni-headline px-7 py-3.5 text-sm text-white transition-colors hover:bg-[#9d6f6f]"
+            >
+              Skriv til os
+              <span aria-hidden>→</span>
+            </Link>
 
-            <p className="mt-10 text-xs tracking-[0.12em] text-nooni-ink-soft/50">
-              © {new Date().getFullYear()} Nooni — lavet med kærlighed i Danmark
-            </p>
+            <a
+              href="mailto:hej@nooni.dk"
+              className="flex items-center gap-2.5 text-nooni-ink-soft transition-colors hover:text-nooni-headline"
+            >
+              <MailIcon />
+              <span className="font-sans text-[15px]">hej@nooni.dk</span>
+            </a>
+
+            <a
+              href="https://www.instagram.com/hej.nooni/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2.5 text-nooni-ink-soft transition-colors hover:text-nooni-headline"
+            >
+              <InstagramIcon />
+              <span className="font-sans text-[15px]">@hej.nooni</span>
+            </a>
           </div>
         </div>
       </div>

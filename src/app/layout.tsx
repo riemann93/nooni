@@ -2,12 +2,8 @@
  * Root layout — defines the site chrome that wraps every page:
  *   - <Navbar />      sticky liquid-glass nav (z-index: 2)
  *   - <main>          page content
+ *   - <Footer />      site-wide utility footer with the © line
  *   - <CartDrawer />  slide-in cart (lives at z-index: 11 when open)
- *
- * Note on the footer: the site-wide Footer component was removed when
- * the homepage Contact section took over as the closing element. If
- * inner pages (product, om-os) ever need a footer again, re-import
- * Footer from @/components/Footer and add it back here.
  *
  * Note on the Boho-arch backdrop:
  *   Previously this layout mounted a fixed-viewport <HeroArches /> behind
@@ -27,6 +23,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Fredoka, Open_Sans } from "next/font/google";
 import CartDrawer from "@/components/CartDrawer";
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { CartProvider } from "@/contexts/CartContext";
 import "./globals.css";
@@ -78,6 +75,7 @@ export default function RootLayout({
         <CartProvider>
           <Navbar />
           <main className="flex-1">{children}</main>
+          <Footer />
           <CartDrawer />
         </CartProvider>
       </body>
