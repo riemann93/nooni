@@ -1,5 +1,5 @@
 /**
- * Hero — resting state (chunks 1 + 2 of the homepage-spec rebuild).
+ * Hero — resting state.
  *
  * Source: design/homepage-spec.md §1 + design/sketch-homepage-layout.jpg.
  *
@@ -10,12 +10,6 @@
  *   - A cream wash veiling the left third so the copy stays legible
  *   - Left-aligned stack: small label, "Dots" headline, description,
  *     "Design din egen" CTA
- *
- * The side-only outline that used to sit outside the photo has been
- * removed — Camilla read those lines as markers for the photo edge in
- * the original sketch, not as a real design element. design/homepage-spec.md
- * §1 still describes them; that paragraph is now stale and worth a pass
- * on the spec when we touch it next.
  *
  * Not yet wired (deferred — possibly past Dalager Marked):
  *   - The expand-on-click configurator

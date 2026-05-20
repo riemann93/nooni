@@ -1,14 +1,19 @@
-# Homepage redesign — spec
+# Homepage — spec
 
-Written from Camilla's hand sketches and Steffan's annotation pass.
+Written from Camilla's hand sketches and Steffan's annotation pass,
+then revised after implementation. This document is the current
+source of truth for the homepage shape: what each section looks like
+as built, what's intentionally deferred, and the open questions
+remaining.
+
 Source artwork:
 
 - `design/sketch-homepage-layout.jpg` — hero + featured products + reviews
-- `design/sketch-about-blog-contact.jpg` — continues the same homepage:
-  about + blog/newsletter + contact
+- `design/sketch-about-blog-contact.jpg` — about + blog/newsletter + contact
 
-This document is the design intent. When we implement, we ship one
-section at a time and check the result against this spec.
+Both sketches differ from the final build in places — those drifts
+are noted per section below. The sketches are kept for reference, not
+treated as binding.
 
 ---
 
@@ -17,100 +22,167 @@ section at a time and check the result against this spec.
 The homepage scrolls top to bottom in this order:
 
 1. Hero
-2. "Mest populære" — three featured products
-3. "Mine kunder synes" — customer reviews (toggleable)
-4. About — "Hvem står bag Nooni"
-5. Blog / Nyhedsbrev — newest post teaser
-6. Contact
+2. "Sådan virker det" — three-step "how it works" explainer
+3. "Mest populære" — three featured products
+4. ~~"Mine kunder synes" — customer reviews~~ *(deferred — see §4)*
+5. About — "Hvem står bag Nooni" / Familien bag
+6. Blog
+7. Contact
+
+The site-wide `<Footer />` (mounted in `src/app/layout.tsx`) sits below
+every page including the homepage and owns the canonical copyright
+line.
 
 ---
 
 ## 1. Hero
 
+**Status:** resting state shipped. Expand mechanism deferred.
+
 ### Resting state
 
-- Container: a rounded-square frame, full content width
-- Two thin vertical borders, one on each side, in the arch-line tone
-  (`--color-nooni-arch`). They span the **vertical** edges of the
-  hero only — they curve inward toward the middle at the top and
-  bottom and **do not** wrap around the horizontal edges
-- Background: full-bleed lifestyle photo showing a Dot in active use
-  (a child's jacket, bag, etc.)
-- **Photo overlay** — the left third (or so) of the photo is veiled by
-  a cream-coloured transparent wash so the headline copy on top of
-  it stays legible
+- Container: a rounded frame, full content width. Aspect 4:5 on
+  mobile, 3:2 on desktop (matches the placeholder photo's native 3:2)
+- Background: full-bleed lifestyle photo. Currently
+  `public/images/familie_1.jpg` as a placeholder until Camilla's new
+  product shots are ready — same palette, same aspect ratio
+- **Cream wash** — a left-to-right gradient veils the left third (or
+  so) of the photo with `--color-nooni-bg-warm` so the headline copy
+  stays legible
 - Left-aligned content stack inside the frame:
-  - Headline: **Dots**
+  - Eyebrow: "Personlige mærker til familien"
+  - Headline: **Dots** (oversized italic editorial serif)
   - Short product description
-  - Primary CTA: **Design din egen**
+  - Primary CTA: **Design din egen** → `/produkter/dots-med-navn-3stk`
 
-### Expanded state (after clicking "Design din egen")
+### Sketch drift
 
-The hero grows downward in a smooth animation; the lifestyle photo
-zooms in on the product. The expanded area below the original
-content shows:
+The original sketch showed two thin vertical "arch-line" markers
+outside the photo. Those were Camilla's pencil indicators for where
+the photo edge would be — not a design element. They're not in the
+build, and the early implementation that traced them has been
+removed.
 
-- **Left** — personalization form (same fields used on the product
-  detail page: colours, motif/name)
-- **Right** — live product preview reflecting the current configuration
-- **Bottom-left** — secondary CTA **Find inspiration**. A small example
-  product image protrudes outside the hero frame attached to this
-  button; clicking the button navigates to the product detail page
-  (which itself shows many example configurations as inspiration)
-- **Bottom-right** — primary CTA **Tilføj til kurv** that adds the
-  currently-configured product to the cart
+### Expanded state — deferred
 
-### Add-to-cart animation
-
-When "Tilføj til kurv" is clicked, the configured product visually
-"travels" from the hero up to the cart pill in the top-right of the
-navbar — like a basketball arcing into a hoop. The cart count
-increments at the end of the animation.
+Originally intended: click "Design din egen" → hero grows downward,
+photo zooms in, configurator (form + live preview) appears, with
+"Find inspiration" and "Tilføj til kurv" CTAs. A basketball-arc cart
+animation visualises the add. **Deferred — possibly past Dalager
+Marked.** Until it lands, the CTA just navigates to the product
+detail page.
 
 ---
 
-## 2. "Mest populære"
+## 2. "Sådan virker det"
 
-Three pre-selected product cards on one row, each sized so all three
-fit horizontally on desktop.
+**Status:** shipped.
 
-- Card composition: product photo with an **arched top**, a separate
-  box of product info below (title, short tag, price)
-- Below the row: a **"Se alle produkter"** link or button (not in the
-  sketch, but called out as needed) that navigates to a dedicated
-  `/produkter` listing page
-- The `/produkter` page reuses the same product card component, so
-  any visual change to the card propagates automatically
+A three-step strip explaining what happens after a customer hits
+"Design din egen". Lives between Hero and Mest populære. Numbered
+01 / 02 / 03 in the Nooni headline tone, each with a short italic
+heading and one sentence of body.
 
----
+Current steps:
 
-## 3. "Mine kunder synes"
+1. **Du designer selv** — vælg farver, motiv eller navn live på produktsiden
+2. **Vi printer hjemme** — 3D-printet hos os i Danmark, intet lager
+3. **Frem på 2–4 dage** — pakket selv og sendt med PostNord
 
-A rounded **pill-shaped** container showing three customer reviews
-side by side.
+This section is not in the original sketches. It was added to carry
+the production-transparency facts that used to live in a stats row
+inside the About section, and to fill the trust-signal slot until the
+reviews section can be turned on.
 
-- **Toggleable** — hidden until enough reviews exist. Off by default
-  for soft launch.
-- Source of reviews TBD: a Shopify reviews app, Trustpilot integration,
-  or a hand-curated list to start. Decide before turning the section
-  on.
+Backdrop is `--color-nooni-bg-warm` so the strip reads as its own
+beat between the photo hero and the cream product cards.
 
 ---
 
-## 4. About — "Hvem står bag Nooni"
+## 3. "Mest populære"
+
+**Status:** shipped.
+
+Three pre-selected product cards on one row on desktop (1/2/3 column
+breakpoints). Below the row, a centred outline link **"Se alle
+produkter"** routes to `/produkter` — the new full-catalogue listing
+page.
+
+### Card composition
+
+- One cream-tinted container (`--color-nooni-bg-warm`) shaped as a
+  dome: a full semicircle top from the photo, 24 px rounded bottom
+  corners under the info block
+- Photo and info share the background, so the seam between them is
+  just a clean horizontal transition inside one shape
+- Warm two-tone drop shadow matching the hero palette; deepens on
+  hover
+- Info block holds an uppercase tagline (homepage only), product
+  title, "fra X kr" price, and a "Se mere →" affordance
+
+### Shared component
+
+Cards render through `src/components/ProductCard.tsx`, which is also
+used by the `/produkter` listing page. Visual changes to cards land
+in one place.
+
+### Current trio
+
+Loops / Emblem / Deks single — hand-picked placeholder. Final trio
+is still Camilla's call (see open questions).
+
+---
+
+## 4. "Mine kunder synes"
+
+**Status:** deferred for soft launch.
+
+Spec from sketch: a pill-shaped container with three customer
+reviews side by side.
+
+- **Toggleable** — hidden until enough reviews exist. Off by default.
+- Source of reviews TBD. The recommended path for Nooni's stage is
+  **Judge.me on Shopify** (free tier, automated invites, photo
+  attachments) rather than Trustpilot, whose verified-review system
+  is paid and disproportionately hurts brands with low star counts.
+
+In the meantime, **§2 "Sådan virker det"** carries the pre-launch
+trust-signal load.
+
+---
+
+## 5. About — "Hvem står bag Nooni"
+
+**Status:** shipped (component name: `Story`).
 
 A two-column section introducing the family behind Nooni.
 
-- **Left** — family photo in the same arched frame as the product
-  cards (arched top, square-ish bottom)
-- **Right** — about-us body copy
+- **Left** — family photo (`public/images/familie_2.jpg`) in an
+  arched frame (full semicircle top, 22 px bottom corners), matching
+  the dome shape used on the product cards
+- **Right** — body copy: two paragraphs introducing the family and
+  the print-on-demand process
 
-This section grows / links into a fuller `/om-os` page later; the
-homepage version is the short introduction.
+Reused on `/om-os` (with `QuietCTA` appended).
+
+### Sketch drift
+
+The earlier build had a three-stat row below the body copy
+("1.412 print sendt" / "2–4 dage" / "100% Danmark"). The first
+number was fabricated. The whole row was removed — the two factual
+stats moved to §2 "Sådan virker det" where they read as concrete
+process steps rather than free-floating numbers.
+
+The current headline copy ("Lavet derhjemme, med plads til
+fingeraftryk.") differs from the sketch's "Hvem står bag Nooni?".
+That's a content decision Camilla and Steffan made directly — leave
+it alone unless they revisit.
 
 ---
 
-## 5. Blog / Nyhedsbrev
+## 6. Blog
+
+**Status:** shipped.
 
 A single rounded rectangular box previewing the newest blog post.
 
@@ -123,50 +195,97 @@ A single rounded rectangular box previewing the newest blog post.
   affordances are enough, and a full-box link would conflict with
   text selection inside the excerpt.
 
+### Sketch drift
+
+The original section heading in the sketch said **Blog / Nyhedsbrev**.
+The Nyhedsbrev (newsletter) half was not built — there's no signup
+form on the homepage. Treat the section as blog-only for now; if a
+newsletter signup is added later, decide whether it lives here, in
+the footer, or as its own section.
+
 ---
 
-## 6. Contact
+## 7. Contact
 
-- A medium-sized arch containing contact info + social media links
-- Sits inside a **larger coloured arch that spans the full page
-  width** — same edge alignment as the other sections above it. The
-  outer arch is the section's background; the inner arch is the
-  content container.
+**Status:** shipped.
+
+One arched-top "doorway" container holding the section copy and the
+contact affordances. Sits on the page background.
+
+- Eyebrow "Sig hej" with hairline marks before and after
+- Headline "Kontakt"
+- Short intro paragraph
+- Primary CTA **"Skriv til os"** → `/kontakt` (a dedicated contact
+  form page; see "Routes added" below)
+- Direct mail link `hej@nooni.dk`
+- Instagram link `@hej.nooni`
+
+### Sketch drift
+
+The sketch shows two stacked arches in this section. Camilla
+confirmed that was iteration — she drew a corrected arch on top of
+the first attempt, not a stacked design element. The build keeps the
+taller "doorway" arch (matches every other arch on the site, which
+are all tall semicircles) and drops the wide-shallow outer one. The
+container is widened from a previous 600 px to 880 px max-width to
+give room for future content.
+
+The copyright line that used to live in this section moved to the
+global Footer.
+
+---
+
+## Routes added during build-out
+
+- `/produkter` — full product listing page. Fetches every published
+  product from Shopify via `getAllProducts()` and renders them with
+  the shared `<ProductCard />`. No sorting/filtering/pagination yet
+  — revisit when the catalogue outgrows one round-trip
+- `/kontakt` — dedicated contact form page. Posts to a `sendContactEmail`
+  server action that emails `hej@nooni.dk` via Resend. Requires
+  `RESEND_API_KEY` in env; setup is parked until the
+  receiving-mailbox question is resolved (see open questions)
 
 ---
 
 ## Notes for implementation (Steffan + Claude)
 
-Things to plan before coding:
-
-- **Hero expand animation** — height transition + photo zoom + content
-  fade-in. Probably needs CSS `grid-template-rows: 0fr → 1fr` trick
-  for height, with framer-motion for the photo zoom if CSS isn't
-  enough. Picks one direction up front so iteration cycles are quick.
+- **Hero expand animation** — deferred. When picked up: CSS
+  `grid-template-rows: 0fr → 1fr` trick for the height transition,
+  framer-motion only if needed for the photo zoom. Pick one direction
+  up front.
 - **The "Find inspiration" image protruding outside the hero frame**
-  needs the parent to not clip overflow. Worth checking against the
-  border treatment doesn't conflict.
-- **Cart "basketball" animation** is a flourish — easy to do badly.
-  Worth prototyping in a low-stakes branch before committing to the
-  motion design.
-- **Reviews source** — pick before building Section 3. App, API, or
-  hand-rolled JSON?
-- **Blog backend** — Markdown files in the repo? A headless CMS (Sanity,
-  Contentful)? Shopify's built-in blog? Affects how Section 5 is wired.
-- **Border treatment in the hero** (the two side-only curved lines) is
-  unusual — worth a small CSS prototype before committing the rest of
-  the hero.
+  — when the expand state is built, the parent must not clip
+  overflow. No conflict with the current build since the side-outline
+  treatment that worried this is gone.
+- **Cart "basketball" animation** — flourish, prototype in a
+  low-stakes branch before committing to the motion design. Have a
+  scale-and-fade fallback ready.
+- **Reviews source** — pick before building §4. Strong preference for
+  Judge.me on Shopify (or Loox) over Trustpilot at this brand stage.
+- **Blog backend** — currently markdown / hand-curated via
+  `src/lib/blog.ts`. Re-evaluate if posting cadence grows.
+- **Contact form sending** — Resend chosen and wired in code.
+  `RESEND_API_KEY` env var needed on Vercel; sending domain needs
+  Resend DNS verification on `nooni.dk` for a clean From address.
+  Whoever sets it up should also confirm `hej@nooni.dk` is a real
+  receiving mailbox (or set up Cloudflare Email Routing → personal
+  inbox, for free).
 
 ---
 
 ## Open product questions
 
-- The default lifestyle photo for the hero — same `dots_name_lifestyle`
-  shot, or a new one? The sketch doesn't specify.
-- The three "Mest populære" products — hand-curated by Camilla, or
-  driven by Shopify product tags / collections?
-- About-section family photo — does it exist yet, or pending?
-- First blog post — does any content exist yet, or is the section
-  parked until it does?
-- Contact info to show — email (`hej@nooni.dk`), Instagram, anything
-  else (phone, physical address)?
+- **Hero photo** — `familie_1.jpg` is the placeholder. Replace with
+  one of Camilla's new product shots when they land. Same 3:2 aspect
+  is ideal so the frame doesn't need re-tuning.
+- **"Mest populære" trio** — Loops / Emblem / Deks single is the
+  current pick. Camilla's call on the final three; could also be
+  driven by a Shopify collection / product tag if curation becomes
+  ongoing work.
+- **Blog cadence** — does Nooni want to commit to a posting rhythm?
+  The teaser only reads well when "newest post" is recent.
+- **Contact info** — currently email + Instagram. Add phone /
+  physical address / opening hours when relevant.
+- **Receiving mailbox at `hej@nooni.dk`** — needed for the contact
+  form to be useful. Resend handles sending only.
