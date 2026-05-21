@@ -1,14 +1,20 @@
 /**
- * ProductGallery — main image + clickable thumbnails for the product
- * detail page.
+ * ProductGallery — main image + arrows + clickable thumbnails for the
+ * product detail page.
  *
  * Client component because the active-image state lives in React. The
  * main image swaps without a network round-trip; Next/Image keeps each
  * URL primed in its own srcset.
  *
- * Thumbnails only render when there's more than one image. With a
- * single image the component degrades to the same square frame the
- * page used before.
+ * Three nav affordances when there are multiple images:
+ *   - Translucent left/right arrows over the main image — opaque +
+ *     slightly enlarged on hover, signalling clickability without
+ *     fighting the photo for attention. Arrows wrap around at the
+ *     ends (last → first, first → last) so they're always usable.
+ *   - Thumbnail strip below, click to jump.
+ *
+ * Single-image products skip both affordances and render just the
+ * main square frame.
  */
 
 "use client";
@@ -29,6 +35,11 @@ export default function ProductGallery({
   const [activeIdx, setActiveIdx] = useState(0);
   if (images.length === 0) return null;
   const active = images[activeIdx] ?? images[0];
+  const hasMultiple = images.length > 1;
+
+  const goPrev = () =>
+    setActiveIdx((i) => (i - 1 + images.length) % images.length);
+  const goNext = () => setActiveIdx((i) => (i + 1) % images.length);
 
   return (
     <div>
@@ -42,9 +53,24 @@ export default function ProductGallery({
           className="object-cover"
           priority
         />
+
+        {hasMultiple && (
+          <>
+            <ArrowButton
+              direction="prev"
+              onClick={goPrev}
+              label="Forrige billede"
+            />
+            <ArrowButton
+              direction="next"
+              onClick={goNext}
+              label="Næste billede"
+            />
+          </>
+        )}
       </div>
 
-      {images.length > 1 && (
+      {hasMultiple && (
         <div className="mt-4 grid grid-cols-4 gap-3 sm:grid-cols-5 lg:grid-cols-6">
           {images.map((img, i) => {
             const selected = i === activeIdx;
@@ -74,5 +100,47 @@ export default function ProductGallery({
         </div>
       )}
     </div>
+  );
+}
+
+interface ArrowButtonProps {
+  direction: "prev" | "next";
+  onClick: () => void;
+  label: string;
+}
+
+/**
+ * Translucent circular button sitting on top of the main image.
+ * Idle: 55% white + small backdrop blur — visible but quiet.
+ * Hover: ~95% white + 1.1× scale — clearly clickable.
+ * Focus: same hover treatment + ring for keyboard users.
+ */
+function ArrowButton({ direction, onClick, label }: ArrowButtonProps) {
+  const positionClass = direction === "prev" ? "left-3 md:left-4" : "right-3 md:right-4";
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      className={`absolute top-1/2 ${positionClass} -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full bg-white/55 text-nooni-ink shadow-sm backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:bg-white/95 focus-visible:scale-110 focus-visible:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nooni-headline`}
+    >
+      {direction === "prev" ? <ChevronLeft /> : <ChevronRight />}
+    </button>
+  );
+}
+
+function ChevronLeft() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <polyline points="15 18 9 12 15 6" />
+    </svg>
+  );
+}
+
+function ChevronRight() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <polyline points="9 18 15 12 9 6" />
+    </svg>
   );
 }

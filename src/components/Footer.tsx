@@ -1,25 +1,17 @@
 /**
- * Footer — the arched closing element. Site-wide.
+ * Footer — the closing element. Site-wide.
  *
  * Mounted in src/app/layout.tsx so it appears at the bottom of every
  * page.
  *
- * Shape: a true semi-circle dome the full content width of the page
- * (matches max-w-[1280px] with side padding, same as every other
- * section). Achieved with:
- *   - aspect-ratio: 2 / 1 (width = 2× height)
- *   - border-radius: 50% 50% 0 0 / 100% 100% 0 0 (top corners are
- *     ellipse-radius equal to the full half-axes of the box — at
- *     2:1 that ellipse equals a circle)
+ * Shape: the same pill silhouette used by HowItWorks, Story and
+ * BlogTeaser — top corners rounded with `2rem`, bottom corners square,
+ * full content width. The flat bottom edge sits flush against the
+ * viewport bottom so the footer reads as the page's actual end.
  *
- * aspect-ratio is "preferred", not strict — if the content needs more
- * room than width/2 (typical on narrow phones) the box grows taller
- * and the dome becomes a tall ellipse rather than a perfect half
- * circle. That's the right fallback for small screens.
- *
- * Content sits in the lower middle of the dome with flex
- * justify-center, so on wide screens there's quiet empty space at
- * the apex of the curve.
+ * We tried a true 2:1 semi-circle dome here and it didn't survive
+ * Camilla's review — too theatrical, didn't match the other sections.
+ * The pill shape keeps the footer cohesive with everything above.
  *
  * Backlog (accepted minor flaws, not blocking soft launch):
  *   - On /kontakt itself, the "Skriv til os" CTA loops back to the
@@ -33,61 +25,56 @@ import Logo from "./Logo";
 export default function Footer() {
   return (
     <footer
-      className="relative z-[1] bg-nooni-bg pt-20 md:pt-28"
+      className="relative z-[1] bg-nooni-bg pt-16 md:pt-24"
       data-screen-label="Footer"
     >
       <div className="mx-auto max-w-[1280px] px-6 md:px-10">
         <div
-          className="relative bg-nooni-bg-warm shadow-sm"
-          style={{
-            aspectRatio: "2 / 1",
-            borderRadius: "50% 50% 0 0 / 100% 100% 0 0",
-          }}
+          className="bg-nooni-bg-warm px-8 py-14 text-center shadow-sm md:px-16 md:py-18"
+          style={{ borderRadius: "2rem 2rem 0 0" }}
         >
-          <div className="absolute inset-0 flex flex-col items-center justify-center px-8 text-center sm:px-16 md:px-24 lg:px-32">
+          <Link
+            href="/"
+            aria-label="Nooni — forsiden"
+            className="inline-block"
+          >
+            <Logo className="text-3xl md:text-4xl" />
+          </Link>
+
+          <p className="mx-auto mt-6 max-w-[460px] font-editorial text-base leading-relaxed text-nooni-ink-soft md:text-lg">
+            Spørgsmål, særlige ønsker, eller bare en god idé? Vi svarer hurtigt.
+          </p>
+
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
             <Link
-              href="/"
-              aria-label="Nooni — forsiden"
-              className="inline-block"
+              href="/kontakt"
+              className="inline-flex items-center gap-2 rounded-full bg-nooni-headline px-6 py-3 text-sm text-white transition-colors hover:bg-[#9d6f6f]"
             >
-              <Logo className="text-3xl md:text-4xl" />
+              Skriv til os
+              <span aria-hidden>→</span>
             </Link>
 
-            <p className="mx-auto mt-6 max-w-[460px] font-editorial text-base leading-relaxed text-nooni-ink-soft md:text-lg">
-              Spørgsmål, særlige ønsker, eller bare en god idé? Vi svarer hurtigt.
-            </p>
+            <a
+              href="mailto:hej@nooni.dk"
+              className="flex items-center gap-2 text-nooni-ink-soft transition-colors hover:text-nooni-headline"
+            >
+              <MailIcon />
+              <span className="font-sans text-[14px]">hej@nooni.dk</span>
+            </a>
 
-            <div className="mt-7 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
-              <Link
-                href="/kontakt"
-                className="inline-flex items-center gap-2 rounded-full bg-nooni-headline px-6 py-3 text-sm text-white transition-colors hover:bg-[#9d6f6f]"
-              >
-                Skriv til os
-                <span aria-hidden>→</span>
-              </Link>
+            <a
+              href="https://www.instagram.com/hej.nooni/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-nooni-ink-soft transition-colors hover:text-nooni-headline"
+            >
+              <InstagramIcon />
+              <span className="font-sans text-[14px]">@hej.nooni</span>
+            </a>
+          </div>
 
-              <a
-                href="mailto:hej@nooni.dk"
-                className="flex items-center gap-2 text-nooni-ink-soft transition-colors hover:text-nooni-headline"
-              >
-                <MailIcon />
-                <span className="font-sans text-[14px]">hej@nooni.dk</span>
-              </a>
-
-              <a
-                href="https://www.instagram.com/hej.nooni/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-nooni-ink-soft transition-colors hover:text-nooni-headline"
-              >
-                <InstagramIcon />
-                <span className="font-sans text-[14px]">@hej.nooni</span>
-              </a>
-            </div>
-
-            <div className="mt-8 text-xs tracking-[0.12em] text-nooni-ink-soft/70">
-              © {new Date().getFullYear()} Nooni — lavet med kærlighed i Danmark
-            </div>
+          <div className="mt-8 text-xs tracking-[0.12em] text-nooni-ink-soft/70">
+            © {new Date().getFullYear()} Nooni — lavet med kærlighed i Danmark
           </div>
         </div>
       </div>

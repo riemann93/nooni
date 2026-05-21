@@ -240,15 +240,15 @@ Content inside the arch, top to bottom:
 - **Hairline divider**
 - **Copyright line**: "© {year} Nooni — lavet med kærlighed i Danmark"
 
-Shape: a true semi-circle dome at the full content width of the
-page (same `max-w-[1280px]` + side padding as every other section).
-Achieved with `aspect-ratio: 2 / 1` plus
-`border-radius: 50% 50% 0 0 / 100% 100% 0 0` — at 2:1 the elliptical
-border-radius becomes a half-circle. On narrow phones the box grows
-taller than the aspect ratio implies (content-driven) and the dome
-becomes a tall ellipse rather than a perfect half-circle — that's
-the right fallback for small screens. Background is
-`--color-nooni-bg-warm`.
+Shape: the same pill silhouette used by HowItWorks, Story and
+BlogTeaser — top corners rounded with `2rem`, bottom corners square,
+full content width (`max-w-[1280px]` + side padding). The flat
+bottom edge sits flush against the viewport bottom so the footer
+reads as the page's actual end. Background is `--color-nooni-bg-warm`.
+
+A true 2:1 semi-circle dome was prototyped here and rejected — too
+theatrical, didn't match the rhythm of the rest of the page. The
+pill shape keeps the footer cohesive with everything above.
 
 ### History
 

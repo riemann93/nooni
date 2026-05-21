@@ -46,7 +46,7 @@ const STEPS: Step[] = [
 export default function HowItWorks() {
   return (
     <section
-      className="bg-nooni-bg pt-24 pb-16 md:pt-32 md:pb-20"
+      className="bg-nooni-bg pt-24 pb-4 md:pt-32 md:pb-8"
       data-screen-label="02 How it works"
     >
       <div className="mx-auto max-w-[1280px] px-6 md:px-10">
