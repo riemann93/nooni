@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { getLatestPost } from "@/lib/blog";
 
@@ -49,25 +48,33 @@ export default async function BlogTeaser() {
               aria-hidden
             >
               {/*
-                overflow-hidden on this div is what contains the zoom —
-                the arch shape stays perfectly still; only the image
-                inside scales on hover.
-                w-full on mobile → full arch visible.
-                w-[200%] on desktop → image is twice the column width so
-                the outer container clips the right half (half-arch teaser).
+                The photo is rendered as a background image (not <Image>)
+                so it can be zoomed + panned independently of the arch
+                frame — object-cover gave no zoom-out control. The arch
+                geometry is unchanged:
+                  w-full on mobile → full arch visible.
+                  w-[200%] on desktop → arch is twice the column width so
+                  the outer container clips the right half (half-arch teaser).
+
+                Two knobs for framing the photo (don't touch the arch):
+                  backgroundSize     — zoom. Smaller value = objects look
+                                       smaller / more of the photo shows.
+                  backgroundPosition — pan. Lower first % = shifted further
+                                       left (more of the bag in frame).
+                The cream backgroundColor fills any gap seamlessly since
+                the whole section is already cream.
               */}
               <div
                 className="absolute top-0 bottom-0 left-0 w-full overflow-hidden md:w-[200%]"
-                style={{ borderRadius: "9999px 9999px 0 0" }}
-              >
-                <Image
-                  src={post.image}
-                  alt=""
-                  fill
-                  className="object-cover object-left transition-transform duration-500 ease-out group-hover:scale-110"
-                  sizes="(min-width: 768px) 80vw, 100vw"
-                />
-              </div>
+                style={{
+                  borderRadius: "9999px 9999px 0 0",
+                  backgroundColor: "var(--color-nooni-bg-warm)",
+                  backgroundImage: `url(${post.image})`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "auto 62%",
+                  backgroundPosition: "26% center",
+                }}
+              />
             </Link>
           </div>
         </div>
