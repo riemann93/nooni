@@ -1,0 +1,306 @@
+/**
+ * GraphQL queries for the Shopify Storefront API.
+ *
+ * Each query is a tagged template literal so editors with GraphQL
+ * plugins can syntax-highlight them. The /* GraphQL *\/ comment is
+ * the convention many tools (Apollo, GraphQL.js, VSCode plugins)
+ * recognise for inline highlighting.
+ */
+
+/* ── Cart ─────────────────────────────────────────────────────────── */
+
+/**
+ * Shared fragment so every cart query/mutation returns the same shape.
+ * Keep the field list in sync with the Cart interface in types.ts.
+ */
+const CART_FRAGMENT = /* GraphQL */ `
+  fragment CartFields on Cart {
+    id
+    checkoutUrl
+    totalQuantity
+    cost {
+      subtotalAmount {
+        amount
+        currencyCode
+      }
+      totalAmount {
+        amount
+        currencyCode
+      }
+    }
+    lines(first: 50) {
+      nodes {
+        id
+        quantity
+        attributes {
+          key
+          value
+        }
+        cost {
+          totalAmount {
+            amount
+            currencyCode
+          }
+        }
+        merchandise {
+          ... on ProductVariant {
+            id
+            title
+            price {
+              amount
+              currencyCode
+            }
+            product {
+              handle
+              title
+              images(first: 1) {
+                nodes {
+                  url
+                  altText
+                  width
+                  height
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const CART_QUERY = /* GraphQL */ `
+  ${CART_FRAGMENT}
+  query Cart($id: ID!) {
+    cart(id: $id) {
+      ...CartFields
+    }
+  }
+`;
+
+export const CART_CREATE_MUTATION = /* GraphQL */ `
+  ${CART_FRAGMENT}
+  mutation CartCreate($lines: [CartLineInput!]) {
+    cartCreate(input: { lines: $lines }) {
+      cart {
+        ...CartFields
+      }
+      userErrors {
+        field
+        message
+        code
+      }
+    }
+  }
+`;
+
+export const CART_LINES_ADD_MUTATION = /* GraphQL */ `
+  ${CART_FRAGMENT}
+  mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
+    cartLinesAdd(cartId: $cartId, lines: $lines) {
+      cart {
+        ...CartFields
+      }
+      userErrors {
+        field
+        message
+        code
+      }
+    }
+  }
+`;
+
+export const CART_LINES_UPDATE_MUTATION = /* GraphQL */ `
+  ${CART_FRAGMENT}
+  mutation CartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+    cartLinesUpdate(cartId: $cartId, lines: $lines) {
+      cart {
+        ...CartFields
+      }
+      userErrors {
+        field
+        message
+        code
+      }
+    }
+  }
+`;
+
+export const CART_LINES_REMOVE_MUTATION = /* GraphQL */ `
+  ${CART_FRAGMENT}
+  mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
+    cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
+      cart {
+        ...CartFields
+      }
+      userErrors {
+        field
+        message
+        code
+      }
+    }
+  }
+`;
+
+/* ── Product ──────────────────────────────────────────────────────── */
+
+/**
+ * Lightweight product summary — just what the homepage product cards
+ * need (handle, title, primary image, price range). Looked up by
+ * handle one at a time and combined client-side, because Shopify's
+ * `products(query: "handle:foo OR handle:bar")` is search-style and
+ * doesn't behave as a strict handle filter (it returns everything by
+ * relevance and applies `first:` to that).
+ */
+export const PRODUCT_SUMMARY_BY_HANDLE_QUERY = /* GraphQL */ `
+  query ProductSummaryByHandle($handle: String!) {
+    product(handle: $handle) {
+      id
+      handle
+      title
+      availableForSale
+      images(first: 1) {
+        nodes {
+          url
+          altText
+          width
+          height
+        }
+      }
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * All-products listing for the /produkter page. Returns the same
+ * skinny summary shape as PRODUCT_SUMMARY_BY_HANDLE_QUERY so listing
+ * surfaces can share one card component. Sort order is whatever
+ * Shopify returns by default — no filtering or ranking applied here.
+ */
+export const PRODUCTS_QUERY = /* GraphQL */ `
+  query Products($first: Int!) {
+    products(first: $first) {
+      nodes {
+        id
+        handle
+        title
+        availableForSale
+        images(first: 1) {
+          nodes {
+            url
+            altText
+            width
+            height
+          }
+        }
+        priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * Reads a product's Color taxonomy metafield (Shopify standard
+ * taxonomy: namespace "shopify", key "color-pattern") and the
+ * referenced colour metaobjects.
+ *
+ * Every metaobject field is fetched generically (key + value + type +
+ * any media reference) rather than by exact key, because the colour
+ * metaobject's field handles aren't guaranteed — the parser in
+ * products.ts pattern-matches: a media reference = the spool photo, a
+ * `color`-typed (or hex-looking) value = the swatch hex, a text value =
+ * the name. This keeps the query resilient if Camilla's metaobject
+ * definition differs from the standard one.
+ */
+export const PRODUCT_COLORS_QUERY = /* GraphQL */ `
+  query ProductColors($handle: String!) {
+    product(handle: $handle) {
+      metafield(namespace: "shopify", key: "color-pattern") {
+        references(first: 30) {
+          nodes {
+            ... on Metaobject {
+              id
+              handle
+              fields {
+                key
+                value
+                type
+                reference {
+                  ... on MediaImage {
+                    image {
+                      url
+                      altText
+                    }
+                  }
+                }
+                references(first: 1) {
+                  nodes {
+                    ... on MediaImage {
+                      image {
+                        url
+                        altText
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const PRODUCT_BY_HANDLE_QUERY = /* GraphQL */ `
+  query ProductByHandle($handle: String!) {
+    product(handle: $handle) {
+      id
+      handle
+      title
+      description
+      descriptionHtml
+      availableForSale
+      images(first: 8) {
+        nodes {
+          url
+          altText
+          width
+          height
+        }
+      }
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+        maxVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      variants(first: 10) {
+        nodes {
+          id
+          title
+          price {
+            amount
+            currencyCode
+          }
+          availableForSale
+        }
+      }
+    }
+  }
+`;

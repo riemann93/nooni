@@ -1,40 +1,33 @@
 /**
- * Under-construction page — production branch only.
+ * Homepage — top-level composition.
  *
- * Soft-launch holder for nooni.dk until the real site is ready to ship.
- * Nooni wordmark + "Kommer snart" + Instagram link. No nav, no products,
- * no arches — intentionally quiet.
+ *   <Hero />          big photo + name-Dots CTA
+ *   <HowItWorks />    three-step "Sådan virker det" strip — pre-launch
+ *                     trust signal in the slot where reviews will
+ *                     eventually live
+ *   <ProductsGrid />  three featured products + "Se alle produkter"
+ *   <Story />         family / process narrative
+ *   <BlogTeaser />    newest blog post preview
  *
- * The wordmark is rendered via the canonical <Logo /> component — see
- * BRAND.md for the spec. Do not inline the styling here.
- *
- * When the real site is ready, merge main → production and this file
- * is replaced by the full homepage.
+ * The page closes with the site-wide arched <Footer /> mounted in
+ * layout.tsx — no per-page Contact section anymore. Each section
+ * owns its own background and spacing.
  */
 
-import Logo from "@/components/Logo";
+import Hero from "@/components/Hero";
+import HowItWorks from "@/components/HowItWorks";
+import ProductsGrid from "@/components/ProductsGrid";
+import Story from "@/components/Story";
+import BlogTeaser from "@/components/BlogTeaser";
 
-export default function UnderConstruction() {
+export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center px-6 py-16 text-center">
-      <Logo as="h1" className="text-7xl sm:text-8xl" />
-
-      <p className="mt-8 font-editorial italic text-2xl sm:text-3xl text-nooni-ink-soft">
-        Kommer snart
-      </p>
-
-      <p className="mt-4 text-xs uppercase tracking-[0.22em] text-nooni-sub">
-        Smarte løsninger til familier
-      </p>
-
-      <a
-        href="https://www.instagram.com/hej.nooni/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-14 text-sm text-nooni-ink-soft hover:text-nooni-headline transition-colors"
-      >
-        Følg med på Instagram — @hej.nooni
-      </a>
-    </main>
+    <>
+      <Hero />
+      <HowItWorks />
+      <ProductsGrid />
+      <Story />
+      <BlogTeaser />
+    </>
   );
 }

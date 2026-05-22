@@ -46,14 +46,13 @@ body {
   color: #3d3228;
 }
 
-/* Liquid-glass surface — used by section header, product cards, navbar.
+/* Liquid-glass surface — currently used by the sticky navbar.
 
-   Note: backdrop-filter only blurs what's painted underneath it in the
-   compositing order. The fixed <HeroArches /> sits at z-index:0 of the
-   body, and these surfaces sit at z-index:1+ inside sections — that's
-   the layout the handoff was designed around. Do NOT add transform,
-   filter, will-change, or perspective on any ancestor: those create
-   isolation that breaks the backdrop-filter sample. */
+   Note: backdrop-filter only blurs what's painted underneath it in
+   the compositing order. The navbar blurs whatever scrolls behind it
+   inside the document. Do NOT add transform, filter, will-change, or
+   perspective on body, main, or any wrapping element — they create
+   stacking-context isolation that silently breaks the blur. */
 .nooni-glass {
   background: rgba(255, 252, 247, 0.32);
   -webkit-backdrop-filter: blur(3px);

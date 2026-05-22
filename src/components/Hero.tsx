@@ -1,84 +1,97 @@
 /**
- * ProductsSection — first paint of the homepage.
+ * Hero — resting state.
  *
- * Sits over the fixed <HeroArches /> backdrop. Contains:
- *   - A liquid-glass header (eyebrow + lead headline + meta paragraph)
- *   - The three-card products grid
+ * Source: design/homepage-spec.md §1 + design/sketch-homepage-layout.jpg.
  *
- * Z-index discipline: this whole section lives at z-index: 1 so it
- * paints above the z-index: 0 fixed arches. Do not add transform/filter
- * to any wrapping element — those create stacking contexts and break
- * the .glass backdrop-filter blur.
+ * What this renders:
+ *   - A full-content-width rounded frame, 3:2 on desktop, taller on mobile
+ *   - Full-bleed lifestyle photo (placeholder `familie_1.jpg` until
+ *     Camilla's new product shots land — same aspect, similar palette)
+ *   - A cream wash veiling the left third so the copy stays legible
+ *   - Left-aligned stack: small label, "Dots" headline, description,
+ *     "Design din egen" CTA
+ *
+ * Not yet wired (deferred — possibly past Dalager Marked):
+ *   - The expand-on-click configurator
+ *   - The basketball-arc cart animation
  */
 
-import GlassSurface from "./GlassSurface";
-import ProductCard from "./ProductCard";
-import DotsArt from "./product-art/DotsArt";
-import LoopsArt from "./product-art/LoopsArt";
-import DecksArt from "./product-art/DecksArt";
+import Image from "next/image";
+import Link from "next/link";
 
-const PRODUCTS = [
-  {
-    key: "dots",
-    name: "Dots",
-    tag: "Til tøjet",
-    price: "Fra 39 kr.",
-    description:
-      "Små runde mærker på ~1,5 cm. Vælg farver og motiv — eller skriv et navn, der former sig til en aflang oval.",
-    href: "/produkter/dots",
-    art: <DotsArt />,
-  },
-  {
-    key: "loops",
-    name: "Loops",
-    tag: "Til tasker & nøgler",
-    price: "Fra 49 kr.",
-    description:
-      "Større tags på ~2×5 cm. Bruges som navneskilte på tasker, penalhuse eller som nøglering.",
-    href: "/produkter/loops",
-    art: <LoopsArt />,
-  },
-  {
-    key: "decks",
-    name: "Decks",
-    tag: "Til kortspil",
-    price: "Fra 89 kr.",
-    description:
-      "En korteholder til børn — i én eller to rækker afhængigt af kortspillet. I Noonis klassiske farver.",
-    href: "/produkter/decks",
-    art: <DecksArt />,
-  },
-];
+const HERO_PHOTO = {
+  src: "/images/familie_1.jpg",
+  alt:
+    "Familie i hverdagen — placeholderfoto med samme farveunivers som de" +
+    " kommende Dots-produktbilleder",
+};
 
-export default function ProductsSection() {
+/** Border-radius of the photo frame, in px. */
+const PHOTO_RADIUS = 28;
+
+export default function Hero() {
   return (
-    <section
-      id="produkter"
-      className="relative z-[1] py-40"
-      data-screen-label="01 Products"
-    >
-      <div className="mx-auto max-w-[1280px] px-10">
-        <GlassSurface className="mb-12 grid grid-cols-1 items-end gap-y-4 gap-x-14 px-10 py-9 md:grid-cols-2">
-          <div>
-            <span className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub">
-              Kollektionen
-            </span>
-            <h2 className="mt-4 font-editorial text-[clamp(36px,4.5vw,60px)] leading-[1.05] text-nooni-ink tracking-tight">
-              Tre små ting{" "}
-              <em className="italic text-nooni-sub">der gør en stor forskel</em>{" "}
-              i familielivet.
-            </h2>
-          </div>
-          <p className="text-[15px] leading-relaxed text-nooni-ink-soft md:justify-self-end max-w-md">
-            Hvert produkt printes på bestilling i de farver og med det navn, du
-            vælger. Ingen kasser på lager, ingen masseproduktion.
-          </p>
-        </GlassSurface>
+    <section className="relative" data-screen-label="01 Hero">
+      <div className="mx-auto max-w-[1280px] px-6 pt-10 md:px-10 md:pt-16">
+        <div className="relative aspect-[4/5] md:aspect-[3/2]">
+          <div
+            className="absolute inset-0 overflow-hidden bg-nooni-bg-warm"
+            style={{ borderRadius: PHOTO_RADIUS }}
+          >
+            <Image
+              src={HERO_PHOTO.src}
+              alt={HERO_PHOTO.alt}
+              fill
+              priority
+              sizes="(min-width: 1280px) 1232px, 100vw"
+              // Mirrored horizontally so the in-focus subject sits on the
+              // left, where the cream wash + copy veil it — keeping the
+              // headline legible over the quieter side of the frame.
+              className="object-cover -scale-x-100"
+            />
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          {PRODUCTS.map(({ key, ...p }) => (
-            <ProductCard key={key} {...p} />
-          ))}
+            {/*
+             * Cream wash on the left. Stronger / wider on mobile so the
+             * copy survives over busier crops of the photo. The right
+             * side fades fully so the photo stays the dominant element.
+             */}
+            <div
+              aria-hidden
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(to right," +
+                  " rgba(247,239,229,0.96) 0%," +
+                  " rgba(247,239,229,0.82) 35%," +
+                  " rgba(247,239,229,0.0) 70%)",
+              }}
+            />
+
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full max-w-[78%] px-6 md:max-w-[46%] md:px-14">
+                <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
+                  Personlige mærker til familien
+                </p>
+
+                <h1 className="mt-5 font-editorial italic leading-none text-nooni-headline text-[clamp(64px,9vw,128px)]">
+                  Dots
+                </h1>
+
+                <p className="mt-5 max-w-sm font-editorial text-lg leading-relaxed text-nooni-ink-soft">
+                  Personlige mærker med dit barns navn eller motiv.
+                  Print on demand, hjemme i Danmark.
+                </p>
+
+                <Link
+                  href="/produkter/dots-med-navn-3stk"
+                  className="mt-7 inline-flex items-center gap-2 rounded-full bg-nooni-headline px-7 py-3.5 text-sm text-white transition-colors hover:bg-[#9d6f6f]"
+                >
+                  Design din egen
+                  <span aria-hidden>→</span>
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
