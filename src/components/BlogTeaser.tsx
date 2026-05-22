@@ -66,26 +66,36 @@ export default async function BlogTeaser() {
               */}
               <div
                 className="absolute top-0 bottom-0 left-0 w-full overflow-hidden md:w-[200%]"
-                style={{
-                  borderRadius: "9999px 9999px 0 0",
-                  backgroundColor: "var(--color-nooni-bg-warm)",
-                  backgroundImage: `url(${post.image})`,
-                  backgroundRepeat: "no-repeat",
-                  // Desktop box is 200% of the column; only the left half
-                  // is visible. backgroundSize is a % of that full box
-                  // WIDTH, so 50% ≈ the visible half-arch width — the
-                  // photo spans the visible arch, bag shown whole (zoomed
-                  // out from the old hard crop). Raise the % for a bigger
-                  // bag, lower it for smaller.
-                  backgroundSize: "50% auto",
-                  // The photo is taller than the box, so 0–100% selects
-                  // which vertical slice shows with NO gap. LOWER values
-                  // move the photo DOWN (show a higher slice); 100% sits
-                  // it at the base. Going above 100% lifts it up and
-                  // opens a gap at the bottom — avoid. Tune within 0–100.
-                  backgroundPosition: "left 60%",
-                }}
-              />
+                style={{ borderRadius: "9999px 9999px 0 0" }}
+              >
+                {/*
+                  Inner layer carries the photo and scales on hover. The
+                  outer div clips it (overflow-hidden), so the arch frame
+                  stays still while only the photo zooms — same effect the
+                  old <Image> had before the background-image switch.
+                */}
+                <div
+                  className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-110"
+                  style={{
+                    backgroundColor: "var(--color-nooni-bg-warm)",
+                    backgroundImage: `url(${post.image})`,
+                    backgroundRepeat: "no-repeat",
+                    // Desktop box is 200% of the column; only the left half
+                    // is visible. backgroundSize is a % of that full box
+                    // WIDTH, so 50% ≈ the visible half-arch width — the
+                    // photo spans the visible arch, bag shown whole (zoomed
+                    // out from the old hard crop). Raise the % for a bigger
+                    // bag, lower it for smaller.
+                    backgroundSize: "50% auto",
+                    // The photo is taller than the box, so 0–100% selects
+                    // which vertical slice shows with NO gap. LOWER values
+                    // move the photo DOWN (show a higher slice); 100% sits
+                    // it at the base. Going above 100% lifts it up and
+                    // opens a gap at the bottom — avoid. Tune within 0–100.
+                    backgroundPosition: "left 60%",
+                  }}
+                />
+              </div>
             </Link>
           </div>
         </div>
