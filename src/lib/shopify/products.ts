@@ -8,9 +8,11 @@
 import { shopifyFetch } from "./client";
 import {
   PRODUCT_BY_HANDLE_QUERY,
+  PRODUCT_COLORS_QUERY,
   PRODUCT_SUMMARY_BY_HANDLE_QUERY,
   PRODUCTS_QUERY,
 } from "./queries";
+import type { ColorOption } from "./personalization";
 import type { Money, Product, ShopifyImage } from "./types";
 
 /**
@@ -87,4 +89,109 @@ export async function getAllProducts(
     variables: { first: limit },
   });
   return data.products.nodes;
+}
+
+/* ── Product colours (Shopify taxonomy metafield) ─────────────────── */
+
+interface MetaobjectFieldNode {
+  key: string;
+  value: string | null;
+  type: string;
+  reference: { image?: { url: string; altText: string | null } } | null;
+  references: {
+    nodes: Array<{ image?: { url: string; altText: string | null } }>;
+  } | null;
+}
+
+interface ColorMetaobjectNode {
+  id: string;
+  handle: string;
+  fields: MetaobjectFieldNode[];
+}
+
+const HEX_RE = /#[0-9a-fA-F]{6}/;
+
+/** Pull the first hex string out of a field value (handles list.color JSON). */
+function extractHex(value: string | null): string | undefined {
+  if (!value) return undefined;
+  const match = value.match(HEX_RE);
+  return match ? match[0] : undefined;
+}
+
+/** Find the spool image URL among a metaobject's fields, if any. */
+function extractImageUrl(fields: MetaobjectFieldNode[]): string | undefined {
+  for (const f of fields) {
+    if (f.reference?.image?.url) return f.reference.image.url;
+    const listImg = f.references?.nodes.find((n) => n.image?.url);
+    if (listImg?.image?.url) return listImg.image.url;
+  }
+  return undefined;
+}
+
+/** "warm-rosa" -> "Warm rosa". Last-resort colour name. */
+function prettifyHandle(handle: string): string {
+  return handle.replace(/[-_]/g, " ").replace(/^./, (c) => c.toUpperCase());
+}
+
+/**
+ * Resolve a product's colour palette from its Shopify "Color" taxonomy
+ * metafield, with spool photos when present.
+ *
+ * Deliberately defensive: any failure (missing env, GraphQL error, no
+ * metafield, unexpected field shape) resolves to an empty array rather
+ * than throwing. The caller treats `[]` as "fall back to the hardcoded
+ * palette", so a bad Shopify response never breaks the product page.
+ *
+ * Field handles aren't assumed — we scan each metaobject's fields:
+ *   - the field with a media reference  -> spool photo (imageUrl)
+ *   - a `color`-typed / hex-looking value -> swatch hex
+ *   - a single-line text value (or the handle) -> the colour name
+ */
+export async function getProductColors(handle: string): Promise<ColorOption[]> {
+  try {
+    const data = await shopifyFetch<{
+      product: {
+        metafield: { references: { nodes: ColorMetaobjectNode[] } } | null;
+      } | null;
+    }>({
+      query: PRODUCT_COLORS_QUERY,
+      variables: { handle },
+    });
+
+    const nodes = data.product?.metafield?.references?.nodes ?? [];
+
+    const colors: ColorOption[] = [];
+    for (const node of nodes) {
+      if (!node?.fields) continue;
+
+      const imageUrl = extractImageUrl(node.fields);
+
+      let hex: string | undefined;
+      let label: string | undefined;
+      for (const f of node.fields) {
+        if (!hex && (f.type === "color" || extractHex(f.value))) {
+          hex = extractHex(f.value);
+        }
+        if (
+          !label &&
+          (f.key === "label" || f.type === "single_line_text_field") &&
+          f.value
+        ) {
+          label = f.value;
+        }
+      }
+
+      colors.push({
+        value: node.handle,
+        label: label ?? prettifyHandle(node.handle),
+        hex: hex ?? "#E2D6C8", // neutral line tone if no hex present
+        imageUrl,
+      });
+    }
+
+    return colors;
+  } catch (err) {
+    console.error("[colors] getProductColors failed for", handle, err);
+    return [];
+  }
 }

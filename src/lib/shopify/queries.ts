@@ -210,6 +210,59 @@ export const PRODUCTS_QUERY = /* GraphQL */ `
   }
 `;
 
+/**
+ * Reads a product's Color taxonomy metafield (Shopify standard
+ * taxonomy: namespace "shopify", key "color-pattern") and the
+ * referenced colour metaobjects.
+ *
+ * Every metaobject field is fetched generically (key + value + type +
+ * any media reference) rather than by exact key, because the colour
+ * metaobject's field handles aren't guaranteed — the parser in
+ * products.ts pattern-matches: a media reference = the spool photo, a
+ * `color`-typed (or hex-looking) value = the swatch hex, a text value =
+ * the name. This keeps the query resilient if Camilla's metaobject
+ * definition differs from the standard one.
+ */
+export const PRODUCT_COLORS_QUERY = /* GraphQL */ `
+  query ProductColors($handle: String!) {
+    product(handle: $handle) {
+      metafield(namespace: "shopify", key: "color-pattern") {
+        references(first: 30) {
+          nodes {
+            ... on Metaobject {
+              id
+              handle
+              fields {
+                key
+                value
+                type
+                reference {
+                  ... on MediaImage {
+                    image {
+                      url
+                      altText
+                    }
+                  }
+                }
+                references(first: 1) {
+                  nodes {
+                    ... on MediaImage {
+                      image {
+                        url
+                        altText
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const PRODUCT_BY_HANDLE_QUERY = /* GraphQL */ `
   query ProductByHandle($handle: String!) {
     product(handle: $handle) {

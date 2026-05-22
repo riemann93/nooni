@@ -28,6 +28,13 @@ export interface ColorOption {
   label: string;
   /** Swatch hex. */
   hex: string;
+  /**
+   * Optional closeup photo of the filament spool. When present the
+   * swatch renders this image instead of a flat hex circle. Populated
+   * from Shopify (see getProductColors); the hardcoded NOONI_COLORS
+   * fallback below leaves it undefined so those render as hex circles.
+   */
+  imageUrl?: string;
 }
 
 /**
@@ -290,6 +297,43 @@ export function getSchemaForHandle(
   handle: string,
 ): PersonalizationSchema | null {
   return PERSONALIZATION_SCHEMAS[handle] ?? null;
+}
+
+/**
+ * Returns a copy of `schema` with every colour field's `options`
+ * replaced by `colors` (recursing into `choice` sub-fields). Used to
+ * inject the Shopify-sourced palette (with spool photos) into the
+ * code-defined schema at request time.
+ *
+ * If `colors` is empty — e.g. the Shopify lookup failed or the product
+ * has no colour metafield — the schema is returned untouched, so colour
+ * fields fall back to the hardcoded NOONI_COLORS and the page keeps
+ * working. This is the safety net that keeps a bad/empty Shopify
+ * response from breaking the product page.
+ */
+export function withColorOptions(
+  schema: PersonalizationSchema,
+  colors: readonly ColorOption[],
+): PersonalizationSchema {
+  if (colors.length === 0) return schema;
+
+  function mapField(field: FieldDef): FieldDef {
+    if (field.type === "color") {
+      return { ...field, options: colors };
+    }
+    if (field.type === "choice") {
+      return {
+        ...field,
+        options: field.options.map((o) => ({
+          ...o,
+          fields: o.fields.map(mapField),
+        })),
+      };
+    }
+    return field;
+  }
+
+  return { fields: schema.fields.map(mapField) };
 }
 
 /* ── Validation + serialization ───────────────────────────────────── */

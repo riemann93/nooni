@@ -25,8 +25,30 @@ import ProductPreview, {
 } from "@/components/personalization/ProductPreview";
 import {
   toLineItemAttributes,
+  type ColorOption,
+  type FieldDef,
   type PersonalizationSchema,
 } from "@/lib/shopify/personalization";
+
+/** Pull the colour palette out of a schema (first colour field's options). */
+function paletteFromSchema(
+  schema: PersonalizationSchema | null,
+): readonly ColorOption[] | undefined {
+  if (!schema) return undefined;
+  function find(fields: readonly FieldDef[]): readonly ColorOption[] | undefined {
+    for (const f of fields) {
+      if (f.type === "color" && f.options) return f.options;
+      if (f.type === "choice") {
+        for (const o of f.options) {
+          const hit = find(o.fields);
+          if (hit) return hit;
+        }
+      }
+    }
+    return undefined;
+  }
+  return find(schema.fields);
+}
 
 interface ProductPurchaseSectionProps {
   /** Shopify product handle — used to gate the live preview. */
@@ -62,12 +84,13 @@ export default function ProductPurchaseSection({
   );
 
   const showPreview = schema !== null && PREVIEW_SUPPORTED_HANDLES.has(handle);
+  const palette = paletteFromSchema(schema);
 
   return (
     <>
       {showPreview && (
         <div className="mt-10 border-t border-nooni-line-soft pt-8">
-          <ProductPreview values={values} />
+          <ProductPreview values={values} colors={palette} />
         </div>
       )}
 

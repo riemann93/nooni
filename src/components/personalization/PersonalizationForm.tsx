@@ -12,6 +12,7 @@
 
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import {
   NOONI_COLORS,
@@ -141,13 +142,23 @@ function ColorField({ field, value, onChange }: ColorFieldProps) {
               aria-label={opt.label}
               title={opt.label}
               onClick={() => onChange(opt.value)}
-              className={`relative h-10 w-10 rounded-full transition-transform hover:scale-105 ${
+              className={`relative h-12 w-12 overflow-hidden rounded-xl transition-transform hover:scale-105 ${
                 selected
                   ? "ring-2 ring-nooni-headline ring-offset-2 ring-offset-nooni-bg"
                   : "ring-1 ring-nooni-line-soft"
               }`}
-              style={{ backgroundColor: opt.hex }}
-            />
+              style={opt.imageUrl ? undefined : { backgroundColor: opt.hex }}
+            >
+              {opt.imageUrl && (
+                <Image
+                  src={opt.imageUrl}
+                  alt=""
+                  fill
+                  sizes="48px"
+                  className="object-cover"
+                />
+              )}
+            </button>
           );
         })}
       </div>

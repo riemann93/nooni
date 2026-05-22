@@ -22,8 +22,11 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import ProductGallery from "@/components/ProductGallery";
 import ProductPurchaseSection from "@/components/personalization/ProductPurchaseSection";
-import { getSchemaForHandle } from "@/lib/shopify/personalization";
-import { getProductByHandle } from "@/lib/shopify/products";
+import {
+  getSchemaForHandle,
+  withColorOptions,
+} from "@/lib/shopify/personalization";
+import { getProductByHandle, getProductColors } from "@/lib/shopify/products";
 
 // Re-fetch the underlying Shopify data at most every 60 seconds.
 export const revalidate = 60;
@@ -57,13 +60,23 @@ function formatPrice(amount: string, currencyCode: string): string {
 
 export default async function ProductPage({ params }: PageProps) {
   const { handle } = await params;
-  const product = await getProductByHandle(handle);
+  // Colour lookup runs in parallel; it self-recovers to [] on any
+  // failure, so it can't block or break the page.
+  const [product, colors] = await Promise.all([
+    getProductByHandle(handle),
+    getProductColors(handle),
+  ]);
 
   if (!product) {
     notFound();
   }
 
-  const schema = getSchemaForHandle(handle);
+  // Inject the Shopify palette (with spool photos) into the schema's
+  // colour fields. Empty `colors` leaves the schema on the hardcoded
+  // NOONI_COLORS fallback.
+  const baseSchema = getSchemaForHandle(handle);
+  const schema = baseSchema ? withColorOptions(baseSchema, colors) : null;
+
   const minPrice = product.priceRange.minVariantPrice;
   const maxPrice = product.priceRange.maxVariantPrice;
   const priceLabel =

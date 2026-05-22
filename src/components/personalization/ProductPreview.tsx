@@ -18,7 +18,10 @@
 
 "use client";
 
-import { NOONI_COLORS } from "@/lib/shopify/personalization";
+import {
+  NOONI_COLORS,
+  type ColorOption,
+} from "@/lib/shopify/personalization";
 import MotifRenderer, { hasMotifRenderer } from "./motifs";
 
 /** Handles that should render a preview. Extend as more product types get one. */
@@ -31,11 +34,22 @@ const NEUTRAL_SECONDARY_HEX = "#B48383"; // matches --color-nooni-headline
 
 interface ProductPreviewProps {
   values: Record<string, string>;
+  /**
+   * Active palette — the colour options actually rendered in the form.
+   * Defaults to NOONI_COLORS. When colours come from Shopify the form
+   * stores the metaobject handle as the value, so the preview must
+   * resolve hex against the same palette, not the hardcoded one.
+   */
+  colors?: readonly ColorOption[];
 }
 
-export default function ProductPreview({ values }: ProductPreviewProps) {
-  const mainHex = resolveColor(values.main_color, NEUTRAL_MAIN_HEX);
+export default function ProductPreview({
+  values,
+  colors = NOONI_COLORS,
+}: ProductPreviewProps) {
+  const mainHex = resolveColor(colors, values.main_color, NEUTRAL_MAIN_HEX);
   const secondaryHex = resolveColor(
+    colors,
     values.secondary_color,
     NEUTRAL_SECONDARY_HEX,
   );
@@ -70,8 +84,12 @@ export default function ProductPreview({ values }: ProductPreviewProps) {
   );
 }
 
-/** Look up a Nooni palette swatch by its internal value, falling back to a neutral hex. */
-function resolveColor(value: string | undefined, fallback: string): string {
+/** Look up a palette swatch by its value, falling back to a neutral hex. */
+function resolveColor(
+  palette: readonly ColorOption[],
+  value: string | undefined,
+  fallback: string,
+): string {
   if (!value) return fallback;
-  return NOONI_COLORS.find((c) => c.value === value)?.hex ?? fallback;
+  return palette.find((c) => c.value === value)?.hex ?? fallback;
 }
