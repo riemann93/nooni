@@ -24,8 +24,15 @@ import {
 } from "@/lib/shopify/personalization";
 import MotifRenderer, { hasMotifRenderer } from "./motifs";
 
-/** Handles that should render a preview. Extend as more product types get one. */
-export const PREVIEW_SUPPORTED_HANDLES = new Set<string>(["dots-5stk"]);
+/**
+ * Handles that should render a preview.
+ *
+ * Empty for launch — the live "Forhåndsvisning" was deemed
+ * non-launch-critical and switched off. The component and its
+ * threading are kept intact; re-add a handle here (e.g. "dots-5stk")
+ * to bring the preview back.
+ */
+export const PREVIEW_SUPPORTED_HANDLES = new Set<string>();
 
 /** Pale fallback used until the customer picks the main colour. */
 const NEUTRAL_MAIN_HEX = "#EFE6D8"; // matches --color-nooni-line-soft
