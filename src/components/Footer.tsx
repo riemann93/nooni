@@ -74,7 +74,7 @@ export default function Footer() {
           </div>
 
           <div className="mt-8 space-y-1 text-xs tracking-[0.12em] text-nooni-ink-soft/70">
-            <p>Nooni · Storegade 47, Borris · 6900 Skjern</p>
+            <p>Nooni v/Camilla Riemann Sinnbeck · Storegade 47, Borris · 6900 Skjern</p>
             <p>© {new Date().getFullYear()} Nooni — lavet med kærlighed i Danmark</p>
           </div>
         </div>

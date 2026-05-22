@@ -12,11 +12,14 @@
  *     `currentColor` so we drive the colour via CSS `color`.
  *
  * Input convention:
- *   - One SVG per motif. Filenames lowercased and slugged become the
- *     motif key (e.g. "Kirsebær.svg" -> key "kirsebaer").
+ *   - One SVG per motif. The filename (minus ".svg" and any trailing
+ *     " F" variant marker) is used VERBATIM as the motif key AND the
+ *     label shown on the website — no slugifying, no translation, so
+ *     "Kirsebær.svg" shows as "Kirsebær". Name the file exactly how it
+ *     should appear in the picker.
  *   - A trailing " F" in the filename marks a "Filled" variant of the
  *     same motif (e.g. "cherry.svg" + "cherry F.svg" both group under
- *     key "cherry"; we prefer F when both exist — filled icons read
+ *     "cherry"; we prefer F when both exist — filled icons read
  *     better at small dot sizes).
  *
  * Output:
@@ -54,21 +57,8 @@ const RENDER_BOX = 100; // matches <ProductPreview /> viewBox
 function parseFilename(filename) {
   const name = filename.replace(/\.svg$/i, "");
   const filledMatch = name.match(/^(.*)\s+F$/i);
-  if (filledMatch) return { baseName: filledMatch[1], isFilled: true };
-  return { baseName: name, isFilled: false };
-}
-
-/** "Kirsebær" -> "kirsebaer". Lowercase, transliterate, slug. */
-function slugify(name) {
-  return name
-    .replace(/æ/gi, "ae")
-    .replace(/ø/gi, "oe")
-    .replace(/å/gi, "aa")
-    .normalize("NFKD")
-    .replace(/[̀-ͯ]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
+  if (filledMatch) return { baseName: filledMatch[1].trim(), isFilled: true };
+  return { baseName: name.trim(), isFilled: false };
 }
 
 /** Strip Inkscape/Sodipodi noise from SVG markup. */
@@ -145,22 +135,27 @@ function main() {
     process.exit(1);
   }
 
-  // Group files by slugified base name; prefer the F (filled) variant.
+  // Group files by their verbatim base name; prefer the F (filled)
+  // variant. The base name is the key AND the displayed label — no
+  // transformation, so the picker shows the filename exactly.
   /** @type {Map<string, { filename: string; isFilled: boolean }>} */
   const chosen = new Map();
   for (const filename of files) {
     const { baseName, isFilled } = parseFilename(filename);
-    const key = slugify(baseName);
-    if (!key) continue;
-    const existing = chosen.get(key);
+    if (!baseName) continue;
+    const existing = chosen.get(baseName);
     if (!existing || (isFilled && !existing.isFilled)) {
-      chosen.set(key, { filename, isFilled });
+      chosen.set(baseName, { filename, isFilled });
     }
   }
 
-  // Process each chosen file into { inner, transform }.
+  // Process each chosen file into { inner, transform }, sorted with
+  // Danish collation so æ/ø/å land where a Danish reader expects.
   const entries = [];
-  for (const [key, { filename }] of [...chosen.entries()].sort()) {
+  const sorted = [...chosen.entries()].sort((a, b) =>
+    a[0].localeCompare(b[0], "da"),
+  );
+  for (const [key, { filename }] of sorted) {
     const svgText = readFileSync(join(INPUT_DIR, filename), "utf8");
     const viewBox = extractViewBox(svgText);
     let inner = extractInner(svgText);
