@@ -44,7 +44,10 @@ export default function Hero() {
               fill
               priority
               sizes="(min-width: 1280px) 1232px, 100vw"
-              className="object-cover"
+              // Mirrored horizontally so the in-focus subject sits on the
+              // left, where the cream wash + copy veil it — keeping the
+              // headline legible over the quieter side of the frame.
+              className="object-cover -scale-x-100"
             />
 
             {/*
