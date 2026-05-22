@@ -78,10 +78,11 @@ export default async function BlogTeaser() {
                   // out from the old hard crop). Raise the % for a bigger
                   // bag, lower it for smaller.
                   backgroundSize: "50% auto",
-                  // Anchored bottom-left: bag sits at the base of the arch,
-                  // cream only above it under the curve. Nudge the first
-                  // value right (e.g. "8%") to inset the bag from the edge.
-                  backgroundPosition: "left bottom",
+                  // Vertical > 100% pushes the photo below the arch base
+                  // (moves it down, cropping a sliver off the bottom).
+                  // Raise toward 150% to move further down, back to
+                  // "bottom"/100% to sit flush at the base.
+                  backgroundPosition: "left 125%",
                 }}
               />
             </Link>
