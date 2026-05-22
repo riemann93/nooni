@@ -83,7 +83,7 @@ export default async function BlogTeaser() {
                   // move the photo DOWN (show a higher slice); 100% sits
                   // it at the base. Going above 100% lifts it up and
                   // opens a gap at the bottom — avoid. Tune within 0–100.
-                  backgroundPosition: "left 80%",
+                  backgroundPosition: "left 60%",
                 }}
               />
             </Link>
