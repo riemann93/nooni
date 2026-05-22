@@ -71,8 +71,17 @@ export default async function BlogTeaser() {
                   backgroundColor: "var(--color-nooni-bg-warm)",
                   backgroundImage: `url(${post.image})`,
                   backgroundRepeat: "no-repeat",
-                  backgroundSize: "auto 62%",
-                  backgroundPosition: "26% center",
+                  // Desktop box is 200% of the column; only the left half
+                  // is visible. backgroundSize is a % of that full box
+                  // WIDTH, so 50% ≈ the visible half-arch width — the
+                  // photo spans the visible arch, bag shown whole (zoomed
+                  // out from the old hard crop). Raise the % for a bigger
+                  // bag, lower it for smaller.
+                  backgroundSize: "50% auto",
+                  // Anchored bottom-left: bag sits at the base of the arch,
+                  // cream only above it under the curve. Nudge the first
+                  // value right (e.g. "8%") to inset the bag from the edge.
+                  backgroundPosition: "left bottom",
                 }}
               />
             </Link>
