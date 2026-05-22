@@ -78,11 +78,12 @@ export default async function BlogTeaser() {
                   // out from the old hard crop). Raise the % for a bigger
                   // bag, lower it for smaller.
                   backgroundSize: "50% auto",
-                  // Vertical > 100% pushes the photo below the arch base
-                  // (moves it down, cropping a sliver off the bottom).
-                  // Raise toward 150% to move further down, back to
-                  // "bottom"/100% to sit flush at the base.
-                  backgroundPosition: "left 125%",
+                  // The photo is taller than the box, so 0–100% selects
+                  // which vertical slice shows with NO gap. LOWER values
+                  // move the photo DOWN (show a higher slice); 100% sits
+                  // it at the base. Going above 100% lifts it up and
+                  // opens a gap at the bottom — avoid. Tune within 0–100.
+                  backgroundPosition: "left 80%",
                 }}
               />
             </Link>
