@@ -29,7 +29,7 @@ interface ProductDescriptionProps {
   className?: string;
 }
 
-const COLLAPSED_HEIGHT_PX = 400;
+const COLLAPSED_HEIGHT_PX = 300;
 
 export default function ProductDescription({
   html,
