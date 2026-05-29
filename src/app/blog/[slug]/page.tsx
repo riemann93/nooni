@@ -27,11 +27,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <p className="mt-10 text-xs uppercase tracking-[0.18em] text-nooni-sub">
         {post.date}
       </p>
-      <h1 className="mt-3 mb-10 font-editorial text-[clamp(32px,4vw,52px)] leading-[1.1] text-nooni-ink">
+      <h1
+        className="mt-3 mb-10 font-editorial text-[clamp(32px,4vw,52px)] leading-[1.15] text-nooni-ink"
+        style={{ textWrap: "balance" }}
+      >
         {renderTitle(post.title)}
       </h1>
 
-      <div className="font-editorial text-xl leading-relaxed text-nooni-ink-soft">
+      <div className="font-editorial text-xl leading-[1.7] text-nooni-ink-soft">
         {/*
           On mobile: image renders full-width before the body.
           On desktop: image floats right and the article text wraps
@@ -73,7 +76,8 @@ function renderTitle(title: string): ReactNode {
   const [, main, paren] = match;
   return (
     <>
-      {main}{" "}
+      {main}
+      <br />
       <em className="italic text-nooni-headline">{paren}</em>
     </>
   );
@@ -96,7 +100,7 @@ function renderBlock(block: string, key: number): ReactNode {
     return (
       <h3
         key={key}
-        className="mt-12 mb-4 first:mt-0 font-editorial text-2xl text-nooni-ink"
+        className="mt-10 mb-3 first:mt-0 font-editorial text-2xl leading-snug text-nooni-ink"
       >
         {renderInline(block.slice(4))}
       </h3>
@@ -106,9 +110,11 @@ function renderBlock(block: string, key: number): ReactNode {
   const lines = block.split(/\r?\n/);
   if (lines.length > 0 && lines.every((l) => /^\d+\.\s/.test(l))) {
     return (
-      <ol key={key} className="my-6 ml-6 list-decimal space-y-3">
+      <ol key={key} className="my-6 ml-6 list-decimal space-y-2">
         {lines.map((line, i) => (
-          <li key={i}>{renderInline(line.replace(/^\d+\.\s/, ""))}</li>
+          <li key={i} className="pl-1">
+            {renderInline(line.replace(/^\d+\.\s/, ""))}
+          </li>
         ))}
       </ol>
     );
