@@ -85,9 +85,9 @@ heading and one sentence of body.
 
 Current steps:
 
-1. **Du designer selv** — vælg farver, motiv eller navn live på produktsiden
-2. **Vi printer hjemme** — 3D-printet hos os i Danmark, kun det du har bestilt
-3. **Holder til hverdagen** — mærkerne tåler vask, kulde og børneliv
+1. **Skab dit design** — vælg farver, symbol eller navn
+2. **Jeg printer hjemme** — alle varer printes hjemme på kontoret i Borris
+3. **Varen bliver leveret til dig** — pakkes og sendes så snart de er produceret færdige
 
 Step 3 used to claim a "2–4 dages levering med PostNord" delivery
 window. Both halves of that were dropped: delivery time is out of

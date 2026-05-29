@@ -5,15 +5,6 @@
  * pill container (matching the Blog teaser and Story sections) on the
  * regular page background, so the strip reads as its own beat rather
  * than another full-width band of warm tone.
- *
- * Step 3 used to describe delivery times and the carrier — both
- * dropped, the first because delivery is out of our hands and the
- * second because the carrier is incidental. Replaced with a
- * durability claim, which is the actual unique value of 3D-printed
- * thermoplastic mærker vs traditional sticker labels.
- *
- * The earlier "01 / 02 / 03" numbering dropped the leading zero —
- * keeps the section visually lighter alongside the slimmer prose.
  */
 
 interface Step {
@@ -25,21 +16,19 @@ interface Step {
 const STEPS: Step[] = [
   {
     num: "1",
-    title: "Du designer selv",
-    body:
-      "Vælg farver, motiv eller navn — du ser ændringen live, mens du klikker.",
+    title: "Skab dit design",
+    body: "Vælg farver, symbol eller navn.",
   },
   {
     num: "2",
-    title: "Vi printer hjemme",
-    body:
-      "Hver ordre 3D-printes hos os i Danmark, kun det du har bestilt.",
+    title: "Jeg printer hjemme",
+    body: "Jeg printer alle varer hjemme på mit kontor i Borris.",
   },
   {
     num: "3",
-    title: "Holder til hverdagen",
+    title: "Varen bliver leveret til dig",
     body:
-      "Mærkerne tåler vask, kulde og børneliv — uden at falme.",
+      "Jeg pakker og sender dine varer til dig, så snart de er produceret færdige.",
   },
 ];
 
