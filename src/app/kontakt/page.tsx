@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function KontaktPage() {
   return (
     <section
-      className="bg-nooni-bg py-24 md:py-32"
+      className="bg-nooni-bg py-[45px]"
       data-screen-label="Kontakt"
     >
       <div className="mx-auto max-w-[640px] px-6 md:px-10">
