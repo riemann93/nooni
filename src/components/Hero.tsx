@@ -73,7 +73,7 @@ export default function Hero() {
                   Personlige mærker til dit tøj
                 </p>
 
-                <h1 className="mt-5 font-editorial italic leading-none text-nooni-headline text-[clamp(64px,9vw,128px)]">
+                <h1 className="mt-5 font-editorial italic leading-none text-nooni-headline text-[clamp(96px,14vw,200px)]">
                   Dots
                 </h1>
 
