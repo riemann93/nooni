@@ -20,7 +20,7 @@ export default function StorySection() {
   return (
     <section
       id="historie"
-      className="relative z-[1] bg-nooni-bg py-16 md:py-24"
+      className="relative z-[1] bg-nooni-bg py-[45px]"
       data-screen-label="04 Story"
     >
       <div className="mx-auto max-w-[1280px] px-6 md:px-10">

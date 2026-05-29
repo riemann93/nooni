@@ -6,7 +6,7 @@ export default async function BlogTeaser() {
   if (!post) return null;
 
   return (
-    <section id="blog" className="relative z-[1] bg-nooni-bg py-24" data-screen-label="05 Blog">
+    <section id="blog" className="relative z-[1] bg-nooni-bg py-[45px]" data-screen-label="05 Blog">
       <div className="mx-auto max-w-[1280px] px-6 md:px-10">
         <span className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub">
           Fra bloggen

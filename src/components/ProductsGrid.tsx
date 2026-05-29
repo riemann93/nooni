@@ -38,7 +38,7 @@ export default async function ProductsGrid() {
   return (
     <section
       id="produkter"
-      className="bg-nooni-bg py-24 md:py-32"
+      className="bg-nooni-bg py-[45px]"
       data-screen-label="03 Products"
     >
       <div className="mx-auto max-w-[1280px] px-6 md:px-10">
