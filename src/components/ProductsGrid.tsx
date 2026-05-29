@@ -48,8 +48,8 @@ export default async function ProductsGrid() {
               Mest populære
             </p>
             <h2 className="mt-4 font-editorial text-[clamp(32px,4vw,52px)] leading-[1.1] tracking-tight text-nooni-ink">
-              Meget mere end{" "}
-              <em className="italic text-nooni-headline">personlige mærker.</em>
+              Mere end{" "}
+              <em className="italic text-nooni-headline">personlige mærker</em>
             </h2>
           </div>
 
