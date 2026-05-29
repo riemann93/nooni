@@ -28,7 +28,7 @@ export default async function ProductsListingPage() {
 
   return (
     <section
-      className="bg-nooni-bg py-24 md:py-32"
+      className="bg-nooni-bg py-[45px]"
       data-screen-label="Produkter"
     >
       <div className="mx-auto max-w-[1280px] px-6 md:px-10">
