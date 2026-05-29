@@ -31,7 +31,10 @@ export default function OmOs() {
                 <span className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub">
                   Min historie
                 </span>
-                <h1 className="mt-5 font-editorial !font-light text-[clamp(56px,8vw,112px)] leading-[1.02] tracking-tight text-nooni-ink">
+                <h1
+                  className="mt-5 font-editorial text-[clamp(56px,8vw,112px)] leading-[1.02] tracking-tight text-nooni-ink"
+                  style={{ fontWeight: 100 }}
+                >
                   Mød{" "}
                   <em className="italic text-nooni-headline">Camilla</em>
                 </h1>

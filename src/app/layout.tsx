@@ -38,7 +38,10 @@ const fredoka = Fredoka({
 const inter = Inter({
   variable: "--font-inter-var",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  // No weight array → loads the Inter variable font, so any weight
+  // between 100–900 (including non-standard values like 150) renders
+  // smoothly. Tailwind weight utilities still work; arbitrary values
+  // like font-[150] / inline fontWeight also work.
   style: ["normal", "italic"],
 });
 
