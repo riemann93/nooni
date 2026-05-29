@@ -21,24 +21,12 @@
   /* Arch stroke colour */
   --color-nooni-arch:      #C9B8A4;
 
-  /* Fonts */
+  /* Fonts — Fredoka stays for the Nooni wordmark, Inter for everything
+     else (body, headings, eyebrows). One sans across the site keeps the
+     hierarchy clean while the warm palette carries the personality. */
   --font-display: var(--font-fredoka-var), system-ui, sans-serif;
-  --font-sans: var(--font-opensans-var), system-ui, sans-serif;
-
-  /* Editorial serif — currently Cormorant Garamond as a Filena stand-in.
-     When Filena licence lands, change to:
-       --font-editorial: "Filena", "Cormorant Garamond", "Georgia", serif;
-     and drop Cormorant from the Google Fonts import in layout.tsx. */
-  --font-editorial: var(--font-cormorant-var), "Georgia", serif;
-}
-
-/* Place Filena.woff2 in /public/fonts/ to activate (currently inactive). */
-@font-face {
-  font-family: "Filena";
-  src: url("/fonts/Filena.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+  --font-sans: var(--font-inter-var), system-ui, sans-serif;
+  --font-editorial: var(--font-inter-var), system-ui, sans-serif;
 }
 
 body {
