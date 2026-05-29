@@ -52,7 +52,7 @@ export default function OmOs() {
               </div>
             </div>
 
-            <div className="mt-12 font-editorial text-[19px] leading-[1.65] text-nooni-ink-soft space-y-5 md:mt-16">
+            <div className="mt-12 font-editorial text-[19px] leading-[1.65] text-nooni-ink-soft space-y-5 text-justify hyphens-auto md:mt-16">
               <p>
                 Nooni er en lille dansk virksomhed, der er beliggende i Borris
                 i Vestjylland.
