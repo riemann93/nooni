@@ -30,13 +30,22 @@ export default async function BlogTeaser() {
               <p className="mb-9 max-w-[440px] font-editorial text-lg leading-relaxed text-nooni-ink-soft">
                 {post.excerpt}
               </p>
-              <Link
-                href={`/blog/${post.slug}`}
-                className="self-start inline-flex items-center gap-2 rounded-full border border-nooni-sub px-6 py-2.5 text-sm text-nooni-sub transition-colors hover:bg-nooni-sub hover:text-white"
-              >
-                Læs mere
-                <span aria-hidden>→</span>
-              </Link>
+              <div className="flex flex-wrap items-center gap-3">
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="inline-flex items-center gap-2 rounded-full border border-nooni-sub px-6 py-2.5 text-sm text-nooni-sub transition-colors hover:bg-nooni-sub hover:text-white"
+                >
+                  Læs mere
+                  <span aria-hidden>→</span>
+                </Link>
+                <Link
+                  href="/blog"
+                  className="inline-flex items-center gap-2 text-sm text-nooni-ink-soft transition-colors hover:text-nooni-headline"
+                >
+                  Se alle indlæg
+                  <span aria-hidden>→</span>
+                </Link>
+              </div>
             </div>
 
             {/* Half-arch image column — clicking links to the post */}
