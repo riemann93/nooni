@@ -50,7 +50,7 @@ below.
   so) of the photo with `--color-nooni-bg-warm` so the headline copy
   stays legible
 - Left-aligned content stack inside the frame:
-  - Eyebrow: "Personlige mærker til familien"
+  - Eyebrow: "Personlige mærker til dit tøj"
   - Headline: **Dots** (oversized italic editorial serif)
   - Short product description
   - Primary CTA: **Design din egen** → `/produkter/dots-med-navn-3stk`

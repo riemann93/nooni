@@ -70,7 +70,7 @@ export default function Hero() {
             <div className="absolute inset-0 flex items-center">
               <div className="w-full max-w-[78%] px-6 md:max-w-[46%] md:px-14">
                 <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
-                  Personlige mærker til familien
+                  Personlige mærker til dit tøj
                 </p>
 
                 <h1 className="mt-5 font-editorial italic leading-none text-nooni-headline text-[clamp(64px,9vw,128px)]">
