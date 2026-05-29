@@ -210,7 +210,7 @@ interface ColorTooltipProps {
  * quadrant. The fixed positioning + translate(-100% on Y) shifts the
  * box up by its own height so the bottom edge lands on the anchor.
  */
-const TOOLTIP_IMAGE_PX = 50;
+const TOOLTIP_IMAGE_PX = 100;
 
 function ColorTooltip({ option, x, y }: ColorTooltipProps) {
   return (
