@@ -124,6 +124,21 @@ interface ColorFieldProps {
 
 function ColorField({ field, value, onChange }: ColorFieldProps) {
   const options: readonly ColorOption[] = field.options ?? NOONI_COLORS;
+  const [tooltip, setTooltip] = useState<{
+    opt: ColorOption;
+    x: number;
+    y: number;
+  } | null>(null);
+
+  function showAtCursor(opt: ColorOption, e: React.MouseEvent) {
+    setTooltip({ opt, x: e.clientX, y: e.clientY });
+  }
+  function showAtButton(opt: ColorOption, el: HTMLElement) {
+    const rect = el.getBoundingClientRect();
+    // Anchor near the centre of the focused button when there's no
+    // cursor (keyboard navigation).
+    setTooltip({ opt, x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
+  }
 
   return (
     <div>
@@ -140,8 +155,12 @@ function ColorField({ field, value, onChange }: ColorFieldProps) {
               role="radio"
               aria-checked={selected}
               aria-label={opt.label}
-              title={opt.label}
               onClick={() => onChange(opt.value)}
+              onMouseEnter={(e) => showAtCursor(opt, e)}
+              onMouseMove={(e) => showAtCursor(opt, e)}
+              onMouseLeave={() => setTooltip(null)}
+              onFocus={(e) => showAtButton(opt, e.currentTarget)}
+              onBlur={() => setTooltip(null)}
               className={`relative h-12 w-12 overflow-hidden rounded-xl transition-transform hover:scale-105 ${
                 selected
                   ? "ring-2 ring-nooni-headline ring-offset-2 ring-offset-nooni-bg"
@@ -167,6 +186,62 @@ function ColorField({ field, value, onChange }: ColorFieldProps) {
           {options.find((o) => o.value === value)?.label}
         </p>
       )}
+
+      {tooltip && <ColorTooltip option={tooltip.opt} x={tooltip.x} y={tooltip.y} />}
+    </div>
+  );
+}
+
+/* ── Hover/focus preview tooltip ───────────────────────────────────── */
+
+interface ColorTooltipProps {
+  option: ColorOption;
+  x: number;
+  y: number;
+}
+
+/**
+ * Floating preview shown while a swatch is hovered or focused.
+ *
+ * Layout: 50×50 px image of the colour with the colour name below.
+ * Anchored so the tooltip's bottom-left corner sits just above-right
+ * of the cursor (or the centre of the focused button when there's no
+ * cursor) — i.e. the preview lives in the cursor's upper-right
+ * quadrant. The fixed positioning + translate(-100% on Y) shifts the
+ * box up by its own height so the bottom edge lands on the anchor.
+ */
+const TOOLTIP_IMAGE_PX = 50;
+
+function ColorTooltip({ option, x, y }: ColorTooltipProps) {
+  return (
+    <div
+      className="pointer-events-none fixed z-50 flex flex-col items-center"
+      style={{
+        left: x + 10,
+        top: y - 10,
+        transform: "translateY(-100%)",
+      }}
+    >
+      <div
+        className="overflow-hidden rounded-lg shadow-[0_8px_18px_-6px_rgba(61,50,40,0.25)] ring-1 ring-nooni-line-soft"
+        style={{ width: TOOLTIP_IMAGE_PX, height: TOOLTIP_IMAGE_PX }}
+      >
+        {option.imageUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={option.imageUrl}
+            alt=""
+            width={TOOLTIP_IMAGE_PX}
+            height={TOOLTIP_IMAGE_PX}
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <div className="h-full w-full" style={{ backgroundColor: option.hex }} />
+        )}
+      </div>
+      <span className="mt-1.5 rounded-md bg-white px-2 py-0.5 text-xs text-nooni-ink shadow-[0_4px_10px_-4px_rgba(61,50,40,0.2)] ring-1 ring-nooni-line-soft">
+        {option.label}
+      </span>
     </div>
   );
 }
