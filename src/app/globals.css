@@ -21,12 +21,15 @@
   /* Arch stroke colour */
   --color-nooni-arch:      #C9B8A4;
 
-  /* Fonts — Fredoka stays for the Nooni wordmark, Inter for everything
-     else (body, headings, eyebrows). One sans across the site keeps the
-     hierarchy clean while the warm palette carries the personality. */
+  /* Fonts — Fredoka for the Nooni wordmark, Inter for body/eyebrows/
+     headings, and Instrument Serif as a small editorial accent on
+     italic-coloured emphasis words (see .italic.text-nooni-headline
+     rule below). One sans does the heavy lifting; the serif appears
+     only on the brand-coloured italic highlights. */
   --font-display: var(--font-fredoka-var), system-ui, sans-serif;
   --font-sans: var(--font-inter-var), system-ui, sans-serif;
   --font-editorial: var(--font-inter-var), system-ui, sans-serif;
+  --font-editorial-accent: var(--font-instrument-serif-var), "Georgia", serif;
 }
 
 body {
@@ -51,4 +54,13 @@ body {
 
 .font-editorial {
   font-family: var(--font-editorial);
+}
+
+/* Brand emphasis: italic + warm headline colour. Anywhere this pair
+   appears (h1 hero, h2 accent words, product titles, drawer headers),
+   render the small editorial serif instead of Inter italic — adds a bit
+   of typographic flourish without bringing back a serif everywhere. */
+.italic.text-nooni-headline {
+  font-family: var(--font-editorial-accent);
+  font-style: italic;
 }

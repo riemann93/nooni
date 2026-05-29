@@ -21,7 +21,7 @@
  */
 
 import type { Metadata } from "next";
-import { Fredoka, Inter } from "next/font/google";
+import { Fredoka, Instrument_Serif, Inter } from "next/font/google";
 import CartDrawer from "@/components/CartDrawer";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
@@ -39,6 +39,13 @@ const inter = Inter({
   variable: "--font-inter-var",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+});
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif-var",
+  subsets: ["latin"],
+  weight: ["400"],
   style: ["normal", "italic"],
 });
 
@@ -64,7 +71,7 @@ export default function RootLayout({
   return (
     <html
       lang="da"
-      className={`${fredoka.variable} ${inter.variable} antialiased`}
+      className={`${fredoka.variable} ${inter.variable} ${instrumentSerif.variable} antialiased`}
     >
       <body className="min-h-screen flex flex-col bg-nooni-bg text-nooni-ink font-sans">
         <CartProvider>
