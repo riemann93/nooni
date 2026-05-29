@@ -21,7 +21,7 @@
  */
 
 import type { Metadata } from "next";
-import { Fraunces, Fredoka, Inter } from "next/font/google";
+import { Cormorant_Garamond, Fredoka, Inter } from "next/font/google";
 import CartDrawer from "@/components/CartDrawer";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
@@ -38,14 +38,14 @@ const fredoka = Fredoka({
 const inter = Inter({
   variable: "--font-inter-var",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
   style: ["normal", "italic"],
 });
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces-var",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant-var",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400"],
   style: ["normal", "italic"],
 });
 
@@ -71,7 +71,7 @@ export default function RootLayout({
   return (
     <html
       lang="da"
-      className={`${fredoka.variable} ${inter.variable} ${fraunces.variable} antialiased`}
+      className={`${fredoka.variable} ${inter.variable} ${cormorant.variable} antialiased`}
     >
       <body className="min-h-screen flex flex-col bg-nooni-bg text-nooni-ink font-sans">
         <CartProvider>
