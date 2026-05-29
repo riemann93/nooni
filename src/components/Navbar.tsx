@@ -35,6 +35,12 @@ export default function Navbar() {
               Min historie
             </Link>
             <Link
+              href="/blog"
+              className="transition-colors hover:text-nooni-headline"
+            >
+              Blog
+            </Link>
+            <Link
               href="/kontakt"
               className="transition-colors hover:text-nooni-headline"
             >
