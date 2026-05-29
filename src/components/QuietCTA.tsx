@@ -10,7 +10,7 @@ import Link from "next/link";
 export default function QuietCTA() {
   return (
     <section
-      className="relative z-[1] py-32 text-center"
+      className="relative z-[1] py-[45px] text-center"
       data-screen-label="03 CTA"
     >
       <div className="mx-auto max-w-[1280px] px-10">

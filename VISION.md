@@ -97,11 +97,11 @@ All colors should feel like they belong together in a sun-lit Danish home in Oct
 
 | Role | Font | Notes |
 |---|---|---|
-| Logo / brand mark | Fredoka | Rounded, friendly — use sparingly |
-| Body / editorial | Filena | Gives the brand its distinct, soft character |
-| UI / supporting text | Open Sans | Legible at small sizes, neutral complement |
+| Logo / brand mark | Fredoka 700 | Rounded, friendly — wordmark only, never in copy |
+| Body, eyebrows, headlines | Inter (300 for editorial headings, 400 for body) | Modern Nordic sans by Rasmus Andersson — one workhorse face across the site |
+| Italic accent words | Cormorant Garamond Light 300 italic | Only on `italic + text-nooni-headline` highlights (the warm-coloured emphasis words in a headline). Bumped to 1.12em on inline `<em>`/`<span>` to optically match the surrounding sans |
 
-**Principle:** Let Filena carry the personality. Use Open Sans where clarity is paramount (forms, labels, fine print). Reserve Fredoka strictly for the logo and hero moments — never in body copy.
+**Principle:** Inter does the heavy lifting so the page reads clean and uncluttered. Cormorant Light steps in as a small editorial flourish — only on the dusty-rose italic accent words inside a headline. Fredoka is reserved strictly for the Nooni wordmark.
 
 ### Visual Style
 
@@ -208,9 +208,12 @@ Status as of mid-development. Items struck through have been answered.
 - [x] **VAT/MOMS.** Decision: 25% inclusive in displayed prices
       (Danish standard). Configuration still pending in Shopify Markets.
 - [x] **Custom font licensing.** Filena licence not pursued for v1.
-      Cormorant Garamond used as the editorial stand-in (Google Fonts,
-      free). `--font-editorial` in `globals.css` swaps cleanly if the
-      licence lands later.
+      The page consolidated onto **Inter** (Google Fonts, free) for
+      body, eyebrows, and headings — one Nordic-modern sans across the
+      site. **Cormorant Garamond Light italic** remains loaded purely
+      as the editorial accent on `italic + text-nooni-headline`
+      highlight words (see `.italic.text-nooni-headline` in
+      `globals.css`). Fredoka 700 still owns the wordmark.
 - [ ] **Sender email.** Order confirmations currently come from
       Shopify's generic `t.shopifyemail.com` address. Plan: configure
       `hej@nooni.dk` (forward to existing Gmail) + DKIM/SPF/DMARC so

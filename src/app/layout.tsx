@@ -21,7 +21,7 @@
  */
 
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Fredoka, Open_Sans } from "next/font/google";
+import { Cormorant_Garamond, Fredoka, Inter } from "next/font/google";
 import CartDrawer from "@/components/CartDrawer";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
@@ -35,15 +35,20 @@ const fredoka = Fredoka({
   weight: ["400", "500", "600", "700"],
 });
 
-const openSans = Open_Sans({
-  variable: "--font-opensans-var",
+const inter = Inter({
+  variable: "--font-inter-var",
   subsets: ["latin"],
+  // No weight array → loads the Inter variable font, so any weight
+  // between 100–900 (including non-standard values like 150) renders
+  // smoothly. Tailwind weight utilities still work; arbitrary values
+  // like font-[150] / inline fontWeight also work.
+  style: ["normal", "italic"],
 });
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant-var",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400"],
   style: ["normal", "italic"],
 });
 
@@ -69,7 +74,7 @@ export default function RootLayout({
   return (
     <html
       lang="da"
-      className={`${fredoka.variable} ${openSans.variable} ${cormorant.variable} antialiased`}
+      className={`${fredoka.variable} ${inter.variable} ${cormorant.variable} antialiased`}
     >
       <body className="min-h-screen flex flex-col bg-nooni-bg text-nooni-ink font-sans">
         <CartProvider>

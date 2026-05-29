@@ -135,21 +135,21 @@ export interface PersonalizationSchema {
 const mainColorField: FieldDef = {
   type: "color",
   key: "main_color",
-  label: "Hovedfarve",
+  label: "Baggrundsfarve",
   required: true,
 };
 
 const secondaryColorField: FieldDef = {
   type: "color",
   key: "secondary_color",
-  label: "Sekundær farve",
+  label: "Tekst- eller symbolfarve",
   required: true,
 };
 
 const motifField = (options: readonly MotifOption[]): FieldDef => ({
   type: "select",
   key: "motif",
-  label: "Motiv",
+  label: "Symbol",
   required: true,
   options,
 });
@@ -177,39 +177,39 @@ export const PERSONALIZATION_SCHEMAS: Record<string, PersonalizationSchema> = {
   // ── Dev placeholder. Remove when the test product is deleted. ──
   nooni_test_product: {
     fields: [
-      mainColorField,
-      secondaryColorField,
       {
         type: "choice",
         key: "personalization",
         label: "Personalisering",
         required: true,
         options: [
-          { value: "motif", label: "Motiv", fields: [motifField(MOTIFS)] },
+          { value: "motif", label: "Symbol", fields: [motifField(MOTIFS)] },
           { value: "name", label: "Navn", fields: [nameField("Alma")] },
         ],
       },
+      mainColorField,
+      secondaryColorField,
     ],
   },
 
   // ── Dots: 5stk er en pakke med 5 ens motiv-dots. Med-navn-3stk er
   //    3 ens navne-dots (de er aflange og fylder mere). ─────────────
   "dots-5stk": {
-    fields: [mainColorField, secondaryColorField, motifField(MOTIFS)],
+    fields: [motifField(MOTIFS), mainColorField, secondaryColorField],
   },
   "dots-med-navn-3stk": {
-    fields: [mainColorField, secondaryColorField, nameField("Alma")],
+    fields: [nameField("Alma"), mainColorField, secondaryColorField],
   },
 
   loops: {
-    fields: [mainColorField, secondaryColorField, nameField("Viggo")],
+    fields: [nameField("Viggo"), mainColorField, secondaryColorField],
   },
 
   emblem: {
     fields: [
+      motifField([...MOTIFS, NOONI_LOGO_MOTIF]),
       mainColorField,
       secondaryColorField,
-      motifField([...MOTIFS, NOONI_LOGO_MOTIF]),
     ],
   },
 

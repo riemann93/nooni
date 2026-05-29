@@ -25,7 +25,7 @@ import Logo from "./Logo";
 export default function Footer() {
   return (
     <footer
-      className="relative z-[1] bg-nooni-bg pt-16 md:pt-24"
+      className="relative z-[1] bg-nooni-bg pt-[45px]"
       data-screen-label="Footer"
     >
       <div className="mx-auto max-w-[1280px] px-6 md:px-10">

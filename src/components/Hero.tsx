@@ -32,7 +32,7 @@ const PHOTO_RADIUS = 28;
 export default function Hero() {
   return (
     <section className="relative" data-screen-label="01 Hero">
-      <div className="mx-auto max-w-[1280px] px-6 pt-10 md:px-10 md:pt-16">
+      <div className="mx-auto max-w-[1280px] px-6 pt-3 pb-[45px] md:px-10 md:pt-6">
         <div className="relative aspect-[4/5] md:aspect-[3/2]">
           <div
             className="absolute inset-0 overflow-hidden bg-nooni-bg-warm"
@@ -70,16 +70,19 @@ export default function Hero() {
             <div className="absolute inset-0 flex items-center">
               <div className="w-full max-w-[78%] px-6 md:max-w-[46%] md:px-14">
                 <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
-                  Personlige mærker til familien
+                  Personlige mærker til dit tøj
                 </p>
 
-                <h1 className="mt-5 font-editorial italic leading-none text-nooni-headline text-[clamp(64px,9vw,128px)]">
+                <h1 className="mt-5 font-editorial italic leading-none text-nooni-headline text-[clamp(96px,14vw,200px)]">
                   Dots
                 </h1>
 
                 <p className="mt-5 max-w-sm font-editorial text-lg leading-relaxed text-nooni-ink-soft">
-                  Personlige mærker med dit barns navn eller motiv.
-                  Print on demand, hjemme i Danmark.
+                  Dots er personlige mærker til lynlåsen,
+                  <br />
+                  fåes med symbol eller navn.
+                  <br />
+                  Designet og produceret i Danmark.
                 </p>
 
                 <Link

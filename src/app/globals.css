@@ -21,24 +21,16 @@
   /* Arch stroke colour */
   --color-nooni-arch:      #C9B8A4;
 
-  /* Fonts */
+  /* Fonts — Fredoka for the Nooni wordmark, Inter for body/eyebrows/
+     headings, and Cormorant Garamond Light italic as a small editorial
+     accent on italic-coloured emphasis words (see
+     .italic.text-nooni-headline rule below). One sans does the heavy
+     lifting; the serif appears only on the brand-coloured italic
+     highlights. */
   --font-display: var(--font-fredoka-var), system-ui, sans-serif;
-  --font-sans: var(--font-opensans-var), system-ui, sans-serif;
-
-  /* Editorial serif — currently Cormorant Garamond as a Filena stand-in.
-     When Filena licence lands, change to:
-       --font-editorial: "Filena", "Cormorant Garamond", "Georgia", serif;
-     and drop Cormorant from the Google Fonts import in layout.tsx. */
-  --font-editorial: var(--font-cormorant-var), "Georgia", serif;
-}
-
-/* Place Filena.woff2 in /public/fonts/ to activate (currently inactive). */
-@font-face {
-  font-family: "Filena";
-  src: url("/fonts/Filena.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+  --font-sans: var(--font-inter-var), system-ui, sans-serif;
+  --font-editorial: var(--font-inter-var), system-ui, sans-serif;
+  --font-editorial-accent: var(--font-cormorant-var), "Georgia", serif;
 }
 
 body {
@@ -63,4 +55,26 @@ body {
 
 .font-editorial {
   font-family: var(--font-editorial);
+  font-weight: 300;
+}
+
+/* Brand emphasis: italic + warm headline colour. Anywhere this pair
+   appears (h1 hero, h2 accent words, product titles, drawer headers),
+   render the airy Cormorant Light instead of Inter italic — adds a
+   delicate typographic flourish without bringing back a serif
+   everywhere. Weight 300 keeps it slim and fine. */
+.italic.text-nooni-headline {
+  font-family: var(--font-editorial-accent);
+  font-style: italic;
+  font-weight: 300;
+}
+
+/* Cormorant's x-height runs smaller than Inter's at the same px size.
+   Bump 12% on inline accent words (em/span inside a sans headline) so
+   they optically match the surrounding copy. Block-level headlines
+   (h1/h2/h3) set their own font-size via Tailwind and must NOT inherit
+   this em multiplier — otherwise the hero h1 shrinks to body size. */
+em.italic.text-nooni-headline,
+span.italic.text-nooni-headline {
+  font-size: 1.12em;
 }

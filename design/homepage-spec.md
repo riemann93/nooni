@@ -35,6 +35,21 @@ below.
 
 ---
 
+## Section rhythm
+
+Every top-level section on the homepage (and on inner pages like
+`/om-os`) uses **`py-[45px]`** — 45 px top + 45 px bottom — so the
+visible gap between two adjacent sections lands at exactly **90 px**.
+The footer's top padding is held at the same 45 px so the closing gap
+into the footer matches.
+
+The 90 px rhythm is the same on mobile and desktop (no responsive
+`md:` variants on these wrappers) — the cream pill containers carry
+their own internal padding for breathing room, so the section gaps
+don't need to scale up at wider widths.
+
+---
+
 ## 1. Hero
 
 **Status:** resting state shipped. Expand mechanism deferred.
@@ -50,9 +65,11 @@ below.
   so) of the photo with `--color-nooni-bg-warm` so the headline copy
   stays legible
 - Left-aligned content stack inside the frame:
-  - Eyebrow: "Personlige mærker til familien"
-  - Headline: **Dots** (oversized italic editorial serif)
-  - Short product description
+  - Eyebrow: "Personlige mærker til dit tøj"
+  - Headline: **Dots** (oversized italic Cormorant Garamond Light — the
+    headline carries the brand accent treatment, see the typography
+    rules in VISION.md)
+  - Short product description, three forced line breaks
   - Primary CTA: **Design din egen** → `/produkter/dots-med-navn-3stk`
 
 ### Sketch drift
@@ -85,9 +102,9 @@ heading and one sentence of body.
 
 Current steps:
 
-1. **Du designer selv** — vælg farver, motiv eller navn live på produktsiden
-2. **Vi printer hjemme** — 3D-printet hos os i Danmark, kun det du har bestilt
-3. **Holder til hverdagen** — mærkerne tåler vask, kulde og børneliv
+1. **Skab dit design** — vælg farver, symbol eller navn
+2. **Jeg printer hjemme** — alle varer printes hjemme på kontoret i Borris
+3. **Varen bliver leveret til dig** — pakkes og sendes så snart de er produceret færdige
 
 Step 3 used to claim a "2–4 dages levering med PostNord" delivery
 window. Both halves of that were dropped: delivery time is out of

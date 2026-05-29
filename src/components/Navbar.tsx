@@ -15,13 +15,13 @@ import Logo from "./Logo";
 export default function Navbar() {
   return (
     <header className="sticky top-0 z-[2] w-full">
-      <div className="mx-auto max-w-[1280px] px-10 py-4">
-        <div className="nooni-glass flex items-center justify-between px-6 py-3">
+      <div className="mx-auto max-w-[1280px] px-4 py-4 md:px-6">
+        <div className="nooni-glass flex items-center justify-between px-7 py-4 md:px-8">
           <Link href="/" aria-label="Nooni — forsiden">
-            <Logo className="text-2xl" />
+            <Logo className="text-3xl md:text-4xl" />
           </Link>
 
-          <nav className="hidden items-center gap-8 text-sm text-nooni-ink-soft sm:flex">
+          <nav className="hidden items-center gap-10 text-base text-nooni-ink-soft sm:flex">
             <Link
               href="/produkter"
               className="transition-colors hover:text-nooni-headline"
@@ -32,7 +32,13 @@ export default function Navbar() {
               href="/om-os"
               className="transition-colors hover:text-nooni-headline"
             >
-              Vores historie
+              Min historie
+            </Link>
+            <Link
+              href="/blog"
+              className="transition-colors hover:text-nooni-headline"
+            >
+              Blog
             </Link>
             <Link
               href="/kontakt"
