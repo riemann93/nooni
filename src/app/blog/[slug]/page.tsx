@@ -16,7 +16,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const blocks = post.content.split(/\r?\n\r?\n+/).filter(Boolean);
 
   return (
-    <main className="mx-auto max-w-[1280px] px-6 py-16 md:px-10 md:py-28">
+    <main className="mx-auto max-w-[920px] px-6 pt-8 pb-16 md:px-10 md:pt-14 md:pb-28">
       <Link
         href="/blog"
         className="inline-flex items-center gap-2 text-sm text-nooni-sub transition-colors hover:text-nooni-headline"
@@ -24,32 +24,58 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <span aria-hidden>←</span> Tilbage til bloggen
       </Link>
 
-      {/* Two-column layout: text left, image right */}
-      <div className="mt-12 grid grid-cols-1 items-start gap-12 md:grid-cols-[1fr_0.85fr] md:gap-20">
-        {/* Left: article text */}
-        <div>
-          <p className="text-xs uppercase tracking-[0.18em] text-nooni-sub">{post.date}</p>
-          <h1 className="mt-3 mb-10 font-editorial text-[clamp(32px,4vw,52px)] leading-[1.1] text-nooni-ink">
-            {post.title}
-          </h1>
-          <div className="font-editorial text-xl leading-relaxed text-nooni-ink-soft">
-            {blocks.map((block, i) => renderBlock(block, i))}
+      <p className="mt-10 text-xs uppercase tracking-[0.18em] text-nooni-sub">
+        {post.date}
+      </p>
+      <h1 className="mt-3 mb-10 font-editorial text-[clamp(32px,4vw,52px)] leading-[1.1] text-nooni-ink">
+        {renderTitle(post.title)}
+      </h1>
+
+      <div className="font-editorial text-xl leading-relaxed text-nooni-ink-soft">
+        {/*
+          On mobile: image renders full-width before the body.
+          On desktop: image floats right and the article text wraps
+          around and underneath it — classic editorial layout.
+        */}
+        <div className="mb-6 md:float-right md:mb-4 md:ml-8 md:w-[42%]">
+          <div className="relative aspect-[3/4] overflow-hidden rounded-3xl">
+            <Image
+              src={post.image}
+              alt={post.title}
+              fill
+              priority
+              className="object-cover"
+              sizes="(min-width: 768px) 40vw, 100vw"
+            />
           </div>
         </div>
 
-        {/* Right: image — no arch, plain rounded rectangle */}
-        <div className="relative aspect-[3/4] overflow-hidden rounded-3xl md:sticky md:top-28">
-          <Image
-            src={post.image}
-            alt={post.title}
-            fill
-            priority
-            className="object-cover"
-            sizes="(min-width: 768px) 40vw, 100vw"
-          />
-        </div>
+        {blocks.map((block, i) => renderBlock(block, i))}
+
+        {/* Make sure floating image is contained — prevents overflow */}
+        <div className="clear-both" />
       </div>
     </main>
+  );
+}
+
+/**
+ * Renders a post title with the trailing parenthetical (if any) styled
+ * in the brand-accent treatment — italic Cormorant Light in the warm
+ * headline colour, matching the homepage's `<em>` emphasis pattern.
+ *
+ * "Hvad er 3D-print? (Og hvordan…)" →
+ *    [Hvad er 3D-print?]  [<em>(Og hvordan…)</em>]
+ */
+function renderTitle(title: string): ReactNode {
+  const match = title.match(/^(.*?)\s*(\([^)]+\))\s*$/);
+  if (!match) return title;
+  const [, main, paren] = match;
+  return (
+    <>
+      {main}{" "}
+      <em className="italic text-nooni-headline">{paren}</em>
+    </>
   );
 }
 
