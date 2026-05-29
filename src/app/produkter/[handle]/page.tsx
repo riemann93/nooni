@@ -20,6 +20,8 @@
 
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
+import ProductDescription from "@/components/ProductDescription";
 import ProductGallery from "@/components/ProductGallery";
 import ProductPurchaseSection from "@/components/personalization/ProductPurchaseSection";
 import {
@@ -27,6 +29,7 @@ import {
   withColorOptions,
 } from "@/lib/shopify/personalization";
 import { getProductByHandle, getProductColors } from "@/lib/shopify/products";
+import { getProductMeta } from "@/lib/product-meta";
 
 // Re-fetch the underlying Shopify data at most every 60 seconds.
 export const revalidate = 60;
@@ -47,6 +50,29 @@ export async function generateMetadata({
     title: product.title,
     description: product.description.slice(0, 160),
   };
+}
+
+/**
+ * Split a product title on " - " (sentence-style dash) and apply the
+ * site's two-tone emphasis treatment to the trailing part.
+ *
+ *   "Dots - symbol"  →  [Dots] (Inter, ink) + [symbol] (Cormorant
+ *   Light italic, headline rose), matching the homepage h2 pattern.
+ *
+ * Titles without " - " pass through unchanged.
+ */
+function renderProductTitle(title: string): ReactNode {
+  const sep = " - ";
+  const idx = title.indexOf(sep);
+  if (idx === -1) return title;
+  const main = title.slice(0, idx);
+  const accent = title.slice(idx + sep.length);
+  return (
+    <>
+      {main}{" "}
+      <em className="italic text-nooni-headline">{accent}</em>
+    </>
+  );
 }
 
 function formatPrice(amount: string, currencyCode: string): string {
@@ -77,6 +103,9 @@ export default async function ProductPage({ params }: PageProps) {
   const baseSchema = getSchemaForHandle(handle);
   const schema = baseSchema ? withColorOptions(baseSchema, colors) : null;
 
+  // In-code metadata: tagline above the title etc.
+  const meta = getProductMeta(handle);
+
   const minPrice = product.priceRange.minVariantPrice;
   const maxPrice = product.priceRange.maxVariantPrice;
   const priceLabel =
@@ -106,8 +135,14 @@ export default async function ProductPage({ params }: PageProps) {
             </p>
           )}
 
-          <h1 className="font-editorial text-5xl font-medium leading-[1.05] text-nooni-headline tracking-tight">
-            {product.title}
+          {meta.tagline && (
+            <p className="mb-3 font-editorial italic text-lg text-nooni-ink-soft">
+              {meta.tagline}
+            </p>
+          )}
+
+          <h1 className="font-editorial text-5xl leading-[1.05] tracking-tight text-nooni-ink">
+            {renderProductTitle(product.title)}
           </h1>
 
           <p className="mt-5 font-editorial text-4xl font-medium text-nooni-ink">
@@ -115,11 +150,9 @@ export default async function ProductPage({ params }: PageProps) {
           </p>
 
           {product.descriptionHtml && (
-            <div
+            <ProductDescription
+              html={product.descriptionHtml}
               className="mt-8 font-editorial text-lg leading-relaxed text-nooni-ink-soft"
-              // descriptionHtml comes from Shopify, which sanitises HTML
-              // for the Storefront API — safe to render.
-              dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
             />
           )}
 
