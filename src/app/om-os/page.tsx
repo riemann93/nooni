@@ -33,7 +33,7 @@ export default function OmOs() {
                 </span>
                 <h1
                   className="mt-5 font-editorial text-[clamp(56px,8vw,112px)] leading-[1.02] tracking-tight text-nooni-ink"
-                  style={{ fontWeight: 100 }}
+                  style={{ fontWeight: 200 }}
                 >
                   Mød{" "}
                   <em className="italic text-nooni-headline">Camilla</em>
