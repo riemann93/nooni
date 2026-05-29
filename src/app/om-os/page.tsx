@@ -26,7 +26,7 @@ export default function OmOs() {
       >
         <div className="mx-auto max-w-[1280px] px-6 md:px-10">
           <div className="rounded-[2rem] bg-nooni-bg-warm px-8 py-14 md:px-16 md:py-20">
-            <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-[1.1fr_0.9fr] md:gap-20">
+            <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-[1.3fr_0.7fr] md:gap-20">
               <div>
                 <span className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub">
                   Min historie
@@ -46,7 +46,7 @@ export default function OmOs() {
                   alt="Camilla — personen bag Nooni"
                   fill
                   className="object-cover object-top"
-                  sizes="(min-width: 768px) 45vw, 90vw"
+                  sizes="(min-width: 768px) 35vw, 90vw"
                   priority
                 />
               </div>
