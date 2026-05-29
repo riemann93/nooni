@@ -21,12 +21,12 @@ export default function CartPill() {
     <button
       type="button"
       onClick={openDrawer}
-      className="inline-flex items-center gap-2 rounded-full bg-nooni-headline px-4 py-2 text-xs text-white transition-colors hover:bg-[#9d6f6f]"
+      className="inline-flex items-center gap-2 rounded-full bg-nooni-headline px-5 py-2.5 text-sm text-white transition-colors hover:bg-[#9d6f6f]"
       aria-label="Åbn kurv"
     >
       <svg
-        width="14"
-        height="14"
+        width="16"
+        height="16"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
