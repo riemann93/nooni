@@ -42,34 +42,36 @@ export default async function ProductsGrid() {
       data-screen-label="03 Products"
     >
       <div className="mx-auto max-w-[1280px] px-6 md:px-10">
-        <div className="mb-16 max-w-2xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
-            Mest populære
-          </p>
-          <h2 className="mt-4 font-editorial text-[clamp(32px,4vw,52px)] leading-[1.1] tracking-tight text-nooni-ink">
-            Mere end{" "}
-            <em className="italic text-nooni-headline">navnemærker</em>
-          </h2>
-        </div>
+        <div className="rounded-[2rem] bg-nooni-bg-warm px-8 py-12 md:px-12 md:py-14">
+          <div className="mb-16 max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
+              Mest populære
+            </p>
+            <h2 className="mt-4 font-editorial text-[clamp(32px,4vw,52px)] leading-[1.1] tracking-tight text-nooni-ink">
+              Mere end{" "}
+              <em className="italic text-nooni-headline">navnemærker</em>
+            </h2>
+          </div>
 
-        <div className="grid grid-cols-1 gap-y-12 gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((product) => (
-            <ProductCard
-              key={product.handle}
-              product={product}
-              tagline={taglinesByHandle.get(product.handle)}
-            />
-          ))}
-        </div>
+          <div className="grid grid-cols-1 gap-y-12 gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
+            {products.map((product) => (
+              <ProductCard
+                key={product.handle}
+                product={product}
+                tagline={taglinesByHandle.get(product.handle)}
+              />
+            ))}
+          </div>
 
-        <div className="mt-16 flex justify-center">
-          <Link
-            href="/produkter"
-            className="inline-flex items-center gap-2 rounded-full border border-nooni-sub px-7 py-3 text-sm text-nooni-sub transition-colors hover:bg-nooni-sub hover:text-white"
-          >
-            Se alle produkter
-            <span aria-hidden>→</span>
-          </Link>
+          <div className="mt-16 flex justify-center">
+            <Link
+              href="/produkter"
+              className="inline-flex items-center gap-2 rounded-full border border-nooni-sub px-7 py-3 text-sm text-nooni-sub transition-colors hover:bg-nooni-sub hover:text-white"
+            >
+              Se alle produkter
+              <span aria-hidden>→</span>
+            </Link>
+          </div>
         </div>
       </div>
     </section>
