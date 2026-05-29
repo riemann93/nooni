@@ -32,7 +32,7 @@ export default function Navbar() {
               href="/om-os"
               className="transition-colors hover:text-nooni-headline"
             >
-              Vores historie
+              Min historie
             </Link>
             <Link
               href="/kontakt"

@@ -1,5 +1,5 @@
 /**
- * /om-os — "Vores historie" page.
+ * /om-os — "Min historie" page.
  *
  * The homepage's Story section becomes the body of this page; QuietCTA
  * gives visitors who land here directly a clear way back to the
@@ -14,9 +14,9 @@ import QuietCTA from "@/components/QuietCTA";
 import Story from "@/components/Story";
 
 export const metadata: Metadata = {
-  title: "Vores historie",
+  title: "Min historie",
   description:
-    "Mød familien bag Nooni. Personliggjorte produkter, printet hjemme hos os i Danmark.",
+    "Mød Camilla, personen bag Nooni. Personliggjorte produkter, printet hjemme i Danmark.",
 };
 
 export default function OmOs() {
