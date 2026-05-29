@@ -1,8 +1,8 @@
 /**
- * StorySection — "Familien bag" narrative.
+ * StorySection — "Personen bag" narrative.
  *
- * Left column: family photo in a Boho-arch frame (9999px top, 22px bottom).
- * Right column: about-us body copy.
+ * Left column: portrait photo in a Boho-arch frame (9999px top, 22px bottom).
+ * Right column: about-us body copy in Camilla's voice.
  *
  * Wrapped in a cream pill container on the regular page background,
  * matching HowItWorks and BlogTeaser — the cream tone now indicates
@@ -32,7 +32,7 @@ export default function StorySection() {
             >
               <Image
                 src="/images/familie_2.jpg"
-                alt="Camilla og hendes datter — familien bag Nooni"
+                alt="Camilla — personen bag Nooni"
                 fill
                 className="object-cover object-top"
                 sizes="(min-width: 768px) 45vw, 90vw"
@@ -41,24 +41,21 @@ export default function StorySection() {
 
             <div>
               <span className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub">
-                Familien bag
+                Personen bag
               </span>
               <h2 className="mt-4 mb-8 font-editorial text-[clamp(36px,5vw,64px)] leading-[1.08] text-nooni-ink tracking-tight">
-                Lavet derhjemme,{" "}
-                <em className="italic text-nooni-sub">
-                  med plads til fingeraftryk.
-                </em>
+                Hvem er bag{" "}
+                <em className="italic text-nooni-headline">Nooni?</em>
               </h2>
               <div className="font-editorial text-[19px] leading-[1.6] text-nooni-ink-soft space-y-5 max-w-[520px]">
                 <p>
-                  Nooni er en lille dansk familievirksomhed. Vi startede, fordi
-                  vores egne børns tøj og tasker blev væk — og fordi de
-                  eksisterende løsninger enten var grimme eller kedelige.
-                </p>
-                <p>
-                  Hver eneste Dot, Loop og Deck bliver printet hjemme hos os på
-                  vores Bambu P2S. Vi pakker selv. Vi sender selv. Og vi læser
-                  hver ordrebesked, der kommer ind.
+                  Hej! Jeg hedder Camilla. Da jeg måtte vinke farvel til
+                  lærerfaget efter en svær depression, fandt jeg lyset og
+                  kreativiteten i 3D-print. I dag designer jeg – sammen med
+                  mine to printere, Wall-E og EVA – værktøjer, der hjælper
+                  børn med at mestre hverdagen selv. Nooni er skabt ud fra en
+                  drøm om at give børnefamilier flere succesoplevelser, mere
+                  selvtillid og en lettere hverdag.
                 </p>
               </div>
             </div>
