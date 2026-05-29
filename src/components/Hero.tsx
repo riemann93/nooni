@@ -78,8 +78,8 @@ export default function Hero() {
                 </h1>
 
                 <p className="mt-5 max-w-sm font-editorial text-lg leading-relaxed text-nooni-ink-soft">
-                  Personlige mærker med dit barns navn eller motiv.
-                  Print on demand, hjemme i Danmark.
+                  Dots er personlige mærker til lynlåsen, fåes med symbol
+                  eller navn. Designet og produceret i Danmark.
                 </p>
 
                 <Link
