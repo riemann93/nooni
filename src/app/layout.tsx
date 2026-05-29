@@ -21,7 +21,7 @@
  */
 
 import type { Metadata } from "next";
-import { Fredoka, Instrument_Serif, Inter } from "next/font/google";
+import { Fraunces, Fredoka, Inter } from "next/font/google";
 import CartDrawer from "@/components/CartDrawer";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
@@ -42,10 +42,10 @@ const inter = Inter({
   style: ["normal", "italic"],
 });
 
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument-serif-var",
+const fraunces = Fraunces({
+  variable: "--font-fraunces-var",
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "500", "600"],
   style: ["normal", "italic"],
 });
 
@@ -71,7 +71,7 @@ export default function RootLayout({
   return (
     <html
       lang="da"
-      className={`${fredoka.variable} ${inter.variable} ${instrumentSerif.variable} antialiased`}
+      className={`${fredoka.variable} ${inter.variable} ${fraunces.variable} antialiased`}
     >
       <body className="min-h-screen flex flex-col bg-nooni-bg text-nooni-ink font-sans">
         <CartProvider>
