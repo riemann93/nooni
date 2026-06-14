@@ -74,11 +74,6 @@ export const MOTIFS: readonly MotifOption[] = ALL_MOTIF_KEYS.map((key) => ({
   label: key,
 }));
 
-export const NOONI_LOGO_MOTIF: MotifOption = {
-  value: "nooni_logo",
-  label: "Nooni-logo",
-};
-
 /* ── Field types ──────────────────────────────────────────────────── */
 
 interface FieldBase {
@@ -202,15 +197,11 @@ export const PERSONALIZATION_SCHEMAS: Record<string, PersonalizationSchema> = {
   },
 
   loops: {
-    fields: [nameField("Viggo"), mainColorField, secondaryColorField],
+    fields: [motifField(MOTIFS), mainColorField, secondaryColorField],
   },
 
   emblem: {
-    fields: [
-      motifField([...MOTIFS, NOONI_LOGO_MOTIF]),
-      mainColorField,
-      secondaryColorField,
-    ],
+    fields: [nameField("Alma"), mainColorField, secondaryColorField],
   },
 
   // ── Deks: single (1 række) og duo (2 rækker) er separate Shopify-
