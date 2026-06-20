@@ -72,7 +72,7 @@ export default function ProductCarousel({ products, taglinesByHandle }: Props) {
               <ProductCard
                 product={product}
                 tagline={taglinesByHandle[product.handle]}
-                sizes={`${CARD_W}vw`}
+                sizes="(min-width: 1024px) 45vw, 75vw"
                 imageAspect="aspect-[3/4.4]"
               />
             </div>
