@@ -213,6 +213,18 @@ export const PERSONALIZATION_SCHEMAS: Record<string, PersonalizationSchema> = {
     fields: [{ type: "color", key: "color", label: "Farve", required: true }],
   },
 
+  // ── Boks kortholder: bunden er altid hvid, låget vælges af kunden. ─
+  "box-kort-aesker": {
+    fields: [
+      {
+        type: "color",
+        key: "lid_color",
+        label: "Låg — farve",
+        required: true,
+      },
+    ],
+  },
+
   "tic-tac-take": {
     fields: [
       {
