@@ -9,40 +9,43 @@ interface Props {
   taglinesByHandle: Record<string, string>;
 }
 
-// Card width as % of the carousel container, gap as % between cards.
-const CARD_W = 54;
-const GAP = 4;
-const STEP = CARD_W + GAP; // how far the track moves per card
+// Width of each card as % of the carousel viewport, gap between cards in %.
+const CARD_W = 38;
+const GAP = 5;
+const STEP = CARD_W + GAP; // distance the track moves per card
 
-// translateX so the card at `index` is centred in the viewport.
-// Center = 50% - CARD_W/2 - index * STEP
-function trackX(index: number) {
-  return 50 - CARD_W / 2 - index * STEP;
+// translateX so that card at `index` is centred in the 100%-wide viewport.
+// Position of card[i]'s left edge in the track = i * STEP (in %).
+// We want that left edge to land at (50% - CARD_W/2) in the viewport.
+// So: trackX + i*STEP = 50 - CARD_W/2  →  trackX = 50 - CARD_W/2 - i*STEP
+function trackX(index: number): string {
+  return `${50 - CARD_W / 2 - index * STEP}%`;
 }
 
 export default function ProductCarousel({ products, taglinesByHandle }: Props) {
-  // Start on the middle card
   const [active, setActive] = useState(Math.floor(products.length / 2));
 
-  const prev = () => setActive((i) => Math.max(0, i - 1));
-  const next = () => setActive((i) => Math.min(products.length - 1, i));
+  const canPrev = active > 0;
+  const canNext = active < products.length - 1;
 
   return (
-    <div className="relative">
-      {/* Overflow clip */}
+    // Outer wrapper — `relative` anchors the arrows, extra px makes
+    // room so the arrow buttons aren't clipped by overflow:hidden.
+    <div className="relative px-10">
+      {/* Clipping container — only clips horizontally */}
       <div className="overflow-hidden">
-        {/* Sliding track */}
+        {/* Sliding track — width is auto so cards lay out naturally */}
         <div
-          className="flex transition-transform duration-400 ease-in-out"
+          className="flex transition-transform duration-300 ease-in-out"
           style={{
-            transform: `translateX(${trackX(active)}%)`,
             gap: `${GAP}%`,
+            transform: `translateX(${trackX(active)})`,
           }}
         >
           {products.map((product, i) => (
             <div
               key={product.handle}
-              className="shrink-0 transition-opacity duration-400"
+              className="shrink-0 transition-opacity duration-300"
               style={{
                 width: `${CARD_W}%`,
                 opacity: i === active ? 1 : 0.3,
@@ -52,32 +55,32 @@ export default function ProductCarousel({ products, taglinesByHandle }: Props) {
               <ProductCard
                 product={product}
                 tagline={taglinesByHandle[product.handle]}
-                sizes="54vw"
+                sizes={`${CARD_W}vw`}
               />
             </div>
           ))}
         </div>
       </div>
 
-      {/* Arrows */}
-      {active > 0 && (
-        <button
-          onClick={prev}
-          aria-label="Forrige produkt"
-          className="absolute left-2 top-1/2 z-10 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-nooni-line-soft bg-white/90 text-nooni-ink shadow-sm backdrop-blur-sm transition hover:bg-white"
-        >
-          ←
-        </button>
-      )}
-      {active < products.length - 1 && (
-        <button
-          onClick={next}
-          aria-label="Næste produkt"
-          className="absolute right-2 top-1/2 z-10 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-nooni-line-soft bg-white/90 text-nooni-ink shadow-sm backdrop-blur-sm transition hover:bg-white"
-        >
-          →
-        </button>
-      )}
+      {/* Previous arrow */}
+      <button
+        onClick={() => setActive((i) => i - 1)}
+        disabled={!canPrev}
+        aria-label="Forrige produkt"
+        className="absolute left-0 top-1/3 z-10 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-nooni-line-soft bg-white text-nooni-ink shadow-sm transition hover:bg-nooni-bg-warm disabled:opacity-0"
+      >
+        ←
+      </button>
+
+      {/* Next arrow */}
+      <button
+        onClick={() => setActive((i) => i + 1)}
+        disabled={!canNext}
+        aria-label="Næste produkt"
+        className="absolute right-0 top-1/3 z-10 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-nooni-line-soft bg-white text-nooni-ink shadow-sm transition hover:bg-nooni-bg-warm disabled:opacity-0"
+      >
+        →
+      </button>
     </div>
   );
 }
