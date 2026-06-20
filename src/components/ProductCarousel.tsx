@@ -9,62 +9,75 @@ interface Props {
   taglinesByHandle: Record<string, string>;
 }
 
-export default function ProductCarousel({ products, taglinesByHandle }: Props) {
-  const [active, setActive] = useState(0);
+// Card width as % of the carousel container, gap as % between cards.
+const CARD_W = 54;
+const GAP = 4;
+const STEP = CARD_W + GAP; // how far the track moves per card
 
-  const prev = () => setActive((i) => (i - 1 + products.length) % products.length);
-  const next = () => setActive((i) => (i + 1) % products.length);
+// translateX so the card at `index` is centred in the viewport.
+// Center = 50% - CARD_W/2 - index * STEP
+function trackX(index: number) {
+  return 50 - CARD_W / 2 - index * STEP;
+}
+
+export default function ProductCarousel({ products, taglinesByHandle }: Props) {
+  // Start on the middle card
+  const [active, setActive] = useState(Math.floor(products.length / 2));
+
+  const prev = () => setActive((i) => Math.max(0, i - 1));
+  const next = () => setActive((i) => Math.min(products.length - 1, i));
 
   return (
-    <div className="relative flex items-center">
-      {/* Prev arrow */}
-      <button
-        onClick={prev}
-        aria-label="Forrige produkt"
-        className="absolute left-0 z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-nooni-line-soft bg-white/80 text-nooni-ink shadow-sm backdrop-blur-sm transition hover:bg-white"
-      >
-        ←
-      </button>
-
-      {/* Cards */}
-      <div className="mx-10 flex w-full items-center justify-center gap-3 overflow-hidden">
-        {products.map((product, i) => {
-          const offset = (i - active + products.length) % products.length;
-          // 0 = active, 1 = next, length-1 = prev
-          const isActive = offset === 0;
-          const isSide = offset === 1 || offset === products.length - 1;
-
-          if (!isActive && !isSide) return null;
-
-          return (
+    <div className="relative">
+      {/* Overflow clip */}
+      <div className="overflow-hidden">
+        {/* Sliding track */}
+        <div
+          className="flex transition-transform duration-400 ease-in-out"
+          style={{
+            transform: `translateX(${trackX(active)}%)`,
+            gap: `${GAP}%`,
+          }}
+        >
+          {products.map((product, i) => (
             <div
               key={product.handle}
-              className="transition-all duration-300"
+              className="shrink-0 transition-opacity duration-400"
               style={{
-                width: isActive ? "52%" : "24%",
-                opacity: isActive ? 1 : 0.35,
-                pointerEvents: isActive ? "auto" : "none",
-                flexShrink: 0,
+                width: `${CARD_W}%`,
+                opacity: i === active ? 1 : 0.3,
+                pointerEvents: i === active ? "auto" : "none",
               }}
             >
               <ProductCard
                 product={product}
                 tagline={taglinesByHandle[product.handle]}
-                sizes="(min-width: 640px) 40vw, 52vw"
+                sizes="54vw"
               />
             </div>
-          );
-        })}
+          ))}
+        </div>
       </div>
 
-      {/* Next arrow */}
-      <button
-        onClick={next}
-        aria-label="Næste produkt"
-        className="absolute right-0 z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-nooni-line-soft bg-white/80 text-nooni-ink shadow-sm backdrop-blur-sm transition hover:bg-white"
-      >
-        →
-      </button>
+      {/* Arrows */}
+      {active > 0 && (
+        <button
+          onClick={prev}
+          aria-label="Forrige produkt"
+          className="absolute left-2 top-1/2 z-10 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-nooni-line-soft bg-white/90 text-nooni-ink shadow-sm backdrop-blur-sm transition hover:bg-white"
+        >
+          ←
+        </button>
+      )}
+      {active < products.length - 1 && (
+        <button
+          onClick={next}
+          aria-label="Næste produkt"
+          className="absolute right-2 top-1/2 z-10 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-nooni-line-soft bg-white/90 text-nooni-ink shadow-sm backdrop-blur-sm transition hover:bg-white"
+        >
+          →
+        </button>
+      )}
     </div>
   );
 }
