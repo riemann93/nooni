@@ -53,7 +53,7 @@ interface ProductCardProps {
 export default function ProductCard({
   product,
   tagline,
-  sizes = "(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw",
+  sizes = "(min-width: 1024px) 30vw, 45vw",
   imageAspect = "aspect-[3/4]",
 }: ProductCardProps) {
   const image = product.images.nodes[0];
