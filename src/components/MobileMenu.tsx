@@ -34,7 +34,7 @@ export default function MobileMenu() {
       </button>
 
       {open && (
-        <div className="nooni-glass absolute left-4 right-4 top-[calc(100%+8px)] rounded-2xl px-6 py-4">
+        <div className="absolute left-4 right-4 top-[calc(100%+8px)] rounded-2xl border border-nooni-line-soft bg-[#FFFCF7] px-6 py-4 shadow-lg">
           <nav className="flex flex-col gap-1">
             {LINKS.map(({ href, label }) => (
               <Link
