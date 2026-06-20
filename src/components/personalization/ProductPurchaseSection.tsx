@@ -29,7 +29,16 @@ import {
   type FieldDef,
   type PersonalizationSchema,
 } from "@/lib/shopify/personalization";
-import type { ProductVariant } from "@/lib/shopify/types";
+import type { Money, ProductVariant } from "@/lib/shopify/types";
+
+function formatPrice(money: Money): string {
+  return new Intl.NumberFormat("da-DK", {
+    style: "currency",
+    currency: money.currencyCode,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  }).format(parseFloat(money.amount));
+}
 
 /** Pull the colour palette out of a schema (first colour field's options). */
 function paletteFromSchema(
@@ -114,7 +123,8 @@ export default function ProductPurchaseSection({
                   .filter(Boolean)
                   .join(" ")}
               >
-                {v.title}
+                <span>{v.title}</span>
+                <span className="block text-xs opacity-70">{formatPrice(v.price)}</span>
               </button>
             ))}
           </div>
