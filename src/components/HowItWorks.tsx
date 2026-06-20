@@ -50,16 +50,16 @@ export default function HowItWorks() {
             </h2>
           </div>
 
-          <ol className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
+          <ol className="grid grid-cols-3 gap-4 md:gap-8">
             {STEPS.map((step) => (
               <li key={step.num} className="flex flex-col">
-                <span className="font-display text-4xl font-medium leading-none text-nooni-headline">
+                <span className="font-display text-3xl font-medium leading-none text-nooni-headline md:text-4xl">
                   {step.num}
                 </span>
-                <h3 className="mt-4 font-editorial text-xl italic font-medium leading-tight text-nooni-ink">
+                <h3 className="mt-3 font-editorial text-sm italic font-medium leading-tight text-nooni-ink md:mt-4 md:text-xl">
                   {step.title}
                 </h3>
-                <p className="mt-2 max-w-sm font-editorial text-base leading-relaxed text-nooni-ink-soft">
+                <p className="mt-1 font-editorial text-xs leading-relaxed text-nooni-ink-soft md:mt-2 md:max-w-sm md:text-base">
                   {step.body}
                 </p>
               </li>
