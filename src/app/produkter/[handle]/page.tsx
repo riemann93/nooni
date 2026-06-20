@@ -156,14 +156,10 @@ export default async function ProductPage({ params }: PageProps) {
             />
           )}
 
-          {product.variants.nodes[0] ? (
+          {product.variants.nodes.length > 0 ? (
             <ProductPurchaseSection
               handle={handle}
-              variantId={product.variants.nodes[0].id}
-              availableForSale={
-                product.availableForSale &&
-                product.variants.nodes[0].availableForSale
-              }
+              variants={product.variants.nodes}
               schema={schema}
             />
           ) : (
