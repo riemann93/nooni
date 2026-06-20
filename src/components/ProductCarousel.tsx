@@ -10,7 +10,7 @@ interface Props {
 }
 
 // Width of each card as % of the carousel viewport, gap between cards in %.
-const CARD_W = 38;
+const CARD_W = 57;
 const GAP = 5;
 const STEP = CARD_W + GAP; // distance the track moves per card
 
@@ -56,6 +56,7 @@ export default function ProductCarousel({ products, taglinesByHandle }: Props) {
                 product={product}
                 tagline={taglinesByHandle[product.handle]}
                 sizes={`${CARD_W}vw`}
+                imageAspect="aspect-[3/4.4]"
               />
             </div>
           ))}

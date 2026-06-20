@@ -46,12 +46,15 @@ interface ProductCardProps {
   tagline?: string;
   /** Image sizes hint — tune per surface for accurate srcset selection. */
   sizes?: string;
+  /** Override the image container aspect ratio class. Defaults to aspect-[3/4]. */
+  imageAspect?: string;
 }
 
 export default function ProductCard({
   product,
   tagline,
   sizes = "(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw",
+  imageAspect = "aspect-[3/4]",
 }: ProductCardProps) {
   const image = product.images.nodes[0];
   const price = product.priceRange.minVariantPrice;
@@ -65,7 +68,7 @@ export default function ProductCard({
       }}
     >
       {image && (
-        <div className="relative aspect-[3/4]">
+        <div className={`relative ${imageAspect}`}>
           <Image
             src={image.url}
             alt={image.altText ?? product.title}
