@@ -76,23 +76,23 @@ export default function ProductCard({
         </div>
       )}
 
-      <div className="flex flex-col gap-2 px-7 py-6">
+      <div className="flex flex-col gap-1 px-4 py-4 sm:gap-2 sm:px-7 sm:py-6">
         {tagline && (
-          <p className="text-[11px] uppercase tracking-[0.2em] text-nooni-sub">
+          <p className="text-[9px] uppercase tracking-[0.2em] text-nooni-sub sm:text-[11px]">
             {tagline}
           </p>
         )}
 
-        <div className="flex items-baseline justify-between gap-4">
-          <h3 className="font-editorial text-2xl italic font-medium text-nooni-headline tracking-tight">
+        <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+          <h3 className="font-editorial text-base italic font-medium text-nooni-headline tracking-tight sm:text-2xl">
             {product.title}
           </h3>
-          <span className="whitespace-nowrap text-sm text-nooni-ink-soft">
+          <span className="whitespace-nowrap text-xs text-nooni-ink-soft sm:text-sm">
             Fra {formatPrice(price.amount, price.currencyCode)}
           </span>
         </div>
 
-        <span className="mt-2 inline-flex items-center gap-2 text-[13px] text-nooni-headline">
+        <span className="mt-1 inline-flex items-center gap-1 text-[11px] text-nooni-headline sm:mt-2 sm:gap-2 sm:text-[13px]">
           Se mere
           <span className="transition-transform duration-300 group-hover:translate-x-1">
             →
