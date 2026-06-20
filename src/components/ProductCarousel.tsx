@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import ProductCard from "@/components/ProductCard";
 import type { ProductSummary } from "@/lib/shopify/products";
 
@@ -24,16 +24,33 @@ function trackX(index: number): string {
 
 export default function ProductCarousel({ products, taglinesByHandle }: Props) {
   const [active, setActive] = useState(Math.floor(products.length / 2));
+  const touchStartX = useRef<number | null>(null);
 
   const canPrev = active > 0;
   const canNext = active < products.length - 1;
+
+  function onTouchStart(e: React.TouchEvent) {
+    touchStartX.current = e.touches[0].clientX;
+  }
+
+  function onTouchEnd(e: React.TouchEvent) {
+    if (touchStartX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    touchStartX.current = null;
+    if (dx < -40 && canNext) setActive((i) => i + 1);
+    if (dx > 40 && canPrev) setActive((i) => i - 1);
+  }
 
   return (
     // Outer wrapper — `relative` anchors the arrows, extra px makes
     // room so the arrow buttons aren't clipped by overflow:hidden.
     <div className="relative px-10">
       {/* Clipping container — only clips horizontally */}
-      <div className="overflow-hidden">
+      <div
+        className="overflow-hidden"
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
         {/* Sliding track — width is auto so cards lay out naturally */}
         <div
           className="flex transition-transform duration-300 ease-in-out"
