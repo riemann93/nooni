@@ -124,7 +124,7 @@ export default function ProductPurchaseSection({
                   .join(" ")}
               >
                 <span>{v.title}</span>
-                <span className="block text-[0.6rem] opacity-70">{formatPrice(v.price)}</span>
+                <span className="block text-xs opacity-70">{formatPrice(v.price)}</span>
               </button>
             ))}
           </div>
