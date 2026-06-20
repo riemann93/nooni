@@ -114,7 +114,7 @@ export default async function ProductPage({ params }: PageProps) {
       : `${formatPrice(minPrice.amount, minPrice.currencyCode)} – ${formatPrice(maxPrice.amount, maxPrice.currencyCode)}`;
 
   return (
-    <section className="relative z-[1] mx-auto max-w-[1280px] px-6 py-24 md:px-10">
+    <section className="relative z-[1] mx-auto max-w-[1280px] px-6 py-[45px] md:px-10">
       <div className="grid grid-cols-1 gap-14 md:grid-cols-2">
         <ProductGallery
           images={product.images.nodes}
