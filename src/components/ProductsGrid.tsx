@@ -15,7 +15,7 @@
  */
 
 import Link from "next/link";
-import ProductCard from "@/components/ProductCard";
+import ProductCarousel from "@/components/ProductCarousel";
 import { getProductsByHandles } from "@/lib/shopify/products";
 
 export const revalidate = 60;
@@ -33,7 +33,7 @@ const CARDS: CardCopy[] = [
 
 export default async function ProductsGrid() {
   const products = await getProductsByHandles(CARDS.map((c) => c.handle));
-  const taglinesByHandle = new Map(CARDS.map((c) => [c.handle, c.tagline]));
+  const taglinesByHandle = Object.fromEntries(CARDS.map((c) => [c.handle, c.tagline]));
 
   return (
     <section
@@ -53,15 +53,7 @@ export default async function ProductsGrid() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-3 gap-x-3 gap-y-4 sm:gap-x-8 sm:gap-y-12">
-            {products.map((product) => (
-              <ProductCard
-                key={product.handle}
-                product={product}
-                tagline={taglinesByHandle.get(product.handle)}
-              />
-            ))}
-          </div>
+          <ProductCarousel products={products} taglinesByHandle={taglinesByHandle} />
 
           <div className="mt-8 flex justify-center md:mt-16">
             <Link
