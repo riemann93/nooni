@@ -35,12 +35,12 @@ const STEPS: Step[] = [
 export default function HowItWorks() {
   return (
     <section
-      className="bg-nooni-bg py-[45px]"
+      className="bg-nooni-bg py-5 md:py-[45px]"
       data-screen-label="02 How it works"
     >
-      <div className="mx-auto max-w-[1280px] px-6 md:px-10">
-        <div className="rounded-[2rem] bg-nooni-bg-warm px-8 py-12 md:px-12 md:py-14">
-          <div className="mb-10 max-w-2xl">
+      <div className="mx-auto max-w-[1280px] px-4 md:px-10">
+        <div className="rounded-[2rem] bg-nooni-bg-warm px-5 py-7 md:px-12 md:py-14">
+          <div className="mb-6 max-w-2xl md:mb-10">
             <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
               Sådan virker det
             </p>

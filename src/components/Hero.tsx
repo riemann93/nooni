@@ -32,7 +32,7 @@ const PHOTO_RADIUS = 28;
 export default function Hero() {
   return (
     <section className="relative" data-screen-label="01 Hero">
-      <div className="mx-auto max-w-[1280px] px-6 pt-3 pb-[45px] md:px-10 md:pt-6">
+      <div className="mx-auto max-w-[1280px] px-4 pt-3 pb-5 md:px-10 md:pt-6 md:pb-[45px]">
         <div className="relative aspect-[4/5] md:aspect-[3/2]">
           <div
             className="absolute inset-0 overflow-hidden bg-nooni-bg-warm"

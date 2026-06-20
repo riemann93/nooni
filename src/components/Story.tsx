@@ -20,12 +20,12 @@ export default function StorySection() {
   return (
     <section
       id="historie"
-      className="relative z-[1] bg-nooni-bg py-[45px]"
+      className="relative z-[1] bg-nooni-bg py-5 md:py-[45px]"
       data-screen-label="04 Story"
     >
       <div className="mx-auto max-w-[1280px] px-6 md:px-10">
-        <div className="rounded-[2rem] bg-nooni-bg-warm px-8 py-14 md:px-16 md:py-20">
-          <div className="grid grid-cols-1 items-center gap-16 md:grid-cols-[0.95fr_1.05fr] md:gap-20">
+        <div className="rounded-[2rem] bg-nooni-bg-warm px-5 py-8 md:px-16 md:py-20">
+          <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-[0.95fr_1.05fr] md:gap-20">
             <div
               className="relative aspect-[4/5] overflow-hidden"
               style={{ borderRadius: "9999px 9999px 22px 22px" }}

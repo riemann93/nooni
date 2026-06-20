@@ -6,8 +6,8 @@ export default async function BlogTeaser() {
   if (!post) return null;
 
   return (
-    <section id="blog" className="relative z-[1] bg-nooni-bg py-[45px]" data-screen-label="05 Blog">
-      <div className="mx-auto max-w-[1280px] px-6 md:px-10">
+    <section id="blog" className="relative z-[1] bg-nooni-bg py-5 md:py-[45px]" data-screen-label="05 Blog">
+      <div className="mx-auto max-w-[1280px] px-4 md:px-10">
         {/*
           overflow-hidden on this container clips the half-arch on the right:
           the image column's inner div is 200% wide on desktop so the arch
@@ -17,7 +17,7 @@ export default async function BlogTeaser() {
         <div className="overflow-hidden rounded-[2rem] bg-nooni-bg-warm">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_0.85fr]">
             {/* Text */}
-            <div className="flex flex-col justify-center px-10 py-12 md:px-14 md:py-16">
+            <div className="flex flex-col justify-center px-5 py-7 md:px-14 md:py-16">
               <span className="mb-4 inline-flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub">
                 Fra bloggen
               </span>
