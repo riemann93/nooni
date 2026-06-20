@@ -219,7 +219,7 @@ function CartLineRow({
               </p>
             )}
           </div>
-          <p className="whitespace-nowrap text-sm font-medium text-nooni-ink">
+          <p className="whitespace-nowrap text-xs font-medium text-nooni-ink">
             {lineTotal}
           </p>
         </div>
@@ -300,7 +300,7 @@ function DrawerFooter({ subtotal, disabled, onCheckout }: DrawerFooterProps) {
         <span className="text-sm uppercase tracking-[0.18em] text-nooni-sub">
           Subtotal
         </span>
-        <span className="font-display text-xl font-medium text-nooni-ink">
+        <span className="font-display text-[0.938rem] font-medium text-nooni-ink">
           {subtotal}
         </span>
       </div>

@@ -87,7 +87,7 @@ export default function ProductCard({
           <h3 className="font-editorial text-2xl italic font-medium text-nooni-headline tracking-tight">
             {product.title}
           </h3>
-          <span className="whitespace-nowrap text-sm text-nooni-ink-soft">
+          <span className="whitespace-nowrap text-xs text-nooni-ink-soft">
             Fra {formatPrice(price.amount, price.currencyCode)}
           </span>
         </div>

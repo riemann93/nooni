@@ -145,7 +145,7 @@ export default async function ProductPage({ params }: PageProps) {
             {renderProductTitle(product.title)}
           </h1>
 
-          <p className="mt-5 font-editorial text-4xl font-medium text-nooni-ink">
+          <p className="mt-5 font-editorial text-[1.7rem] font-medium text-nooni-ink">
             {priceLabel}
           </p>
 
