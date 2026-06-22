@@ -24,11 +24,11 @@ export default function StorySection() {
       data-screen-label="04 Story"
     >
       <div className="mx-auto max-w-[1280px] px-6 md:px-10">
-        <div className="rounded-[2rem] bg-nooni-bg-warm px-5 py-8 md:px-12 md:py-12 lg:px-16 lg:py-20">
-          <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-[0.95fr_1.05fr] md:gap-10 lg:gap-20">
+        <div className="overflow-hidden rounded-[2rem] bg-nooni-bg-warm">
+          <div className="grid grid-cols-1 items-stretch md:grid-cols-[0.95fr_1.05fr]">
             <div
-              className="relative aspect-[4/5] overflow-hidden"
-              style={{ borderRadius: "32px 250px 22px 22px", boxShadow: "inset -4px 4px 12px rgba(0,0,0,0.12)" }}
+              className="relative min-h-[320px] md:min-h-0"
+              style={{ borderRadius: "32px 250px 22px 22px", boxShadow: "inset -4px 4px 12px rgba(0,0,0,0.12)", overflow: "hidden" }}
             >
               <Image
                 src="/images/familie_2.jpg"
@@ -41,7 +41,7 @@ export default function StorySection() {
               />
             </div>
 
-            <div>
+            <div className="flex flex-col justify-center px-5 py-8 md:px-12 md:py-12 lg:px-16 lg:py-20">
               <span className="inline-flex items-center gap-3 uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
                 Personen bag
               </span>
