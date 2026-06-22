@@ -11,7 +11,7 @@ interface Props {
 }
 
 // Width of each card as % of the carousel viewport, gap between cards in %.
-const CARD_W = 28;
+const CARD_W = 34;
 const GAP = 3;
 const STEP = CARD_W + GAP; // distance the track moves per card
 
