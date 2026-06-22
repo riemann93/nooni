@@ -60,21 +60,21 @@ export default function Hero() {
 
             <div className="absolute inset-0 flex items-center">
               <div className="w-[38%] min-w-[160px] px-4 md:px-10 lg:px-14">
-                <p className="text-[clamp(8px,1vw,12px)] uppercase tracking-[0.22em] text-nooni-sub">
+                <p className="text-[clamp(10px,1.2vw,13px)] uppercase tracking-[0.22em] text-nooni-sub">
                   Kortholder til kortspil
                 </p>
 
-                <h1 className="mt-[1vw] font-editorial italic leading-none text-nooni-headline text-[clamp(32px,7vw,200px)]">
+                <h1 className="mt-[1.5vw] font-editorial italic leading-none text-nooni-headline text-[clamp(44px,8vw,200px)]">
                   Deks
                 </h1>
 
-                <p className="mt-[1vw] font-editorial leading-snug text-nooni-ink-soft text-[clamp(10px,1.4vw,18px)] hidden sm:block">
+                <p className="mt-[1.5vw] font-editorial leading-snug text-nooni-ink-soft text-[clamp(13px,1.6vw,18px)] hidden sm:block">
                   Kortholder til når hænderne ikke kan holde alle kort når man spiller. Fåes i flere farver.
                 </p>
 
                 <Link
                   href="/produkter/deks-duo"
-                  className="mt-[1.5vw] inline-flex items-center gap-2 rounded-full bg-nooni-headline text-white transition-colors hover:bg-[#9d6f6f] text-[clamp(10px,1.1vw,14px)] px-[clamp(12px,2vw,28px)] py-[clamp(6px,1vw,14px)]"
+                  className="mt-[2vw] inline-flex items-center gap-2 rounded-full bg-nooni-headline text-white transition-colors hover:bg-[#9d6f6f] text-[clamp(11px,1.2vw,14px)] px-[clamp(14px,2.2vw,28px)] py-[clamp(8px,1.1vw,14px)]"
                 >
                   Køb nu
                   <span aria-hidden>→</span>
