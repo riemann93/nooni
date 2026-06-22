@@ -28,7 +28,7 @@ export default function StorySection() {
           <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-[0.95fr_1.05fr] md:gap-10 lg:gap-20">
             <div
               className="relative aspect-[4/5] overflow-hidden"
-              style={{ borderRadius: "9999px 9999px 22px 22px" }}
+              style={{ borderRadius: "32px 250px 22px 22px", boxShadow: "inset -4px 4px 12px rgba(0,0,0,0.12)" }}
             >
               <Image
                 src="/images/familie_2.jpg"
