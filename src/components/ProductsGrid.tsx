@@ -61,7 +61,7 @@ export default async function ProductsGrid() {
               className="inline-flex items-center gap-2 rounded-full border border-nooni-sub px-7 py-3 text-sm text-nooni-sub transition-colors hover:bg-nooni-sub hover:text-white"
             >
               Se alle produkter
-              <span aria-hidden>→</span>
+              
             </Link>
           </div>
         </div>

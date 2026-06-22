@@ -36,7 +36,7 @@ export default async function BlogTeaser() {
                 style={{ fontSize: "var(--nooni-text-ui)" }}
               >
                 Læs mere
-                <span aria-hidden>→</span>
+                
               </Link>
             </div>
 

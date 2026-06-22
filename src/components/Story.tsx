@@ -67,7 +67,7 @@ export default function StorySection() {
                 style={{ fontSize: "var(--nooni-text-ui)" }}
               >
                 Min historie
-                <span aria-hidden>→</span>
+                
               </Link>
             </div>
           </div>

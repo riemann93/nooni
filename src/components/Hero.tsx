@@ -78,7 +78,7 @@ export default function Hero() {
                   style={{ fontSize: "var(--nooni-text-ui)" }}
                 >
                   Køb nu
-                  <span aria-hidden>→</span>
+                  
                 </Link>
               </div>
             </div>
