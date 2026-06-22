@@ -65,7 +65,7 @@ export default async function BlogTeaser() {
               */}
               <div
                 className="absolute top-0 bottom-0 left-0 w-full overflow-hidden"
-                style={{ borderRadius: "50px 32px 0 0" }}
+                style={{ borderRadius: "150px 32px 0 0" }}
               >
                 <div className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-110">
                   <video
