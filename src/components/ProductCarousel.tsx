@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import ProductCard from "@/components/ProductCard";
 import type { ProductSummary } from "@/lib/shopify/products";
 
@@ -10,22 +10,29 @@ interface Props {
   imageAspect?: string;
 }
 
-// Width of each card as % of the carousel viewport, gap between cards in %.
-const CARD_W = 34;
 const GAP = 3;
-const STEP = CARD_W + GAP; // distance the track moves per card
 
-// translateX so that card at `index` is centred in the 100%-wide viewport.
-// Position of card[i]'s left edge in the track = i * STEP (in %).
-// We want that left edge to land at (50% - CARD_W/2) in the viewport.
-// So: trackX + i*STEP = 50 - CARD_W/2  →  trackX = 50 - CARD_W/2 - i*STEP
-function trackX(index: number): string {
-  return `${50 - CARD_W / 2 - index * STEP}%`;
+function getCardW() {
+  if (typeof window === "undefined") return 34;
+  return window.innerWidth < 640 ? 65 : 34;
+}
+
+function trackX(index: number, cardW: number): string {
+  const step = cardW + GAP;
+  return `${50 - cardW / 2 - index * step}%`;
 }
 
 export default function ProductCarousel({ products, taglinesByHandle, imageAspect }: Props) {
   const [active, setActive] = useState(Math.floor(products.length / 2));
+  const [cardW, setCardW] = useState(34);
   const touchStartX = useRef<number | null>(null);
+
+  useEffect(() => {
+    function update() { setCardW(getCardW()); }
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   const canPrev = active > 0;
   const canNext = active < products.length - 1;
@@ -43,10 +50,7 @@ export default function ProductCarousel({ products, taglinesByHandle, imageAspec
   }
 
   return (
-    // Outer wrapper — `relative` anchors the arrows, extra px makes
-    // room so the arrow buttons aren't clipped by overflow:hidden.
-    <div className="relative px-10">
-      {/* Clipping container — fades edges with mask */}
+    <div className="relative px-6 sm:px-10">
       <div
         className="overflow-hidden"
         style={{
@@ -56,12 +60,11 @@ export default function ProductCarousel({ products, taglinesByHandle, imageAspec
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
-        {/* Sliding track — width is auto so cards lay out naturally */}
         <div
           className="flex transition-transform duration-300 ease-in-out"
           style={{
             gap: `${GAP}%`,
-            transform: `translateX(${trackX(active)})`,
+            transform: `translateX(${trackX(active, cardW)})`,
           }}
         >
           {products.map((product, i) => (
@@ -69,7 +72,7 @@ export default function ProductCarousel({ products, taglinesByHandle, imageAspec
               key={product.handle}
               className="shrink-0 transition-opacity duration-300"
               style={{
-                width: `${CARD_W}%`,
+                width: `${cardW}%`,
                 opacity: i === active ? 1 : 0.3,
                 pointerEvents: i === active ? "auto" : "none",
               }}
@@ -78,14 +81,13 @@ export default function ProductCarousel({ products, taglinesByHandle, imageAspec
                 product={product}
                 tagline={taglinesByHandle[product.handle]}
                 sizes="(min-width: 1024px) 30vw, 60vw"
-                imageAspect={imageAspect ?? "aspect-[3/4.4]"}
+                imageAspect={imageAspect ?? "aspect-[3/4]"}
               />
             </div>
           ))}
         </div>
       </div>
 
-      {/* Previous arrow */}
       <button
         onClick={() => setActive((i) => i - 1)}
         disabled={!canPrev}
@@ -96,7 +98,6 @@ export default function ProductCarousel({ products, taglinesByHandle, imageAspec
         ←
       </button>
 
-      {/* Next arrow */}
       <button
         onClick={() => setActive((i) => i + 1)}
         disabled={!canNext}
