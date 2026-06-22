@@ -15,7 +15,7 @@
  */
 
 import Link from "next/link";
-import ProductCard from "@/components/ProductCard";
+import ProductCarousel from "@/components/ProductCarousel";
 import { getProductsByHandles } from "@/lib/shopify/products";
 
 export const revalidate = 60;
@@ -53,17 +53,7 @@ export default async function ProductsGrid() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-3 md:grid-cols-5 gap-4 md:gap-6">
-            {products.map((product) => (
-              <ProductCard
-                key={product.handle}
-                product={product}
-                tagline={taglinesByHandle[product.handle]}
-                sizes="(min-width: 1280px) 220px, (min-width: 768px) 20vw, 30vw"
-                imageAspect="aspect-[3/4.4]"
-              />
-            ))}
-          </div>
+          <ProductCarousel products={products} taglinesByHandle={taglinesByHandle} />
 
           <div className="mt-8 flex justify-center md:mt-16">
             <Link
