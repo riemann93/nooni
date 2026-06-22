@@ -18,7 +18,7 @@ export default async function BlogTeaser() {
           <div className="grid grid-cols-1 md:grid-cols-[1fr_0.85fr]">
             {/* Text */}
             <div className="flex flex-col justify-center px-5 py-7 md:px-10 md:py-10 lg:px-14 lg:py-16">
-              <span className="mb-4 inline-flex items-center gap-3 uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
+              <span className="mb-4 uppercase tracking-[0.22em] text-nooni-sub font-medium" style={{ fontSize: "var(--nooni-text-label)" }}>
                 Fra bloggen
               </span>
               <p className="mb-4 uppercase tracking-[0.18em] text-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
