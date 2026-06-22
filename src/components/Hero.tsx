@@ -59,22 +59,22 @@ export default function Hero() {
             />
 
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full px-5 md:px-10 lg:px-14" style={{ maxWidth: "clamp(180px, 33%, 500px)" }}>
-                <p className="text-[10px] uppercase tracking-[0.22em] text-nooni-sub md:text-xs">
+              <div className="w-[38%] min-w-[160px] px-4 md:px-10 lg:px-14">
+                <p className="text-[clamp(8px,1vw,12px)] uppercase tracking-[0.22em] text-nooni-sub">
                   Kortholder til kortspil
                 </p>
 
-                <h1 className="mt-3 font-editorial italic leading-none text-nooni-headline text-[clamp(56px,10vw,200px)] md:mt-4 lg:mt-5">
+                <h1 className="mt-[1vw] font-editorial italic leading-none text-nooni-headline text-[clamp(32px,7vw,200px)]">
                   Deks
                 </h1>
 
-                <p className="mt-3 max-w-sm font-editorial text-sm leading-relaxed text-nooni-ink-soft md:mt-4 md:text-base lg:mt-5 lg:text-lg">
+                <p className="mt-[1vw] font-editorial leading-snug text-nooni-ink-soft text-[clamp(10px,1.4vw,18px)] hidden sm:block">
                   Kortholder til når hænderne ikke kan holde alle kort når man spiller. Fåes i flere farver.
                 </p>
 
                 <Link
                   href="/produkter/deks-duo"
-                  className="mt-5 inline-flex items-center gap-2 rounded-full bg-nooni-headline px-5 py-2.5 text-xs text-white transition-colors hover:bg-[#9d6f6f] md:mt-6 lg:mt-7 lg:px-7 lg:py-3.5 lg:text-sm"
+                  className="mt-[1.5vw] inline-flex items-center gap-2 rounded-full bg-nooni-headline text-white transition-colors hover:bg-[#9d6f6f] text-[clamp(10px,1.1vw,14px)] px-[clamp(12px,2vw,28px)] py-[clamp(6px,1vw,14px)]"
                 >
                   Køb nu
                   <span aria-hidden>→</span>
