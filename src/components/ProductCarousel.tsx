@@ -46,9 +46,13 @@ export default function ProductCarousel({ products, taglinesByHandle, imageAspec
     // Outer wrapper — `relative` anchors the arrows, extra px makes
     // room so the arrow buttons aren't clipped by overflow:hidden.
     <div className="relative px-10">
-      {/* Clipping container — only clips horizontally */}
+      {/* Clipping container — fades edges with mask */}
       <div
         className="overflow-hidden"
+        style={{
+          maskImage: "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)",
+        }}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
