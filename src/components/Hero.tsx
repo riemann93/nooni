@@ -20,10 +20,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 const HERO_PHOTO = {
-  src: "/images/familie_1.jpg",
-  alt:
-    "Familie i hverdagen — placeholderfoto med samme farveunivers som de" +
-    " kommende Dots-produktbilleder",
+  src: "/images/DSC04432.JPG",
+  alt: "Dots personlige mærker til tøj",
 };
 
 /** Border-radius of the photo frame, in px. */
