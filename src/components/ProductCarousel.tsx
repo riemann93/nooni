@@ -7,11 +7,12 @@ import type { ProductSummary } from "@/lib/shopify/products";
 interface Props {
   products: ProductSummary[];
   taglinesByHandle: Record<string, string>;
+  imageAspect?: string;
 }
 
 // Width of each card as % of the carousel viewport, gap between cards in %.
-const CARD_W = 35;
-const GAP = 4;
+const CARD_W = 28;
+const GAP = 3;
 const STEP = CARD_W + GAP; // distance the track moves per card
 
 // translateX so that card at `index` is centred in the 100%-wide viewport.
@@ -22,7 +23,7 @@ function trackX(index: number): string {
   return `${50 - CARD_W / 2 - index * STEP}%`;
 }
 
-export default function ProductCarousel({ products, taglinesByHandle }: Props) {
+export default function ProductCarousel({ products, taglinesByHandle, imageAspect }: Props) {
   const [active, setActive] = useState(Math.floor(products.length / 2));
   const touchStartX = useRef<number | null>(null);
 
@@ -72,8 +73,8 @@ export default function ProductCarousel({ products, taglinesByHandle }: Props) {
               <ProductCard
                 product={product}
                 tagline={taglinesByHandle[product.handle]}
-                sizes="(min-width: 1024px) 45vw, 75vw"
-                imageAspect="aspect-[3/4.4]"
+                sizes="(min-width: 1024px) 30vw, 60vw"
+                imageAspect={imageAspect ?? "aspect-[3/4.4]"}
               />
             </div>
           ))}
