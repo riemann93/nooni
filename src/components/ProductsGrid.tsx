@@ -38,12 +38,12 @@ export default async function ProductsGrid() {
   return (
     <section
       id="produkter"
-      className="bg-nooni-bg py-5 md:py-[45px]"
+      className="bg-nooni-bg py-3 md:py-6"
       data-screen-label="03 Products"
     >
       <div className="mx-auto max-w-[1280px] px-4 md:px-10">
-        <div className="rounded-[2rem] bg-nooni-bg-warm px-5 py-7 md:px-12 md:py-14">
-          <div className="mb-8 max-w-2xl md:mb-16">
+        <div className="rounded-[2rem] bg-nooni-bg-warm px-5 py-5 md:px-12 md:py-8">
+          <div className="mb-4 max-w-2xl md:mb-8">
             <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
               Mest populære
             </p>
@@ -55,7 +55,7 @@ export default async function ProductsGrid() {
 
           <ProductCarousel products={products} taglinesByHandle={taglinesByHandle} imageAspect="aspect-[3/4]" />
 
-          <div className="mt-8 flex justify-center md:mt-16">
+          <div className="mt-4 flex justify-center md:mt-8">
             <Link
               href="/produkter"
               className="inline-flex items-center gap-2 rounded-full border border-nooni-sub px-7 py-3 text-sm text-nooni-sub transition-colors hover:bg-nooni-sub hover:text-white"
