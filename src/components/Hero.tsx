@@ -31,7 +31,7 @@ export default function Hero() {
   return (
     <section className="relative" data-screen-label="01 Hero">
       <div className="mx-auto max-w-[1280px] px-4 pt-3 pb-5 md:px-10 md:pt-4 md:pb-8 lg:pt-6 lg:pb-[45px]">
-        <div className="relative aspect-[1/1] md:aspect-[4/3] lg:aspect-[15/8]">
+        <div className="relative" style={{ height: "clamp(320px, 65vw, 680px)" }}>
           <div
             className="absolute inset-0 overflow-hidden bg-nooni-bg-warm"
             style={{ borderRadius: PHOTO_RADIUS }}
