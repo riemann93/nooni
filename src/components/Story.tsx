@@ -15,6 +15,7 @@
  */
 
 import Image from "next/image";
+import Link from "next/link";
 
 export default function StorySection() {
   return (
@@ -60,6 +61,14 @@ export default function StorySection() {
                   selvtillid og en lettere hverdag.
                 </p>
               </div>
+              <Link
+                href="/om-os"
+                className="mt-8 self-start inline-flex items-center gap-2 rounded-full border border-nooni-sub px-6 py-2.5 text-nooni-sub transition-colors hover:bg-nooni-sub hover:text-white"
+                style={{ fontSize: "var(--nooni-text-ui)" }}
+              >
+                Min historie
+                <span aria-hidden>→</span>
+              </Link>
             </div>
           </div>
         </div>
