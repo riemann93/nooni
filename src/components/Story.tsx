@@ -24,8 +24,8 @@ export default function StorySection() {
       data-screen-label="04 Story"
     >
       <div className="mx-auto max-w-[1280px] px-6 md:px-10">
-        <div className="rounded-[2rem] bg-nooni-bg-warm px-5 py-8 md:px-16 md:py-20">
-          <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-[0.95fr_1.05fr] md:gap-20">
+        <div className="rounded-[2rem] bg-nooni-bg-warm px-5 py-8 md:px-12 md:py-12 lg:px-16 lg:py-20">
+          <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-[0.95fr_1.05fr] md:gap-10 lg:gap-20">
             <div
               className="relative aspect-[4/5] overflow-hidden"
               style={{ borderRadius: "9999px 9999px 22px 22px" }}
@@ -49,7 +49,7 @@ export default function StorySection() {
                 Hvem er bag{" "}
                 <em className="italic text-nooni-headline">Nooni?</em>
               </h2>
-              <div className="font-editorial text-[19px] leading-[1.6] text-nooni-ink-soft space-y-5 max-w-[520px]">
+              <div className="font-editorial text-[clamp(14px,1.6vw,19px)] leading-[1.6] text-nooni-ink-soft space-y-5 max-w-[520px]">
                 <p>
                   Hej! Jeg hedder Camilla. Da jeg måtte vinke farvel til
                   lærerfaget efter en svær depression, fandt jeg lyset og

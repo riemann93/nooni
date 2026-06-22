@@ -17,7 +17,7 @@ export default async function BlogTeaser() {
         <div className="overflow-hidden rounded-[2rem] bg-nooni-bg-warm">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_0.85fr]">
             {/* Text */}
-            <div className="flex flex-col justify-center px-5 py-7 md:px-14 md:py-16">
+            <div className="flex flex-col justify-center px-5 py-7 md:px-10 md:py-10 lg:px-14 lg:py-16">
               <span className="mb-4 inline-flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub">
                 Fra bloggen
               </span>
@@ -27,7 +27,7 @@ export default async function BlogTeaser() {
               <h2 className="mb-5 font-editorial text-[clamp(26px,3vw,40px)] leading-[1.15] text-nooni-ink">
                 {post.title}
               </h2>
-              <p className="mb-9 max-w-[440px] font-editorial text-lg leading-relaxed text-nooni-ink-soft">
+              <p className="mb-6 max-w-[440px] font-editorial text-[clamp(14px,1.5vw,18px)] leading-relaxed text-nooni-ink-soft md:mb-9">
                 {post.excerpt}
               </p>
               <Link
