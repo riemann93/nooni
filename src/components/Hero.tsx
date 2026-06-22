@@ -45,7 +45,7 @@ export default function Hero() {
               // Mirrored horizontally so the in-focus subject sits on the
               // left, where the cream wash + copy veil it — keeping the
               // headline legible over the quieter side of the frame.
-              className="object-cover object-[center_10%] brightness-125 scale-125"
+              className="object-cover object-[center_10%] brightness-[1.35] scale-125"
             />
 
             {/*
