@@ -41,7 +41,7 @@ export default function StorySection() {
               />
             </div>
 
-            <div className="flex flex-col justify-center px-5 py-8 md:px-12 md:py-12 lg:px-16 lg:py-20">
+            <div className="flex flex-col justify-center px-5 py-7 md:px-10 md:py-10 lg:px-14 lg:py-16">
               <span className="inline-flex items-center gap-3 uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
                 Personen bag
               </span>
