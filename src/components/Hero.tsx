@@ -76,7 +76,7 @@ export default function Hero() {
                 </h1>
 
                 <p className="mt-5 max-w-sm font-editorial text-lg leading-relaxed text-nooni-ink-soft">
-                  Kortholder til når hængerne ikke kan holde alle kort når man spiller.
+                  Kortholder til når hænderne ikke kan holde alle kort når man spiller.
                 </p>
 
                 <Link
