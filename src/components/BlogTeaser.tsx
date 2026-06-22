@@ -64,8 +64,8 @@ export default async function BlogTeaser() {
                 the whole section is already cream.
               */}
               <div
-                className="absolute top-0 bottom-0 left-0 w-full overflow-hidden"
-                style={{ borderRadius: "9999px 32px 0 0" }}
+                className="absolute top-0 bottom-0 left-0 w-full overflow-hidden md:w-[200%]"
+                style={{ borderRadius: "9999px 9999px 0 0" }}
               >
                 <div className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-110">
                   <video
