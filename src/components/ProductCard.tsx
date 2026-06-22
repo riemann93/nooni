@@ -95,11 +95,9 @@ export default function ProductCard({
           </span>
         </div>
 
-        <span className="mt-1 inline-flex items-center gap-1 text-[11px] text-nooni-headline sm:mt-2 sm:gap-2 sm:text-[13px]">
-          Se mere
-          <span className="transition-transform duration-300 group-hover:translate-x-1">
-            →
-          </span>
+        <span className="mt-2 inline-flex items-center gap-2 rounded-full bg-nooni-headline px-4 py-2 text-[11px] text-white transition-colors group-hover:bg-[#9d6f6f] sm:mt-3 sm:text-xs">
+          Køb
+          <span aria-hidden>→</span>
         </span>
       </div>
     </Link>
