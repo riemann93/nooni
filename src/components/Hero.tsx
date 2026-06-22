@@ -59,7 +59,7 @@ export default function Hero() {
             />
 
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full max-w-[85%] px-6 md:max-w-[55%] md:px-10 lg:max-w-[46%] lg:px-14">
+              <div className="w-full px-5 md:px-10 lg:px-14" style={{ maxWidth: "clamp(180px, 33%, 500px)" }}>
                 <p className="text-[10px] uppercase tracking-[0.22em] text-nooni-sub md:text-xs">
                   Kortholder til kortspil
                 </p>
