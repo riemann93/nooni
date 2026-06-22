@@ -45,7 +45,7 @@ export default function Hero() {
               // Mirrored horizontally so the in-focus subject sits on the
               // left, where the cream wash + copy veil it — keeping the
               // headline legible over the quieter side of the frame.
-              className="object-cover"
+              className="object-cover object-[center_10%]"
             />
 
             {/*
@@ -61,7 +61,8 @@ export default function Hero() {
                   "linear-gradient(to right," +
                   " rgba(247,239,229,0.96) 0%," +
                   " rgba(247,239,229,0.82) 35%," +
-                  " rgba(247,239,229,0.0) 70%)",
+                  " rgba(247,239,229,0.0) 60%," +
+                  " rgba(247,239,229,0.0) 100%)",
               }}
             />
 
