@@ -53,7 +53,7 @@ export default async function ProductsGrid() {
             </h2>
           </div>
 
-          <ProductCarousel products={products} taglinesByHandle={taglinesByHandle} imageAspect="aspect-[3/4.5]" />
+          <ProductCarousel products={products} taglinesByHandle={taglinesByHandle} imageAspect="aspect-[3/4]" />
 
           <div className="mt-8 flex justify-center md:mt-16">
             <Link
