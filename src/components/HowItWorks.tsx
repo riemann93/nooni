@@ -41,10 +41,10 @@ export default function HowItWorks() {
       <div className="mx-auto max-w-[1280px] px-4 md:px-10">
         <div className="rounded-[2rem] bg-nooni-bg-warm px-5 py-7 md:px-12 md:py-14">
           <div className="mb-6 max-w-2xl md:mb-10">
-            <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
+            <p className="uppercase tracking-[0.22em] text-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
               Sådan virker det
             </p>
-            <h2 className="mt-4 font-editorial text-[clamp(28px,3.5vw,44px)] leading-[1.1] tracking-tight text-nooni-ink">
+            <h2 className="mt-4 font-editorial leading-[1.1] tracking-tight text-nooni-ink" style={{ fontSize: "var(--nooni-text-heading-md)" }}>
               Fra idé til{" "}
               <em className="italic text-nooni-headline">postkasse</em>
             </h2>
@@ -53,13 +53,13 @@ export default function HowItWorks() {
           <ol className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-4 md:gap-8">
             {STEPS.map((step) => (
               <li key={step.num} className="flex flex-col">
-                <span className="font-display font-medium leading-none text-nooni-headline text-[clamp(28px,4vw,48px)]">
+                <span className="font-display font-medium leading-none text-nooni-headline" style={{ fontSize: "var(--nooni-text-heading-lg)" }}>
                   {step.num}
                 </span>
-                <h3 className="mt-2 font-editorial italic font-medium leading-tight text-nooni-ink text-[clamp(14px,2vw,22px)] md:mt-4">
+                <h3 className="mt-2 font-editorial italic font-medium leading-tight text-nooni-ink md:mt-4" style={{ fontSize: "var(--nooni-text-heading-sm)" }}>
                   {step.title}
                 </h3>
-                <p className="mt-1 font-editorial leading-relaxed text-nooni-ink-soft text-[clamp(12px,1.4vw,16px)] md:mt-2 md:max-w-sm">
+                <p className="mt-1 font-editorial leading-relaxed text-nooni-ink-soft md:mt-2 md:max-w-sm" style={{ fontSize: "var(--nooni-text-body)" }}>
                   {step.body}
                 </p>
               </li>

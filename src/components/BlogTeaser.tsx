@@ -18,21 +18,22 @@ export default async function BlogTeaser() {
           <div className="grid grid-cols-1 md:grid-cols-[1fr_0.85fr]">
             {/* Text */}
             <div className="flex flex-col justify-center px-5 py-7 md:px-10 md:py-10 lg:px-14 lg:py-16">
-              <span className="mb-4 inline-flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub">
+              <span className="mb-4 inline-flex items-center gap-3 uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
                 Fra bloggen
               </span>
-              <p className="mb-4 text-xs uppercase tracking-[0.18em] text-nooni-sub">
+              <p className="mb-4 uppercase tracking-[0.18em] text-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
                 {post.date}
               </p>
-              <h2 className="mb-5 font-editorial text-[clamp(26px,3vw,40px)] leading-[1.15] text-nooni-ink">
+              <h2 className="mb-5 font-editorial leading-[1.15] text-nooni-ink" style={{ fontSize: "var(--nooni-text-heading-md)" }}>
                 {post.title}
               </h2>
-              <p className="mb-6 max-w-[440px] font-editorial text-[clamp(14px,1.5vw,18px)] leading-relaxed text-nooni-ink-soft md:mb-9">
+              <p className="mb-6 max-w-[440px] font-editorial leading-relaxed text-nooni-ink-soft md:mb-9" style={{ fontSize: "var(--nooni-text-body-lg)" }}>
                 {post.excerpt}
               </p>
               <Link
                 href={`/blog/${post.slug}`}
-                className="self-start inline-flex items-center gap-2 rounded-full border border-nooni-sub px-6 py-2.5 text-sm text-nooni-sub transition-colors hover:bg-nooni-sub hover:text-white"
+                className="self-start inline-flex items-center gap-2 rounded-full border border-nooni-sub px-6 py-2.5 text-nooni-sub transition-colors hover:bg-nooni-sub hover:text-white"
+                style={{ fontSize: "var(--nooni-text-ui)" }}
               >
                 Læs mere
                 <span aria-hidden>→</span>

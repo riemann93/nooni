@@ -81,21 +81,21 @@ export default function ProductCard({
 
       <div className="flex flex-col gap-1 px-3 py-2 sm:gap-1.5 sm:px-5 sm:py-3">
         {tagline && (
-          <p className="text-[9px] uppercase tracking-[0.2em] text-nooni-sub sm:text-[11px]">
+          <p className="uppercase tracking-[0.2em] text-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
             {tagline}
           </p>
         )}
 
         <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-          <h3 className="font-editorial text-base italic font-medium text-nooni-headline tracking-tight sm:text-2xl">
+          <h3 className="font-editorial italic font-medium text-nooni-headline tracking-tight" style={{ fontSize: "var(--nooni-text-heading-sm)" }}>
             {product.title}
           </h3>
-          <span className="whitespace-nowrap text-xs text-nooni-ink-soft sm:text-sm">
+          <span className="whitespace-nowrap text-nooni-ink-soft" style={{ fontSize: "var(--nooni-text-ui)" }}>
             Fra {formatPrice(price.amount, price.currencyCode)}
           </span>
         </div>
 
-        <span className="mt-2 flex justify-center rounded-full bg-nooni-headline px-4 py-2 text-[11px] text-white transition-colors group-hover:bg-[#9d6f6f] sm:mt-3 sm:text-xs">
+        <span className="mt-2 flex justify-center rounded-full bg-nooni-headline text-white transition-colors group-hover:bg-[#9d6f6f] sm:mt-3 px-4 py-2" style={{ fontSize: "var(--nooni-text-ui)" }}>
           Køb
         </span>
       </div>

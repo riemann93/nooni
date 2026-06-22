@@ -21,6 +21,19 @@
   /* Arch stroke colour */
   --color-nooni-arch:      #C9B8A4;
 
+  /* ── Typografi-skala ─────────────────────────────────────────────────
+     Én central kilde til sandhed for skriftstørrelser på hele sitet.
+     Alle komponenter bruger disse variabler — aldrig hardkodede px/rem.
+     ──────────────────────────────────────────────────────────────────── */
+  --nooni-text-label:      clamp(10px, 0.9vw, 12px);   /* Øjenbryn-labels */
+  --nooni-text-ui:         clamp(12px, 1.1vw, 14px);   /* Knapper, tags, pris */
+  --nooni-text-body:       clamp(14px, 1.3vw, 16px);   /* Brødtekst */
+  --nooni-text-body-lg:    clamp(15px, 1.5vw, 18px);   /* Større brødtekst */
+  --nooni-text-heading-sm: clamp(18px, 2.2vw, 28px);   /* Kort-titler */
+  --nooni-text-heading-md: clamp(26px, 3.2vw, 44px);   /* Sektion-overskrifter */
+  --nooni-text-heading-lg: clamp(32px, 5vw, 64px);     /* Store overskrifter */
+  --nooni-text-hero:       clamp(44px, 8vw, 160px);    /* Hero-overskrift */
+
   /* Fonts — Fredoka for the Nooni wordmark, Inter for body/eyebrows/
      headings, and Cormorant Garamond Light italic as a small editorial
      accent on italic-coloured emphasis words (see

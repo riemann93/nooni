@@ -42,14 +42,14 @@ export default function StorySection() {
             </div>
 
             <div>
-              <span className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub">
+              <span className="inline-flex items-center gap-3 uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
                 Personen bag
               </span>
-              <h2 className="mt-4 mb-8 font-editorial text-[clamp(36px,5vw,64px)] leading-[1.08] text-nooni-ink tracking-tight">
+              <h2 className="mt-4 mb-8 font-editorial leading-[1.08] text-nooni-ink tracking-tight" style={{ fontSize: "var(--nooni-text-heading-lg)" }}>
                 Hvem er bag{" "}
                 <em className="italic text-nooni-headline">Nooni?</em>
               </h2>
-              <div className="font-editorial text-[clamp(14px,1.6vw,19px)] leading-[1.6] text-nooni-ink-soft space-y-5 max-w-[520px]">
+              <div className="font-editorial leading-[1.6] text-nooni-ink-soft space-y-5 max-w-[520px]" style={{ fontSize: "var(--nooni-text-body-lg)" }}>
                 <p>
                   Hej! Jeg hedder Camilla. Da jeg måtte vinke farvel til
                   lærerfaget efter en svær depression, fandt jeg lyset og
