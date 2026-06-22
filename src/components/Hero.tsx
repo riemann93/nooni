@@ -68,26 +68,22 @@ export default function Hero() {
             <div className="absolute inset-0 flex items-center">
               <div className="w-full max-w-[78%] px-6 md:max-w-[46%] md:px-14">
                 <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
-                  Personlige mærker til dit tøj
+                  Kortholder til kortspil
                 </p>
 
                 <h1 className="mt-5 font-editorial italic leading-none text-nooni-headline text-[clamp(96px,14vw,200px)]">
-                  Dots
+                  Deks
                 </h1>
 
                 <p className="mt-5 max-w-sm font-editorial text-lg leading-relaxed text-nooni-ink-soft">
-                  Dots er personlige mærker til lynlåsen,
-                  <br />
-                  fåes med symbol eller navn.
-                  <br />
-                  Designet og produceret i Danmark.
+                  Kortholder til når hængerne ikke kan holde alle kort når man spiller.
                 </p>
 
                 <Link
-                  href="/produkter/dots-med-navn-3stk"
+                  href="/produkter/deks-duo"
                   className="mt-7 inline-flex items-center gap-2 rounded-full bg-nooni-headline px-7 py-3.5 text-sm text-white transition-colors hover:bg-[#9d6f6f]"
                 >
-                  Design din egen
+                  Køb nu
                   <span aria-hidden>→</span>
                 </Link>
               </div>
