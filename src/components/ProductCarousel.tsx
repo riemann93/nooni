@@ -14,7 +14,10 @@ const GAP = 3;
 
 function getCardW() {
   if (typeof window === "undefined") return 34;
-  return window.innerWidth < 640 ? 65 : 34;
+  const w = window.innerWidth;
+  if (w <= 375) return 65;
+  if (w >= 900) return 34;
+  return 65 - ((w - 375) / (900 - 375)) * (65 - 34);
 }
 
 function trackX(index: number, cardW: number): string {
