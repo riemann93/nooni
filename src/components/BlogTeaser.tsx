@@ -73,7 +73,7 @@ export default async function BlogTeaser() {
                     muted
                     loop
                     playsInline
-                    className="absolute inset-0 h-full w-full object-cover"
+                    className="absolute inset-0 h-full w-full md:w-1/2 object-cover"
                     style={{ objectPosition: "center 30%" }}
                   >
                     <source src="/images/20260610_212110.mp4" type="video/mp4" />
