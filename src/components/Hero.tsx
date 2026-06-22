@@ -31,7 +31,7 @@ export default function Hero() {
   return (
     <section className="relative" data-screen-label="01 Hero">
       <div className="mx-auto max-w-[1280px] px-4 pt-3 pb-5 md:px-10 md:pt-6 md:pb-[45px]">
-        <div className="relative aspect-[1/1] md:aspect-[15/8]">
+        <div className="relative aspect-[1/1] md:aspect-[4/3] lg:aspect-[15/8]">
           <div
             className="absolute inset-0 overflow-hidden bg-nooni-bg-warm"
             style={{ borderRadius: PHOTO_RADIUS }}
@@ -45,7 +45,7 @@ export default function Hero() {
               // Mirrored horizontally so the in-focus subject sits on the
               // left, where the cream wash + copy veil it — keeping the
               // headline legible over the quieter side of the frame.
-              className="object-cover object-[center_10%] brightness-[1.35] scale-125"
+              className="object-cover object-[center_10%] brightness-[1.35] scale-110 lg:scale-125"
             />
 
             {/*
