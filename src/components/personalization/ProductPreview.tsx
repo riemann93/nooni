@@ -70,9 +70,16 @@ export default function ProductPreview({
           role="img"
           aria-label="Forhåndsvisning af din konfigurerede Dot"
         >
+          <defs>
+            <filter id="motif-shadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="1" stdDeviation="1.5" floodColor="rgba(0,0,0,0.25)" />
+            </filter>
+          </defs>
           <circle cx="50" cy="50" r="48" fill={mainHex} />
           {showMotif && motifKey && (
-            <MotifRenderer motifKey={motifKey} color={secondaryHex} />
+            <g transform="translate(5 5) scale(0.9)" filter="url(#motif-shadow)">
+              <MotifRenderer motifKey={motifKey} color={secondaryHex} />
+            </g>
           )}
         </svg>
       </div>
