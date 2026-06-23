@@ -20,8 +20,6 @@
 
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
-import ProductDescription from "@/components/ProductDescription";
 import ProductPageClient from "@/components/personalization/ProductPageClient";
 import {
   getSchemaForHandle,
@@ -52,28 +50,6 @@ export async function generateMetadata({
 }
 
 /**
- * Split a product title on " - " (sentence-style dash) and apply the
- * site's two-tone emphasis treatment to the trailing part.
- *
- *   "Dots - symbol"  →  [Dots] (Inter, ink) + [symbol] (Cormorant
- *   Light italic, headline rose), matching the homepage h2 pattern.
- *
- * Titles without " - " pass through unchanged.
- */
-function renderProductTitle(title: string): ReactNode {
-  const sep = " - ";
-  const idx = title.indexOf(sep);
-  if (idx === -1) return title;
-  const main = title.slice(0, idx);
-  const accent = title.slice(idx + sep.length);
-  return (
-    <>
-      {main}{" "}
-      <em className="italic text-nooni-headline">{accent}</em>
-    </>
-  );
-}
-
 function formatPrice(amount: string, currencyCode: string): string {
   return new Intl.NumberFormat("da-DK", {
     style: "currency",
@@ -114,41 +90,16 @@ export default async function ProductPage({ params }: PageProps) {
 
   return (
     <section className="relative z-[1] mx-auto max-w-[1280px] px-6 py-[45px] md:px-10">
-      <div className="mb-6">
-        {!product.availableForSale && (
-          <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
-            Udsolgt
-          </p>
-        )}
-
-        {meta.tagline && (
-          <p className="mb-2 font-editorial italic text-lg text-nooni-ink-soft">
-            {meta.tagline}
-          </p>
-        )}
-
-        <h1 className="font-editorial text-5xl leading-[1.05] tracking-tight text-nooni-ink">
-          {renderProductTitle(product.title)}
-        </h1>
-
-        <p className="mt-3 font-editorial text-[1.7rem] font-medium text-nooni-ink">
-          {priceLabel}
-        </p>
-
-        {product.descriptionHtml && (
-          <ProductDescription
-            html={product.descriptionHtml}
-            className="mt-4 font-editorial text-lg leading-relaxed text-nooni-ink-soft"
-          />
-        )}
-      </div>
-
       <ProductPageClient
         handle={handle}
         images={product.images.nodes}
         productTitle={product.title}
         variants={product.variants.nodes}
         schema={schema}
+        tagline={meta.tagline}
+        priceLabel={priceLabel}
+        availableForSale={product.availableForSale}
+        descriptionHtml={product.descriptionHtml}
       />
     </section>
   );
