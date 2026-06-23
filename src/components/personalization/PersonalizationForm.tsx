@@ -161,7 +161,7 @@ function ColorField({ field, value, onChange }: ColorFieldProps) {
               onMouseLeave={() => setTooltip(null)}
               onFocus={(e) => showAtButton(opt, e.currentTarget)}
               onBlur={() => setTooltip(null)}
-              className={`relative h-12 w-12 overflow-hidden rounded-xl transition-transform hover:scale-105 ${
+              className={`relative h-6 w-6 overflow-hidden rounded-lg transition-transform hover:scale-105 ${
                 selected
                   ? "ring-2 ring-nooni-headline ring-offset-2 ring-offset-nooni-bg"
                   : "ring-1 ring-nooni-line-soft"

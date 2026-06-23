@@ -75,14 +75,17 @@ export default function ProductGallery({
                   type="button"
                   onClick={(e) => {
                     setActiveIdx(i);
-                    // If near right edge, scroll forward to reveal next items
                     const btn = e.currentTarget;
                     const container = thumbsRef.current;
                     if (container) {
                       const btnRight = btn.offsetLeft + btn.offsetWidth;
+                      const btnLeft = btn.offsetLeft;
                       const visibleRight = container.scrollLeft + container.clientWidth;
+                      const visibleLeft = container.scrollLeft;
                       if (btnRight > visibleRight - btn.offsetWidth) {
                         container.scrollBy({ left: btn.offsetWidth * 2, behavior: "smooth" });
+                      } else if (btnLeft < visibleLeft + btn.offsetWidth) {
+                        container.scrollBy({ left: -btn.offsetWidth * 2, behavior: "smooth" });
                       }
                     }
                   }}
