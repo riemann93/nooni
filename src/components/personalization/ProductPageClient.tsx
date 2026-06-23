@@ -131,53 +131,53 @@ export default function ProductPageClient({
             />
           )}
 
-          {/* Snapshot carousel */}
-          {snapshots.length > 0 && (
-            <div className="relative mt-4">
-              <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-8 bg-gradient-to-r from-nooni-bg to-transparent" />
-              <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-8 bg-gradient-to-l from-nooni-bg to-transparent" />
-              <div
-                ref={snapshotRef}
-                className="flex gap-3 overflow-x-auto px-1 py-1 [scroll-snap-type:x_mandatory] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-              >
-                {snapshots.map((snap, i) => {
-                  const selected = selectedSnapshotIdx === i;
-                  return (
-                    <button
-                      key={i}
-                      type="button"
-                      aria-label={`Vis gemt eksempel ${i + 1}`}
-                      aria-pressed={selected}
-                      onClick={(e) => {
-                        setSelectedSnapshotIdx(selected ? null : i);
-                        setActiveTab("preview");
-                        const btn = e.currentTarget;
-                        const container = snapshotRef.current;
-                        if (container) {
-                          const btnRight = btn.offsetLeft + btn.offsetWidth;
-                          const btnLeft = btn.offsetLeft;
-                          const visibleRight = container.scrollLeft + container.clientWidth;
-                          const visibleLeft = container.scrollLeft;
-                          if (btnRight > visibleRight - btn.offsetWidth) {
-                            container.scrollBy({ left: btn.offsetWidth * 2, behavior: "smooth" });
-                          } else if (btnLeft < visibleLeft + btn.offsetWidth) {
-                            container.scrollBy({ left: -btn.offsetWidth * 2, behavior: "smooth" });
-                          }
+          {/* Snapshot carousel — always rendered to reserve the same space as the image thumbnail row */}
+          <div className={`relative mt-4 ${snapshots.length === 0 ? "invisible pointer-events-none" : ""}`}>
+            <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-8 bg-gradient-to-r from-nooni-bg to-transparent" />
+            <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-8 bg-gradient-to-l from-nooni-bg to-transparent" />
+            <div
+              ref={snapshotRef}
+              className="flex gap-3 overflow-x-auto px-1 py-1 [scroll-snap-type:x_mandatory] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {snapshots.length === 0 ? (
+                <div className="aspect-square w-[19%] flex-none" aria-hidden />
+              ) : snapshots.map((snap, i) => {
+                const selected = selectedSnapshotIdx === i;
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    aria-label={`Vis gemt eksempel ${i + 1}`}
+                    aria-pressed={selected}
+                    onClick={(e) => {
+                      setSelectedSnapshotIdx(selected ? null : i);
+                      setActiveTab("preview");
+                      const btn = e.currentTarget;
+                      const container = snapshotRef.current;
+                      if (container) {
+                        const btnRight = btn.offsetLeft + btn.offsetWidth;
+                        const btnLeft = btn.offsetLeft;
+                        const visibleRight = container.scrollLeft + container.clientWidth;
+                        const visibleLeft = container.scrollLeft;
+                        if (btnRight > visibleRight - btn.offsetWidth) {
+                          container.scrollBy({ left: btn.offsetWidth * 2, behavior: "smooth" });
+                        } else if (btnLeft < visibleLeft + btn.offsetWidth) {
+                          container.scrollBy({ left: -btn.offsetWidth * 2, behavior: "smooth" });
                         }
-                      }}
-                      className={`relative aspect-square w-[19%] flex-none overflow-hidden rounded-lg bg-nooni-bg-warm transition-all [scroll-snap-align:start] ${
-                        selected
-                          ? "ring-2 ring-nooni-headline ring-offset-2 ring-offset-nooni-bg"
-                          : "opacity-70 hover:opacity-100"
-                      }`}
-                    >
-                      <SnapshotDot values={snap.values} colors={snap.colors} />
-                    </button>
-                  );
-                })}
-              </div>
+                      }
+                    }}
+                    className={`relative aspect-square w-[19%] flex-none overflow-hidden rounded-lg bg-nooni-bg-warm transition-all [scroll-snap-align:start] ${
+                      selected
+                        ? "ring-2 ring-nooni-headline ring-offset-2 ring-offset-nooni-bg"
+                        : "opacity-70 hover:opacity-100"
+                    }`}
+                  >
+                    <SnapshotDot values={snap.values} colors={snap.colors} />
+                  </button>
+                );
+              })}
             </div>
-          )}
+          </div>
         </div>
 
         {/* Right column */}
