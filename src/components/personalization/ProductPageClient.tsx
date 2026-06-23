@@ -86,6 +86,7 @@ export default function ProductPageClient({
 
   const handleValuesChange = useCallback((next: Record<string, string>) => {
     setValues(next);
+    setSelectedSnapshotIdx(null);
     if (next.motif) setActiveTab("preview");
   }, []);
 
