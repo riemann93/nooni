@@ -24,15 +24,7 @@ import {
 } from "@/lib/shopify/personalization";
 import MotifRenderer, { hasMotifRenderer } from "./motifs";
 
-/**
- * Handles that should render a preview.
- *
- * Empty for launch — the live "Forhåndsvisning" was deemed
- * non-launch-critical and switched off. The component and its
- * threading are kept intact; re-add a handle here (e.g. "dots-5stk")
- * to bring the preview back.
- */
-export const PREVIEW_SUPPORTED_HANDLES = new Set<string>();
+export const PREVIEW_SUPPORTED_HANDLES = new Set<string>(["dots-5stk"]);
 
 /** Pale fallback used until the customer picks the main colour. */
 const NEUTRAL_MAIN_HEX = "#EFE6D8"; // matches --color-nooni-line-soft
@@ -70,10 +62,11 @@ export default function ProductPreview({
         Forhåndsvisning
       </p>
 
-      <div className="flex aspect-square w-full max-w-[280px] items-center justify-center rounded-3xl bg-nooni-bg-warm p-8">
+      {/* Glass card — roughly ¼ of the product image area */}
+      <div className="inline-flex items-center justify-center rounded-2xl border border-white/40 bg-white/20 p-5 shadow-[0_8px_32px_rgba(61,50,40,0.12)] backdrop-blur-md">
         <svg
           viewBox="0 0 100 100"
-          className="h-full w-full"
+          className="h-[140px] w-[140px]"
           role="img"
           aria-label="Forhåndsvisning af din konfigurerede Dot"
         >
@@ -83,10 +76,6 @@ export default function ProductPreview({
           )}
         </svg>
       </div>
-
-      <p className="mt-3 text-xs text-nooni-ink-soft/70">
-        Sådan kommer din Dot til at se ud.
-      </p>
     </div>
   );
 }
