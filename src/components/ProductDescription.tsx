@@ -39,12 +39,18 @@ export default function ProductDescription({
   const [needsToggle, setNeedsToggle] = useState(false);
   const innerRef = useRef<HTMLDivElement | null>(null);
 
-  // After mount (and whenever the inner content changes size), check
-  // whether the natural content height actually exceeds the clamp.
   useEffect(() => {
     const node = innerRef.current;
     if (!node) return;
     setNeedsToggle(node.scrollHeight > COLLAPSED_HEIGHT_PX + 8);
+    const first = node.firstElementChild as HTMLElement | null;
+    if (first) {
+      first.style.fontFamily = "var(--font-editorial)";
+      first.style.color = "var(--color-nooni-headline, #B48383)";
+      first.style.fontSize = "1.5rem";
+      first.style.lineHeight = "1.3";
+      first.style.marginBottom = "1rem";
+    }
   }, [html]);
 
   return (
@@ -59,7 +65,6 @@ export default function ProductDescription({
       >
         <div
           ref={innerRef}
-          className="[&>p:first-child]:text-nooni-headline [&>p:first-child]:text-2xl [&>p:first-child]:mb-4"
           dangerouslySetInnerHTML={{ __html: html }}
         />
         {!expanded && needsToggle && (
