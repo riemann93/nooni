@@ -106,7 +106,6 @@ export default function ContactForm() {
         className="inline-flex items-center gap-2 rounded-full bg-nooni-headline px-7 py-3.5 text-sm text-white transition-colors hover:bg-[#9d6f6f] disabled:cursor-not-allowed disabled:opacity-60"
       >
         {pending ? "Sender…" : "Send besked"}
-        {!pending && }
       </button>
     </form>
   );
