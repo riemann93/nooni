@@ -84,6 +84,10 @@ export default function ProductPageClient({
   const showPreview = schema !== null && PREVIEW_SUPPORTED_HANDLES.has(handle);
   const palette = paletteFromSchema(schema);
 
+  const isDuplicate = snapshots.some(
+    (s) => JSON.stringify(s.values) === JSON.stringify(values),
+  );
+
   const handleValuesChange = useCallback((next: Record<string, string>) => {
     setValues(next);
     setSelectedSnapshotIdx(null);
@@ -122,7 +126,7 @@ export default function ProductPageClient({
               values={selectedSnapshotIdx !== null ? snapshots[selectedSnapshotIdx].values : values}
               colors={selectedSnapshotIdx !== null ? snapshots[selectedSnapshotIdx].colors : palette}
               fullSize
-              onSave={selectedSnapshotIdx !== null ? undefined : handleSave}
+              onSave={selectedSnapshotIdx !== null || isDuplicate ? undefined : handleSave}
             />
           )}
 
