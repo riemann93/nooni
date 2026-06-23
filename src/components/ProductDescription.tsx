@@ -31,6 +31,10 @@ interface ProductDescriptionProps {
 
 const COLLAPSED_HEIGHT_PX = 300;
 
+function injectFirstParaClass(html: string): string {
+  return html.replace(/^(\s*<\w+)/, '$1 class="desc-lead"');
+}
+
 export default function ProductDescription({
   html,
   className = "",
@@ -43,14 +47,6 @@ export default function ProductDescription({
     const node = innerRef.current;
     if (!node) return;
     setNeedsToggle(node.scrollHeight > COLLAPSED_HEIGHT_PX + 8);
-    const first = node.firstElementChild as HTMLElement | null;
-    if (first) {
-      first.style.fontFamily = "var(--font-editorial)";
-      first.style.color = "var(--color-nooni-headline, #B48383)";
-      first.style.fontSize = "1.5rem";
-      first.style.lineHeight = "1.3";
-      first.style.marginBottom = "1rem";
-    }
   }, [html]);
 
   return (
@@ -65,7 +61,7 @@ export default function ProductDescription({
       >
         <div
           ref={innerRef}
-          dangerouslySetInnerHTML={{ __html: html }}
+          dangerouslySetInnerHTML={{ __html: injectFirstParaClass(html) }}
         />
         {!expanded && needsToggle && (
           <div
