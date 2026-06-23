@@ -61,7 +61,7 @@ export default function Hero() {
             <div className="absolute inset-0 flex items-center">
               <div className="w-[38%] min-w-[160px] px-4 md:px-10 lg:px-14">
                 <p className="uppercase tracking-[0.22em] text-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
-                  TEST
+                  Kortholder til kortspil
                 </p>
 
                 <h1 className="mt-[1.5vw] font-editorial italic leading-none text-nooni-headline" style={{ fontSize: "var(--nooni-text-hero)" }}>
