@@ -92,6 +92,10 @@ export default function ProductPageClient({
 
   const handleSave = useCallback(() => {
     setSnapshots((prev) => [...prev, { values, colors: palette }]);
+    requestAnimationFrame(() => {
+      const container = snapshotRef.current;
+      if (container) container.scrollTo({ left: container.scrollWidth, behavior: "smooth" });
+    });
   }, [values, palette]);
 
   return (
