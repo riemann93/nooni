@@ -96,6 +96,7 @@ export default function ProductPageClient({
 
   const handleSave = useCallback(() => {
     setSnapshots((prev) => [...prev, { values, colors: palette }]);
+    setActiveTab("preview");
     requestAnimationFrame(() => {
       const container = snapshotRef.current;
       if (container) container.scrollTo({ left: container.scrollWidth, behavior: "smooth" });
@@ -180,40 +181,41 @@ export default function ProductPageClient({
         </div>
 
         {/* Right column */}
-        <div className="flex flex-col md:max-h-[calc(50vw-2.5rem)] md:min-h-0 md:overflow-y-auto md:pr-1">
-          {!availableForSale && (
-            <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
-              Udsolgt
+        <div className="flex flex-col">
+          <div className="flex flex-col md:max-h-[calc(50vw-2.5rem)] md:min-h-0 md:overflow-y-auto md:pr-1">
+            {!availableForSale && (
+              <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
+                Udsolgt
+              </p>
+            )}
+            {tagline && (
+              <p className="mb-3 font-editorial italic text-lg text-nooni-ink-soft">
+                {tagline}
+              </p>
+            )}
+            <h1 className="font-editorial text-5xl leading-[1.05] tracking-tight text-nooni-ink">
+              {renderProductTitle(productTitle)}
+            </h1>
+            <p className="mt-4 font-editorial text-[1.7rem] font-medium text-nooni-ink">
+              {priceLabel}
             </p>
+            <ProductPurchaseSection
+              handle={handle}
+              variants={variants}
+              schema={schema}
+              onValuesChange={handleValuesChange}
+            />
+          </div>
+          {descriptionHtml && (
+            <div className="mt-8 border-t border-nooni-line-soft pt-6">
+              <ProductDescription
+                html={descriptionHtml}
+                className="font-editorial text-lg leading-relaxed text-nooni-ink-soft"
+              />
+            </div>
           )}
-          {tagline && (
-            <p className="mb-3 font-editorial italic text-lg text-nooni-ink-soft">
-              {tagline}
-            </p>
-          )}
-          <h1 className="font-editorial text-5xl leading-[1.05] tracking-tight text-nooni-ink">
-            {renderProductTitle(productTitle)}
-          </h1>
-          <p className="mt-4 font-editorial text-[1.7rem] font-medium text-nooni-ink">
-            {priceLabel}
-          </p>
-          <ProductPurchaseSection
-            handle={handle}
-            variants={variants}
-            schema={schema}
-            onValuesChange={handleValuesChange}
-          />
         </div>
       </div>
-
-      {descriptionHtml && (
-        <div className="mt-8 border-t border-nooni-line-soft pt-6">
-          <ProductDescription
-            html={descriptionHtml}
-            className="font-editorial text-lg leading-relaxed text-nooni-ink-soft"
-          />
-        </div>
-      )}
     </>
   );
 }
