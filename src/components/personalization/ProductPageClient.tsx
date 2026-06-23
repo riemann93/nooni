@@ -263,10 +263,10 @@ function TabButton({
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full px-4 py-1.5 text-xs uppercase tracking-[0.15em] transition-colors ${
+      className={`rounded-full px-4 py-1.5 text-xs uppercase tracking-[0.15em] transition-colors shadow-sm backdrop-blur-sm ${
         active
           ? "bg-nooni-headline text-white"
-          : "bg-nooni-bg-warm text-nooni-ink-soft hover:text-nooni-headline"
+          : "bg-white/70 text-nooni-ink-soft hover:bg-white hover:text-nooni-headline"
       }`}
     >
       {children}
