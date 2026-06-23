@@ -59,9 +59,10 @@ export default function ProductPreview({
             type="button"
             onClick={onSave}
             aria-label="Gem forhåndsvisning"
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-white/70 text-nooni-ink shadow-sm backdrop-blur-sm transition-all hover:bg-white hover:scale-110"
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 flex h-9 items-center gap-1.5 rounded-full bg-white/70 px-4 text-sm text-nooni-ink shadow-sm backdrop-blur-sm transition-all hover:bg-white hover:scale-105"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <span>Gem</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <polyline points="6 9 12 15 18 9" />
             </svg>
           </button>
