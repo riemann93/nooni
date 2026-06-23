@@ -75,20 +75,14 @@ export default function ProductPageClient({
   availableForSale,
   descriptionHtml,
 }: ProductPageClientProps) {
-  const isPreviewSupported = schema !== null && PREVIEW_SUPPORTED_HANDLES.has(handle);
-  const [values, setValues] = useState<Record<string, string>>(
-    isPreviewSupported ? { main_color: "warm", secondary_color: "headline" } : {},
-  );
+  const [values, setValues] = useState<Record<string, string>>({});
   const [activeTab, setActiveTab] = useState<"billeder" | "preview">("billeder");
   const [snapshots, setSnapshots] = useState<Snapshot[]>([]);
   const [selectedSnapshotIdx, setSelectedSnapshotIdx] = useState<number | null>(null);
   const snapshotRef = useRef<HTMLDivElement>(null);
 
-  const showPreview = isPreviewSupported;
+  const showPreview = schema !== null && PREVIEW_SUPPORTED_HANDLES.has(handle);
   const palette = paletteFromSchema(schema);
-  const initialFormValues = showPreview
-    ? { main_color: "warm", secondary_color: "headline" }
-    : undefined;
 
   const isDuplicate = snapshots.some(
     (s) => JSON.stringify(s.values) === JSON.stringify(values),
@@ -208,7 +202,6 @@ export default function ProductPageClient({
             variants={variants}
             schema={schema}
             onValuesChange={handleValuesChange}
-            initialValues={initialFormValues}
           />
         </div>
       </div>
