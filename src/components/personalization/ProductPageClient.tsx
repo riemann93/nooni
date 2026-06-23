@@ -81,14 +81,14 @@ export default function ProductPageClient({
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:items-start">
         <ProductGallery
           images={images}
           productTitle={productTitle}
           overlay={overlay}
         />
 
-        <div className="flex flex-col">
+        <div className="flex flex-col md:max-h-[calc(50vw-2.5rem)] md:min-h-0 md:overflow-y-auto md:pr-1">
           {!availableForSale && (
             <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
               Udsolgt
@@ -105,7 +105,7 @@ export default function ProductPageClient({
             {renderProductTitle(productTitle)}
           </h1>
 
-          <p className="mt-5 font-editorial text-[1.7rem] font-medium text-nooni-ink">
+          <p className="mt-4 font-editorial text-[1.7rem] font-medium text-nooni-ink">
             {priceLabel}
           </p>
 
@@ -119,7 +119,7 @@ export default function ProductPageClient({
       </div>
 
       {descriptionHtml && (
-        <div className="mt-14 border-t border-nooni-line-soft pt-10">
+        <div className="mt-8 border-t border-nooni-line-soft pt-6">
           <ProductDescription
             html={descriptionHtml}
             className="font-editorial text-lg leading-relaxed text-nooni-ink-soft"

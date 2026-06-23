@@ -103,8 +103,8 @@ export default function ProductPurchaseSection({
   return (
     <>
       {variants.length > 1 && (
-        <div className="mt-10 border-t border-nooni-line-soft pt-8">
-          <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-nooni-ink">
+        <div className="mt-5 border-t border-nooni-line-soft pt-5">
+          <p className="mb-2 text-sm font-medium uppercase tracking-[0.18em] text-nooni-ink">
             Størrelse
           </p>
           <div className="flex flex-wrap gap-2">
@@ -132,12 +132,12 @@ export default function ProductPurchaseSection({
       )}
 
       {schema && (
-        <div className="mt-10 border-t border-nooni-line-soft pt-8">
+        <div className="mt-5 border-t border-nooni-line-soft pt-5">
           <PersonalizationForm schema={schema} onChange={handleFormChange} />
         </div>
       )}
 
-      <div className="mt-10">
+      <div className="mt-5">
         <AddToCartButton
           variantId={selectedVariant?.id ?? ""}
           availableForSale={availableForSale}
