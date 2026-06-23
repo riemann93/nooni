@@ -68,12 +68,6 @@ export default function BlogIndex() {
                       </p>
                       <span className="mt-5 inline-flex items-center gap-2 text-sm text-nooni-headline">
                         Læs mere
-                        <span
-                          aria-hidden
-                          className="transition-transform duration-300 group-hover:translate-x-1"
-                        >
-                          →
-                        </span>
                       </span>
                     </div>
                   </Link>

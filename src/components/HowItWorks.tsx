@@ -7,6 +7,8 @@
  * than another full-width band of warm tone.
  */
 
+import Image from "next/image";
+
 interface Step {
   num: string;
   title: string;
@@ -35,36 +37,52 @@ const STEPS: Step[] = [
 export default function HowItWorks() {
   return (
     <section
-      className="bg-nooni-bg py-[45px]"
+      className="bg-nooni-bg py-5 md:py-[45px]"
       data-screen-label="02 How it works"
     >
       <div className="mx-auto max-w-[1280px] px-6 md:px-10">
         <div className="rounded-[2rem] bg-nooni-bg-warm px-8 py-12 md:px-12 md:py-14">
-          <div className="mb-10 max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
-              Sådan virker det
-            </p>
-            <h2 className="mt-4 font-editorial text-[clamp(28px,3.5vw,44px)] leading-[1.1] tracking-tight text-nooni-ink">
-              Fra idé til{" "}
-              <em className="italic text-nooni-headline">postkasse</em>
-            </h2>
-          </div>
-
-          <ol className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
-            {STEPS.map((step) => (
-              <li key={step.num} className="flex flex-col">
-                <span className="font-display text-4xl font-medium leading-none text-nooni-headline">
-                  {step.num}
-                </span>
-                <h3 className="mt-4 font-editorial text-xl italic font-medium leading-tight text-nooni-ink">
-                  {step.title}
-                </h3>
-                <p className="mt-2 max-w-sm font-editorial text-base leading-relaxed text-nooni-ink-soft">
-                  {step.body}
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16 md:items-center">
+            {/* Text + steps */}
+            <div>
+              <div className="mb-10">
+                <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
+                  Sådan virker det
                 </p>
-              </li>
-            ))}
-          </ol>
+                <h2 className="mt-4 font-editorial text-[clamp(28px,3.5vw,44px)] leading-[1.1] tracking-tight text-nooni-ink">
+                  Fra idé til{" "}
+                  <em className="italic text-nooni-headline">postkasse</em>
+                </h2>
+              </div>
+
+              <ol className="grid grid-cols-1 gap-10 md:gap-8">
+                {STEPS.map((step) => (
+                  <li key={step.num} className="flex flex-col">
+                    <span className="font-display text-4xl font-medium leading-none text-nooni-headline">
+                      {step.num}
+                    </span>
+                    <h3 className="mt-4 font-editorial text-xl italic font-medium leading-tight text-nooni-ink">
+                      {step.title}
+                    </h3>
+                    <p className="mt-2 max-w-sm font-editorial text-base leading-relaxed text-nooni-ink-soft">
+                      {step.body}
+                    </p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+            {/* Product image */}
+            <div className="relative overflow-hidden rounded-[1.5rem] aspect-[4/3]">
+              <Image
+                src="/images/dots_name_lifestyle.jpg"
+                alt="Dots navn — personligt mærke til lynlåsen"
+                fill
+                sizes="(min-width: 1024px) 45vw, 90vw"
+                className="object-cover"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>

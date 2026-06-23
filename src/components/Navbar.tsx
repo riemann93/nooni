@@ -11,11 +11,12 @@
 import Link from "next/link";
 import CartPill from "./CartPill";
 import Logo from "./Logo";
+import MobileMenu from "./MobileMenu";
 
 export default function Navbar() {
   return (
     <header className="sticky top-0 z-[2] w-full">
-      <div className="mx-auto max-w-[1280px] px-4 py-4 md:px-6">
+      <div className="relative mx-auto max-w-[1280px] px-4 py-4 md:px-6">
         <div className="nooni-glass flex items-center justify-between px-7 py-4 md:px-8">
           <Link href="/" aria-label="Nooni — forsiden">
             <Logo className="text-3xl md:text-4xl" />
@@ -48,7 +49,10 @@ export default function Navbar() {
             </Link>
           </nav>
 
-          <CartPill />
+          <div className="flex items-center gap-3">
+            <CartPill />
+            <MobileMenu />
+          </div>
         </div>
       </div>
     </header>

@@ -51,7 +51,7 @@ export default function Footer() {
               className="inline-flex items-center gap-2 rounded-full bg-nooni-headline px-6 py-3 text-sm text-white transition-colors hover:bg-[#9d6f6f]"
             >
               Skriv til os
-              <span aria-hidden>→</span>
+              
             </Link>
 
             <a

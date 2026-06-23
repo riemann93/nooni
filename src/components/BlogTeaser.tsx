@@ -6,8 +6,8 @@ export default async function BlogTeaser() {
   if (!post) return null;
 
   return (
-    <section id="blog" className="relative z-[1] bg-nooni-bg py-[45px]" data-screen-label="05 Blog">
-      <div className="mx-auto max-w-[1280px] px-6 md:px-10">
+    <section id="blog" className="relative z-[1] bg-nooni-bg py-5 md:py-[45px]" data-screen-label="05 Blog">
+      <div className="mx-auto max-w-[1280px] px-4 md:px-10">
         {/*
           overflow-hidden on this container clips the half-arch on the right:
           the image column's inner div is 200% wide on desktop so the arch
@@ -17,25 +17,26 @@ export default async function BlogTeaser() {
         <div className="overflow-hidden rounded-[2rem] bg-nooni-bg-warm">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_0.85fr]">
             {/* Text */}
-            <div className="flex flex-col justify-center px-10 py-12 md:px-14 md:py-16">
-              <span className="mb-4 inline-flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub">
+            <div className="flex flex-col justify-center px-5 py-7 md:px-10 md:py-10 lg:px-14 lg:py-16">
+              <span className="mb-4 uppercase tracking-[0.22em] text-nooni-sub font-medium" style={{ fontSize: "var(--nooni-text-label)" }}>
                 Fra bloggen
               </span>
-              <p className="mb-4 text-xs uppercase tracking-[0.18em] text-nooni-sub">
+              <p className="mb-4 uppercase tracking-[0.18em] text-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
                 {post.date}
               </p>
-              <h2 className="mb-5 font-editorial text-[clamp(26px,3vw,40px)] leading-[1.15] text-nooni-ink">
+              <h2 className="mb-5 font-editorial leading-[1.15] text-nooni-ink" style={{ fontSize: "var(--nooni-text-heading-md)" }}>
                 {post.title}
               </h2>
-              <p className="mb-9 max-w-[440px] font-editorial text-lg leading-relaxed text-nooni-ink-soft">
+              <p className="mb-6 max-w-[440px] font-editorial leading-relaxed text-nooni-ink-soft md:mb-9" style={{ fontSize: "var(--nooni-text-body-lg)" }}>
                 {post.excerpt}
               </p>
               <Link
                 href={`/blog/${post.slug}`}
-                className="self-start inline-flex items-center gap-2 rounded-full border border-nooni-sub px-6 py-2.5 text-sm text-nooni-sub transition-colors hover:bg-nooni-sub hover:text-white"
+                className="self-start inline-flex items-center gap-2 rounded-full border border-nooni-sub px-6 py-2.5 text-nooni-sub transition-colors hover:bg-nooni-sub hover:text-white"
+                style={{ fontSize: "var(--nooni-text-ui)" }}
               >
                 Læs mere
-                <span aria-hidden>→</span>
+                
               </Link>
             </div>
 
@@ -64,36 +65,21 @@ export default async function BlogTeaser() {
                 the whole section is already cream.
               */}
               <div
-                className="absolute top-0 bottom-0 left-0 w-full overflow-hidden md:w-[200%]"
-                style={{ borderRadius: "9999px 9999px 0 0" }}
+                className="absolute top-0 bottom-0 left-0 w-full overflow-hidden"
+                style={{ borderRadius: "250px 32px 0 0", boxShadow: "inset 4px 4px 12px rgba(0,0,0,0.12)" }}
               >
-                {/*
-                  Inner layer carries the photo and scales on hover. The
-                  outer div clips it (overflow-hidden), so the arch frame
-                  stays still while only the photo zooms — same effect the
-                  old <Image> had before the background-image switch.
-                */}
-                <div
-                  className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-110"
-                  style={{
-                    backgroundColor: "var(--color-nooni-bg-warm)",
-                    backgroundImage: `url(${post.image})`,
-                    backgroundRepeat: "no-repeat",
-                    // Desktop box is 200% of the column; only the left half
-                    // is visible. backgroundSize is a % of that full box
-                    // WIDTH, so 50% ≈ the visible half-arch width — the
-                    // photo spans the visible arch, bag shown whole (zoomed
-                    // out from the old hard crop). Raise the % for a bigger
-                    // bag, lower it for smaller.
-                    backgroundSize: "50% auto",
-                    // The photo is taller than the box, so 0–100% selects
-                    // which vertical slice shows with NO gap. LOWER values
-                    // move the photo DOWN (show a higher slice); 100% sits
-                    // it at the base. Going above 100% lifts it up and
-                    // opens a gap at the bottom — avoid. Tune within 0–100.
-                    backgroundPosition: "left 60%",
-                  }}
-                />
+                <div className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-110">
+                  <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="absolute inset-0 h-full w-full object-cover"
+                    style={{ objectPosition: "center 30%" }}
+                  >
+                    <source src="/images/20260610_212110.mp4" type="video/mp4" />
+                  </video>
+                </div>
               </div>
             </Link>
           </div>

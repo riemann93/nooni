@@ -46,12 +46,15 @@ interface ProductCardProps {
   tagline?: string;
   /** Image sizes hint — tune per surface for accurate srcset selection. */
   sizes?: string;
+  /** Override the image container aspect ratio class. Defaults to aspect-[3/4]. */
+  imageAspect?: string;
 }
 
 export default function ProductCard({
   product,
   tagline,
-  sizes = "(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw",
+  sizes = "(min-width: 1024px) 30vw, 45vw",
+  imageAspect = "aspect-[3/4]",
 }: ProductCardProps) {
   const image = product.images.nodes[0];
   const price = product.priceRange.minVariantPrice;
@@ -65,7 +68,7 @@ export default function ProductCard({
       }}
     >
       {image && (
-        <div className="relative aspect-[3/4]">
+        <div className={`relative ${imageAspect}`}>
           <Image
             src={image.url}
             alt={image.altText ?? product.title}
@@ -76,27 +79,24 @@ export default function ProductCard({
         </div>
       )}
 
-      <div className="flex flex-col gap-2 px-7 py-6">
+      <div className="flex flex-col gap-1 px-3 py-2 sm:gap-1.5 sm:px-5 sm:py-3">
         {tagline && (
-          <p className="text-[11px] uppercase tracking-[0.2em] text-nooni-sub">
+          <p className="uppercase tracking-[0.2em] text-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
             {tagline}
           </p>
         )}
 
-        <div className="flex items-baseline justify-between gap-4">
-          <h3 className="font-editorial text-2xl italic font-medium text-nooni-headline tracking-tight">
+        <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+          <h3 className="font-editorial italic font-medium text-nooni-headline tracking-tight" style={{ fontSize: "var(--nooni-text-heading-sm)" }}>
             {product.title}
           </h3>
-          <span className="whitespace-nowrap text-sm text-nooni-ink-soft">
+          <span className="whitespace-nowrap text-nooni-ink-soft" style={{ fontSize: "var(--nooni-text-ui)" }}>
             Fra {formatPrice(price.amount, price.currencyCode)}
           </span>
         </div>
 
-        <span className="mt-2 inline-flex items-center gap-2 text-[13px] text-nooni-headline">
-          Se mere
-          <span className="transition-transform duration-300 group-hover:translate-x-1">
-            →
-          </span>
+        <span className="mt-2 flex justify-center rounded-full bg-nooni-headline text-white transition-colors group-hover:bg-[#9d6f6f] sm:mt-3 px-4 py-2" style={{ fontSize: "var(--nooni-text-ui)" }}>
+          Køb
         </span>
       </div>
     </Link>

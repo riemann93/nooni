@@ -203,6 +203,7 @@ function CartLineRow({
             alt={image.altText ?? productTitle}
             width={image.width}
             height={image.height}
+            sizes="80px"
             className="h-full w-full object-cover"
           />
         </div>

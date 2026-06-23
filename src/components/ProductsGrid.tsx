@@ -15,7 +15,7 @@
  */
 
 import Link from "next/link";
-import ProductCard from "@/components/ProductCard";
+import ProductCarousel from "@/components/ProductCarousel";
 import { getProductsByHandles } from "@/lib/shopify/products";
 
 export const revalidate = 60;
@@ -33,43 +33,35 @@ const CARDS: CardCopy[] = [
 
 export default async function ProductsGrid() {
   const products = await getProductsByHandles(CARDS.map((c) => c.handle));
-  const taglinesByHandle = new Map(CARDS.map((c) => [c.handle, c.tagline]));
+  const taglinesByHandle = Object.fromEntries(CARDS.map((c) => [c.handle, c.tagline]));
 
   return (
     <section
       id="produkter"
-      className="bg-nooni-bg py-[45px]"
+      className="bg-nooni-bg py-3 md:py-6"
       data-screen-label="03 Products"
     >
-      <div className="mx-auto max-w-[1280px] px-6 md:px-10">
-        <div className="rounded-[2rem] bg-nooni-bg-warm px-8 py-12 md:px-12 md:py-14">
-          <div className="mb-16 max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
+      <div className="mx-auto max-w-[1280px] px-4 md:px-10">
+        <div className="rounded-[2rem] bg-nooni-bg-warm px-5 py-5 md:px-12 md:py-8">
+          <div className="mb-4 max-w-2xl md:mb-8">
+            <p className="uppercase tracking-[0.22em] text-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
               Mest populære
             </p>
-            <h2 className="mt-4 font-editorial text-[clamp(32px,4vw,52px)] leading-[1.1] tracking-tight text-nooni-ink">
+            <h2 className="mt-4 font-editorial leading-[1.1] tracking-tight text-nooni-ink" style={{ fontSize: "var(--nooni-text-heading-md)" }}>
               Mere end{" "}
               <em className="italic text-nooni-headline">personlige mærker</em>
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-y-12 gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
-            {products.map((product) => (
-              <ProductCard
-                key={product.handle}
-                product={product}
-                tagline={taglinesByHandle.get(product.handle)}
-              />
-            ))}
-          </div>
+          <ProductCarousel products={products} taglinesByHandle={taglinesByHandle} imageAspect="aspect-[3/4]" />
 
-          <div className="mt-16 flex justify-center">
+          <div className="mt-4 flex justify-center md:mt-8">
             <Link
               href="/produkter"
               className="inline-flex items-center gap-2 rounded-full border border-nooni-sub px-7 py-3 text-sm text-nooni-sub transition-colors hover:bg-nooni-sub hover:text-white"
             >
               Se alle produkter
-              <span aria-hidden>→</span>
+              
             </Link>
           </div>
         </div>

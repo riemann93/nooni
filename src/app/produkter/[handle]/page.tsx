@@ -114,7 +114,7 @@ export default async function ProductPage({ params }: PageProps) {
       : `${formatPrice(minPrice.amount, minPrice.currencyCode)} – ${formatPrice(maxPrice.amount, maxPrice.currencyCode)}`;
 
   return (
-    <section className="relative z-[1] mx-auto max-w-[1280px] px-6 py-24 md:px-10">
+    <section className="relative z-[1] mx-auto max-w-[1280px] px-6 py-[45px] md:px-10">
       <div className="grid grid-cols-1 gap-14 md:grid-cols-2">
         <ProductGallery
           images={product.images.nodes}
@@ -145,7 +145,7 @@ export default async function ProductPage({ params }: PageProps) {
             {renderProductTitle(product.title)}
           </h1>
 
-          <p className="mt-5 font-editorial text-4xl font-medium text-nooni-ink">
+          <p className="mt-5 font-editorial text-[1.7rem] font-medium text-nooni-ink">
             {priceLabel}
           </p>
 
@@ -156,14 +156,10 @@ export default async function ProductPage({ params }: PageProps) {
             />
           )}
 
-          {product.variants.nodes[0] ? (
+          {product.variants.nodes.length > 0 ? (
             <ProductPurchaseSection
               handle={handle}
-              variantId={product.variants.nodes[0].id}
-              availableForSale={
-                product.availableForSale &&
-                product.variants.nodes[0].availableForSale
-              }
+              variants={product.variants.nodes}
               schema={schema}
             />
           ) : (

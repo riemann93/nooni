@@ -20,9 +20,7 @@ export interface ProductMeta {
 }
 
 export const PRODUCT_META: Record<string, ProductMeta> = {
-  "dots-5stk": {
-    tagline: "Personligt mærke til lynlås",
-  },
+  "dots-5stk": {},
 };
 
 export function getProductMeta(handle: string): ProductMeta {

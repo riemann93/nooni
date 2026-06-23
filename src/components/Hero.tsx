@@ -20,10 +20,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 const HERO_PHOTO = {
-  src: "/images/familie_1.jpg",
-  alt:
-    "Familie i hverdagen — placeholderfoto med samme farveunivers som de" +
-    " kommende Dots-produktbilleder",
+  src: "/images/DSC04432.JPG",
+  alt: "Dots personlige mærker til tøj",
 };
 
 /** Border-radius of the photo frame, in px. */
@@ -32,8 +30,8 @@ const PHOTO_RADIUS = 28;
 export default function Hero() {
   return (
     <section className="relative" data-screen-label="01 Hero">
-      <div className="mx-auto max-w-[1280px] px-6 pt-3 pb-[45px] md:px-10 md:pt-6">
-        <div className="relative aspect-[4/5] md:aspect-[3/2]">
+      <div className="mx-auto max-w-[1280px] px-4 pt-3 pb-5 md:px-10 md:pt-4 md:pb-8 lg:pt-6 lg:pb-[45px]">
+        <div className="relative" style={{ height: "clamp(320px, 65vw, 680px)" }}>
           <div
             className="absolute inset-0 overflow-hidden bg-nooni-bg-warm"
             style={{ borderRadius: PHOTO_RADIUS }}
@@ -44,17 +42,9 @@ export default function Hero() {
               fill
               priority
               sizes="(min-width: 1280px) 1232px, 100vw"
-              // Mirrored horizontally so the in-focus subject sits on the
-              // left, where the cream wash + copy veil it — keeping the
-              // headline legible over the quieter side of the frame.
-              className="object-cover -scale-x-100"
+              className="object-cover object-[center_10%] brightness-[1.35] scale-110 lg:scale-125"
             />
 
-            {/*
-             * Cream wash on the left. Stronger / wider on mobile so the
-             * copy survives over busier crops of the photo. The right
-             * side fades fully so the photo stays the dominant element.
-             */}
             <div
               aria-hidden
               className="absolute inset-0 pointer-events-none"
@@ -62,35 +52,33 @@ export default function Hero() {
                 background:
                   "linear-gradient(to right," +
                   " rgba(247,239,229,0.96) 0%," +
-                  " rgba(247,239,229,0.82) 35%," +
-                  " rgba(247,239,229,0.0) 70%)",
+                  " rgba(247,239,229,0.88) 40%," +
+                  " rgba(247,239,229,0.0) 70%," +
+                  " rgba(247,239,229,0.0) 100%)",
               }}
             />
 
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full max-w-[78%] px-6 md:max-w-[46%] md:px-14">
-                <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
-                  Personlige mærker til dit tøj
+              <div className="w-[38%] min-w-[160px] px-4 md:px-10 lg:px-14">
+                <p className="uppercase tracking-[0.22em] text-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
+                  Kortholder til kortspil
                 </p>
 
-                <h1 className="mt-5 font-editorial italic leading-none text-nooni-headline text-[clamp(96px,14vw,200px)]">
-                  Dots
+                <h1 className="mt-[1.5vw] font-editorial italic leading-none text-nooni-headline" style={{ fontSize: "var(--nooni-text-hero)" }}>
+                  Deks
                 </h1>
 
-                <p className="mt-5 max-w-sm font-editorial text-lg leading-relaxed text-nooni-ink-soft">
-                  Dots er personlige mærker til lynlåsen,
-                  <br />
-                  fåes med symbol eller navn.
-                  <br />
-                  Designet og produceret i Danmark.
+                <p className="mt-[1.5vw] font-editorial leading-snug text-nooni-ink-soft hidden sm:block" style={{ fontSize: "var(--nooni-text-body-lg)" }}>
+                  Kortholder til når hænderne ikke kan holde alle kort når man spiller. Fåes i flere farver.
                 </p>
 
                 <Link
-                  href="/produkter/dots-med-navn-3stk"
-                  className="mt-7 inline-flex items-center gap-2 rounded-full bg-nooni-headline px-7 py-3.5 text-sm text-white transition-colors hover:bg-[#9d6f6f]"
+                  href="/produkter/deks-duo"
+                  className="mt-[2vw] inline-flex items-center gap-2 rounded-full bg-nooni-headline text-white transition-colors hover:bg-[#9d6f6f] px-[clamp(14px,2.2vw,28px)] py-[clamp(8px,1.1vw,14px)]"
+                  style={{ fontSize: "var(--nooni-text-ui)" }}
                 >
-                  Design din egen
-                  <span aria-hidden>→</span>
+                  Køb nu
+                  
                 </Link>
               </div>
             </div>

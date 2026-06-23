@@ -29,6 +29,16 @@ import {
   type FieldDef,
   type PersonalizationSchema,
 } from "@/lib/shopify/personalization";
+import type { Money, ProductVariant } from "@/lib/shopify/types";
+
+function formatPrice(money: Money): string {
+  return new Intl.NumberFormat("da-DK", {
+    style: "currency",
+    currency: money.currencyCode,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  }).format(parseFloat(money.amount));
+}
 
 /** Pull the colour palette out of a schema (first colour field's options). */
 function paletteFromSchema(
@@ -53,18 +63,22 @@ function paletteFromSchema(
 interface ProductPurchaseSectionProps {
   /** Shopify product handle — used to gate the live preview. */
   handle: string;
-  variantId: string;
-  availableForSale: boolean;
+  variants: ProductVariant[];
   /** null when the product has no personalization. */
   schema: PersonalizationSchema | null;
 }
 
 export default function ProductPurchaseSection({
   handle,
-  variantId,
-  availableForSale,
+  variants,
   schema,
 }: ProductPurchaseSectionProps) {
+  const [selectedVariantId, setSelectedVariantId] = useState<string>(
+    variants[0]?.id ?? "",
+  );
+  const selectedVariant = variants.find((v) => v.id === selectedVariantId) ?? variants[0];
+  const availableForSale = selectedVariant?.availableForSale ?? false;
+
   const [values, setValues] = useState<Record<string, string>>({});
   // Default valid=true when there's no schema; default false otherwise
   // so the button starts disabled until required fields are filled.
@@ -88,6 +102,35 @@ export default function ProductPurchaseSection({
 
   return (
     <>
+      {variants.length > 1 && (
+        <div className="mt-10 border-t border-nooni-line-soft pt-8">
+          <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-nooni-ink">
+            Størrelse
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {variants.map((v) => (
+              <button
+                key={v.id}
+                onClick={() => setSelectedVariantId(v.id)}
+                disabled={!v.availableForSale}
+                className={[
+                  "rounded-full border px-5 py-2 text-sm transition-colors",
+                  v.id === selectedVariantId
+                    ? "border-nooni-ink bg-nooni-ink text-white"
+                    : "border-nooni-line-soft bg-transparent text-nooni-ink hover:border-nooni-ink",
+                  !v.availableForSale ? "cursor-not-allowed opacity-40" : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+              >
+                <span>{v.title}</span>
+                <span className="block text-xs opacity-70">{formatPrice(v.price)}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {showPreview && (
         <div className="mt-10 border-t border-nooni-line-soft pt-8">
           <ProductPreview values={values} colors={palette} />
@@ -102,7 +145,7 @@ export default function ProductPurchaseSection({
 
       <div className="mt-10">
         <AddToCartButton
-          variantId={variantId}
+          variantId={selectedVariant?.id ?? ""}
           availableForSale={availableForSale}
           attributes={attributes}
           disabled={!isValid}

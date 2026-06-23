@@ -24,10 +24,10 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <HowItWorks />
       <ProductsGrid />
       <Story />
       <BlogTeaser />
+      <HowItWorks />
     </>
   );
 }
