@@ -47,7 +47,7 @@ export default function ProductPreview({
       </defs>
       <circle cx="50" cy="50" r="48" fill={mainHex} filter="url(#circle-shadow)" />
       {showMotif && motifKey && (
-        <g transform="translate(5 5) scale(0.9)" filter="url(#motif-shadow)">
+        <g transform="translate(9.5 5.5) scale(0.81)" filter="url(#motif-shadow)">
           <MotifRenderer motifKey={motifKey} color={secondaryHex} />
         </g>
       )}
