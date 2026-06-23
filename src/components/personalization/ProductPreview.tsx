@@ -40,7 +40,7 @@ export default function ProductPreview({
         <filter id="motif-shadow" x="-20%" y="-20%" width="140%" height="140%">
           <feDropShadow dx="0" dy="1" stdDeviation="1.5" floodColor="rgba(0,0,0,0.25)" />
         </filter>
-        <filter id="circle-shadow" x="-20%" y="-15%" width="140%" height="140%">
+        <filter id="circle-shadow" x="-30%" y="-30%" width="160%" height="160%">
           <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="rgba(80,45,30,0.45)" />
         </filter>
       </defs>
