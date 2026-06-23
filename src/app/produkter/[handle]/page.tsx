@@ -49,7 +49,6 @@ export async function generateMetadata({
   };
 }
 
-/**
 function formatPrice(amount: string, currencyCode: string): string {
   return new Intl.NumberFormat("da-DK", {
     style: "currency",
