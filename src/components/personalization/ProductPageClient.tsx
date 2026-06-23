@@ -90,11 +90,7 @@ export default function ProductPageClient({
   }, []);
 
   const handleSave = useCallback(() => {
-    setSnapshots((prev) => {
-      const next = [...prev, { values, colors: palette }];
-      setSelectedSnapshotIdx(next.length - 1);
-      return next;
-    });
+    setSnapshots((prev) => [...prev, { values, colors: palette }]);
   }, [values, palette]);
 
   return (
