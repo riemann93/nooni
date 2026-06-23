@@ -21,7 +21,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         href="/blog"
         className="inline-flex items-center gap-2 text-sm text-nooni-sub transition-colors hover:text-nooni-headline"
       >
-        <span aria-hidden>←</span> Tilbage til bloggen
+        Tilbage til bloggen
       </Link>
 
       <p className="mt-10 text-xs uppercase tracking-[0.18em] text-nooni-sub">

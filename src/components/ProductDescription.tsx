@@ -74,12 +74,6 @@ export default function ProductDescription({
           aria-expanded={expanded}
         >
           {expanded ? "Skjul" : "Læs mere"}
-          <span
-            aria-hidden
-            className={`transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
-          >
-            ↓
-          </span>
         </button>
       )}
     </div>
