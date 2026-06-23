@@ -109,27 +109,28 @@ export default function ProductPageClient({
 
         {/* Left column */}
         <div>
-          {showPreview && (
-            <div className="mb-3 flex gap-1">
-              <TabButton active={activeTab === "billeder"} onClick={() => setActiveTab("billeder")}>
-                Billeder
-              </TabButton>
-              <TabButton active={activeTab === "preview"} onClick={() => setActiveTab("preview")}>
-                Forhåndsvisning
-              </TabButton>
-            </div>
-          )}
-
-          {!showPreview || activeTab === "billeder" ? (
-            <ProductGallery images={images} productTitle={productTitle} />
-          ) : (
-            <ProductPreview
-              values={selectedSnapshotIdx !== null ? snapshots[selectedSnapshotIdx].values : values}
-              colors={selectedSnapshotIdx !== null ? snapshots[selectedSnapshotIdx].colors : palette}
-              fullSize
-              onSave={selectedSnapshotIdx !== null || isDuplicate ? undefined : handleSave}
-            />
-          )}
+          <div className="relative">
+            {!showPreview || activeTab === "billeder" ? (
+              <ProductGallery images={images} productTitle={productTitle} />
+            ) : (
+              <ProductPreview
+                values={selectedSnapshotIdx !== null ? snapshots[selectedSnapshotIdx].values : values}
+                colors={selectedSnapshotIdx !== null ? snapshots[selectedSnapshotIdx].colors : palette}
+                fullSize
+                onSave={selectedSnapshotIdx !== null || isDuplicate ? undefined : handleSave}
+              />
+            )}
+            {showPreview && (
+              <div className="absolute left-3 top-3 flex gap-1">
+                <TabButton active={activeTab === "billeder"} onClick={() => setActiveTab("billeder")}>
+                  Billeder
+                </TabButton>
+                <TabButton active={activeTab === "preview"} onClick={() => setActiveTab("preview")}>
+                  Forhåndsvisning
+                </TabButton>
+              </div>
+            )}
+          </div>
 
           {/* Snapshot carousel — only shown on preview tab, always reserves space so layout matches gallery */}
           <div className={`relative mt-4 ${activeTab !== "preview" || !showPreview ? "hidden" : snapshots.length === 0 ? "invisible pointer-events-none" : ""}`}>
