@@ -32,6 +32,7 @@ export default function ProductPreview({
   const dotSvg = (
     <svg
       viewBox="0 0 100 100"
+      overflow="visible"
       role="img"
       aria-label="Forhåndsvisning af din konfigurerede Dot"
       className={fullSize ? "h-[62%] w-[62%]" : "h-[140px] w-[140px]"}
