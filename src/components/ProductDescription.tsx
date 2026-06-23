@@ -57,7 +57,11 @@ export default function ProductDescription({
             : `${COLLAPSED_HEIGHT_PX}px`,
         }}
       >
-        <div ref={innerRef} dangerouslySetInnerHTML={{ __html: html }} />
+        <div
+          ref={innerRef}
+          className="[&>p:first-child]:text-nooni-headline [&>p:first-child]:text-2xl [&>p:first-child]:mb-4"
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
         {!expanded && needsToggle && (
           <div
             aria-hidden
