@@ -22,8 +22,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import ProductDescription from "@/components/ProductDescription";
-import ProductGallery from "@/components/ProductGallery";
-import ProductPurchaseSection from "@/components/personalization/ProductPurchaseSection";
+import ProductPageClient from "@/components/personalization/ProductPageClient";
 import {
   getSchemaForHandle,
   withColorOptions,
@@ -115,60 +114,42 @@ export default async function ProductPage({ params }: PageProps) {
 
   return (
     <section className="relative z-[1] mx-auto max-w-[1280px] px-6 py-[45px] md:px-10">
-      <div className="grid grid-cols-1 gap-14 md:grid-cols-2">
-        <ProductGallery
-          images={product.images.nodes}
-          productTitle={product.title}
-        />
-
-        <div className="flex flex-col">
-          {/*
-            Availability pill: only render "Udsolgt" when the product is
-            unbuyable. We intentionally do NOT show a "På lager" pill,
-            since many Nooni products are made-to-order and inventory
-            isn't tracked — claiming stock we don't measure would be a
-            promise we can't keep.
-          */}
-          {!product.availableForSale && (
-            <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
-              Udsolgt
-            </p>
-          )}
-
-          {meta.tagline && (
-            <p className="mb-3 font-editorial italic text-lg text-nooni-ink-soft">
-              {meta.tagline}
-            </p>
-          )}
-
-          <h1 className="font-editorial text-5xl leading-[1.05] tracking-tight text-nooni-ink">
-            {renderProductTitle(product.title)}
-          </h1>
-
-          <p className="mt-5 font-editorial text-[1.7rem] font-medium text-nooni-ink">
-            {priceLabel}
+      <div className="mb-6">
+        {!product.availableForSale && (
+          <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
+            Udsolgt
           </p>
+        )}
 
-          {product.descriptionHtml && (
-            <ProductDescription
-              html={product.descriptionHtml}
-              className="mt-8 font-editorial text-lg leading-relaxed text-nooni-ink-soft"
-            />
-          )}
+        {meta.tagline && (
+          <p className="mb-2 font-editorial italic text-lg text-nooni-ink-soft">
+            {meta.tagline}
+          </p>
+        )}
 
-          {product.variants.nodes.length > 0 ? (
-            <ProductPurchaseSection
-              handle={handle}
-              variants={product.variants.nodes}
-              schema={schema}
-            />
-          ) : (
-            <p className="mt-10 text-sm text-nooni-ink-soft">
-              Dette produkt kan ikke købes lige nu.
-            </p>
-          )}
-        </div>
+        <h1 className="font-editorial text-5xl leading-[1.05] tracking-tight text-nooni-ink">
+          {renderProductTitle(product.title)}
+        </h1>
+
+        <p className="mt-3 font-editorial text-[1.7rem] font-medium text-nooni-ink">
+          {priceLabel}
+        </p>
+
+        {product.descriptionHtml && (
+          <ProductDescription
+            html={product.descriptionHtml}
+            className="mt-4 font-editorial text-lg leading-relaxed text-nooni-ink-soft"
+          />
+        )}
       </div>
+
+      <ProductPageClient
+        handle={handle}
+        images={product.images.nodes}
+        productTitle={product.title}
+        variants={product.variants.nodes}
+        schema={schema}
+      />
     </section>
   );
 }
