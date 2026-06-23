@@ -65,6 +65,8 @@ interface ProductPurchaseSectionProps {
   schema: PersonalizationSchema | null;
   /** Optional callback fired whenever form values change (used by parent for overlay). */
   onValuesChange?: (values: Record<string, string>) => void;
+  /** Pre-selected form values shown on first render. */
+  initialValues?: Record<string, string>;
 }
 
 export default function ProductPurchaseSection({
@@ -72,6 +74,7 @@ export default function ProductPurchaseSection({
   variants,
   schema,
   onValuesChange,
+  initialValues,
 }: ProductPurchaseSectionProps) {
   const [selectedVariantId, setSelectedVariantId] = useState<string>(
     variants[0]?.id ?? "",
@@ -79,7 +82,7 @@ export default function ProductPurchaseSection({
   const selectedVariant = variants.find((v) => v.id === selectedVariantId) ?? variants[0];
   const availableForSale = selectedVariant?.availableForSale ?? false;
 
-  const [values, setValues] = useState<Record<string, string>>({});
+  const [values, setValues] = useState<Record<string, string>>(initialValues ?? {});
   // Default valid=true when there's no schema; default false otherwise
   // so the button starts disabled until required fields are filled.
   const [isValid, setIsValid] = useState<boolean>(!schema);
@@ -133,7 +136,7 @@ export default function ProductPurchaseSection({
 
       {schema && (
         <div className="mt-5 border-t border-nooni-line-soft pt-5">
-          <PersonalizationForm schema={schema} onChange={handleFormChange} />
+          <PersonalizationForm schema={schema} onChange={handleFormChange} initialValues={initialValues} />
         </div>
       )}
 

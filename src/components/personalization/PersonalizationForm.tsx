@@ -29,13 +29,15 @@ import {
 interface PersonalizationFormProps {
   schema: PersonalizationSchema;
   onChange?: (values: Record<string, string>, isValid: boolean) => void;
+  initialValues?: Record<string, string>;
 }
 
 export default function PersonalizationForm({
   schema,
   onChange,
+  initialValues,
 }: PersonalizationFormProps) {
-  const [values, setValues] = useState<Record<string, string>>({});
+  const [values, setValues] = useState<Record<string, string>>(initialValues ?? {});
 
   // Single source of truth for "set this key to this value, or unset it".
   const setField = useCallback((key: string, value: string | undefined) => {
