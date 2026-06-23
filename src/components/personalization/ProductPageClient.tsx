@@ -182,19 +182,19 @@ export default function ProductPageClient({
 
         {/* Right column */}
         <div className="flex flex-col md:max-h-[calc(50vw-2.5rem)] md:min-h-0 md:overflow-y-auto md:pr-1">
-          {!availableForSale && (
-            <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
-              Udsolgt
-            </p>
-          )}
-          {tagline && (
-            <p className="mb-3 font-editorial italic text-lg text-nooni-ink-soft">
-              {tagline}
-            </p>
-          )}
           <h1 className="font-editorial text-5xl leading-[1.05] tracking-tight text-nooni-ink">
             {renderProductTitle(productTitle)}
           </h1>
+          {tagline && (
+            <p className="mt-2 font-editorial italic text-lg text-nooni-ink-soft">
+              {tagline}
+            </p>
+          )}
+          {!availableForSale && (
+            <p className="mt-2 text-xs uppercase tracking-[0.22em] text-nooni-sub">
+              Udsolgt
+            </p>
+          )}
           <p className="mt-4 font-editorial text-[1.7rem] font-medium text-nooni-ink">
             {priceLabel}
           </p>
