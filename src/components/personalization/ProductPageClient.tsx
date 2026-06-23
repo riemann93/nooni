@@ -67,27 +67,44 @@ export default function ProductPageClient({
   descriptionHtml,
 }: ProductPageClientProps) {
   const [values, setValues] = useState<Record<string, string>>({});
-
-  const handleValuesChange = useCallback((next: Record<string, string>) => {
-    setValues(next);
-  }, []);
+  const [activeTab, setActiveTab] = useState<"billeder" | "preview">("billeder");
 
   const showPreview = schema !== null && PREVIEW_SUPPORTED_HANDLES.has(handle);
   const palette = paletteFromSchema(schema);
 
-  const overlay = showPreview ? (
-    <ProductPreview values={values} colors={palette} />
-  ) : undefined;
+  const handleValuesChange = useCallback((next: Record<string, string>) => {
+    setValues(next);
+    // Auto-switch to preview when a symbol is chosen
+    if (next.motif) {
+      setActiveTab("preview");
+    }
+  }, []);
 
   return (
     <>
       <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:items-start">
-        <ProductGallery
-          images={images}
-          productTitle={productTitle}
-          overlay={overlay}
-        />
 
+        {/* Left column: tabs + gallery or full-size preview */}
+        <div>
+          {showPreview && (
+            <div className="mb-3 flex gap-1">
+              <TabButton active={activeTab === "billeder"} onClick={() => setActiveTab("billeder")}>
+                Billeder
+              </TabButton>
+              <TabButton active={activeTab === "preview"} onClick={() => setActiveTab("preview")}>
+                Forhåndsvisning
+              </TabButton>
+            </div>
+          )}
+
+          {!showPreview || activeTab === "billeder" ? (
+            <ProductGallery images={images} productTitle={productTitle} />
+          ) : (
+            <ProductPreview values={values} colors={palette} fullSize />
+          )}
+        </div>
+
+        {/* Right column: title, price, form */}
         <div className="flex flex-col md:max-h-[calc(50vw-2.5rem)] md:min-h-0 md:overflow-y-auto md:pr-1">
           {!availableForSale && (
             <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
@@ -127,5 +144,29 @@ export default function ProductPageClient({
         </div>
       )}
     </>
+  );
+}
+
+function TabButton({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`rounded-full px-4 py-1.5 text-xs uppercase tracking-[0.15em] transition-colors ${
+        active
+          ? "bg-nooni-headline text-white"
+          : "bg-nooni-bg-warm text-nooni-ink-soft hover:text-nooni-headline"
+      }`}
+    >
+      {children}
+    </button>
   );
 }
