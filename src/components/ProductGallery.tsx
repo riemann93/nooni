@@ -80,7 +80,7 @@ export default function ProductGallery({
       </div>
 
       {hasMultiple && (
-        <div className="mt-4 grid grid-cols-4 gap-3 sm:grid-cols-5 lg:grid-cols-6">
+        <div className="mt-4 flex gap-3 overflow-x-auto pb-1 [scroll-snap-type:x_mandatory] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {images.map((img, i) => {
             const selected = i === activeIdx;
             return (
@@ -90,7 +90,7 @@ export default function ProductGallery({
                 onClick={() => setActiveIdx(i)}
                 aria-label={`Vis billede ${i + 1} af ${images.length}`}
                 aria-pressed={selected}
-                className={`relative aspect-square overflow-hidden rounded-lg bg-nooni-bg-warm transition-all ${
+                className={`relative aspect-square w-[38%] flex-none overflow-hidden rounded-lg bg-nooni-bg-warm transition-all [scroll-snap-align:start] ${
                   selected
                     ? "ring-2 ring-nooni-headline ring-offset-2 ring-offset-nooni-bg"
                     : "opacity-70 hover:opacity-100"
@@ -100,7 +100,7 @@ export default function ProductGallery({
                   src={img.url}
                   alt=""
                   fill
-                  sizes="120px"
+                  sizes="200px"
                   className="object-cover"
                 />
               </button>
