@@ -21,16 +21,19 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import type { ReactNode } from "react";
 import type { ShopifyImage } from "@/lib/shopify/types";
 
 interface ProductGalleryProps {
   images: ShopifyImage[];
   productTitle: string;
+  overlay?: ReactNode;
 }
 
 export default function ProductGallery({
   images,
   productTitle,
+  overlay,
 }: ProductGalleryProps) {
   const [activeIdx, setActiveIdx] = useState(0);
   if (images.length === 0) return null;
@@ -67,6 +70,12 @@ export default function ProductGallery({
               label="Næste billede"
             />
           </>
+        )}
+
+        {overlay && (
+          <div className="pointer-events-none absolute bottom-4 right-4">
+            {overlay}
+          </div>
         )}
       </div>
 

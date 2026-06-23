@@ -20,9 +20,6 @@
 import { useCallback, useMemo, useState } from "react";
 import AddToCartButton from "@/components/AddToCartButton";
 import PersonalizationForm from "@/components/personalization/PersonalizationForm";
-import ProductPreview, {
-  PREVIEW_SUPPORTED_HANDLES,
-} from "@/components/personalization/ProductPreview";
 import {
   toLineItemAttributes,
   type ColorOption,
@@ -66,12 +63,15 @@ interface ProductPurchaseSectionProps {
   variants: ProductVariant[];
   /** null when the product has no personalization. */
   schema: PersonalizationSchema | null;
+  /** Optional callback fired whenever form values change (used by parent for overlay). */
+  onValuesChange?: (values: Record<string, string>) => void;
 }
 
 export default function ProductPurchaseSection({
   handle,
   variants,
   schema,
+  onValuesChange,
 }: ProductPurchaseSectionProps) {
   const [selectedVariantId, setSelectedVariantId] = useState<string>(
     variants[0]?.id ?? "",
@@ -88,8 +88,9 @@ export default function ProductPurchaseSection({
     (next: Record<string, string>, nextValid: boolean) => {
       setValues(next);
       setIsValid(nextValid);
+      onValuesChange?.(next);
     },
-    [],
+    [onValuesChange],
   );
 
   const attributes = useMemo(
@@ -97,7 +98,6 @@ export default function ProductPurchaseSection({
     [schema, values],
   );
 
-  const showPreview = schema !== null && PREVIEW_SUPPORTED_HANDLES.has(handle);
   const palette = paletteFromSchema(schema);
 
   return (
@@ -131,14 +131,8 @@ export default function ProductPurchaseSection({
         </div>
       )}
 
-      {showPreview && (
-        <div className="mt-10 border-t border-nooni-line-soft pt-8">
-          <ProductPreview values={values} colors={palette} />
-        </div>
-      )}
-
       {schema && (
-        <div className={`mt-10 ${showPreview ? "" : "border-t border-nooni-line-soft pt-8"}`}>
+        <div className="mt-10 border-t border-nooni-line-soft pt-8">
           <PersonalizationForm schema={schema} onChange={handleFormChange} />
         </div>
       )}
