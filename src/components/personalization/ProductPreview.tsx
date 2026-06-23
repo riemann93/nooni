@@ -40,8 +40,11 @@ export default function ProductPreview({
         <filter id="motif-shadow" x="-20%" y="-20%" width="140%" height="140%">
           <feDropShadow dx="0" dy="1" stdDeviation="1.5" floodColor="rgba(0,0,0,0.25)" />
         </filter>
+        <filter id="circle-shadow" x="-20%" y="-15%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="rgba(80,45,30,0.45)" />
+        </filter>
       </defs>
-      <circle cx="50" cy="50" r="48" fill={mainHex} />
+      <circle cx="50" cy="50" r="48" fill={mainHex} filter="url(#circle-shadow)" />
       {showMotif && motifKey && (
         <g transform="translate(5 5) scale(0.9)" filter="url(#motif-shadow)">
           <MotifRenderer motifKey={motifKey} color={secondaryHex} />
