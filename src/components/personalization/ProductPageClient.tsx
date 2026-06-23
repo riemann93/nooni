@@ -131,8 +131,8 @@ export default function ProductPageClient({
             />
           )}
 
-          {/* Snapshot carousel — always rendered to reserve the same space as the image thumbnail row */}
-          <div className={`relative mt-4 ${snapshots.length === 0 ? "invisible pointer-events-none" : ""}`}>
+          {/* Snapshot carousel — only shown on preview tab, always reserves space so layout matches gallery */}
+          <div className={`relative mt-4 ${activeTab !== "preview" || !showPreview ? "hidden" : snapshots.length === 0 ? "invisible pointer-events-none" : ""}`}>
             <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-8 bg-gradient-to-r from-nooni-bg to-transparent" />
             <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-8 bg-gradient-to-l from-nooni-bg to-transparent" />
             <div
