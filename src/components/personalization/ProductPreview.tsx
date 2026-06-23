@@ -8,20 +8,21 @@ import MotifRenderer, { hasMotifRenderer } from "./motifs";
 
 export const PREVIEW_SUPPORTED_HANDLES = new Set<string>(["dots-5stk"]);
 
-const NEUTRAL_MAIN_HEX = "#EFE6D8";
-const NEUTRAL_SECONDARY_HEX = "#B48383";
+export const NEUTRAL_MAIN_HEX = "#EFE6D8";
+export const NEUTRAL_SECONDARY_HEX = "#B48383";
 
-interface ProductPreviewProps {
+export interface ProductPreviewProps {
   values: Record<string, string>;
   colors?: readonly ColorOption[];
-  /** When true, fills the full gallery-sized container instead of a small glass card. */
   fullSize?: boolean;
+  onSave?: () => void;
 }
 
 export default function ProductPreview({
   values,
   colors = NOONI_COLORS,
   fullSize = false,
+  onSave,
 }: ProductPreviewProps) {
   const mainHex = resolveColor(colors, values.main_color, NEUTRAL_MAIN_HEX);
   const secondaryHex = resolveColor(colors, values.secondary_color, NEUTRAL_SECONDARY_HEX);
@@ -53,6 +54,18 @@ export default function ProductPreview({
     return (
       <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl bg-nooni-bg-warm">
         {dotSvg}
+        {onSave && (
+          <button
+            type="button"
+            onClick={onSave}
+            aria-label="Gem forhåndsvisning"
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-white/70 text-nooni-ink shadow-sm backdrop-blur-sm transition-all hover:bg-white hover:scale-110"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+        )}
       </div>
     );
   }
@@ -64,7 +77,7 @@ export default function ProductPreview({
   );
 }
 
-function resolveColor(
+export function resolveColor(
   palette: readonly ColorOption[],
   value: string | undefined,
   fallback: string,

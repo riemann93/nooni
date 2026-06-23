@@ -1,12 +1,16 @@
 "use client";
 
-import { useState, useCallback, type ReactNode } from "react";
+import { useState, useCallback, useRef, type ReactNode } from "react";
 import ProductDescription from "@/components/ProductDescription";
 import ProductGallery from "@/components/ProductGallery";
 import ProductPurchaseSection from "@/components/personalization/ProductPurchaseSection";
 import ProductPreview, {
   PREVIEW_SUPPORTED_HANDLES,
+  resolveColor,
+  NEUTRAL_MAIN_HEX,
+  NEUTRAL_SECONDARY_HEX,
 } from "@/components/personalization/ProductPreview";
+import MotifRenderer, { hasMotifRenderer } from "@/components/personalization/motifs";
 import type { ColorOption, PersonalizationSchema } from "@/lib/shopify/personalization";
 import type { ProductVariant, ShopifyImage } from "@/lib/shopify/types";
 
@@ -43,6 +47,11 @@ function paletteFromSchema(
   return find(schema.fields);
 }
 
+interface Snapshot {
+  values: Record<string, string>;
+  colors: readonly ColorOption[] | undefined;
+}
+
 interface ProductPageClientProps {
   handle: string;
   images: ShopifyImage[];
@@ -68,23 +77,26 @@ export default function ProductPageClient({
 }: ProductPageClientProps) {
   const [values, setValues] = useState<Record<string, string>>({});
   const [activeTab, setActiveTab] = useState<"billeder" | "preview">("billeder");
+  const [snapshots, setSnapshots] = useState<Snapshot[]>([]);
+  const snapshotRef = useRef<HTMLDivElement>(null);
 
   const showPreview = schema !== null && PREVIEW_SUPPORTED_HANDLES.has(handle);
   const palette = paletteFromSchema(schema);
 
   const handleValuesChange = useCallback((next: Record<string, string>) => {
     setValues(next);
-    // Auto-switch to preview when a symbol is chosen
-    if (next.motif) {
-      setActiveTab("preview");
-    }
+    if (next.motif) setActiveTab("preview");
   }, []);
+
+  const handleSave = useCallback(() => {
+    setSnapshots((prev) => [...prev, { values, colors: palette }]);
+  }, [values, palette]);
 
   return (
     <>
       <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:items-start">
 
-        {/* Left column: tabs + gallery or full-size preview */}
+        {/* Left column */}
         <div>
           {showPreview && (
             <div className="mb-3 flex gap-1">
@@ -100,32 +112,49 @@ export default function ProductPageClient({
           {!showPreview || activeTab === "billeder" ? (
             <ProductGallery images={images} productTitle={productTitle} />
           ) : (
-            <ProductPreview values={values} colors={palette} fullSize />
+            <ProductPreview values={values} colors={palette} fullSize onSave={handleSave} />
+          )}
+
+          {/* Snapshot carousel */}
+          {snapshots.length > 0 && (
+            <div className="relative mt-4">
+              <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-8 bg-gradient-to-r from-nooni-bg to-transparent" />
+              <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-8 bg-gradient-to-l from-nooni-bg to-transparent" />
+              <div
+                ref={snapshotRef}
+                className="flex gap-3 overflow-x-auto px-1 py-1 [scroll-snap-type:x_mandatory] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              >
+                {snapshots.map((snap, i) => (
+                  <div
+                    key={i}
+                    className="relative aspect-square w-[19%] flex-none overflow-hidden rounded-lg bg-nooni-bg-warm [scroll-snap-align:start]"
+                  >
+                    <SnapshotDot values={snap.values} colors={snap.colors} />
+                  </div>
+                ))}
+              </div>
+            </div>
           )}
         </div>
 
-        {/* Right column: title, price, form */}
+        {/* Right column */}
         <div className="flex flex-col md:max-h-[calc(50vw-2.5rem)] md:min-h-0 md:overflow-y-auto md:pr-1">
           {!availableForSale && (
             <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
               Udsolgt
             </p>
           )}
-
           {tagline && (
             <p className="mb-3 font-editorial italic text-lg text-nooni-ink-soft">
               {tagline}
             </p>
           )}
-
           <h1 className="font-editorial text-5xl leading-[1.05] tracking-tight text-nooni-ink">
             {renderProductTitle(productTitle)}
           </h1>
-
           <p className="mt-4 font-editorial text-[1.7rem] font-medium text-nooni-ink">
             {priceLabel}
           </p>
-
           <ProductPurchaseSection
             handle={handle}
             variants={variants}
@@ -144,6 +173,36 @@ export default function ProductPageClient({
         </div>
       )}
     </>
+  );
+}
+
+function SnapshotDot({
+  values,
+  colors,
+}: {
+  values: Record<string, string>;
+  colors: readonly ColorOption[] | undefined;
+}) {
+  const palette = colors ?? [];
+  const mainHex = resolveColor(palette, values.main_color, NEUTRAL_MAIN_HEX);
+  const secondaryHex = resolveColor(palette, values.secondary_color, NEUTRAL_SECONDARY_HEX);
+  const motifKey = values.motif;
+  const showMotif = Boolean(motifKey && hasMotifRenderer(motifKey));
+
+  return (
+    <svg viewBox="0 0 100 100" className="h-full w-full" aria-hidden>
+      <defs>
+        <filter id="snap-shadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="1" stdDeviation="1.5" floodColor="rgba(0,0,0,0.25)" />
+        </filter>
+      </defs>
+      <circle cx="50" cy="50" r="48" fill={mainHex} />
+      {showMotif && motifKey && (
+        <g transform="translate(5 5) scale(0.9)" filter="url(#snap-shadow)">
+          <MotifRenderer motifKey={motifKey} color={secondaryHex} />
+        </g>
+      )}
+    </svg>
   );
 }
 
