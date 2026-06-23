@@ -27,12 +27,6 @@ export default function ProductGallery({
     setActiveIdx((i) => (i - 1 + images.length) % images.length);
   const goNext = () => setActiveIdx((i) => (i + 1) % images.length);
 
-  function scrollThumbs(dir: "prev" | "next") {
-    if (!thumbsRef.current) return;
-    const w = thumbsRef.current.clientWidth;
-    thumbsRef.current.scrollBy({ left: dir === "next" ? w * 0.4 : -w * 0.4, behavior: "smooth" });
-  }
-
   return (
     <div>
       {/* Main image */}
@@ -68,28 +62,10 @@ export default function ProductGallery({
           <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-10 bg-gradient-to-r from-nooni-bg to-transparent" />
           <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-10 bg-gradient-to-l from-nooni-bg to-transparent" />
 
-          {/* Prev/next arrows */}
-          <button
-            type="button"
-            onClick={() => scrollThumbs("prev")}
-            aria-label="Scroll thumbnails tilbage"
-            className="absolute left-0 top-1/2 z-20 -translate-y-1/2 flex h-7 w-7 items-center justify-center rounded-full bg-white/80 text-nooni-ink shadow-sm backdrop-blur-sm transition hover:bg-white"
-          >
-            <ChevronLeft />
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollThumbs("next")}
-            aria-label="Scroll thumbnails frem"
-            className="absolute right-0 top-1/2 z-20 -translate-y-1/2 flex h-7 w-7 items-center justify-center rounded-full bg-white/80 text-nooni-ink shadow-sm backdrop-blur-sm transition hover:bg-white"
-          >
-            <ChevronRight />
-          </button>
-
-          {/* Scrollable strip */}
+          {/* Scrollable strip — py-1 gives ring room so it isn't clipped */}
           <div
             ref={thumbsRef}
-            className="flex gap-3 overflow-x-auto px-3 pb-1 [scroll-snap-type:x_mandatory] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="flex gap-3 overflow-x-auto px-1 py-1 [scroll-snap-type:x_mandatory] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {images.map((img, i) => {
               const selected = i === activeIdx;
@@ -97,7 +73,19 @@ export default function ProductGallery({
                 <button
                   key={img.url}
                   type="button"
-                  onClick={() => setActiveIdx(i)}
+                  onClick={(e) => {
+                    setActiveIdx(i);
+                    // If near right edge, scroll forward to reveal next items
+                    const btn = e.currentTarget;
+                    const container = thumbsRef.current;
+                    if (container) {
+                      const btnRight = btn.offsetLeft + btn.offsetWidth;
+                      const visibleRight = container.scrollLeft + container.clientWidth;
+                      if (btnRight > visibleRight - btn.offsetWidth) {
+                        container.scrollBy({ left: btn.offsetWidth * 2, behavior: "smooth" });
+                      }
+                    }
+                  }}
                   aria-label={`Vis billede ${i + 1} af ${images.length}`}
                   aria-pressed={selected}
                   className={`relative aspect-square w-[19%] flex-none overflow-hidden rounded-lg bg-nooni-bg-warm transition-all [scroll-snap-align:start] ${

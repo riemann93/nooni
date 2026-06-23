@@ -145,7 +145,7 @@ function ColorField({ field, value, onChange }: ColorFieldProps) {
       <FieldLabel htmlFor={field.key} required={field.required}>
         {field.label}
       </FieldLabel>
-      <div className="mt-3 flex flex-wrap gap-3" role="radiogroup" id={field.key}>
+      <div className="mt-3 flex flex-wrap gap-3 p-1" role="radiogroup" id={field.key}>
         {options.map((opt) => {
           const selected = value === opt.value;
           return (
