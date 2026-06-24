@@ -13,7 +13,7 @@ import ProductPreview, {
 } from "@/components/personalization/ProductPreview";
 import MotifRenderer, { hasMotifRenderer } from "@/components/personalization/motifs";
 import type { ColorOption, PersonalizationSchema } from "@/lib/shopify/personalization";
-import type { ProductVariant, ShopifyImage } from "@/lib/shopify/types";
+import type { Money, ProductVariant, ShopifyImage } from "@/lib/shopify/types";
 
 function renderProductTitle(title: string): ReactNode {
   const sep = " - ";
@@ -65,6 +65,7 @@ interface ProductPageClientProps {
   priceLabel: string;
   availableForSale: boolean;
   descriptionHtml?: string;
+  addOnVariant?: { id: string; title: string; price: Money };
 }
 
 export default function ProductPageClient({
@@ -78,6 +79,7 @@ export default function ProductPageClient({
   priceLabel,
   availableForSale,
   descriptionHtml,
+  addOnVariant,
 }: ProductPageClientProps) {
   const [values, setValues] = useState<Record<string, string>>({});
   const [activeTab, setActiveTab] = useState<"billeder" | "preview">("billeder");
@@ -216,6 +218,7 @@ export default function ProductPageClient({
             variants={variants}
             schema={schema}
             onValuesChange={handleValuesChange}
+            addOnVariant={addOnVariant}
           />
         </div>
       </div>

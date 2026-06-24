@@ -18,7 +18,7 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import AddToCartButton from "@/components/AddToCartButton";
+import { useCart } from "@/contexts/CartContext";
 import PersonalizationForm from "@/components/personalization/PersonalizationForm";
 import {
   toLineItemAttributes,
@@ -58,13 +58,11 @@ function paletteFromSchema(
 }
 
 interface ProductPurchaseSectionProps {
-  /** Shopify product handle — used to gate the live preview. */
   handle: string;
   variants: ProductVariant[];
-  /** null when the product has no personalization. */
   schema: PersonalizationSchema | null;
-  /** Optional callback fired whenever form values change (used by parent for overlay). */
   onValuesChange?: (values: Record<string, string>) => void;
+  addOnVariant?: { id: string; title: string; price: Money };
 }
 
 export default function ProductPurchaseSection({
@@ -72,7 +70,11 @@ export default function ProductPurchaseSection({
   variants,
   schema,
   onValuesChange,
+  addOnVariant,
 }: ProductPurchaseSectionProps) {
+  const { addLine, loading } = useCart();
+  const [justAdded, setJustAdded] = useState(false);
+
   const [selectedVariantId, setSelectedVariantId] = useState<string>(
     variants[0]?.id ?? "",
   );
@@ -80,9 +82,8 @@ export default function ProductPurchaseSection({
   const availableForSale = selectedVariant?.availableForSale ?? false;
 
   const [values, setValues] = useState<Record<string, string>>({});
-  // Default valid=true when there's no schema; default false otherwise
-  // so the button starts disabled until required fields are filled.
   const [isValid, setIsValid] = useState<boolean>(!schema);
+  const [addOnSelected, setAddOnSelected] = useState(false);
 
   const handleFormChange = useCallback(
     (next: Record<string, string>, nextValid: boolean) => {
@@ -137,13 +138,58 @@ export default function ProductPurchaseSection({
         </div>
       )}
 
+      {addOnVariant && (
+        <div className="mt-5 border-t border-nooni-line-soft pt-5">
+          <label className="flex cursor-pointer items-center justify-between gap-4">
+            <div>
+              <p className="text-sm font-medium text-nooni-ink">{addOnVariant.title}</p>
+              <p className="text-xs text-nooni-ink-soft">+{formatPrice(addOnVariant.price)}</p>
+            </div>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={addOnSelected}
+              onClick={() => setAddOnSelected((v) => !v)}
+              className={`relative h-6 w-11 flex-none rounded-full transition-colors ${
+                addOnSelected ? "bg-nooni-headline" : "bg-nooni-line"
+              }`}
+            >
+              <span
+                className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${
+                  addOnSelected ? "translate-x-5" : "translate-x-0.5"
+                }`}
+              />
+            </button>
+          </label>
+        </div>
+      )}
+
       <div className="mt-5">
-        <AddToCartButton
-          variantId={selectedVariant?.id ?? ""}
-          availableForSale={availableForSale}
-          attributes={attributes}
-          disabled={!isValid}
-        />
+        {availableForSale ? (
+          <button
+            type="button"
+            disabled={loading || !isValid}
+            onClick={async () => {
+              try {
+                await addLine(selectedVariant?.id ?? "", 1, attributes);
+                if (addOnSelected && addOnVariant) {
+                  await addLine(addOnVariant.id, 1);
+                }
+                setJustAdded(true);
+                window.setTimeout(() => setJustAdded(false), 1600);
+              } catch (err) {
+                console.error("Add to cart failed:", err);
+              }
+            }}
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-nooni-headline px-8 py-3 text-sm text-white transition-colors hover:bg-[#9d6f6f] disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? "Tilføjer…" : justAdded ? "Tilføjet ✓" : "Læg i kurv"}
+          </button>
+        ) : (
+          <button type="button" disabled className="inline-flex items-center justify-center rounded-full bg-nooni-line px-8 py-3 text-sm text-nooni-ink-soft cursor-not-allowed">
+            Udsolgt
+          </button>
+        )}
         {schema && !isValid && (
           <p className="mt-3 text-xs text-nooni-ink-soft/70">
             Udfyld dine valg for at lægge i kurv.

@@ -62,9 +62,12 @@ export default async function ProductPage({ params }: PageProps) {
   const { handle } = await params;
   // Colour lookup runs in parallel; it self-recovers to [] on any
   // failure, so it can't block or break the page.
-  const [product, colors] = await Promise.all([
+  const meta = getProductMeta(handle);
+
+  const [product, colors, addOnProduct] = await Promise.all([
     getProductByHandle(handle),
     getProductColors(handle),
+    meta.addOnHandle ? getProductByHandle(meta.addOnHandle) : Promise.resolve(null),
   ]);
 
   if (!product) {
@@ -77,8 +80,7 @@ export default async function ProductPage({ params }: PageProps) {
   const baseSchema = getSchemaForHandle(handle);
   const schema = baseSchema ? withColorOptions(baseSchema, colors) : null;
 
-  // In-code metadata: tagline above the title etc.
-  const meta = getProductMeta(handle);
+  const addOnVariant = addOnProduct?.variants.nodes[0] ?? null;
 
   const minPrice = product.priceRange.minVariantPrice;
   const maxPrice = product.priceRange.maxVariantPrice;
@@ -100,6 +102,7 @@ export default async function ProductPage({ params }: PageProps) {
         priceLabel={priceLabel}
         availableForSale={product.availableForSale}
         descriptionHtml={product.descriptionHtml}
+        addOnVariant={addOnVariant ?? undefined}
       />
     </section>
   );
