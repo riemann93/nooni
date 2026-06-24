@@ -22,7 +22,7 @@ export const PRODUCT_META: Record<string, ProductMeta> = {
   "dots-5stk": { quantityNote: "5 stk. i sættet" },
   "dots-med-navn-3stk": { quantityNote: "3 stk. i sættet" },
   "loops-navn": { quantityNote: "3 stk. i sættet" },
-  "tic-tac-take": { addOnHandle: "pose-til-haps" },
+  "tic-tac-take": { addOnHandle: "uden-titel-17-jun-_10-36-17" },
 };
 
 export function getProductMeta(handle: string): ProductMeta {
