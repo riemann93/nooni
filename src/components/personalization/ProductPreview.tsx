@@ -149,7 +149,7 @@ export function ProductShape({
   }
   if (handle === "emblem") {
     // Wide rounded rectangle (half height of width)
-    return <rect x="8" y="29" width="84" height="42" rx="21" fill={fill} filter={filter} />;
+    return <rect x="6" y="29" width="88" height="42" rx="21" fill={fill} filter={filter} />;
   }
   return <circle cx="50" cy="50" r="48" fill={fill} filter={filter} />;
 }
