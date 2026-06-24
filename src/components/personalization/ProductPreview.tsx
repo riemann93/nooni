@@ -130,8 +130,15 @@ export function ProductShape({
   filter?: string;
 }) {
   if (handle === "dots-med-navn-3stk") {
-    // Horizontal pill matching the physical name-dot shape
-    return <rect x="7" y="32" width="86" height="36" rx="18" fill={fill} filter={filter} />;
+    // Pill with fully-rounded right end (r=18) and lightly-rounded left corners (r=8)
+    // Path: M top-left-start → top edge → arc top-right → arc bottom-right → bottom edge → arc bottom-left → left edge → arc top-left → Z
+    return (
+      <path
+        d="M 15,32 L 75,32 A 18,18 0 0,1 93,50 A 18,18 0 0,1 75,68 L 15,68 A 8,8 0 0,1 7,60 L 7,40 A 8,8 0 0,1 15,32 Z"
+        fill={fill}
+        filter={filter}
+      />
+    );
   }
   return <circle cx="50" cy="50" r="48" fill={fill} filter={filter} />;
 }
