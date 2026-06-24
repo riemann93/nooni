@@ -63,6 +63,7 @@ interface ProductPurchaseSectionProps {
   schema: PersonalizationSchema | null;
   onValuesChange?: (values: Record<string, string>) => void;
   addOnVariants?: { id: string; title: string; price: Money }[];
+  addOnMinPrice?: Money;
 }
 
 export default function ProductPurchaseSection({
@@ -71,6 +72,7 @@ export default function ProductPurchaseSection({
   schema,
   onValuesChange,
   addOnVariants,
+  addOnMinPrice,
 }: ProductPurchaseSectionProps) {
   const { addLine, loading } = useCart();
   const [justAdded, setJustAdded] = useState(false);
@@ -88,6 +90,25 @@ export default function ProductPurchaseSection({
     addOnVariants?.[0]?.id ?? "",
   );
   const addOnVariant = addOnVariants?.find((v) => v.id === addOnVariantId) ?? addOnVariants?.[0];
+
+  // Use priceRange fallback if variant price comes back as 0 from Shopify
+  const effectiveAddOnPrice: Money | undefined = (() => {
+    if (!addOnVariant) return addOnMinPrice;
+    const variantAmt = parseFloat(addOnVariant.price.amount);
+    if (variantAmt > 0) return addOnVariant.price;
+    return addOnMinPrice ?? addOnVariant.price;
+  })();
+
+  // Combined total: selected main variant + add-on when toggled on
+  const totalPrice: Money | undefined = (() => {
+    if (!selectedVariant || !addOnSelected || !effectiveAddOnPrice) return undefined;
+    const mainAmt = parseFloat(selectedVariant.price.amount);
+    const addOnAmt = parseFloat(effectiveAddOnPrice.amount);
+    return {
+      amount: (mainAmt + addOnAmt).toFixed(2),
+      currencyCode: selectedVariant.price.currencyCode,
+    };
+  })();
 
   const handleFormChange = useCallback(
     (next: Record<string, string>, nextValid: boolean) => {
@@ -147,7 +168,7 @@ export default function ProductPurchaseSection({
           <label className="flex cursor-pointer items-center justify-between gap-4">
             <div>
               <p className="text-sm font-medium text-nooni-ink">Tilføj pose</p>
-              <p className="text-xs text-nooni-ink-soft">+{formatPrice(addOnVariant!.price)}</p>
+              <p className="text-xs text-nooni-ink-soft">{effectiveAddOnPrice ? `+${formatPrice(effectiveAddOnPrice)}` : ""}</p>
             </div>
             <button
               type="button"
@@ -206,7 +227,7 @@ export default function ProductPurchaseSection({
             }}
             className="inline-flex items-center justify-center gap-2 rounded-full bg-nooni-headline px-8 py-3 text-sm text-white transition-colors hover:bg-[#9d6f6f] disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? "Tilføjer…" : justAdded ? "Tilføjet ✓" : "Læg i kurv"}
+            {loading ? "Tilføjer…" : justAdded ? "Tilføjet ✓" : totalPrice ? `Læg i kurv – ${formatPrice(totalPrice)}` : "Læg i kurv"}
           </button>
         ) : (
           <button type="button" disabled className="inline-flex items-center justify-center rounded-full bg-nooni-line px-8 py-3 text-sm text-nooni-ink-soft cursor-not-allowed">

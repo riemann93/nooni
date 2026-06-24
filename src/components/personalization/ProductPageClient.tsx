@@ -66,6 +66,7 @@ interface ProductPageClientProps {
   availableForSale: boolean;
   descriptionHtml?: string;
   addOnVariants?: { id: string; title: string; price: Money }[];
+  addOnMinPrice?: Money;
 }
 
 export default function ProductPageClient({
@@ -80,6 +81,7 @@ export default function ProductPageClient({
   availableForSale,
   descriptionHtml,
   addOnVariants,
+  addOnMinPrice,
 }: ProductPageClientProps) {
   const [values, setValues] = useState<Record<string, string>>({});
   const [activeTab, setActiveTab] = useState<"billeder" | "preview">("billeder");
@@ -219,6 +221,7 @@ export default function ProductPageClient({
             schema={schema}
             onValuesChange={handleValuesChange}
             addOnVariants={addOnVariants}
+            addOnMinPrice={addOnMinPrice}
           />
         </div>
       </div>

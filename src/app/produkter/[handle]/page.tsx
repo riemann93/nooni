@@ -81,8 +81,10 @@ export default async function ProductPage({ params }: PageProps) {
   const schema = baseSchema ? withColorOptions(baseSchema, colors) : null;
 
   const addOnVariants = addOnProduct?.variants.nodes ?? null;
+  const addOnMinPrice = addOnProduct?.priceRange.minVariantPrice ?? null;
   if (addOnVariants) {
     console.log("[pose] addOnVariants prices:", JSON.stringify(addOnVariants.map(v => ({ id: v.id, title: v.title, price: v.price }))));
+    console.log("[pose] addOnMinPrice:", JSON.stringify(addOnMinPrice));
   }
 
   const minPrice = product.priceRange.minVariantPrice;
@@ -106,6 +108,7 @@ export default async function ProductPage({ params }: PageProps) {
         availableForSale={product.availableForSale}
         descriptionHtml={product.descriptionHtml}
         addOnVariants={addOnVariants ?? undefined}
+        addOnMinPrice={addOnMinPrice ?? undefined}
       />
     </section>
   );
