@@ -81,6 +81,9 @@ export default async function ProductPage({ params }: PageProps) {
   const schema = baseSchema ? withColorOptions(baseSchema, colors) : null;
 
   const addOnVariants = addOnProduct?.variants.nodes ?? null;
+  if (addOnVariants) {
+    console.log("[pose] addOnVariants prices:", JSON.stringify(addOnVariants.map(v => ({ id: v.id, title: v.title, price: v.price }))));
+  }
 
   const minPrice = product.priceRange.minVariantPrice;
   const maxPrice = product.priceRange.maxVariantPrice;
