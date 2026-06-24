@@ -183,11 +183,11 @@ export default function ProductPageClient({
 
         {/* Right column */}
         <div className="flex flex-col md:max-h-[calc(50vw-2.5rem)] md:min-h-0 md:overflow-y-auto md:pr-1">
-          <h1 className="font-editorial text-5xl leading-[1.05] tracking-tight text-nooni-ink">
+          <h1 className={`font-editorial text-5xl leading-[1.05] tracking-tight text-nooni-ink ${showPreview && activeTab === "preview" ? "hidden md:block" : ""}`}>
             {renderProductTitle(productTitle)}
           </h1>
           {tagline && (
-            <p className="mt-2 font-editorial italic text-lg text-nooni-ink-soft">
+            <p className={`mt-2 font-editorial italic text-lg text-nooni-ink-soft ${showPreview && activeTab === "preview" ? "hidden md:block" : ""}`}>
               {tagline}
             </p>
           )}
@@ -196,7 +196,7 @@ export default function ProductPageClient({
               Udsolgt
             </p>
           )}
-          <p className="mt-4 font-editorial text-[1.7rem] font-medium text-nooni-ink">
+          <p className={`mt-4 font-editorial text-[1.7rem] font-medium text-nooni-ink ${showPreview && activeTab === "preview" ? "hidden md:block" : ""}`}>
             {priceLabel}
           </p>
           <ProductPurchaseSection
