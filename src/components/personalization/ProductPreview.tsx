@@ -134,7 +134,7 @@ export function ProductShape({
     // Path: M top-left-start → top edge → arc top-right → arc bottom-right → bottom edge → arc bottom-left → left edge → arc top-left → Z
     return (
       <path
-        d="M 15,32 L 75,32 A 18,18 0 0,1 93,50 A 18,18 0 0,1 75,68 L 15,68 A 8,8 0 0,1 7,60 L 7,40 A 8,8 0 0,1 15,32 Z"
+        d="M 13,32 L 77,32 A 18,18 0 0,1 95,50 A 18,18 0 0,1 77,68 L 13,68 A 8,8 0 0,1 5,60 L 5,40 A 8,8 0 0,1 13,32 Z"
         fill={fill}
         filter={filter}
       />
