@@ -249,7 +249,7 @@ function SnapshotDot({
   const nameText = values.name?.trim() ?? "";
   const isPill = handle === "dots-med-navn-3stk";
   const nameFontSize = nameText.length === 0 ? 0 : isPill
-    ? Math.min(27, Math.round(80 / (nameText.length * 0.58)))
+    ? Math.min(24, Math.round(78 / (nameText.length * 0.58)))
     : Math.min(34, Math.round(90 / (nameText.length * 0.58)));
   return (
     <svg viewBox="0 0 100 100" className="h-full w-full" aria-hidden>

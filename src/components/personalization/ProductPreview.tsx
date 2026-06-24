@@ -39,7 +39,7 @@ export default function ProductPreview({
   // Scale font to fill the shape: width budget / chars, capped by height budget.
   // 0.6 ≈ average char-width ratio for Fredoka Bold.
   const nameFontSize = nameText.length === 0 ? 0 : isPill
-    ? Math.min(27, Math.round(80 / (nameText.length * 0.58)))
+    ? Math.min(24, Math.round(78 / (nameText.length * 0.58)))
     : Math.min(34, Math.round(90 / (nameText.length * 0.58)));
 
   const productSvg = (
@@ -136,7 +136,7 @@ export function ProductShape({
     // Path: M top-left-start → top edge → arc top-right → arc bottom-right → bottom edge → arc bottom-left → left edge → arc top-left → Z
     return (
       <path
-        d="M 13,32 L 77,32 A 18,18 0 0,1 95,50 A 18,18 0 0,1 77,68 L 13,68 A 8,8 0 0,1 5,60 L 5,40 A 8,8 0 0,1 13,32 Z"
+        d="M 13,33 L 77,33 A 17,17 0 0,1 94,50 A 17,17 0 0,1 77,67 L 13,67 A 8,8 0 0,1 5,59 L 5,41 A 8,8 0 0,1 13,33 Z"
         fill={fill}
         filter={filter}
       />
