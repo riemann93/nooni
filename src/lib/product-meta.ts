@@ -19,6 +19,7 @@ export interface ProductMeta {
 export const PRODUCT_META: Record<string, ProductMeta> = {
   "dots-5stk": { quantityNote: "5 stk. i sættet" },
   "dots-med-navn-3stk": { quantityNote: "3 stk. i sættet" },
+  "loops-med-navn": { quantityNote: "3 stk. i sættet" },
 };
 
 export function getProductMeta(handle: string): ProductMeta {

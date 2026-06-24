@@ -10,6 +10,7 @@ export const PREVIEW_SUPPORTED_HANDLES = new Set<string>([
   "dots-5stk",
   "dots-med-navn-3stk",
   "loops",
+  "loops-med-navn",
 ]);
 
 export const NEUTRAL_MAIN_HEX = "#EFE6D8";
@@ -35,7 +36,7 @@ export default function ProductPreview({
   const motifKey = values.motif;
   const showMotif = Boolean(motifKey && hasMotifRenderer(motifKey));
   const nameText = values.name?.trim() ?? "";
-  const isPill = handle === "dots-med-navn-3stk";
+  const isPill = handle === "dots-med-navn-3stk" || handle === "loops-med-navn";
   // Scale font to fill the shape: width budget / chars, capped by height budget.
   // 0.6 ≈ average char-width ratio for Fredoka Bold.
   const nameFontSize = nameText.length === 0 ? 0 : isPill
@@ -68,7 +69,7 @@ export default function ProductPreview({
       )}
       {nameText && (
         <text
-          x={isPill ? "52" : "50"}
+          x={handle === "dots-med-navn-3stk" ? "52" : "50"}
           y={isPill ? (/[gjpqy]/i.test(nameText) ? "48" : "50") : "50"}
           textAnchor="middle"
           dominantBaseline="central"
@@ -132,8 +133,7 @@ export function ProductShape({
   filter?: string;
 }) {
   if (handle === "dots-med-navn-3stk") {
-    // Pill with fully-rounded right end (r=18) and lightly-rounded left corners (r=8)
-    // Path: M top-left-start → top edge → arc top-right → arc bottom-right → bottom edge → arc bottom-left → left edge → arc top-left → Z
+    // Pill: fully-rounded right end (r=17), lightly-rounded left corners (r=8)
     return (
       <path
         d="M 18,33 L 77,33 A 17,17 0 0,1 94,50 A 17,17 0 0,1 77,67 L 18,67 A 8,8 0 0,1 10,59 L 10,41 A 8,8 0 0,1 18,33 Z"
@@ -141,6 +141,10 @@ export function ProductShape({
         filter={filter}
       />
     );
+  }
+  if (handle === "loops-med-navn") {
+    // Pill with equal rounding on all corners (r=12)
+    return <rect x="8" y="33" width="84" height="34" rx="12" fill={fill} filter={filter} />;
   }
   return <circle cx="50" cy="50" r="48" fill={fill} filter={filter} />;
 }
