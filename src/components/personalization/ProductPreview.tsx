@@ -72,8 +72,8 @@ export default function ProductPreview({
           dominantBaseline="central"
           fill={secondaryHex}
           fontSize={nameFontSize}
-          fontFamily="Georgia, 'Times New Roman', serif"
-          fontStyle="italic"
+          fontFamily="Fredoka, system-ui, sans-serif"
+          fontWeight="500"
           filter="url(#motif-shadow)"
         >
           {nameText}

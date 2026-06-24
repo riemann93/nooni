@@ -272,8 +272,8 @@ function SnapshotDot({
           dominantBaseline="central"
           fill={secondaryHex}
           fontSize={nameFontSize}
-          fontFamily="Georgia, 'Times New Roman', serif"
-          fontStyle="italic"
+          fontFamily="Fredoka, system-ui, sans-serif"
+          fontWeight="500"
           filter="url(#snap-shadow)"
         >
           {nameText}
