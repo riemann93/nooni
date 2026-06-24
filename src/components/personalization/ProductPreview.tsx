@@ -11,6 +11,7 @@ export const PREVIEW_SUPPORTED_HANDLES = new Set<string>([
   "dots-med-navn-3stk",
   "loops",
   "loops-navn",
+  "emblem",
 ]);
 
 export const NEUTRAL_MAIN_HEX = "#EFE6D8";
@@ -38,10 +39,10 @@ export default function ProductPreview({
   const nameText = values.name?.trim() ?? "";
   const isPill = handle === "dots-med-navn-3stk" || handle === "loops-navn";
   // Scale font to fill the shape: width budget / chars, capped by height budget.
-  // 0.6 ≈ average char-width ratio for Fredoka Bold.
+  // 0.58 ≈ average char-width ratio for Fredoka Bold.
   const nameFontSize = nameText.length === 0 ? 0 : isPill
     ? Math.min(24, Math.round(78 / (nameText.length * 0.58)))
-    : Math.min(34, Math.round(90 / (nameText.length * 0.58)));
+    : Math.min(34, Math.round(76 / (nameText.length * 0.58)));
 
   const productSvg = (
     <svg
@@ -145,6 +146,10 @@ export function ProductShape({
   if (handle === "loops-navn") {
     // Pill with equal rounding on all corners (r=12)
     return <rect x="8" y="33" width="84" height="34" rx="12" fill={fill} filter={filter} />;
+  }
+  if (handle === "emblem") {
+    // Rounded square
+    return <rect x="8" y="8" width="84" height="84" rx="16" fill={fill} filter={filter} />;
   }
   return <circle cx="50" cy="50" r="48" fill={fill} filter={filter} />;
 }
