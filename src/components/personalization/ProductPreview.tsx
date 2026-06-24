@@ -34,8 +34,6 @@ export default function ProductPreview({
   const motifKey = values.motif;
   const showMotif = Boolean(motifKey && hasMotifRenderer(motifKey));
 
-  const isLoop = handle === "loops";
-
   const productSvg = (
     <svg
       viewBox="0 0 100 100"
@@ -53,11 +51,7 @@ export default function ProductPreview({
         </filter>
       </defs>
 
-      {isLoop ? (
-        <ellipse cx="50" cy="50" rx="30" ry="46" fill={mainHex} filter="url(#shape-shadow)" />
-      ) : (
-        <circle cx="50" cy="50" r="48" fill={mainHex} filter="url(#shape-shadow)" />
-      )}
+      <circle cx="50" cy="50" r="48" fill={mainHex} filter="url(#shape-shadow)" />
 
       {showMotif && motifKey && (
         <g transform="translate(9.5 5.5) scale(0.81)" filter="url(#motif-shadow)">

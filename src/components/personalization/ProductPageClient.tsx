@@ -245,8 +245,6 @@ function SnapshotDot({
   const secondaryHex = resolveColor(palette, values.secondary_color, NEUTRAL_SECONDARY_HEX);
   const motifKey = values.motif;
   const showMotif = Boolean(motifKey && hasMotifRenderer(motifKey));
-  const isLoop = handle === "loops";
-
   return (
     <svg viewBox="0 0 100 100" className="h-full w-full" aria-hidden>
       <defs>
@@ -254,11 +252,7 @@ function SnapshotDot({
           <feDropShadow dx="0" dy="1" stdDeviation="1.5" floodColor="rgba(0,0,0,0.25)" />
         </filter>
       </defs>
-      {isLoop ? (
-        <ellipse cx="50" cy="50" rx="30" ry="46" fill={mainHex} />
-      ) : (
-        <circle cx="50" cy="50" r="48" fill={mainHex} />
-      )}
+      <circle cx="50" cy="50" r="48" fill={mainHex} />
       {showMotif && motifKey && (
         <g transform="translate(5 5) scale(0.9)" filter="url(#snap-shadow)">
           <MotifRenderer motifKey={motifKey} color={secondaryHex} />
