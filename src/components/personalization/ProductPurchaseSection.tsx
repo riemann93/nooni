@@ -159,8 +159,8 @@ export default function ProductPurchaseSection({
               }`}
             >
               <span
-                className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${
-                  addOnSelected ? "translate-x-5" : "translate-x-0.5"
+                className={`absolute top-[2px] h-5 w-5 rounded-full bg-white shadow-sm transition-all duration-200 ${
+                  addOnSelected ? "left-[22px]" : "left-[2px]"
                 }`}
               />
             </button>
