@@ -11,16 +11,13 @@
  */
 
 export interface ProductMeta {
-  /**
-   * Small italic line shown above the title on the product detail page.
-   * Use sentence case. Keep it short — one short phrase that tells the
-   * customer what the product *is*.
-   */
   tagline?: string;
+  /** Short note shown below the price, e.g. "5 stk. i sættet". */
+  quantityNote?: string;
 }
 
 export const PRODUCT_META: Record<string, ProductMeta> = {
-  "dots-5stk": {},
+  "dots-5stk": { quantityNote: "5 stk. i sættet" },
 };
 
 export function getProductMeta(handle: string): ProductMeta {

@@ -96,6 +96,7 @@ export default async function ProductPage({ params }: PageProps) {
         variants={product.variants.nodes}
         schema={schema}
         tagline={meta.tagline}
+        quantityNote={meta.quantityNote}
         priceLabel={priceLabel}
         availableForSale={product.availableForSale}
         descriptionHtml={product.descriptionHtml}

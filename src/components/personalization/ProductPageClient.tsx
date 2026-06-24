@@ -59,6 +59,7 @@ interface ProductPageClientProps {
   variants: ProductVariant[];
   schema: PersonalizationSchema | null;
   tagline?: string;
+  quantityNote?: string;
   priceLabel: string;
   availableForSale: boolean;
   descriptionHtml?: string;
@@ -71,6 +72,7 @@ export default function ProductPageClient({
   variants,
   schema,
   tagline,
+  quantityNote,
   priceLabel,
   availableForSale,
   descriptionHtml,
@@ -196,9 +198,16 @@ export default function ProductPageClient({
               Udsolgt
             </p>
           )}
-          <p className={`mt-4 font-editorial text-[1.7rem] font-medium text-nooni-ink ${showPreview && activeTab === "preview" ? "hidden md:block" : ""}`}>
-            {priceLabel}
-          </p>
+          <div className={showPreview && activeTab === "preview" ? "hidden md:block" : ""}>
+            <p className="mt-4 font-editorial text-[1.7rem] font-medium text-nooni-ink">
+              {priceLabel}
+            </p>
+            {quantityNote && (
+              <p className="mt-1 text-sm text-nooni-ink-soft">
+                {quantityNote}
+              </p>
+            )}
+          </div>
           <ProductPurchaseSection
             handle={handle}
             variants={variants}
