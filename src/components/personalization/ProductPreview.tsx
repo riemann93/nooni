@@ -68,8 +68,8 @@ export default function ProductPreview({
       )}
       {nameText && (
         <text
-          x="50"
-          y="50"
+          x={isPill ? "52" : "50"}
+          y={isPill ? "52" : "50"}
           textAnchor="middle"
           dominantBaseline="central"
           fill={secondaryHex}
@@ -136,7 +136,7 @@ export function ProductShape({
     // Path: M top-left-start → top edge → arc top-right → arc bottom-right → bottom edge → arc bottom-left → left edge → arc top-left → Z
     return (
       <path
-        d="M 13,33 L 77,33 A 17,17 0 0,1 94,50 A 17,17 0 0,1 77,67 L 13,67 A 8,8 0 0,1 5,59 L 5,41 A 8,8 0 0,1 13,33 Z"
+        d="M 18,33 L 77,33 A 17,17 0 0,1 94,50 A 17,17 0 0,1 77,67 L 18,67 A 8,8 0 0,1 10,59 L 10,41 A 8,8 0 0,1 18,33 Z"
         fill={fill}
         filter={filter}
       />

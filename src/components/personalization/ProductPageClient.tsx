@@ -266,8 +266,8 @@ function SnapshotDot({
       )}
       {nameText && (
         <text
-          x="50"
-          y="50"
+          x={isPill ? "52" : "50"}
+          y={isPill ? "52" : "50"}
           textAnchor="middle"
           dominantBaseline="central"
           fill={secondaryHex}
