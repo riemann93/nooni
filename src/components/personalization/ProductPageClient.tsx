@@ -105,7 +105,7 @@ export default function ProductPageClient({
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:items-start">
+      <div className="grid grid-cols-1 gap-4 md:gap-10 md:grid-cols-2 md:items-start">
 
         {/* Left column */}
         <div>
@@ -133,7 +133,7 @@ export default function ProductPageClient({
           </div>
 
           {/* Snapshot carousel — only shown on preview tab, always reserves space so layout matches gallery */}
-          <div className={`relative mt-4 ${activeTab !== "preview" || !showPreview ? "hidden" : snapshots.length === 0 ? "invisible pointer-events-none" : ""}`}>
+          <div className={`relative mt-4 ${activeTab !== "preview" || !showPreview ? "hidden" : snapshots.length === 0 ? "hidden md:block md:invisible md:pointer-events-none" : ""}`}>
             <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-8 bg-gradient-to-r from-nooni-bg to-transparent" />
             <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-8 bg-gradient-to-l from-nooni-bg to-transparent" />
             <div
