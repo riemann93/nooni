@@ -10,7 +10,7 @@ export const PREVIEW_SUPPORTED_HANDLES = new Set<string>([
   "dots-5stk",
   "dots-med-navn-3stk",
   "loops",
-  "loops-med-navn",
+  "loops-navn",
 ]);
 
 export const NEUTRAL_MAIN_HEX = "#EFE6D8";
@@ -36,7 +36,7 @@ export default function ProductPreview({
   const motifKey = values.motif;
   const showMotif = Boolean(motifKey && hasMotifRenderer(motifKey));
   const nameText = values.name?.trim() ?? "";
-  const isPill = handle === "dots-med-navn-3stk" || handle === "loops-med-navn";
+  const isPill = handle === "dots-med-navn-3stk" || handle === "loops-navn";
   // Scale font to fill the shape: width budget / chars, capped by height budget.
   // 0.6 ≈ average char-width ratio for Fredoka Bold.
   const nameFontSize = nameText.length === 0 ? 0 : isPill
@@ -142,7 +142,7 @@ export function ProductShape({
       />
     );
   }
-  if (handle === "loops-med-navn") {
+  if (handle === "loops-navn") {
     // Pill with equal rounding on all corners (r=12)
     return <rect x="8" y="33" width="84" height="34" rx="12" fill={fill} filter={filter} />;
   }

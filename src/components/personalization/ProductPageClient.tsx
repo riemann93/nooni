@@ -247,7 +247,7 @@ function SnapshotDot({
   const motifKey = values.motif;
   const showMotif = Boolean(motifKey && hasMotifRenderer(motifKey));
   const nameText = values.name?.trim() ?? "";
-  const isPill = handle === "dots-med-navn-3stk" || handle === "loops-med-navn";
+  const isPill = handle === "dots-med-navn-3stk" || handle === "loops-navn";
   const nameFontSize = nameText.length === 0 ? 0 : isPill
     ? Math.min(24, Math.round(78 / (nameText.length * 0.58)))
     : Math.min(34, Math.round(90 / (nameText.length * 0.58)));
