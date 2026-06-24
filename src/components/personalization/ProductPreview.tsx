@@ -54,7 +54,7 @@ export default function ProductPreview({
         <filter id="motif-shadow" x="-20%" y="-20%" width="140%" height="140%">
           <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="rgba(0,0,0,0.3)" />
         </filter>
-        <filter id="shape-shadow" x="-30%" y="-30%" width="160%" height="160%">
+        <filter id="shape-shadow" filterUnits="userSpaceOnUse" x="-15" y="-15" width="130" height="130">
           <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="rgba(80,45,30,0.45)" />
         </filter>
       </defs>
