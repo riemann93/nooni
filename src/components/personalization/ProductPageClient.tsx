@@ -6,6 +6,7 @@ import ProductGallery from "@/components/ProductGallery";
 import ProductPurchaseSection from "@/components/personalization/ProductPurchaseSection";
 import ProductPreview, {
   PREVIEW_SUPPORTED_HANDLES,
+  ProductShape,
   resolveColor,
   NEUTRAL_MAIN_HEX,
   NEUTRAL_SECONDARY_HEX,
@@ -246,7 +247,10 @@ function SnapshotDot({
   const motifKey = values.motif;
   const showMotif = Boolean(motifKey && hasMotifRenderer(motifKey));
   const nameText = values.name?.trim() ?? "";
-  const nameFontSize = nameText.length <= 4 ? 20 : nameText.length <= 7 ? 15 : nameText.length <= 10 ? 12 : 10;
+  const isPill = handle === "dots-med-navn-3stk";
+  const nameFontSize = isPill
+    ? (nameText.length <= 4 ? 14 : nameText.length <= 7 ? 11 : nameText.length <= 10 ? 9 : 8)
+    : (nameText.length <= 4 ? 20 : nameText.length <= 7 ? 15 : nameText.length <= 10 ? 12 : 10);
   return (
     <svg viewBox="0 0 100 100" className="h-full w-full" aria-hidden>
       <defs>
@@ -254,7 +258,7 @@ function SnapshotDot({
           <feDropShadow dx="0" dy="1" stdDeviation="1.5" floodColor="rgba(0,0,0,0.25)" />
         </filter>
       </defs>
-      <circle cx="50" cy="50" r="48" fill={mainHex} />
+      <ProductShape handle={handle} fill={mainHex} />
       {showMotif && motifKey && (
         <g transform="translate(5 5) scale(0.9)" filter="url(#snap-shadow)">
           <MotifRenderer motifKey={motifKey} color={secondaryHex} />

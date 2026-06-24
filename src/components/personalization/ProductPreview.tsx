@@ -35,7 +35,10 @@ export default function ProductPreview({
   const motifKey = values.motif;
   const showMotif = Boolean(motifKey && hasMotifRenderer(motifKey));
   const nameText = values.name?.trim() ?? "";
-  const nameFontSize = nameText.length <= 4 ? 20 : nameText.length <= 7 ? 15 : nameText.length <= 10 ? 12 : 10;
+  const isPill = handle === "dots-med-navn-3stk";
+  const nameFontSize = isPill
+    ? (nameText.length <= 4 ? 14 : nameText.length <= 7 ? 11 : nameText.length <= 10 ? 9 : 8)
+    : (nameText.length <= 4 ? 20 : nameText.length <= 7 ? 15 : nameText.length <= 10 ? 12 : 10);
 
   const productSvg = (
     <svg
@@ -54,7 +57,7 @@ export default function ProductPreview({
         </filter>
       </defs>
 
-      <circle cx="50" cy="50" r="48" fill={mainHex} filter="url(#shape-shadow)" />
+      <ProductShape handle={handle} fill={mainHex} filter="url(#shape-shadow)" />
 
       {showMotif && motifKey && (
         <g transform="translate(9.5 5.5) scale(0.81)" filter="url(#motif-shadow)">
@@ -114,4 +117,21 @@ export function resolveColor(
 ): string {
   if (!value) return fallback;
   return palette.find((c) => c.value === value)?.hex ?? fallback;
+}
+
+/** Returns the SVG shape element for a given product handle. */
+export function ProductShape({
+  handle,
+  fill,
+  filter,
+}: {
+  handle: string;
+  fill: string;
+  filter?: string;
+}) {
+  if (handle === "dots-med-navn-3stk") {
+    // Horizontal pill matching the physical name-dot shape
+    return <rect x="7" y="32" width="86" height="36" rx="18" fill={fill} filter={filter} />;
+  }
+  return <circle cx="50" cy="50" r="48" fill={fill} filter={filter} />;
 }
