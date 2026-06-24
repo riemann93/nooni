@@ -62,7 +62,7 @@ interface ProductPurchaseSectionProps {
   variants: ProductVariant[];
   schema: PersonalizationSchema | null;
   onValuesChange?: (values: Record<string, string>) => void;
-  addOnVariant?: { id: string; title: string; price: Money };
+  addOnVariants?: { id: string; title: string; price: Money }[];
 }
 
 export default function ProductPurchaseSection({
@@ -70,7 +70,7 @@ export default function ProductPurchaseSection({
   variants,
   schema,
   onValuesChange,
-  addOnVariant,
+  addOnVariants,
 }: ProductPurchaseSectionProps) {
   const { addLine, loading } = useCart();
   const [justAdded, setJustAdded] = useState(false);
@@ -84,6 +84,10 @@ export default function ProductPurchaseSection({
   const [values, setValues] = useState<Record<string, string>>({});
   const [isValid, setIsValid] = useState<boolean>(!schema);
   const [addOnSelected, setAddOnSelected] = useState(false);
+  const [addOnVariantId, setAddOnVariantId] = useState<string>(
+    addOnVariants?.[0]?.id ?? "",
+  );
+  const addOnVariant = addOnVariants?.find((v) => v.id === addOnVariantId) ?? addOnVariants?.[0];
 
   const handleFormChange = useCallback(
     (next: Record<string, string>, nextValid: boolean) => {
@@ -138,12 +142,12 @@ export default function ProductPurchaseSection({
         </div>
       )}
 
-      {addOnVariant && (
+      {addOnVariants && addOnVariants.length > 0 && (
         <div className="mt-5 border-t border-nooni-line-soft pt-5">
           <label className="flex cursor-pointer items-center justify-between gap-4">
             <div>
-              <p className="text-sm font-medium text-nooni-ink">{addOnVariant.title}</p>
-              <p className="text-xs text-nooni-ink-soft">+{formatPrice(addOnVariant.price)}</p>
+              <p className="text-sm font-medium text-nooni-ink">Tilføj pose</p>
+              <p className="text-xs text-nooni-ink-soft">+{formatPrice(addOnVariant!.price)}</p>
             </div>
             <button
               type="button"
@@ -161,6 +165,25 @@ export default function ProductPurchaseSection({
               />
             </button>
           </label>
+          {addOnSelected && addOnVariants.length > 1 && (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {addOnVariants.map((v) => (
+                <button
+                  key={v.id}
+                  type="button"
+                  onClick={() => setAddOnVariantId(v.id)}
+                  className={[
+                    "rounded-full border px-4 py-1.5 text-sm transition-colors",
+                    v.id === addOnVariantId
+                      ? "border-nooni-ink bg-nooni-ink text-white"
+                      : "border-nooni-line-soft text-nooni-ink hover:border-nooni-ink",
+                  ].join(" ")}
+                >
+                  {v.title}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       )}
 

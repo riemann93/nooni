@@ -80,7 +80,7 @@ export default async function ProductPage({ params }: PageProps) {
   const baseSchema = getSchemaForHandle(handle);
   const schema = baseSchema ? withColorOptions(baseSchema, colors) : null;
 
-  const addOnVariant = addOnProduct?.variants.nodes[0] ?? null;
+  const addOnVariants = addOnProduct?.variants.nodes ?? null;
 
   const minPrice = product.priceRange.minVariantPrice;
   const maxPrice = product.priceRange.maxVariantPrice;
@@ -102,7 +102,7 @@ export default async function ProductPage({ params }: PageProps) {
         priceLabel={priceLabel}
         availableForSale={product.availableForSale}
         descriptionHtml={product.descriptionHtml}
-        addOnVariant={addOnVariant ?? undefined}
+        addOnVariants={addOnVariants ?? undefined}
       />
     </section>
   );
