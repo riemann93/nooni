@@ -74,7 +74,7 @@ export default function ProductPurchaseSection({
   addOnVariants,
   addOnMinPrice,
 }: ProductPurchaseSectionProps) {
-  const { addLine, loading } = useCart();
+  const { addLines, loading } = useCart();
   const [justAdded, setJustAdded] = useState(false);
 
   const [selectedVariantId, setSelectedVariantId] = useState<string>(
@@ -219,10 +219,13 @@ export default function ProductPurchaseSection({
             disabled={loading || !isValid}
             onClick={async () => {
               try {
-                await addLine(selectedVariant?.id ?? "", 1, attributes);
-                if (addOnSelected && addOnVariant) {
-                  await addLine(addOnVariant.id, 1);
-                }
+                const lines = [
+                  { variantId: selectedVariant?.id ?? "", quantity: 1, attributes },
+                  ...(addOnSelected && addOnVariant
+                    ? [{ variantId: addOnVariant.id, quantity: 1 }]
+                    : []),
+                ];
+                await addLines(lines);
                 setJustAdded(true);
                 window.setTimeout(() => setJustAdded(false), 1600);
               } catch (err) {

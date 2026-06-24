@@ -25,10 +25,13 @@ import * as React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   addToCart as apiAddToCart,
+  addLinesToCart as apiAddLinesToCart,
   createCart as apiCreateCart,
+  createCartWithLines as apiCreateCartWithLines,
   getCart as apiGetCart,
   removeCartLines as apiRemoveCartLines,
   updateCartLineQuantity as apiUpdateCartLineQuantity,
+  type CartLineInput,
 } from "@/lib/shopify/cart";
 import type { Cart, CartLineAttribute } from "@/lib/shopify/types";
 
@@ -49,6 +52,7 @@ interface CartContextValue {
     quantity?: number,
     attributes?: CartLineAttribute[],
   ) => Promise<void>;
+  addLines: (lines: CartLineInput[]) => Promise<void>;
   updateQuantity: (lineId: string, quantity: number) => Promise<void>;
   removeLine: (lineId: string) => Promise<void>;
 }
@@ -129,6 +133,23 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     [cart, persistCart],
   );
 
+  const addLines = useCallback(
+    async (lines: CartLineInput[]) => {
+      if (lines.length === 0) return;
+      setLoading(true);
+      try {
+        const updated = cart
+          ? await apiAddLinesToCart(cart.id, lines)
+          : await apiCreateCartWithLines(lines);
+        persistCart(updated);
+        setIsDrawerOpen(true);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [cart, persistCart],
+  );
+
   const updateQuantity = useCallback(
     async (lineId: string, quantity: number) => {
       if (!cart) return;
@@ -170,6 +191,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       openDrawer,
       closeDrawer,
       addLine,
+      addLines,
       updateQuantity,
       removeLine,
     }),
@@ -180,6 +202,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       openDrawer,
       closeDrawer,
       addLine,
+      addLines,
       updateQuantity,
       removeLine,
     ],
