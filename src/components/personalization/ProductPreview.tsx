@@ -8,6 +8,7 @@ import MotifRenderer, { hasMotifRenderer } from "./motifs";
 
 export const PREVIEW_SUPPORTED_HANDLES = new Set<string>([
   "dots-5stk",
+  "dots-med-navn-3stk",
   "loops",
 ]);
 
@@ -33,6 +34,8 @@ export default function ProductPreview({
   const secondaryHex = resolveColor(colors, values.secondary_color, NEUTRAL_SECONDARY_HEX);
   const motifKey = values.motif;
   const showMotif = Boolean(motifKey && hasMotifRenderer(motifKey));
+  const nameText = values.name?.trim() ?? "";
+  const nameFontSize = nameText.length <= 4 ? 20 : nameText.length <= 7 ? 15 : nameText.length <= 10 ? 12 : 10;
 
   const productSvg = (
     <svg
@@ -57,6 +60,21 @@ export default function ProductPreview({
         <g transform="translate(9.5 5.5) scale(0.81)" filter="url(#motif-shadow)">
           <MotifRenderer motifKey={motifKey} color={secondaryHex} />
         </g>
+      )}
+      {nameText && (
+        <text
+          x="50"
+          y="50"
+          textAnchor="middle"
+          dominantBaseline="central"
+          fill={secondaryHex}
+          fontSize={nameFontSize}
+          fontFamily="Georgia, 'Times New Roman', serif"
+          fontStyle="italic"
+          filter="url(#motif-shadow)"
+        >
+          {nameText}
+        </text>
       )}
     </svg>
   );

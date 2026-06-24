@@ -245,6 +245,8 @@ function SnapshotDot({
   const secondaryHex = resolveColor(palette, values.secondary_color, NEUTRAL_SECONDARY_HEX);
   const motifKey = values.motif;
   const showMotif = Boolean(motifKey && hasMotifRenderer(motifKey));
+  const nameText = values.name?.trim() ?? "";
+  const nameFontSize = nameText.length <= 4 ? 20 : nameText.length <= 7 ? 15 : nameText.length <= 10 ? 12 : 10;
   return (
     <svg viewBox="0 0 100 100" className="h-full w-full" aria-hidden>
       <defs>
@@ -257,6 +259,21 @@ function SnapshotDot({
         <g transform="translate(5 5) scale(0.9)" filter="url(#snap-shadow)">
           <MotifRenderer motifKey={motifKey} color={secondaryHex} />
         </g>
+      )}
+      {nameText && (
+        <text
+          x="50"
+          y="50"
+          textAnchor="middle"
+          dominantBaseline="central"
+          fill={secondaryHex}
+          fontSize={nameFontSize}
+          fontFamily="Georgia, 'Times New Roman', serif"
+          fontStyle="italic"
+          filter="url(#snap-shadow)"
+        >
+          {nameText}
+        </text>
       )}
     </svg>
   );
