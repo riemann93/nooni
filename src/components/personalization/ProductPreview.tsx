@@ -39,8 +39,8 @@ export default function ProductPreview({
   // Scale font to fill the shape: width budget / chars, capped by height budget.
   // 0.6 ≈ average char-width ratio for Fredoka Bold.
   const nameFontSize = nameText.length === 0 ? 0 : isPill
-    ? Math.min(22, Math.round(72 / (nameText.length * 0.6)))
-    : Math.min(26, Math.round(82 / (nameText.length * 0.6)));
+    ? Math.min(27, Math.round(80 / (nameText.length * 0.58)))
+    : Math.min(34, Math.round(90 / (nameText.length * 0.58)));
 
   const productSvg = (
     <svg
