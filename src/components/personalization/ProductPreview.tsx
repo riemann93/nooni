@@ -37,7 +37,7 @@ export default function ProductPreview({
   const motifKey = values.motif;
   const showMotif = Boolean(motifKey && hasMotifRenderer(motifKey));
   const nameText = values.name?.trim() ?? "";
-  const isPill = handle === "dots-med-navn-3stk" || handle === "loops-navn";
+  const isPill = handle === "dots-med-navn-3stk" || handle === "loops-navn" || handle === "emblem";
   // Scale font to fill the shape: width budget / chars, capped by height budget.
   // 0.58 ≈ average char-width ratio for Fredoka Bold.
   const nameFontSize = nameText.length === 0 ? 0 : isPill
@@ -148,8 +148,8 @@ export function ProductShape({
     return <rect x="8" y="33" width="84" height="34" rx="12" fill={fill} filter={filter} />;
   }
   if (handle === "emblem") {
-    // Rounded square
-    return <rect x="8" y="8" width="84" height="84" rx="16" fill={fill} filter={filter} />;
+    // Wide rounded rectangle (half height of width)
+    return <rect x="8" y="29" width="84" height="42" rx="16" fill={fill} filter={filter} />;
   }
   return <circle cx="50" cy="50" r="48" fill={fill} filter={filter} />;
 }
