@@ -154,7 +154,7 @@ export default function ProductPurchaseSection({
               role="switch"
               aria-checked={addOnSelected}
               onClick={() => setAddOnSelected((v) => !v)}
-              className={`relative h-6 w-11 flex-none rounded-full transition-colors ${
+              className={`relative h-6 w-11 flex-none overflow-hidden rounded-full transition-colors ${
                 addOnSelected ? "bg-nooni-headline" : "bg-nooni-line"
               }`}
             >
