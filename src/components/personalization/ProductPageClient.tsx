@@ -267,7 +267,7 @@ function SnapshotDot({
       {nameText && (
         <text
           x={isPill ? "52" : "50"}
-          y={isPill ? "48" : "50"}
+          y={isPill ? (/[gjpqy]/i.test(nameText) ? "48" : "50") : "50"}
           textAnchor="middle"
           dominantBaseline="central"
           fill={secondaryHex}
