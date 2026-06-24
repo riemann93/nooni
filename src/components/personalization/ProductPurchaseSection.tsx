@@ -86,10 +86,14 @@ export default function ProductPurchaseSection({
   const [values, setValues] = useState<Record<string, string>>({});
   const [isValid, setIsValid] = useState<boolean>(!schema);
   const [addOnSelected, setAddOnSelected] = useState(false);
+  // Default to the first variant that has a real price; fall back to index 0
+  const firstPricedVariant = addOnVariants?.find(
+    (v) => parseFloat(v.price.amount) > 0,
+  ) ?? addOnVariants?.[0];
   const [addOnVariantId, setAddOnVariantId] = useState<string>(
-    addOnVariants?.[0]?.id ?? "",
+    firstPricedVariant?.id ?? "",
   );
-  const addOnVariant = addOnVariants?.find((v) => v.id === addOnVariantId) ?? addOnVariants?.[0];
+  const addOnVariant = addOnVariants?.find((v) => v.id === addOnVariantId) ?? firstPricedVariant;
 
   // Use priceRange fallback if variant price comes back as 0 from Shopify
   const effectiveAddOnPrice: Money | undefined = (() => {
