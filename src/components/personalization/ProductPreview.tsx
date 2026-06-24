@@ -6,12 +6,16 @@ import {
 } from "@/lib/shopify/personalization";
 import MotifRenderer, { hasMotifRenderer } from "./motifs";
 
-export const PREVIEW_SUPPORTED_HANDLES = new Set<string>(["dots-5stk"]);
+export const PREVIEW_SUPPORTED_HANDLES = new Set<string>([
+  "dots-5stk",
+  "loops",
+]);
 
 export const NEUTRAL_MAIN_HEX = "#EFE6D8";
 export const NEUTRAL_SECONDARY_HEX = "#B48383";
 
 export interface ProductPreviewProps {
+  handle: string;
   values: Record<string, string>;
   colors?: readonly ColorOption[];
   fullSize?: boolean;
@@ -19,6 +23,7 @@ export interface ProductPreviewProps {
 }
 
 export default function ProductPreview({
+  handle,
   values,
   colors = NOONI_COLORS,
   fullSize = false,
@@ -29,23 +34,31 @@ export default function ProductPreview({
   const motifKey = values.motif;
   const showMotif = Boolean(motifKey && hasMotifRenderer(motifKey));
 
-  const dotSvg = (
+  const isLoop = handle === "loops";
+
+  const productSvg = (
     <svg
       viewBox="0 0 100 100"
       overflow="visible"
       role="img"
-      aria-label="Forhåndsvisning af din konfigurerede Dot"
+      aria-label="Forhåndsvisning af dit produkt"
       className={fullSize ? "h-[62%] w-[62%]" : "h-[140px] w-[140px]"}
     >
       <defs>
         <filter id="motif-shadow" x="-20%" y="-20%" width="140%" height="140%">
           <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="rgba(0,0,0,0.3)" />
         </filter>
-        <filter id="circle-shadow" x="-30%" y="-30%" width="160%" height="160%">
+        <filter id="shape-shadow" x="-30%" y="-30%" width="160%" height="160%">
           <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="rgba(80,45,30,0.45)" />
         </filter>
       </defs>
-      <circle cx="50" cy="50" r="48" fill={mainHex} filter="url(#circle-shadow)" />
+
+      {isLoop ? (
+        <ellipse cx="50" cy="50" rx="30" ry="46" fill={mainHex} filter="url(#shape-shadow)" />
+      ) : (
+        <circle cx="50" cy="50" r="48" fill={mainHex} filter="url(#shape-shadow)" />
+      )}
+
       {showMotif && motifKey && (
         <g transform="translate(9.5 5.5) scale(0.81)" filter="url(#motif-shadow)">
           <MotifRenderer motifKey={motifKey} color={secondaryHex} />
@@ -57,7 +70,7 @@ export default function ProductPreview({
   if (fullSize) {
     return (
       <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl bg-nooni-bg-warm">
-        {dotSvg}
+        {productSvg}
         {onSave && (
           <button
             type="button"
@@ -77,7 +90,7 @@ export default function ProductPreview({
 
   return (
     <div className="inline-flex items-center justify-center rounded-2xl border border-white/40 bg-white/20 p-5 shadow-[0_8px_32px_rgba(61,50,40,0.12)] backdrop-blur-md">
-      {dotSvg}
+      {productSvg}
     </div>
   );
 }
