@@ -36,9 +36,11 @@ export default function ProductPreview({
   const showMotif = Boolean(motifKey && hasMotifRenderer(motifKey));
   const nameText = values.name?.trim() ?? "";
   const isPill = handle === "dots-med-navn-3stk";
-  const nameFontSize = isPill
-    ? (nameText.length <= 4 ? 14 : nameText.length <= 7 ? 11 : nameText.length <= 10 ? 9 : 8)
-    : (nameText.length <= 4 ? 20 : nameText.length <= 7 ? 15 : nameText.length <= 10 ? 12 : 10);
+  // Scale font to fill the shape: width budget / chars, capped by height budget.
+  // 0.6 ≈ average char-width ratio for Fredoka Bold.
+  const nameFontSize = nameText.length === 0 ? 0 : isPill
+    ? Math.min(22, Math.round(72 / (nameText.length * 0.6)))
+    : Math.min(26, Math.round(82 / (nameText.length * 0.6)));
 
   const productSvg = (
     <svg
@@ -73,7 +75,7 @@ export default function ProductPreview({
           fill={secondaryHex}
           fontSize={nameFontSize}
           fontFamily="Fredoka, system-ui, sans-serif"
-          fontWeight="500"
+          fontWeight="bold"
           filter="url(#motif-shadow)"
         >
           {nameText}

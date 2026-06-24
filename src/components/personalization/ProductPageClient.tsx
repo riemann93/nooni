@@ -248,9 +248,9 @@ function SnapshotDot({
   const showMotif = Boolean(motifKey && hasMotifRenderer(motifKey));
   const nameText = values.name?.trim() ?? "";
   const isPill = handle === "dots-med-navn-3stk";
-  const nameFontSize = isPill
-    ? (nameText.length <= 4 ? 14 : nameText.length <= 7 ? 11 : nameText.length <= 10 ? 9 : 8)
-    : (nameText.length <= 4 ? 20 : nameText.length <= 7 ? 15 : nameText.length <= 10 ? 12 : 10);
+  const nameFontSize = nameText.length === 0 ? 0 : isPill
+    ? Math.min(22, Math.round(72 / (nameText.length * 0.6)))
+    : Math.min(26, Math.round(82 / (nameText.length * 0.6)));
   return (
     <svg viewBox="0 0 100 100" className="h-full w-full" aria-hidden>
       <defs>
@@ -273,7 +273,7 @@ function SnapshotDot({
           fill={secondaryHex}
           fontSize={nameFontSize}
           fontFamily="Fredoka, system-ui, sans-serif"
-          fontWeight="500"
+          fontWeight="bold"
           filter="url(#snap-shadow)"
         >
           {nameText}
