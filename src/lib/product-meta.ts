@@ -11,16 +11,18 @@
  */
 
 export interface ProductMeta {
-  /**
-   * Small italic line shown above the title on the product detail page.
-   * Use sentence case. Keep it short — one short phrase that tells the
-   * customer what the product *is*.
-   */
   tagline?: string;
+  /** Short note shown below the price, e.g. "5 stk. i sættet". */
+  quantityNote?: string;
+  /** Handle of an optional add-on product shown as a toggle on the product page. */
+  addOnHandle?: string;
 }
 
 export const PRODUCT_META: Record<string, ProductMeta> = {
-  "dots-5stk": {},
+  "dots-5stk": { quantityNote: "5 stk. i sættet" },
+  "dots-med-navn-3stk": { quantityNote: "3 stk. i sættet" },
+  "loops-navn": { quantityNote: "3 stk. i sættet" },
+  "tic-tac-take": { addOnHandle: "uden-titel-17-jun-_10-36-17" },
 };
 
 export function getProductMeta(handle: string): ProductMeta {

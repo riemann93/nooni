@@ -62,19 +62,52 @@ export async function getCart(cartId: string): Promise<Cart | null> {
  * deduplicates lines by `merchandiseId + attributes`: same product +
  * same config increments quantity; different config creates a new line.
  */
+export interface CartLineInput {
+  variantId: string;
+  quantity?: number;
+  attributes?: CartLineAttribute[];
+}
+
+export async function createCartWithLines(lines: CartLineInput[]): Promise<Cart> {
+  const data = await shopifyFetch<{ cartCreate: CartMutationResponse }>({
+    query: CART_CREATE_MUTATION,
+    variables: {
+      lines: lines.map(({ variantId, quantity = 1, attributes }) => ({
+        merchandiseId: variantId,
+        quantity,
+        attributes,
+      })),
+    },
+    revalidate: 0,
+  });
+  return unwrapCartMutation(data.cartCreate);
+}
+
+export async function addLinesToCart(
+  cartId: string,
+  lines: CartLineInput[],
+): Promise<Cart> {
+  const data = await shopifyFetch<{ cartLinesAdd: CartMutationResponse }>({
+    query: CART_LINES_ADD_MUTATION,
+    variables: {
+      cartId,
+      lines: lines.map(({ variantId, quantity = 1, attributes }) => ({
+        merchandiseId: variantId,
+        quantity,
+        attributes,
+      })),
+    },
+    revalidate: 0,
+  });
+  return unwrapCartMutation(data.cartLinesAdd);
+}
+
 export async function createCart(
   variantId: string,
   quantity = 1,
   attributes?: CartLineAttribute[],
 ): Promise<Cart> {
-  const data = await shopifyFetch<{ cartCreate: CartMutationResponse }>({
-    query: CART_CREATE_MUTATION,
-    variables: {
-      lines: [{ merchandiseId: variantId, quantity, attributes }],
-    },
-    revalidate: 0,
-  });
-  return unwrapCartMutation(data.cartCreate);
+  return createCartWithLines([{ variantId, quantity, attributes }]);
 }
 
 /** Add a line to an existing cart. See createCart() re: attributes semantics. */

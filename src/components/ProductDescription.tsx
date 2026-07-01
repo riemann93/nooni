@@ -31,6 +31,10 @@ interface ProductDescriptionProps {
 
 const COLLAPSED_HEIGHT_PX = 300;
 
+function injectFirstParaClass(html: string): string {
+  return html.replace(/^(\s*<\w+)/, '$1 class="desc-lead"');
+}
+
 export default function ProductDescription({
   html,
   className = "",
@@ -39,8 +43,6 @@ export default function ProductDescription({
   const [needsToggle, setNeedsToggle] = useState(false);
   const innerRef = useRef<HTMLDivElement | null>(null);
 
-  // After mount (and whenever the inner content changes size), check
-  // whether the natural content height actually exceeds the clamp.
   useEffect(() => {
     const node = innerRef.current;
     if (!node) return;
@@ -57,7 +59,10 @@ export default function ProductDescription({
             : `${COLLAPSED_HEIGHT_PX}px`,
         }}
       >
-        <div ref={innerRef} dangerouslySetInnerHTML={{ __html: html }} />
+        <div
+          ref={innerRef}
+          dangerouslySetInnerHTML={{ __html: injectFirstParaClass(html) }}
+        />
         {!expanded && needsToggle && (
           <div
             aria-hidden

@@ -20,10 +20,7 @@
 
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
-import ProductDescription from "@/components/ProductDescription";
-import ProductGallery from "@/components/ProductGallery";
-import ProductPurchaseSection from "@/components/personalization/ProductPurchaseSection";
+import ProductPageClient from "@/components/personalization/ProductPageClient";
 import {
   getSchemaForHandle,
   withColorOptions,
@@ -52,29 +49,6 @@ export async function generateMetadata({
   };
 }
 
-/**
- * Split a product title on " - " (sentence-style dash) and apply the
- * site's two-tone emphasis treatment to the trailing part.
- *
- *   "Dots - symbol"  →  [Dots] (Inter, ink) + [symbol] (Cormorant
- *   Light italic, headline rose), matching the homepage h2 pattern.
- *
- * Titles without " - " pass through unchanged.
- */
-function renderProductTitle(title: string): ReactNode {
-  const sep = " - ";
-  const idx = title.indexOf(sep);
-  if (idx === -1) return title;
-  const main = title.slice(0, idx);
-  const accent = title.slice(idx + sep.length);
-  return (
-    <>
-      {main}{" "}
-      <em className="italic text-nooni-headline">{accent}</em>
-    </>
-  );
-}
-
 function formatPrice(amount: string, currencyCode: string): string {
   return new Intl.NumberFormat("da-DK", {
     style: "currency",
@@ -88,9 +62,12 @@ export default async function ProductPage({ params }: PageProps) {
   const { handle } = await params;
   // Colour lookup runs in parallel; it self-recovers to [] on any
   // failure, so it can't block or break the page.
-  const [product, colors] = await Promise.all([
+  const meta = getProductMeta(handle);
+
+  const [product, colors, addOnProduct] = await Promise.all([
     getProductByHandle(handle),
     getProductColors(handle),
+    meta.addOnHandle ? getProductByHandle(meta.addOnHandle) : Promise.resolve(null),
   ]);
 
   if (!product) {
@@ -103,8 +80,12 @@ export default async function ProductPage({ params }: PageProps) {
   const baseSchema = getSchemaForHandle(handle);
   const schema = baseSchema ? withColorOptions(baseSchema, colors) : null;
 
-  // In-code metadata: tagline above the title etc.
-  const meta = getProductMeta(handle);
+  const addOnVariants = addOnProduct?.variants.nodes ?? null;
+  const addOnMinPrice = addOnProduct?.priceRange.minVariantPrice ?? null;
+  if (addOnVariants) {
+    console.log("[pose] addOnVariants prices:", JSON.stringify(addOnVariants.map(v => ({ id: v.id, title: v.title, price: v.price }))));
+    console.log("[pose] addOnMinPrice:", JSON.stringify(addOnMinPrice));
+  }
 
   const minPrice = product.priceRange.minVariantPrice;
   const maxPrice = product.priceRange.maxVariantPrice;
@@ -115,60 +96,20 @@ export default async function ProductPage({ params }: PageProps) {
 
   return (
     <section className="relative z-[1] mx-auto max-w-[1280px] px-6 py-[45px] md:px-10">
-      <div className="grid grid-cols-1 gap-14 md:grid-cols-2">
-        <ProductGallery
-          images={product.images.nodes}
-          productTitle={product.title}
-        />
-
-        <div className="flex flex-col">
-          {/*
-            Availability pill: only render "Udsolgt" when the product is
-            unbuyable. We intentionally do NOT show a "På lager" pill,
-            since many Nooni products are made-to-order and inventory
-            isn't tracked — claiming stock we don't measure would be a
-            promise we can't keep.
-          */}
-          {!product.availableForSale && (
-            <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
-              Udsolgt
-            </p>
-          )}
-
-          {meta.tagline && (
-            <p className="mb-3 font-editorial italic text-lg text-nooni-ink-soft">
-              {meta.tagline}
-            </p>
-          )}
-
-          <h1 className="font-editorial text-5xl leading-[1.05] tracking-tight text-nooni-ink">
-            {renderProductTitle(product.title)}
-          </h1>
-
-          <p className="mt-5 font-editorial text-[1.7rem] font-medium text-nooni-ink">
-            {priceLabel}
-          </p>
-
-          {product.descriptionHtml && (
-            <ProductDescription
-              html={product.descriptionHtml}
-              className="mt-8 font-editorial text-lg leading-relaxed text-nooni-ink-soft"
-            />
-          )}
-
-          {product.variants.nodes.length > 0 ? (
-            <ProductPurchaseSection
-              handle={handle}
-              variants={product.variants.nodes}
-              schema={schema}
-            />
-          ) : (
-            <p className="mt-10 text-sm text-nooni-ink-soft">
-              Dette produkt kan ikke købes lige nu.
-            </p>
-          )}
-        </div>
-      </div>
+      <ProductPageClient
+        handle={handle}
+        images={product.images.nodes}
+        productTitle={product.title}
+        variants={product.variants.nodes}
+        schema={schema}
+        tagline={meta.tagline}
+        quantityNote={meta.quantityNote}
+        priceLabel={priceLabel}
+        availableForSale={product.availableForSale}
+        descriptionHtml={product.descriptionHtml}
+        addOnVariants={addOnVariants ?? undefined}
+        addOnMinPrice={addOnMinPrice ?? undefined}
+      />
     </section>
   );
 }

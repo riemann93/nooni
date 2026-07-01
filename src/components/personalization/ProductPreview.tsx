@@ -1,21 +1,3 @@
-/**
- * ProductPreview — live visualisation of a configured Dot.
- *
- * Renders a single large Dot (circle) in the chosen main colour, with
- * the chosen motif drawn on top in the secondary colour. Updates in
- * real time as the user fills in the personalization form.
- *
- * Currently scoped to Dots-with-motif (handle `dots-5stk`). The
- * SUPPORTED_HANDLES allowlist is the place to extend later when
- * other products get their own preview shapes (Emblem will reuse the
- * same shape with a different proportion; Loops will be elongated).
- *
- * Defaults: when a field hasn't been chosen yet, the dot renders in a
- * pale "neutral" colour and the motif slot is empty — so the preview
- * is always visible and visibly responds the moment the customer
- * picks anything.
- */
-
 "use client";
 
 import {
@@ -24,79 +6,150 @@ import {
 } from "@/lib/shopify/personalization";
 import MotifRenderer, { hasMotifRenderer } from "./motifs";
 
-/**
- * Handles that should render a preview.
- *
- * Empty for launch — the live "Forhåndsvisning" was deemed
- * non-launch-critical and switched off. The component and its
- * threading are kept intact; re-add a handle here (e.g. "dots-5stk")
- * to bring the preview back.
- */
-export const PREVIEW_SUPPORTED_HANDLES = new Set<string>();
+export const PREVIEW_SUPPORTED_HANDLES = new Set<string>([
+  "dots-5stk",
+  "dots-med-navn-3stk",
+  "loops",
+  "loops-navn",
+  "emblem",
+]);
 
-/** Pale fallback used until the customer picks the main colour. */
-const NEUTRAL_MAIN_HEX = "#EFE6D8"; // matches --color-nooni-line-soft
-/** Soft fallback used until the customer picks the secondary colour. */
-const NEUTRAL_SECONDARY_HEX = "#B48383"; // matches --color-nooni-headline
+export const NEUTRAL_MAIN_HEX = "#EFE6D8";
+export const NEUTRAL_SECONDARY_HEX = "#B48383";
 
-interface ProductPreviewProps {
+export interface ProductPreviewProps {
+  handle: string;
   values: Record<string, string>;
-  /**
-   * Active palette — the colour options actually rendered in the form.
-   * Defaults to NOONI_COLORS. When colours come from Shopify the form
-   * stores the metaobject handle as the value, so the preview must
-   * resolve hex against the same palette, not the hardcoded one.
-   */
   colors?: readonly ColorOption[];
+  fullSize?: boolean;
+  onSave?: () => void;
 }
 
 export default function ProductPreview({
+  handle,
   values,
   colors = NOONI_COLORS,
+  fullSize = false,
+  onSave,
 }: ProductPreviewProps) {
   const mainHex = resolveColor(colors, values.main_color, NEUTRAL_MAIN_HEX);
-  const secondaryHex = resolveColor(
-    colors,
-    values.secondary_color,
-    NEUTRAL_SECONDARY_HEX,
-  );
-
+  const secondaryHex = resolveColor(colors, values.secondary_color, NEUTRAL_SECONDARY_HEX);
   const motifKey = values.motif;
   const showMotif = Boolean(motifKey && hasMotifRenderer(motifKey));
+  const nameText = values.name?.trim() ?? "";
+  const isPill = handle === "dots-med-navn-3stk" || handle === "loops-navn" || handle === "emblem";
+  // Scale font to fill the shape: width budget / chars, capped by height budget.
+  // 0.58 ≈ average char-width ratio for Fredoka Bold.
+  const nameFontSize = nameText.length === 0 ? 0 : isPill
+    ? Math.min(26, Math.round(84 / (nameText.length * 0.58)))
+    : Math.min(34, Math.round(76 / (nameText.length * 0.58)));
+
+  const productSvg = (
+    <svg
+      viewBox="0 0 100 100"
+      overflow="visible"
+      role="img"
+      aria-label="Forhåndsvisning af dit produkt"
+      className={fullSize ? "h-[62%] w-[62%]" : "h-[140px] w-[140px]"}
+    >
+      <defs>
+        <filter id="motif-shadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="rgba(0,0,0,0.3)" />
+        </filter>
+        <filter id="shape-shadow" filterUnits="userSpaceOnUse" x="-15" y="-15" width="130" height="130">
+          <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="rgba(80,45,30,0.45)" />
+        </filter>
+      </defs>
+
+      <ProductShape handle={handle} fill={mainHex} filter="url(#shape-shadow)" />
+
+      {showMotif && motifKey && (
+        <g transform="translate(9.5 5.5) scale(0.81)" filter="url(#motif-shadow)">
+          <MotifRenderer motifKey={motifKey} color={secondaryHex} />
+        </g>
+      )}
+      {nameText && (
+        <text
+          x={handle === "dots-med-navn-3stk" ? "52" : "50"}
+          y={isPill ? (/[gjpqy]/i.test(nameText) ? "48" : "50") : "50"}
+          textAnchor="middle"
+          dominantBaseline="central"
+          fill={secondaryHex}
+          fontSize={nameFontSize}
+          fontFamily="Fredoka, system-ui, sans-serif"
+          fontWeight="bold"
+          filter="url(#motif-shadow)"
+        >
+          {nameText}
+        </text>
+      )}
+    </svg>
+  );
+
+  if (fullSize) {
+    return (
+      <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl bg-nooni-bg-warm">
+        {productSvg}
+        {onSave && (
+          <button
+            type="button"
+            onClick={onSave}
+            aria-label="Gem forhåndsvisning"
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 flex h-9 items-center gap-1.5 rounded-full bg-white/70 px-4 text-sm text-nooni-ink shadow-sm backdrop-blur-sm transition-all hover:bg-white hover:scale-105"
+          >
+            <span>Gem</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+        )}
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <p className="mb-3 text-xs uppercase tracking-[0.2em] text-nooni-sub">
-        Forhåndsvisning
-      </p>
-
-      <div className="flex aspect-square w-full max-w-[280px] items-center justify-center rounded-3xl bg-nooni-bg-warm p-8">
-        <svg
-          viewBox="0 0 100 100"
-          className="h-full w-full"
-          role="img"
-          aria-label="Forhåndsvisning af din konfigurerede Dot"
-        >
-          <circle cx="50" cy="50" r="48" fill={mainHex} />
-          {showMotif && motifKey && (
-            <MotifRenderer motifKey={motifKey} color={secondaryHex} />
-          )}
-        </svg>
-      </div>
-
-      <p className="mt-3 text-xs text-nooni-ink-soft/70">
-        Sådan kommer din Dot til at se ud.
-      </p>
+    <div className="inline-flex items-center justify-center rounded-2xl border border-white/40 bg-white/20 p-5 shadow-[0_8px_32px_rgba(61,50,40,0.12)] backdrop-blur-md">
+      {productSvg}
     </div>
   );
 }
 
-/** Look up a palette swatch by its value, falling back to a neutral hex. */
-function resolveColor(
+export function resolveColor(
   palette: readonly ColorOption[],
   value: string | undefined,
   fallback: string,
 ): string {
   if (!value) return fallback;
   return palette.find((c) => c.value === value)?.hex ?? fallback;
+}
+
+/** Returns the SVG shape element for a given product handle. */
+export function ProductShape({
+  handle,
+  fill,
+  filter,
+}: {
+  handle: string;
+  fill: string;
+  filter?: string;
+}) {
+  if (handle === "dots-med-navn-3stk") {
+    // Pill: fully-rounded right end (r=17), lightly-rounded left corners (r=8)
+    return (
+      <path
+        d="M 18,33 L 77,33 A 17,17 0 0,1 94,50 A 17,17 0 0,1 77,67 L 18,67 A 8,8 0 0,1 10,59 L 10,41 A 8,8 0 0,1 18,33 Z"
+        fill={fill}
+        filter={filter}
+      />
+    );
+  }
+  if (handle === "loops-navn") {
+    // Pill with equal rounding on all corners (r=12)
+    return <rect x="8" y="33" width="84" height="34" rx="12" fill={fill} filter={filter} />;
+  }
+  if (handle === "emblem") {
+    // Wide rounded rectangle (half height of width)
+    return <rect x="6" y="29" width="88" height="42" rx="21" fill={fill} filter={filter} />;
+  }
+  return <circle cx="50" cy="50" r="48" fill={fill} filter={filter} />;
 }

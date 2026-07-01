@@ -199,6 +199,9 @@ export const PERSONALIZATION_SCHEMAS: Record<string, PersonalizationSchema> = {
   loops: {
     fields: [motifField(MOTIFS), mainColorField, secondaryColorField],
   },
+  "loops-navn": {
+    fields: [nameField("Alma"), mainColorField, secondaryColorField],
+  },
 
   emblem: {
     fields: [nameField("Alma"), mainColorField, secondaryColorField],

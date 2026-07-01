@@ -145,7 +145,7 @@ function ColorField({ field, value, onChange }: ColorFieldProps) {
       <FieldLabel htmlFor={field.key} required={field.required}>
         {field.label}
       </FieldLabel>
-      <div className="mt-3 flex flex-wrap gap-3" role="radiogroup" id={field.key}>
+      <div className="mt-3 flex flex-wrap gap-3 p-1" role="radiogroup" id={field.key}>
         {options.map((opt) => {
           const selected = value === opt.value;
           return (
@@ -161,7 +161,7 @@ function ColorField({ field, value, onChange }: ColorFieldProps) {
               onMouseLeave={() => setTooltip(null)}
               onFocus={(e) => showAtButton(opt, e.currentTarget)}
               onBlur={() => setTooltip(null)}
-              className={`relative h-12 w-12 overflow-hidden rounded-xl transition-transform hover:scale-105 ${
+              className={`relative h-6 w-6 overflow-hidden rounded-lg transition-transform hover:scale-105 ${
                 selected
                   ? "ring-2 ring-nooni-headline ring-offset-2 ring-offset-nooni-bg"
                   : "ring-1 ring-nooni-line-soft"
@@ -292,21 +292,31 @@ function SelectField({ field, value, onChange }: SelectFieldProps) {
       <FieldLabel htmlFor={field.key} required={field.required}>
         {field.label}
       </FieldLabel>
-      <select
-        id={field.key}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="mt-2 w-full rounded-full border border-nooni-line bg-nooni-bg px-5 py-3 text-base text-nooni-ink focus:border-nooni-headline focus:outline-none"
-      >
-        <option value="" disabled>
-          Vælg…
-        </option>
-        {field.options.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
+      <div className="relative mt-2">
+        <select
+          id={field.key}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full appearance-none rounded-full border border-nooni-line bg-nooni-bg pl-5 pr-10 py-3 text-base text-nooni-ink focus:border-nooni-headline focus:outline-none"
+        >
+          <option value="" disabled>
+            Vælg…
           </option>
-        ))}
-      </select>
+          {field.options.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+        <svg
+          className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-nooni-ink-soft"
+          width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+          aria-hidden
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </div>
     </div>
   );
 }
