@@ -66,6 +66,9 @@ export const metadata: Metadata = {
     siteName: "Nooni",
     url: "https://nooni.dk",
   },
+  verification: {
+    google: "TQIGTEQEtx6fQ12dCcdpXGJIFihUicZxFuIvwS4IZRs",
+  },
 };
 
 export default function RootLayout({
