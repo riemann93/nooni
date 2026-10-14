@@ -18,6 +18,8 @@ const nextConfig: NextConfig = {
   images: {
     // AVIF first: roughly 20% smaller than WebP for photos.
     formats: ["image/avif", "image/webp"],
+    // 90 is used for the Story portrait; Next 16 only allows listed values.
+    qualities: [75, 90],
     // Shopify-hosted product images come from the CDN. Allow them
     // through next/image so the optimizer can serve resized/AVIF/WebP
     // variants instead of the raw originals.
