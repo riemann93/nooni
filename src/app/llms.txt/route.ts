@@ -69,6 +69,10 @@ ${productLines.join("\n")}
 
 - [Min historie](${SITE_URL}/om-os): Camilla, personen bag Nooni, og hvordan produkterne bliver til.
 - [Kontakt](${SITE_URL}/kontakt): spørgsmål og særlige ønsker.
+- [Levering og fragt](${SITE_URL}/levering): fast fragt 55 kr., levering i Danmark på 1 til 3 hverdage.
+- [Fortrydelsesret og returnering](${SITE_URL}/returnering): 14 dages fortrydelsesret.
+- [Handelsbetingelser](${SITE_URL}/handelsbetingelser)
+- [Privatlivspolitik](${SITE_URL}/privatlivspolitik)
 
 ## Blog
 

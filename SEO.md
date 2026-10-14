@@ -33,6 +33,8 @@ Shipped on the `Discoverability` branch:
 - `robots.txt` allows every crawler, AI crawlers included.
 - `/llms.txt`: a plain summary of the shop for AI assistants, built from
   the live catalogue.
+- Store policies on nooni.dk, linked from the footer with CVR, address,
+  shipping and payment methods.
 
 ## Open issues
 
@@ -97,21 +99,23 @@ After changing a handle, update any hardcoded references in the code
 (`src/components/ProductsGrid.tsx`, `src/lib/product-meta.ts`,
 `src/components/Hero.tsx`).
 
-### 5. Store policies are not on nooni.dk, and their details disagree
+### 5. Policy email in Shopify still says Gmail
 
-The shipping, return, terms and privacy policies exist only as Shopify
-checkout pages. nooni.dk has no link to them. Customers and Google both
-look for these on the site itself.
+The store policies (terms, shipping, returns, privacy) now render on
+nooni.dk at `/handelsbetingelser`, `/levering`, `/returnering` and
+`/privatlivspolitik`, linked from the footer. The footer also shows CVR,
+shipping and payment methods.
 
-- Add footer links to the policies (or pages on nooni.dk that show them).
-- The policies give **hej.nooni@gmail.com** as the contact address. The
-  site uses **hej@nooni.dk**. Pick one and use it everywhere.
-- The return address is **Storegade 47, 6900 Skjern**. The site and the
-  schema say the business is in **Borris**. If Skjern is the business
-  address, update the address in `src/lib/seo.ts` (and add the street
-  and postcode, which helps local search).
-- The shipping and return details in the product schema
-  (`SHIPPING_DETAILS`, `RETURN_POLICY` in `src/lib/seo.ts`) are copied
-  from the Shopify policies: 55 kr. flat rate, Denmark only, 1 to 2 days
-  production, 1 to 3 days delivery, 14 day returns paid by the customer.
-  Update them when the policies change.
+Still open: the policy text in Shopify gives **hej.nooni@gmail.com** as
+the contact address. nooni.dk swaps it for **hej@nooni.dk** when it
+renders the policies (`src/lib/shopify/policies.ts`), but Shopify's own
+checkout pages still show the Gmail address.
+
+Fix: in Shopify Admin → Settings → Policies, replace hej.nooni@gmail.com
+with hej@nooni.dk in every policy. Then the swap in `policies.ts` can go.
+
+The shipping and return details in the product schema
+(`SHIPPING_DETAILS`, `RETURN_POLICY` in `src/lib/seo.ts`) and the footer
+line are copied from these policies: 55 kr. flat rate, Denmark only, 1
+to 2 days production, 1 to 3 days delivery, 14 day returns paid by the
+customer. Update them when the policies change.

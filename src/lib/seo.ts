@@ -52,9 +52,13 @@ export function organizationJsonLd() {
         description: SITE_DESCRIPTION,
         email: CONTACT_EMAIL,
         founder: { "@type": "Person", name: "Camilla" },
+        taxID: "46558804",
+        // Borris is the village; 6900 Skjern is its postal town.
         address: {
           "@type": "PostalAddress",
-          addressLocality: "Borris",
+          streetAddress: "Storegade 47, Borris",
+          postalCode: "6900",
+          addressLocality: "Skjern",
           addressCountry: "DK",
         },
         areaServed: "DK",

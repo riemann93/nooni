@@ -13,6 +13,11 @@
  * Camilla's review — too theatrical, didn't match the other sections.
  * The pill shape keeps the footer cohesive with everything above.
  *
+ * Below the contact row: site links, the store policies (rendered
+ * from Shopify on our own pages), payment methods, and the legal line
+ * with CVR. A Danish webshop must show its CVR and terms, and Google
+ * reads the footer as a trust signal on every page.
+ *
  * Backlog (accepted minor flaws, not blocking soft launch):
  *   - On /kontakt itself, the "Skriv til os" CTA loops back to the
  *     current page. Hide the CTA conditionally on that route when we
@@ -21,6 +26,20 @@
 
 import Link from "next/link";
 import Logo from "./Logo";
+
+const SITE_LINKS = [
+  { href: "/produkter", label: "Produkter" },
+  { href: "/om-os", label: "Min historie" },
+  { href: "/blog", label: "Blog" },
+  { href: "/kontakt", label: "Kontakt" },
+];
+
+const POLICY_LINKS = [
+  { href: "/handelsbetingelser", label: "Handelsbetingelser" },
+  { href: "/levering", label: "Levering og fragt" },
+  { href: "/returnering", label: "Fortrydelsesret og returnering" },
+  { href: "/privatlivspolitik", label: "Privatlivspolitik" },
+];
 
 export default function Footer() {
   return (
@@ -35,7 +54,7 @@ export default function Footer() {
         >
           <Link
             href="/"
-            aria-label="Nooni — forsiden"
+            aria-label="Nooni, til forsiden"
             className="inline-block"
           >
             <Logo className="text-3xl md:text-4xl" />
@@ -73,9 +92,39 @@ export default function Footer() {
             </a>
           </div>
 
+          <nav aria-label="Sider" className="mt-10 border-t border-nooni-line pt-8">
+            <ul className="flex flex-wrap justify-center gap-x-7 gap-y-2 text-[15px] text-nooni-ink">
+              {SITE_LINKS.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="transition-colors hover:text-nooni-headline">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <nav aria-label="Vilkår" className="mt-4">
+            <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[13px] text-nooni-ink-soft">
+              {POLICY_LINKS.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="underline-offset-4 transition-colors hover:text-nooni-headline hover:underline">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <p className="mt-6 text-[13px] text-nooni-ink-soft">
+            Fast fragt 55 kr. · Levering i Danmark på 1 til 3 hverdage
+            <br />
+            Betal med Visa, Mastercard, MobilePay og Dankort
+          </p>
+
           <div className="mt-8 space-y-1 text-xs tracking-[0.12em] text-nooni-ink-soft/70">
-            <p>Nooni v/Camilla Riemann Sinnbeck · Storegade 47, Borris · 6900 Skjern</p>
-            <p>© {new Date().getFullYear()} Nooni — lavet med kærlighed i Danmark</p>
+            <p>Nooni v/Camilla Riemann Sinnbeck · Storegade 47, Borris · 6900 Skjern · CVR 46558804</p>
+            <p>© {new Date().getFullYear()} Nooni · lavet med kærlighed i Danmark</p>
           </div>
         </div>
       </div>

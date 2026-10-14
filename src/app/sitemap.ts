@@ -42,5 +42,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.5,
     })),
     { url: `${SITE_URL}/kontakt`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    ...["handelsbetingelser", "levering", "returnering", "privatlivspolitik"].map((path) => ({
+      url: `${SITE_URL}/${path}`,
+      lastModified: now,
+      changeFrequency: "yearly" as const,
+      priority: 0.2,
+    })),
   ];
 }
