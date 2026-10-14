@@ -32,7 +32,7 @@ export default function AuthorBox() {
         <p className="mt-1 font-editorial text-2xl text-nooni-ink">Camilla</p>
         <p className="mt-1 font-editorial text-base leading-relaxed text-nooni-ink-soft">
           Lærer og mor til to. Jeg designer og printer Noonis navnemærker
-          hjemme i Borris.{" "}
+          hjemme i Vestjylland.{" "}
           <Link
             href="/om-os"
             className="text-nooni-headline underline underline-offset-4"

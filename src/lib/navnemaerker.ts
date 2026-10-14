@@ -39,7 +39,7 @@ export const NAME_TAGS: NameTag[] = [
 ];
 
 export const HUB_INTRO =
-  "Navnemærker til lynlåsen på flyverdragt og overtøj, til huen og til tasken, så dit barns ting ikke bliver forbyttet i institutionen. Med navn eller et motiv, som børn kan genkende, før de kan læse. 3D-printet af Camilla i Borris.";
+  "Navnemærker til lynlåsen på flyverdragt og overtøj, til huen og til tasken, så dit barns ting ikke bliver forbyttet i institutionen. Med navn eller et motiv, som børn kan genkende, før de kan læse. 3D-printet af Camilla i Vestjylland.";
 
 /** "What fits where" rows. `dots` and `loops` say whether that product family fits. */
 export interface FitRow {
@@ -179,6 +179,6 @@ export const FAQ: FaqItem[] = [
   {
     question: "Hvordan bliver navnemærkerne lavet?",
     answer:
-      "Camilla designer dem selv og 3D-printer hvert mærke hjemme i Borris i Vestjylland, i de farver og med det navn eller symbol, du vælger.",
+      "Camilla designer dem selv og 3D-printer hvert mærke hjemme i Vestjylland, i de farver og med det navn eller symbol, du vælger.",
   },
 ];

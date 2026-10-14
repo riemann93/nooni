@@ -20,7 +20,7 @@ export const CONTACT_EMAIL = "hej@nooni.dk";
 export const INSTAGRAM_URL = "https://www.instagram.com/hej.nooni/";
 
 export const SITE_DESCRIPTION =
-  "Nooni laver personlige navnemærker og smarte 3D-printede løsninger til børn og familier. Designet og printet hjemme i Borris, Danmark.";
+  "Nooni laver personlige navnemærker og smarte 3D-printede løsninger til børn og familier. Designet og printet hjemme i Vestjylland.";
 
 const DEFAULT_OG_IMAGE = [
   {
@@ -243,7 +243,7 @@ export function camillaJsonLd() {
     name: "Camilla Riemann Sinnbeck",
     givenName: "Camilla",
     jobTitle: "Lærer og grundlægger af Nooni",
-    description: "Lærer og mor til to. Designer og 3D-printer Noonis navnemærker i Borris.",
+    description: "Lærer og mor til to. Designer og 3D-printer Noonis navnemærker i Vestjylland.",
     url: `${SITE_URL}/om-os`,
     image: `${SITE_URL}/images/familie_2.jpg`,
     worksFor: { "@id": ORG_ID },

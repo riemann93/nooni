@@ -18,8 +18,6 @@
  *   - THREE_THINGS is written in the style of her "3 ting jeg ville
  *     ønske jeg vidste som ny mor" post from the five reasons below.
  *     Swap in her own three when she has them.
- *   - HERO_VIDEO stays null until she sends the reel as a file
- *     (Instagram videos cannot be hotlinked).
  */
 
 export const INSTAGRAM_HANDLE = "hej.nooni";
@@ -56,12 +54,12 @@ export const REASONS: Reason[] = [
   {
     key: "mor",
     title: "Én mor, dine farver",
-    body: "Hvert mærke er designet og printet til dit barn hjemme i Borris af Camilla, uddannet lærer og mor til to.",
+    body: "Hvert mærke er designet og printet til dit barn hjemme hos Camilla, uddannet lærer og mor til to.",
   },
 ];
 
 /** The three reasons short enough for the hero's benefit ticks. */
-export const HERO_BENEFITS = ["Ingen tusch i tøjet", "Flyttes med til næste jakke", "Håndlavet i Borris af en mor"];
+export const HERO_BENEFITS = ["Ingen tusch i tøjet", "Flyttes med til næste jakke", "Håndlavet af en mor"];
 
 export interface Tip {
   title: string;
@@ -85,11 +83,5 @@ export const THREE_THINGS: Tip[] = [
 ];
 
 /** Real numbers, short. See TO CHECK above. */
-export const PROOF_LINE = ["58 navnemærker", "1 mor", "Printet i Borris"];
+export const PROOF_LINE = ["58 navnemærker", "1 mor", "Printet hjemme"];
 
-/**
- * A short muted looping clip for the hero, e.g. the Augusta reel.
- * Put the file in public/videos/ and set { src, poster }. While null,
- * the hero shows the Dots med navn photo.
- */
-export const HERO_VIDEO: { src: string; poster: string } | null = null;

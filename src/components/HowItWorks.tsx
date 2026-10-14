@@ -23,7 +23,7 @@ const STEPS: Step[] = [
   },
   {
     num: "2",
-    title: "Jeg printer det i Borris",
+    title: "Jeg printer det hjemme",
     body: "Hvert mærke bliver printet til dit barn hjemme på mit kontor.",
   },
   {

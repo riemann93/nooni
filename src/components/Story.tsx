@@ -55,7 +55,7 @@ export default function StorySection() {
                 <p>
                   Hej! Jeg hedder Camilla. Jeg er uddannet lærer og mor til to,
                   og jeg designer og printer alle Noonis navnemærker hjemme i
-                  Borris. Målet er enkelt: at børn kan finde deres egne ting og
+                  Vestjylland. Målet er enkelt: at børn kan finde deres egne ting og
                   klare lidt mere selv i garderoben.
                 </p>
               </div>

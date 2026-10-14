@@ -28,7 +28,7 @@ export default function ProductFaq({ handle }: { handle: string }) {
   const items: Qa[] = [
     {
       q: "Hvordan bliver det lavet?",
-      a: "Det bliver 3D-printet lag for lag af Camilla i Borris. Ved navnemærkerne er navnet en del af selve mærket, ikke et klistermærke.",
+      a: "Det bliver 3D-printet lag for lag af Camilla i Vestjylland. Ved navnemærkerne er navnet en del af selve mærket, ikke et klistermærke.",
     },
     ...fromFacts(nameTag ? "Tåler navnemærket vask?" : "Tåler det vask?", facts.washing),
     ...fromFacts("Hvordan sætter jeg det på?", facts.mounting),

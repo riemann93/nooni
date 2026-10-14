@@ -19,9 +19,6 @@
  * reasons parents buy, not generic shop promises. All of that copy
  * lives in src/lib/why-parents-buy.ts. Delivery and shipping facts sit
  * in the <ValueStrip /> right below.
- *
- * When HERO_VIDEO is set the image slot plays that short muted loop
- * instead, with the photo as its poster.
  */
 
 import Image from "next/image";
@@ -29,7 +26,7 @@ import Link from "next/link";
 import Stars from "@/components/Stars";
 import { LEAD_NAME_TAG } from "@/lib/product-meta";
 import { OVERALL_RATING } from "@/lib/social-proof";
-import { HERO_BENEFITS, HERO_VIDEO } from "@/lib/why-parents-buy";
+import { HERO_BENEFITS } from "@/lib/why-parents-buy";
 import { getProductsByHandles, type ProductSummary } from "@/lib/shopify/products";
 
 export const revalidate = 60;
@@ -156,30 +153,15 @@ export default async function Hero() {
           </div>
 
           <div className="relative aspect-[4/3] md:aspect-auto md:min-h-[460px]">
-            {HERO_VIDEO ? (
-              <video
-                aria-label={image.alt}
-                poster={HERO_VIDEO.poster}
-                preload="metadata"
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="absolute inset-0 h-full w-full object-cover"
-              >
-                <source src={HERO_VIDEO.src} type="video/mp4" />
-              </video>
-            ) : (
-              <Image
-                src={image.src}
-                alt={image.alt}
-                fill
-                preload
-                fetchPriority="high"
-                sizes="(min-width: 768px) 560px, 100vw"
-                className="object-cover"
-              />
-            )}
+            <Image
+              src={image.src}
+              alt={image.alt}
+              fill
+              preload
+              fetchPriority="high"
+              sizes="(min-width: 768px) 560px, 100vw"
+              className="object-cover"
+            />
             <div
               aria-hidden
               className="pointer-events-none absolute inset-0"

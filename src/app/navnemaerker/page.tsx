@@ -26,7 +26,7 @@ export const revalidate = 60;
 
 const TITLE = "Navnemærker til børn";
 const DESCRIPTION =
-  "Personlige navnemærker til lynlås, hue, vanter og taske. Med navn eller symbol, så børn kan kende deres ting. Designet og 3D-printet i Borris.";
+  "Personlige navnemærker til lynlås, hue, vanter og taske. Med navn eller symbol, så børn kan kende deres ting. Designet og 3D-printet i Vestjylland.";
 
 export const metadata: Metadata = pageMetadata({
   title: "Navnemærker til børn: til lynlås, hue og taske",

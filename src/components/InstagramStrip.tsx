@@ -12,7 +12,7 @@ import { INSTAGRAM_HANDLE, INSTAGRAM_URL } from "@/lib/why-parents-buy";
 
 const TILES = [
   { src: "/images/dots_name_lifestyle.jpg", alt: "Dots med navn på lynlåsen af en rygsæk" },
-  { src: "/images/blog-teaser-poster.jpg", alt: "Printerne i Borris, hvor navnemærkerne bliver til" },
+  { src: "/images/blog-teaser-poster.jpg", alt: "Printerne, hvor navnemærkerne bliver til" },
   { src: "/images/dots_motif_lifestyle.jpg", alt: "Dots med blomstersymbol på en rygsæk" },
   { src: "/images/familie_1.jpg", alt: "En far og to små piger ved et træ i skoven" },
 ];

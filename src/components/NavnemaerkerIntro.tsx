@@ -47,7 +47,7 @@ export default function NavnemaerkerIntro() {
             </p>
             <p>
               Du vælger selv farverne, så mærket passer til overtøjet, og hvert mærke bliver printet
-              til dit barn hjemme hos os i Borris.{" "}
+              til dit barn hjemme hos os.{" "}
               <Link href="/navnemaerker" className={linkClass}>
                 Se alle vores navnemærker
               </Link>{" "}

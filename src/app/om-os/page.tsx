@@ -15,7 +15,7 @@ import { camillaJsonLd, jsonLdScript, pageMetadata } from "@/lib/seo";
 export const metadata: Metadata = pageMetadata({
   title: "Min historie",
   description:
-    "Mød Camilla, personen bag Nooni. Personlige navnemærker og produkter til børn, designet og 3D-printet hjemme i Borris.",
+    "Mød Camilla, personen bag Nooni. Personlige navnemærker og produkter til børn, designet og 3D-printet hjemme i Vestjylland.",
   path: "/om-os",
 });
 
