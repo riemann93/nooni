@@ -4,20 +4,20 @@
  * DotsPhotoPreview — a real photo of a Dots med navn on a zipper, with
  * the customer's colours and name painted onto the tag live.
  *
- * The photo (public/images/dots-anne-jakke.jpg, 1200 × 1500) shows a
- * white Dots with "Anne" in pink. An SVG laid exactly over the photo
- * (same viewBox, same cover crop) repaints the tag in the chosen main
- * colour, writes the chosen name in Fredoka Bold in the secondary
- * colour, and adds a soft highlight and edge shade so the tag keeps
- * the look of printed plastic.
+ * The photo (public/images/dots-anne-jakke.jpg, 1600 × 2000) is turned
+ * so the name reads left to right, and framed a little way back so the
+ * jacket shows. It has a white Dots with "Anne" in pink. An SVG laid
+ * exactly over the photo (same viewBox, same cover crop) repaints the
+ * tag in the chosen main colour, writes the chosen name in Fredoka Bold
+ * in the secondary colour, and adds a soft highlight and edge shade so
+ * the tag keeps the look of printed plastic.
  *
- * Until the visitor starts designing (`active` false), the photo is
- * shown untouched.
+ * While designing (`active`), the photo zooms in on the tag and the
+ * overlay shows; otherwise the bare photo is shown at rest.
  *
  * TAG geometry is measured on the photo in its own pixels. A new photo
  * needs new numbers: the tag's bounding box, corner radius and the
- * rotation of the text (90 = reads top to bottom, as a tag hanging
- * from a zipper pull).
+ * rotation of the text (0 = reads left to right).
  *
  * Sample photo: an old jacket with a licensed cartoon print and a
  * visible clothing brand label. Swap it for a photo on plain fabric
@@ -31,21 +31,27 @@ import { resolveColor } from "@/components/personalization/ProductPreview";
 export const DOTS_PHOTO = {
   src: "/images/dots-anne-jakke.jpg",
   alt: "Dots med navn i hvid og lyserød på lynlåsen af en børnejakke",
-  width: 1200,
-  height: 1500,
+  width: 1600,
+  height: 2000,
 } as const;
 
 /** The tag on the photo, in photo pixels. */
-const TAG = { x: 509, y: 792, width: 177, height: 491, radius: 88, textRotation: 90 } as const;
+const TAG = { x: 658, y: 958, width: 288, height: 97, radius: 48, textRotation: 0 } as const;
+
+/** How far the photo zooms in on the tag while designing. */
+const ZOOM = 2.8;
 
 /** What the photo shows before any choice: white tag, pink "Anne". */
 const PHOTO_MAIN_HEX = "#F7F6F2";
 const PHOTO_SECONDARY_HEX = "#E9837F";
 const PHOTO_NAME = "Anne";
 
-/** Length of the text run the tag has room for, in photo pixels. */
-const TEXT_BUDGET = TAG.height * 0.8;
-const MAX_FONT_SIZE = 165;
+/** Length of the text run the tag has room for, and the tallest the
+ *  letters may get, in photo pixels. */
+const TAG_LONG = Math.max(TAG.width, TAG.height);
+const TAG_SHORT = Math.min(TAG.width, TAG.height);
+const TEXT_BUDGET = TAG_LONG * 0.8;
+const MAX_FONT_SIZE = TAG_SHORT * 0.95;
 
 interface DotsPhotoPreviewProps {
   values: Record<string, string>;
@@ -72,8 +78,14 @@ export default function DotsPhotoPreview({
   const cx = TAG.x + TAG.width / 2;
   const cy = TAG.y + TAG.height / 2;
 
+  // Zoom towards the tag's centre, so it stays in place as it grows.
+  const origin = `${(cx / DOTS_PHOTO.width) * 100}% ${(cy / DOTS_PHOTO.height) * 100}%`;
+
   return (
-    <div className="relative h-full w-full">
+    <div
+      className="relative h-full w-full transition-transform duration-700 ease-out motion-reduce:transition-none"
+      style={{ transform: `scale(${active ? ZOOM : 1})`, transformOrigin: origin }}
+    >
       <Image
         src={DOTS_PHOTO.src}
         alt={DOTS_PHOTO.alt}
@@ -83,29 +95,31 @@ export default function DotsPhotoPreview({
         className="object-cover"
       />
 
-      {active && (
-        <svg
-          viewBox={`0 0 ${DOTS_PHOTO.width} ${DOTS_PHOTO.height}`}
-          preserveAspectRatio="xMidYMid slice"
-          className="absolute inset-0 h-full w-full"
-          role="img"
-          aria-label={`Din Dots med navnet ${name}`}
-        >
+      <svg
+        viewBox={`0 0 ${DOTS_PHOTO.width} ${DOTS_PHOTO.height}`}
+        preserveAspectRatio="xMidYMid slice"
+        className={`absolute inset-0 h-full w-full transition-opacity duration-300 ${
+          active ? "opacity-100" : "opacity-0"
+        }`}
+        role={active ? "img" : undefined}
+        aria-label={active ? `Din Dots med navnet ${name}` : undefined}
+        aria-hidden={active ? undefined : true}
+      >
           <defs>
             <clipPath id="dots-photo-tag">
               <rect x={TAG.x} y={TAG.y} width={TAG.width} height={TAG.height} rx={TAG.radius} />
             </clipPath>
             {/* Light from the top left, like the photo. */}
-            <linearGradient id="dots-photo-light" x1="0" y1="0" x2="1" y2="0.25">
+            <linearGradient id="dots-photo-light" x1="0" y1="0" x2="0.25" y2="1">
               <stop offset="0" stopColor="#fff" stopOpacity="0.35" />
               <stop offset="0.45" stopColor="#fff" stopOpacity="0" />
               <stop offset="1" stopColor="#000" stopOpacity="0.16" />
             </linearGradient>
             <filter id="dots-photo-emboss" x="-10%" y="-10%" width="120%" height="120%">
-              <feDropShadow dx="2" dy="3" stdDeviation="1.6" floodColor="#000" floodOpacity="0.28" />
+              <feDropShadow dx="0.8" dy="1.2" stdDeviation="0.7" floodColor="#000" floodOpacity="0.28" />
             </filter>
             <filter id="dots-photo-soft" x="-10%" y="-10%" width="120%" height="120%">
-              <feGaussianBlur stdDeviation="0.8" />
+              <feGaussianBlur stdDeviation="0.4" />
             </filter>
           </defs>
 
@@ -145,10 +159,9 @@ export default function DotsPhotoPreview({
             fill="none"
             stroke="#000"
             strokeOpacity="0.18"
-            strokeWidth="3"
+            strokeWidth="1.5"
           />
-        </svg>
-      )}
+      </svg>
     </div>
   );
 }
