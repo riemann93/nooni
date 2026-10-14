@@ -1,21 +1,20 @@
 /**
- * /blog — index of all blog posts.
+ * /blog: "Gode raad", a simple guide list.
  *
- * Section rhythm follows the rest of the site (py-[45px] = 90 px gaps).
- * Each post renders as a horizontal card matching the homepage
- * BlogTeaser style, so a returning reader recognises the visual.
+ * The URL stays /blog (no redirects). The page supports search quietly
+ * and points readers at the name tags: a plain list of guides, and one
+ * calm pointer to /navnemaerker below it.
  */
 
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { getAllPosts } from "@/lib/blog";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Blog",
+  title: "Gode raad om navnemærker og hverdagen med børn",
   description:
-    "Nyheder, indblik og fortællinger fra Nooni om 3D-print, design og hverdagsliv med børn.",
+    "Gode raad fra Camilla, lærer og mor til to: navnemærker, vuggestue og skolestart, og hvordan Noonis ting bliver til.",
   path: "/blog",
 });
 
@@ -25,58 +24,66 @@ export default function BlogIndex() {
   return (
     <section
       className="relative z-[1] bg-nooni-bg py-[45px]"
-      data-screen-label="Blog"
+      data-screen-label="Gode raad"
     >
       <div className="mx-auto max-w-[1280px] px-6 md:px-10">
         <div className="rounded-[2rem] bg-nooni-bg-warm px-8 py-14 md:px-16 md:py-20">
           <span className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub">
-            Bloggen
+            Fra Camilla
           </span>
-          <h1 className="mt-5 mb-12 font-editorial text-[clamp(44px,6vw,80px)] leading-[1.05] tracking-tight text-nooni-ink md:mb-16">
-            Nyt fra{" "}
-            <em className="italic text-nooni-headline">Nooni</em>
+          <h1
+            className="mt-5 mb-4 font-editorial leading-[1.05] tracking-tight text-nooni-ink"
+            style={{ fontSize: "var(--nooni-text-heading-lg)" }}
+          >
+            Gode <em className="italic text-nooni-headline">raad</em>
           </h1>
+          <p
+            className="mb-12 max-w-[560px] font-editorial leading-relaxed text-nooni-ink-soft md:mb-14"
+            style={{ fontSize: "var(--nooni-text-body-lg)" }}
+          >
+            Korte guides om navnemærker og hverdagen med børn i vuggestue,
+            børnehave og skole.
+          </p>
 
           {posts.length === 0 ? (
             <p className="font-editorial text-lg text-nooni-ink-soft">
-              Der er ikke nogen indlæg endnu — kig forbi igen snart.
+              Der er ingen guides endnu. Kig forbi igen snart.
             </p>
           ) : (
-            <ul className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
+            <ul className="divide-y divide-nooni-line border-y border-nooni-line">
               {posts.map((post) => (
                 <li key={post.slug}>
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="group block overflow-hidden rounded-[1.5rem] bg-nooni-bg transition-shadow hover:shadow-[0_18px_36px_-12px_rgba(180,131,131,0.28)]"
+                    className="group block py-7 md:py-8"
                   >
-                    <div className="relative aspect-[16/10] w-full overflow-hidden bg-nooni-bg-warm">
-                      <Image
-                        src={post.image}
-                        alt=""
-                        fill
-                        sizes="(min-width: 768px) 600px, 100vw"
-                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                      />
-                    </div>
-                    <div className="px-8 py-7">
-                      <p className="mb-3 text-xs uppercase tracking-[0.18em] text-nooni-sub">
-                        {post.date}
-                      </p>
-                      <h2 className="mb-3 font-editorial text-[clamp(22px,2.4vw,30px)] leading-[1.2] text-nooni-ink">
-                        {post.title}
-                      </h2>
-                      <p className="font-editorial text-base leading-relaxed text-nooni-ink-soft">
-                        {post.excerpt}
-                      </p>
-                      <span className="mt-5 inline-flex items-center gap-2 text-sm text-nooni-headline">
-                        Læs mere
-                      </span>
-                    </div>
+                    <h2
+                      className="font-editorial leading-[1.2] text-nooni-ink transition-colors group-hover:text-nooni-headline"
+                      style={{ fontSize: "var(--nooni-text-heading-sm)" }}
+                    >
+                      {post.title}
+                    </h2>
+                    <p
+                      className="mt-2 max-w-[720px] font-editorial leading-relaxed text-nooni-ink-soft"
+                      style={{ fontSize: "var(--nooni-text-body)" }}
+                    >
+                      {post.excerpt}
+                    </p>
                   </Link>
                 </li>
               ))}
             </ul>
           )}
+
+          <div className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <Link
+              href="/navnemaerker"
+              className="inline-flex items-center rounded-full bg-nooni-headline px-6 py-3 text-white transition-colors hover:bg-[#9d6f6f]"
+              style={{ fontSize: "var(--nooni-text-ui)" }}
+            >
+              Se vores navnemærker
+            </Link>
+          </div>
         </div>
       </div>
     </section>

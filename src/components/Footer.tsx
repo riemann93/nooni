@@ -31,7 +31,7 @@ import { STORE_FACTS } from "@/lib/store-facts";
 const SITE_LINKS = [
   { href: "/produkter", label: "Produkter" },
   { href: "/om-os", label: "Min historie" },
-  { href: "/blog", label: "Blog" },
+  { href: "/blog", label: "Gode raad" },
   { href: "/kontakt", label: "Kontakt" },
 ];
 

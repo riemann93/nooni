@@ -7,6 +7,8 @@ export interface BlogPost {
   excerpt: string;
   date: string;
   image: string;
+  /** Shopify handle of the matching name-tag product (CTA card). */
+  product: string;
   content: string;
 }
 
@@ -38,6 +40,7 @@ export function getAllPosts(): BlogPost[] {
         excerpt: data.excerpt ?? "",
         date: data.date ?? "",
         image: data.image ?? "/images/dots_name_lifestyle.jpg",
+        product: data.product ?? "loops-navn",
         content,
       };
     })

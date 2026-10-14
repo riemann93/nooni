@@ -10,7 +10,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import QuietCTA from "@/components/QuietCTA";
-import { pageMetadata } from "@/lib/seo";
+import { camillaJsonLd, jsonLdScript, pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title: "Min historie",
@@ -22,6 +22,10 @@ export const metadata: Metadata = pageMetadata({
 export default function OmOs() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(camillaJsonLd()) }}
+      />
       <section
         className="relative z-[1] bg-nooni-bg py-[45px]"
         data-screen-label="About"

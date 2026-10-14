@@ -3,6 +3,7 @@ title: Hvad er 3D-print egentlig? (Og hvordan bliver Noonis produkter til)
 excerpt: Når jeg fortæller, at jeg designer Noonis produkter på 3D-printere, får jeg tit et spørgende blik. Lad mig vise dig, hvordan magien sker hjemme hos Wall-E og EVA.
 date: 2026-05-10
 image: /images/familie_2.jpg
+product: loops-navn
 ---
 
 Når jeg fortæller, at jeg designer og laver Noonis produkter på 3D-printere, får jeg tit et lidt spørgende blik. For hvad er 3D-print egentlig? Er det ikke sådan noget vildt science fiction-noget for computernørder, eller er det bare plastikdimser?
@@ -32,6 +33,8 @@ Efter nogle timer (og tusindvis af ultratynde lag) står der pludselig et færdi
 Det, jeg elsker allermest ved 3D-print, er friheden. Hvis jeg får en idé til et nyt værktøj, der kan hjælpe små barnehænder med at mestre hverdagen, kan jeg tegne det om formiddagen og have den første model i hånden om eftermiddagen. Det betyder, at jeg kan teste, rette til og finpudse produkterne, indtil de fungerer helt perfekt for børnene.
 
 Samtidig giver det mig mulighed for at lave tingene i lige netop de rolige, fine farver, jeg drømmer om, og som passer ind i det moderne børneværelse.
+
+Det gælder også vores [navnemærker](/navnemaerker). Både [Loops](/produkter/loops-navn) og Dots bliver printet lag for lag her hos mig i Borris, og navnet bliver en del af selve mærket i stedet for et klistermærke, der slipper i vaskemaskinen.
 
 Næste gang du sidder med et produkt fra Nooni i hånden, kan du prøve at kigge helt tæt på det. Hvis du kigger godt efter, kan du nogle gange kan du se de fine, tynde linjer i overfladen. Det er printerens "fingeraftryk" – beviset på, at produktet er bygget op lag for lag, specielt til dig og din familie.
 

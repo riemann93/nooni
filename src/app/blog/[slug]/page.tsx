@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
+import AuthorBox from "@/components/AuthorBox";
+import PostProductCTA from "@/components/PostProductCTA";
 import { getPostBySlug, getAllPosts } from "@/lib/blog";
 import { blogPostJsonLd, jsonLdScript, pageMetadata } from "@/lib/seo";
 
@@ -48,7 +50,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         href="/blog"
         className="inline-flex items-center gap-2 text-sm text-nooni-sub transition-colors hover:text-nooni-headline"
       >
-        Tilbage til bloggen
+        Tilbage til gode raad
       </Link>
 
       <p className="mt-10 text-xs uppercase tracking-[0.18em] text-nooni-sub">
@@ -85,6 +87,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         {/* Make sure floating image is contained — prevents overflow */}
         <div className="clear-both" />
       </div>
+
+      <PostProductCTA handle={post.product} />
+      <AuthorBox />
     </article>
   );
 }

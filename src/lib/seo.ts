@@ -106,7 +106,7 @@ export function organizationJsonLd() {
           email: CONTACT_EMAIL,
           availableLanguage: "Danish",
         },
-        founder: { "@type": "Person", name: "Camilla" },
+        founder: { "@id": CAMILLA_ID },
         taxID: "46558804",
         // Borris is the village; 6900 Skjern is its postal town.
         address: {
@@ -221,6 +221,26 @@ export function productJsonLd(p: ProductJsonLdInput) {
   };
 }
 
+/** Stable id for Camilla's Person node, defined on /om-os and referenced as author. */
+export const CAMILLA_ID = `${SITE_URL}/om-os#camilla`;
+
+/** Person schema for Camilla (rendered on /om-os and every post). */
+export function camillaJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": CAMILLA_ID,
+    name: "Camilla Riemann Sinnbeck",
+    givenName: "Camilla",
+    jobTitle: "Lærer og grundlægger af Nooni",
+    description: "Lærer og mor til to. Designer og 3D-printer Noonis navnemærker i Borris.",
+    url: `${SITE_URL}/om-os`,
+    image: `${SITE_URL}/images/familie_2.jpg`,
+    worksFor: { "@id": ORG_ID },
+    sameAs: [INSTAGRAM_URL],
+  };
+}
+
 interface BlogPostJsonLdInput {
   slug: string;
   title: string;
@@ -244,12 +264,12 @@ export function blogPostJsonLd(post: BlogPostJsonLdInput) {
         image: `${SITE_URL}${post.image}`,
         url,
         inLanguage: "da-DK",
-        author: { "@type": "Person", name: "Camilla" },
+        author: { "@id": CAMILLA_ID },
         publisher: { "@id": ORG_ID },
       },
       breadcrumbJsonLd([
         { name: "Forside", path: "/" },
-        { name: "Blog", path: "/blog" },
+        { name: "Gode raad", path: "/blog" },
         { name: post.title, path: `/blog/${post.slug}` },
       ]),
     ],

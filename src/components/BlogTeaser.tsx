@@ -19,7 +19,7 @@ export default async function BlogTeaser() {
             {/* Text */}
             <div className="flex flex-col justify-center px-5 py-7 md:px-10 md:py-10 lg:px-14 lg:py-16">
               <span className="mb-4 uppercase tracking-[0.22em] text-nooni-sub font-medium" style={{ fontSize: "var(--nooni-text-label)" }}>
-                Fra bloggen
+                Gode raad
               </span>
               <p className="mb-4 uppercase tracking-[0.18em] text-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
                 {post.date}
