@@ -17,11 +17,11 @@
  *     <DotsPhotoPreview /> paints the chosen colours and name onto it.
  *   - The intro text gives way to the same form and add-to-cart button
  *     the product page uses (<ProductPurchaseSection />), and the cream
- *     wash deepens behind it. The frame grows if the form needs room.
- *     The page never navigates; the cart drawer opens as usual on add.
- *   - The form mounts on first open and then stays mounted, so closing
- *     and reopening keeps what the visitor typed. The resting homepage
- *     ships no form state.
+ *     wash deepens behind it. *     The page never navigates; the cart drawer opens as usual on add.
+ *   - Intro and form are both always rendered in one grid cell (the
+ *     hidden one invisible and inert), so the hero's height never
+ *     changes when they swap, and closing and reopening keeps what the
+ *     visitor typed.
  *
  * Without designer data (Shopify unreachable), the CTA is a plain link
  * to the product page.
@@ -57,7 +57,6 @@ function paletteFromSchema(schema: PersonalizationSchema): readonly ColorOption[
 
 export default function HeroClient({ designer }: { designer: HeroDesignerData | null }) {
   const [open, setOpen] = useState(false);
-  const [hasOpened, setHasOpened] = useState(false);
   const [values, setValues] = useState<Record<string, string>>({});
   const designerRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLButtonElement>(null);
@@ -65,10 +64,7 @@ export default function HeroClient({ designer }: { designer: HeroDesignerData | 
   const palette = designer ? paletteFromSchema(designer.schema) : undefined;
   const productHref = `/produkter/${designer?.handle ?? "dots-med-navn-3stk"}`;
 
-  const openDesigner = useCallback(() => {
-    setHasOpened(true);
-    setOpen(true);
-  }, []);
+  const openDesigner = useCallback(() => setOpen(true), []);
 
   const closeDesigner = useCallback(() => {
     setOpen(false);
@@ -92,9 +88,7 @@ export default function HeroClient({ designer }: { designer: HeroDesignerData | 
     <section className="relative" data-screen-label="01 Hero">
       <div className="mx-auto max-w-[1280px] px-4 pt-3 pb-5 md:px-10 md:pt-4 md:pb-8 lg:pt-6 lg:pb-[45px]">
         <div
-          // Fixed height from md up: if the frame grew when the taller
-          // form swaps in, the photo would re-fit mid-zoom and jump.
-          className="relative overflow-hidden bg-nooni-bg-warm md:h-[clamp(560px,56vw,720px)]"
+          className="relative overflow-hidden bg-nooni-bg-warm md:min-h-[clamp(520px,52vw,680px)]"
           style={{ borderRadius: 28 }}
         >
           {/* Photo: its own block on mobile, the whole frame from md up. */}
@@ -137,12 +131,18 @@ export default function HeroClient({ designer }: { designer: HeroDesignerData | 
             }}
           />
 
-          <div className="relative flex px-5 py-7 md:h-full md:w-[50%] md:overflow-y-auto md:px-10 md:py-10 lg:w-[46%] lg:px-14">
-            {/* my-auto centres the copy but, unlike align-items, never
-                clips the top of a form taller than the frame. */}
-            <div className="w-full md:my-auto">
+          {/* Intro and designer share one grid cell, so the hero is always
+              as tall as the taller of the two. Swapping them never changes
+              the frame's height, which would make the photo re-fit (and
+              jump) mid-zoom. The one not shown is invisible and inert. */}
+          <div className="relative grid items-center px-5 py-7 md:min-h-[clamp(520px,52vw,680px)] md:w-[50%] md:px-10 md:py-10 lg:w-[46%] lg:px-14">
               {/* Intro */}
-              <div hidden={open}>
+              <div
+                inert={open}
+                className={`[grid-area:1/1] transition-opacity duration-500 ${
+                  open ? "invisible opacity-0" : "visible opacity-100"
+                }`}
+              >
                 <div className="flex items-center gap-3">
                   <Image
                     src="/images/camilla-profil.png"
@@ -207,8 +207,15 @@ export default function HeroClient({ designer }: { designer: HeroDesignerData | 
               </div>
 
               {/* Designer */}
-              {designer && hasOpened && (
-                <div id={DESIGNER_ID} ref={designerRef} hidden={!open} className="nooni-fade-in">
+              {designer && (
+                <div
+                  id={DESIGNER_ID}
+                  ref={designerRef}
+                  inert={!open}
+                  className={`[grid-area:1/1] transition-opacity duration-700 ${
+                    open ? "visible opacity-100 delay-200" : "invisible opacity-0"
+                  }`}
+                >
                   <div className="flex items-start justify-between gap-4">
                     <InstaNote variant="blush" className="text-[clamp(14px,1.2vw,16px)]">
                       Design dine Dots
@@ -257,7 +264,6 @@ export default function HeroClient({ designer }: { designer: HeroDesignerData | 
                   </Link>
                 </div>
               )}
-            </div>
           </div>
         </div>
       </div>
