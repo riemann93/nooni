@@ -45,7 +45,7 @@ export default async function MoreFromNooni() {
   const taglines = Object.fromEntries(ITEMS.map((i) => [i.handle, i.tagline]));
 
   return (
-    <section className="bg-nooni-bg py-5 md:py-[45px]" data-screen-label="07 Mere fra Nooni">
+    <section className="bg-nooni-bg pt-4 pb-20 md:pb-28" data-screen-label="08 Mere fra Nooni">
       <div className="mx-auto max-w-[1280px] px-4 md:px-10">
         <div className="flex items-end justify-between gap-4">
           <h2 className="font-editorial leading-[1.1] tracking-tight text-nooni-ink" style={{ fontSize: "var(--nooni-text-heading-sm)" }}>
@@ -82,10 +82,10 @@ export default async function MoreFromNooni() {
                     </div>
                   )}
                   <div className="min-w-0">
-                    <p className="uppercase tracking-[0.18em] text-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
+                    <p className="text-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
                       {taglines[product.handle]}
                     </p>
-                    <h3 className="mt-1 font-editorial text-xl italic font-medium leading-tight text-nooni-headline">
+                    <h3 className="mt-0.5 font-editorial text-lg leading-tight text-nooni-ink">
                       {productTitle(product.handle, product.title)}
                     </h3>
                     <p className="mt-0.5 text-nooni-ink-soft" style={{ fontSize: "var(--nooni-text-ui)" }}>

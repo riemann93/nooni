@@ -18,20 +18,17 @@ const linkClass =
 
 export default function NavnemaerkerIntro() {
   return (
-    <section className="bg-nooni-bg py-5 md:py-[45px]" data-screen-label="06 Om navnemærker">
-      <div className="mx-auto max-w-[1280px] px-4 md:px-10">
-        <div className="mx-auto max-w-[720px] px-2 md:px-0">
-          <p className="uppercase tracking-[0.22em] text-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
-            Om navnemærker
-          </p>
-          <h2 className="mt-3 font-editorial leading-[1.1] tracking-tight text-nooni-ink" style={{ fontSize: "var(--nooni-text-heading-md)" }}>
+    <section className="bg-nooni-bg py-20 md:py-28" data-screen-label="07 Om navnemærker">
+      <div className="mx-auto max-w-[1280px] px-6 md:px-10">
+        <div className="mx-auto max-w-[640px] border-t border-nooni-line-soft pt-16 md:pt-20">
+          <h2 className="text-center font-editorial leading-[1.15] tracking-[-0.01em] text-nooni-ink" style={{ fontSize: "var(--nooni-text-heading-sm)" }}>
             Navnemærker der sidder{" "}
             <em className="italic text-nooni-headline">uden på tøjet</em>
           </h2>
 
           <div
-            className="mt-6 space-y-4 font-editorial leading-[1.65] text-nooni-ink-soft"
-            style={{ fontSize: "var(--nooni-text-body-lg)" }}
+            className="mt-6 space-y-4 font-editorial leading-[1.7] text-nooni-ink-soft"
+            style={{ fontSize: "var(--nooni-text-body)" }}
           >
             <p>
               Noonis navnemærker bliver ikke syet eller strøget ind i tøjet. De klikkes fast i

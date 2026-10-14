@@ -1,33 +1,32 @@
 /**
- * Homepage: the shop's front counter, built for a parent on a phone.
+ * Homepage: calm, Scandinavian, one idea per screen.
  *
- * The page opens with the designer: type the child's name, see the
- * tag, add it to the cart. Everything after it answers "why" and
- * "who", then offers the rest of the range.
+ * Big type, lots of air, a few large photos, no boxes inside boxes.
+ * Dots med navn leads; the rest of the shop follows quietly.
  *
- *   <Hero />               the only H1, plus the live Dots med navn designer
- *   <WhyParentsBuy />      the five reasons from the Instagram posts that sell
- *   <ProductsGrid />       "Vores navnemærker": the name-tag family only
- *   <ReviewsBand />        overall rating + three parent reviews
- *   <Workshop />           Camilla, the printers and the three steps
+ *   <Hero />               the only H1, one line, two actions, one large photo
+ *   <Statement />          "Ti ens flyverdragter...", reason 1 said big
+ *   <NameTagTiles />       the name-tag family as four large tiles
+ *   <Everyday />           four small facts with thin line icons
+ *   <Maker />              Camilla, in the brand's single arch
+ *   <ParentQuote />        one parent review, large (placeholder, preview only)
  *   <NavnemaerkerIntro />  short SEO text about navnemærker, links /navnemaerker
  *   <MoreFromNooni />      Deks, Box, Tic Tac Take, secondary and smaller
- *   <InstagramStrip />     photos linking to @hej.nooni
  *
  * Every section below the hero uses H2 and H3 only. The page closes
- * with the site-wide arched <Footer /> mounted in layout.tsx.
+ * with the site-wide <Footer /> mounted in layout.tsx.
  */
 
 import type { Metadata } from "next";
 import Hero from "@/components/Hero";
 import { pageMetadata, SITE_DESCRIPTION } from "@/lib/seo";
-import ProductsGrid from "@/components/ProductsGrid";
-import ReviewsBand from "@/components/ReviewsBand";
+import Statement from "@/components/home/Statement";
+import NameTagTiles from "@/components/home/NameTagTiles";
+import Everyday from "@/components/home/Everyday";
+import Maker from "@/components/home/Maker";
+import ParentQuote from "@/components/home/ParentQuote";
 import NavnemaerkerIntro from "@/components/NavnemaerkerIntro";
 import MoreFromNooni from "@/components/MoreFromNooni";
-import Workshop from "@/components/Workshop";
-import WhyParentsBuy from "@/components/WhyParentsBuy";
-import InstagramStrip from "@/components/InstagramStrip";
 
 // Canonical is set per page, never in the root layout: a layout
 // canonical would be inherited by every page that forgets its own.
@@ -45,13 +44,13 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <WhyParentsBuy />
-      <ProductsGrid />
-      <ReviewsBand />
-      <Workshop />
+      <Statement />
+      <NameTagTiles />
+      <Everyday />
+      <Maker />
+      <ParentQuote />
       <NavnemaerkerIntro />
       <MoreFromNooni />
-      <InstagramStrip />
     </>
   );
 }
