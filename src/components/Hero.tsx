@@ -1,88 +1,177 @@
 /**
- * Hero — resting state.
+ * Hero: navnemærker first.
  *
- * Source: design/homepage-spec.md §1 + design/sketch-homepage-layout.jpg.
+ * Holds the page's only H1. Layout:
+ *   - A rounded cream frame (bg-nooni-bg-warm) with the copy on the
+ *     left and a product-focused Loops image on the right. On mobile
+ *     the copy comes first so H1, rating and CTA sit above the fold at
+ *     375px, with the image below.
+ *   - Stars + review count come from src/lib/social-proof.ts. That data
+ *     is placeholder: purely visual, never in JSON-LD.
+ *   - "Fra XX kr" is the live Loops price from Shopify. If Shopify is
+ *     unreachable the price line (and the Shopify image) is dropped and
+ *     a local photo is used, so the hero never breaks.
  *
- * What this renders:
- *   - A full-content-width rounded frame, 3:2 on desktop, taller on mobile
- *   - Full-bleed lifestyle photo (placeholder `familie_1.jpg` until
- *     Camilla's new product shots land — same aspect, similar palette)
- *   - A cream wash veiling the left third so the copy stays legible
- *   - Left-aligned stack: small label, "Dots" headline, description,
- *     "Design din egen" CTA
- *
- * Not yet wired (deferred — possibly past Dalager Marked):
- *   - The expand-on-click configurator
- *   - The basketball-arc cart animation
+ * The trust ticks avoid delivery times and shipping prices on purpose:
+ * those facts are being unified in the store-facts module. Swap the
+ * first tick to use it when it lands.
  */
 
 import Image from "next/image";
 import Link from "next/link";
+import Stars from "@/components/Stars";
+import { OVERALL_RATING } from "@/lib/social-proof";
+import { getProductsByHandles, type ProductSummary } from "@/lib/shopify/products";
 
-const HERO_PHOTO = {
-  src: "/images/DSC04432.JPG",
-  alt: "Dots personlige mærker til tøj",
+export const revalidate = 60;
+
+const LOOPS_HANDLE = "loops";
+
+const FALLBACK_IMAGE = {
+  src: "/images/dots_name_lifestyle.jpg",
+  alt: "Personlige navnemærker på børns tøj og tasker",
 };
 
-/** Border-radius of the photo frame, in px. */
-const PHOTO_RADIUS = 28;
+const TRUST_TICKS = [
+  "Håndlavet i Borris, Danmark",
+  "Personligt med barnets navn",
+  "Sendes fra Danmark",
+];
 
-export default function Hero() {
+function formatPrice(amount: string, currencyCode: string): string {
+  return new Intl.NumberFormat("da-DK", {
+    style: "currency",
+    currency: currencyCode,
+    maximumFractionDigits: 0,
+  }).format(parseFloat(amount));
+}
+
+async function getLoops(): Promise<ProductSummary | null> {
+  try {
+    const [loops] = await getProductsByHandles([LOOPS_HANDLE]);
+    return loops ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function Tick() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className="shrink-0 text-nooni-sub"
+    >
+      <path d="M5 12.5l4.5 4.5L19 7.5" />
+    </svg>
+  );
+}
+
+export default async function Hero() {
+  const loops = await getLoops();
+  const shopifyImage = loops?.images.nodes[0];
+  const price = loops?.priceRange.minVariantPrice;
+  const loopsHref = `/produkter/${LOOPS_HANDLE}`;
+
+  const image = shopifyImage
+    ? { src: shopifyImage.url, alt: shopifyImage.altText ?? "Loops navnemærke på en lynlås" }
+    : FALLBACK_IMAGE;
+
   return (
     <section className="relative" data-screen-label="01 Hero">
       <div className="mx-auto max-w-[1280px] px-4 pt-3 pb-5 md:px-10 md:pt-4 md:pb-8 lg:pt-6 lg:pb-[45px]">
-        <div className="relative" style={{ height: "clamp(320px, 65vw, 680px)" }}>
-          <div
-            className="absolute inset-0 overflow-hidden bg-nooni-bg-warm"
-            style={{ borderRadius: PHOTO_RADIUS }}
-          >
+        <div className="overflow-hidden rounded-[28px] bg-nooni-bg-warm md:grid md:grid-cols-[1.1fr_1fr] md:items-stretch">
+          <div className="flex flex-col justify-center px-5 pt-6 pb-5 md:px-10 md:py-12 lg:px-14">
+            <p
+              className="uppercase tracking-[0.22em] text-nooni-sub"
+              style={{ fontSize: "var(--nooni-text-label)" }}
+            >
+              Navnemærker til børn
+            </p>
+
+            <h1
+              className="mt-3 font-editorial italic leading-[1.05] text-nooni-headline"
+              style={{ fontSize: "var(--nooni-text-heading-lg)" }}
+            >
+              Personlige navnemærker til børn
+            </h1>
+
+            <Stars
+              rating={OVERALL_RATING.rating}
+              count={OVERALL_RATING.count}
+              size={18}
+              className="mt-3"
+            />
+
+            <p
+              className="mt-3 font-editorial leading-snug text-nooni-ink-soft"
+              style={{ fontSize: "var(--nooni-text-body-lg)" }}
+            >
+              Sidder på lynlås og taske, bliver ikke væk i institutionen og kan genkendes af børn,
+              der endnu ikke kan læse.
+            </p>
+
+            {price && (
+              <p className="mt-4 text-nooni-ink" style={{ fontSize: "var(--nooni-text-body)" }}>
+                Fra <span className="font-medium">{formatPrice(price.amount, price.currencyCode)}</span>
+              </p>
+            )}
+
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <Link
+                href={loopsHref}
+                className="inline-flex items-center justify-center rounded-full bg-nooni-headline px-7 py-3.5 text-white transition-colors hover:bg-[#9d6f6f]"
+                style={{ fontSize: "var(--nooni-text-ui)" }}
+              >
+                Design dit navnemærke
+              </Link>
+              <Link
+                href="/navnemaerker"
+                className="inline-flex items-center justify-center rounded-full border border-nooni-sub px-7 py-3.5 text-nooni-sub transition-colors hover:bg-nooni-sub hover:text-white"
+                style={{ fontSize: "var(--nooni-text-ui)" }}
+              >
+                Se alle navnemærker
+              </Link>
+            </div>
+
+            <ul
+              className="mt-5 flex flex-col gap-1.5 text-nooni-ink-soft sm:flex-row sm:flex-wrap sm:gap-x-5"
+              style={{ fontSize: "var(--nooni-text-ui)" }}
+            >
+              {TRUST_TICKS.map((tick) => (
+                <li key={tick} className="inline-flex items-center gap-2">
+                  <Tick />
+                  {tick}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="relative aspect-[4/3] md:aspect-auto md:min-h-[460px]">
             <Image
-              src={HERO_PHOTO.src}
-              alt={HERO_PHOTO.alt}
+              src={image.src}
+              alt={image.alt}
               fill
               preload
               fetchPriority="high"
-              sizes="(min-width: 1280px) 1232px, 100vw"
-              className="object-cover object-[center_10%] brightness-[1.35] scale-110 lg:scale-125"
+              sizes="(min-width: 768px) 560px, 100vw"
+              className="object-cover"
             />
-
             <div
               aria-hidden
-              className="absolute inset-0 pointer-events-none"
+              className="pointer-events-none absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(to right," +
-                  " rgba(247,239,229,0.96) 0%," +
-                  " rgba(247,239,229,0.88) 40%," +
-                  " rgba(247,239,229,0.0) 70%," +
-                  " rgba(247,239,229,0.0) 100%)",
+                  "linear-gradient(to right, rgba(247,239,229,0.55) 0%, rgba(247,239,229,0) 30%)",
               }}
             />
-
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-[38%] min-w-[160px] px-4 md:px-10 lg:px-14">
-                <p className="uppercase tracking-[0.22em] text-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
-                  Kortholder til kortspil
-                </p>
-
-                <h1 className="mt-[1.5vw] font-editorial italic leading-none text-nooni-headline" style={{ fontSize: "var(--nooni-text-hero)" }}>
-                  Deks
-                </h1>
-
-                <p className="mt-[1.5vw] font-editorial leading-snug text-nooni-ink-soft hidden sm:block" style={{ fontSize: "var(--nooni-text-body-lg)" }}>
-                  Kortholder til når hænderne ikke kan holde alle kort når man spiller. Fåes i flere farver.
-                </p>
-
-                <Link
-                  href="/produkter/deks-duo"
-                  className="mt-[2vw] inline-flex items-center gap-2 rounded-full bg-nooni-headline text-white transition-colors hover:bg-[#9d6f6f] px-[clamp(14px,2.2vw,28px)] py-[clamp(8px,1.1vw,14px)]"
-                  style={{ fontSize: "var(--nooni-text-ui)" }}
-                >
-                  Køb nu
-                  
-                </Link>
-              </div>
-            </div>
           </div>
         </div>
       </div>
