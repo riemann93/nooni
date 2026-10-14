@@ -1,8 +1,11 @@
 import { STORE_FACTS } from "@/lib/store-facts";
 
 /**
- * ValueStrip: single horizontal band of trust signals between the
- * products section and the story.
+ * ValueStrip: the USP band right under the hero. Delivery and shipping
+ * wording comes from the store facts (the Shopify policies), so the
+ * strip can't promise what checkout doesn't deliver.
+ *
+ * Two columns on mobile, one row from md up.
  *
  * Solid background (no .glass). It sits above the arches; the strip
  * is a punctuation mark in the layout so the arches are deliberately
@@ -12,7 +15,7 @@ import { STORE_FACTS } from "@/lib/store-facts";
 const ITEMS: { icon: React.ReactNode; text: string }[] = [
   {
     icon: <path d="M3 12l2 2 4-4M3 6l2 2 4-4M3 18l2 2 4-4M14 7h7M14 12h7M14 17h7" />,
-    text: "Lavet i Danmark, printet hjemme hos os",
+    text: "Printet hjemme hos os i Borris",
   },
   {
     icon: <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0zM12 7v5l3 3" />,
@@ -22,7 +25,7 @@ const ITEMS: { icon: React.ReactNode; text: string }[] = [
     icon: (
       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
     ),
-    text: "Personliggøres til lige præcis dit barn",
+    text: "Med dit barns navn eller symbol",
   },
   {
     icon: (
@@ -34,12 +37,12 @@ const ITEMS: { icon: React.ReactNode; text: string }[] = [
 
 export default function ValueStrip() {
   return (
-    <div className="relative z-[1] border-y border-nooni-line-soft bg-nooni-bg py-5" data-screen-label="02 Value">
-      <div className="mx-auto flex max-w-[1280px] flex-wrap items-center justify-between gap-12 px-10">
+    <section aria-label="Fordele ved Nooni" className="relative z-[1] border-y border-nooni-line-soft bg-nooni-bg py-4 md:py-5" data-screen-label="02 Value">
+      <ul className="mx-auto grid max-w-[1280px] grid-cols-2 gap-x-4 gap-y-3 px-4 md:flex md:flex-wrap md:items-center md:justify-between md:gap-8 md:px-10">
         {ITEMS.map(({ icon, text }, i) => (
-          <span
+          <li
             key={i}
-            className="inline-flex items-center gap-3 text-[13px] text-nooni-ink-soft tracking-[0.03em]"
+            className="inline-flex items-center gap-2.5 text-[13px] leading-snug text-nooni-ink-soft tracking-[0.03em] md:gap-3"
           >
             <svg
               width="18"
@@ -50,14 +53,15 @@ export default function ValueStrip() {
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
+              aria-hidden="true"
               className="shrink-0 text-nooni-sub"
             >
               {icon}
             </svg>
             {text}
-          </span>
+          </li>
         ))}
-      </div>
-    </div>
+      </ul>
+    </section>
   );
 }

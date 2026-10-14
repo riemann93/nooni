@@ -1,26 +1,29 @@
 /**
- * Homepage — top-level composition.
+ * Homepage: navnemærker first, everything else after.
  *
- *   <Hero />          big photo + name-Dots CTA
- *   <HowItWorks />    three-step "Sådan virker det" strip — pre-launch
- *                     trust signal in the slot where reviews will
- *                     eventually live
- *   <ProductsGrid />  three featured products + "Se alle produkter"
- *   <Story />         family / process narrative
- *   <BlogTeaser />    newest blog post preview
+ *   <Hero />               the page's only H1, rating, Loops CTA
+ *   <ValueStrip />         USP band from the store facts
+ *   <ProductsGrid />       "Vores navnemærker": the name-tag family only
+ *   <ReviewsBand />        overall rating + three parent reviews
+ *   <HowItWorks />         "Sådan virker det", three short steps
+ *   <NavnemaerkerIntro />  short SEO text about navnemærker, links /navnemaerker
+ *   <MoreFromNooni />      Deks, Box, Tic Tac Take, secondary and smaller
+ *   <Story />              short founder trust beat, links /om-os
  *
- * The page closes with the site-wide arched <Footer /> mounted in
- * layout.tsx — no per-page Contact section anymore. Each section
- * owns its own background and spacing.
+ * Every section below the hero uses H2 and H3 only. The page closes
+ * with the site-wide arched <Footer /> mounted in layout.tsx.
  */
 
 import type { Metadata } from "next";
 import Hero from "@/components/Hero";
 import { pageMetadata, SITE_DESCRIPTION } from "@/lib/seo";
-import HowItWorks from "@/components/HowItWorks";
+import ValueStrip from "@/components/ValueStrip";
 import ProductsGrid from "@/components/ProductsGrid";
+import ReviewsBand from "@/components/ReviewsBand";
+import HowItWorks from "@/components/HowItWorks";
+import NavnemaerkerIntro from "@/components/NavnemaerkerIntro";
+import MoreFromNooni from "@/components/MoreFromNooni";
 import Story from "@/components/Story";
-import BlogTeaser from "@/components/BlogTeaser";
 
 // Canonical is set per page, never in the root layout: a layout
 // canonical would be inherited by every page that forgets its own.
@@ -38,10 +41,13 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <ValueStrip />
       <ProductsGrid />
-      <Story />
-      <BlogTeaser />
+      <ReviewsBand />
       <HowItWorks />
+      <NavnemaerkerIntro />
+      <MoreFromNooni />
+      <Story />
     </>
   );
 }

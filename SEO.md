@@ -73,7 +73,13 @@ Remaining Lighthouse items are below as issues 6 and 7.
 
 ## Open issues
 
-### 1. The homepage never says "navnemærker"
+### 1. The homepage never says "navnemærker" (fixed)
+
+Fixed on the `Morten` branch: the hero holds the only H1 ("Personlige
+navnemærker til børn"), the first product row is the name-tag family,
+and a short text section about navnemærker links to `/navnemaerker`.
+
+Original issue:
 
 The homepage's only H1 is "Deks" (the card holder in the hero), and the
 word "navnemærker" appears nowhere in the visible text. Google ranks a

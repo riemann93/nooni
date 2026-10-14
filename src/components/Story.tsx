@@ -1,17 +1,16 @@
 /**
- * StorySection — "Personen bag" narrative.
+ * StorySection: the short "Personen bag" trust beat at the foot of the
+ * homepage.
  *
  * Left column: portrait photo in a Boho-arch frame (9999px top, 22px bottom).
- * Right column: about-us body copy in Camilla's voice.
+ * Right column: a few lines in Camilla's voice. The full story lives on
+ * /om-os; this is only the trust beat that links there.
  *
  * Wrapped in a cream pill container on the regular page background,
- * matching HowItWorks and BlogTeaser — the cream tone now indicates
- * "this is a content beat", not "this is the section".
+ * matching HowItWorks: the cream tone marks a content beat.
  *
- * Used on the homepage and on /om-os. The earlier stats row
- * ("1.412 print sendt" etc.) was removed because the figure was
- * fabricated. The factual claims that survived moved into
- * <HowItWorks /> between Hero and Mest populære.
+ * The earlier stats row ("1.412 print sendt" etc.) was removed because
+ * the figure was fabricated.
  */
 
 import Image from "next/image";
@@ -22,13 +21,13 @@ export default function StorySection() {
     <section
       id="historie"
       className="relative z-[1] bg-nooni-bg py-5 md:py-[45px]"
-      data-screen-label="04 Story"
+      data-screen-label="08 Story"
     >
       <div className="mx-auto max-w-[1280px] px-6 md:px-10">
         <div className="overflow-hidden rounded-[2rem] bg-nooni-bg-warm">
           <div className="grid grid-cols-1 items-stretch md:grid-cols-[0.95fr_1.05fr]">
             <div
-              className="relative min-h-[320px] md:min-h-0"
+              className="relative min-h-[260px] md:min-h-[380px]"
               style={{ borderRadius: "32px 250px 0 22px", boxShadow: "inset -4px 4px 12px rgba(0,0,0,0.12)", overflow: "hidden" }}
             >
               <Image
@@ -41,23 +40,20 @@ export default function StorySection() {
               />
             </div>
 
-            <div className="flex flex-col justify-center px-5 py-7 md:px-10 md:py-10 lg:px-14 lg:py-16">
+            <div className="flex flex-col justify-center px-5 py-7 md:px-10 md:py-10 lg:px-14 lg:py-12">
               <span className="uppercase tracking-[0.22em] text-nooni-sub font-medium" style={{ fontSize: "var(--nooni-text-label)" }}>
                 Personen bag
               </span>
-              <h2 className="mt-4 mb-8 font-editorial leading-[1.08] text-nooni-ink tracking-tight" style={{ fontSize: "var(--nooni-text-heading-lg)" }}>
+              <h2 className="mt-4 mb-6 font-editorial leading-[1.08] text-nooni-ink tracking-tight" style={{ fontSize: "var(--nooni-text-heading-lg)" }}>
                 Hvem er bag{" "}
                 <em className="italic text-nooni-headline">Nooni?</em>
               </h2>
               <div className="font-editorial leading-[1.6] text-nooni-ink-soft space-y-5 max-w-[520px]" style={{ fontSize: "var(--nooni-text-body-lg)" }}>
                 <p>
-                  Hej! Jeg hedder Camilla. Da jeg måtte vinke farvel til
-                  lærerfaget efter en svær depression, fandt jeg lyset og
-                  kreativiteten i 3D-print. I dag designer jeg – sammen med
-                  mine to printere, Wall-E og EVA – værktøjer, der hjælper
-                  børn med at mestre hverdagen selv. Nooni er skabt ud fra en
-                  drøm om at give børnefamilier flere succesoplevelser, mere
-                  selvtillid og en lettere hverdag.
+                  Hej! Jeg hedder Camilla. Jeg er uddannet lærer og mor til to,
+                  og jeg designer og printer alle Noonis navnemærker hjemme i
+                  Borris. Målet er enkelt: at børn kan finde deres egne ting og
+                  klare lidt mere selv i garderoben.
                 </p>
               </div>
               <Link
