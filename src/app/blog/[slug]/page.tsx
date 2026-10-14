@@ -2,10 +2,35 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import type { Metadata } from "next";
 import { getPostBySlug, getAllPosts } from "@/lib/blog";
+import { blogPostJsonLd, jsonLdScript } from "@/lib/seo";
 
 export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
+  if (!post) return { title: "Indlæg ikke fundet" };
+  return {
+    title: post.title,
+    description: post.excerpt,
+    alternates: { canonical: `/blog/${post.slug}` },
+    openGraph: {
+      type: "article",
+      title: post.title,
+      description: post.excerpt,
+      url: `/blog/${post.slug}`,
+      publishedTime: post.date,
+      images: [{ url: post.image, alt: post.title }],
+    },
+  };
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -16,7 +41,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const blocks = post.content.split(/\r?\n\r?\n+/).filter(Boolean);
 
   return (
-    <main className="mx-auto max-w-[920px] px-6 pt-8 pb-16 md:px-10 md:pt-14 md:pb-28">
+    <article className="mx-auto max-w-[920px] px-6 pt-8 pb-16 md:px-10 md:pt-14 md:pb-28">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(blogPostJsonLd(post)) }}
+      />
       <Link
         href="/blog"
         className="inline-flex items-center gap-2 text-sm text-nooni-sub transition-colors hover:text-nooni-headline"
@@ -58,7 +87,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         {/* Make sure floating image is contained — prevents overflow */}
         <div className="clear-both" />
       </div>
-    </main>
+    </article>
   );
 }
 

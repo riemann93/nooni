@@ -14,7 +14,8 @@ import QuietCTA from "@/components/QuietCTA";
 export const metadata: Metadata = {
   title: "Min historie",
   description:
-    "Mød Camilla, personen bag Nooni. Personliggjorte produkter, printet hjemme i Danmark.",
+    "Mød Camilla, personen bag Nooni. Personlige navnemærker og produkter til børn, designet og 3D-printet hjemme i Borris.",
+  alternates: { canonical: "/om-os" },
 };
 
 export default function OmOs() {

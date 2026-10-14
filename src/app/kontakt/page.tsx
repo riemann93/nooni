@@ -10,9 +10,10 @@ import type { Metadata } from "next";
 import ContactForm from "./ContactForm";
 
 export const metadata: Metadata = {
-  title: "Kontakt — Nooni",
+  title: "Kontakt",
   description:
-    "Spørgsmål, særlige ønsker eller en god idé? Skriv til Nooni — vi svarer hurtigt.",
+    "Spørgsmål, særlige ønsker eller en god idé? Skriv til Nooni på hej@nooni.dk. Vi svarer som regel inden for et døgn.",
+  alternates: { canonical: "/kontakt" },
 };
 
 export default function KontaktPage() {

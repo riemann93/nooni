@@ -27,6 +27,13 @@ import CartDrawer from "@/components/CartDrawer";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { CartProvider } from "@/contexts/CartContext";
+import {
+  jsonLdScript,
+  organizationJsonLd,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/seo";
 import "./globals.css";
 
 const fredoka = Fredoka({
@@ -59,19 +66,20 @@ const GA_MEASUREMENT_ID = "G-F9LMB8H0TG";
 const loadAnalytics = process.env.VERCEL_ENV === "production";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nooni.dk"),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Nooni — Smarte løsninger til familier",
+    default: "Nooni · Personlige navnemærker og smarte løsninger til børn",
     template: "%s · Nooni",
   },
-  description:
-    "Personaliserede 3D-printede mærker, tags og holdere til børn. Lavet hjemme i Danmark.",
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
   openGraph: {
     type: "website",
     locale: "da_DK",
-    siteName: "Nooni",
-    url: "https://nooni.dk",
+    siteName: SITE_NAME,
+    url: SITE_URL,
   },
+  twitter: { card: "summary_large_image" },
   verification: {
     google: "TQIGTEQEtx6fQ12dCcdpXGJIFihUicZxFuIvwS4IZRs",
   },
@@ -86,6 +94,10 @@ export default function RootLayout({
       className={`${fredoka.variable} ${inter.variable} ${cormorant.variable} antialiased`}
     >
       <body className="min-h-screen flex flex-col bg-nooni-bg text-nooni-ink font-sans">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(organizationJsonLd()) }}
+        />
         <CartProvider>
           <Navbar />
           <main className="flex-1">{children}</main>

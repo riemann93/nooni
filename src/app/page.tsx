@@ -14,11 +14,18 @@
  * owns its own background and spacing.
  */
 
+import type { Metadata } from "next";
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
 import ProductsGrid from "@/components/ProductsGrid";
 import Story from "@/components/Story";
 import BlogTeaser from "@/components/BlogTeaser";
+
+// Canonical is set per page, never in the root layout: a layout
+// canonical would be inherited by every page that forgets its own.
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (

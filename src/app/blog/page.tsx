@@ -13,7 +13,8 @@ import { getAllPosts } from "@/lib/blog";
 export const metadata: Metadata = {
   title: "Blog",
   description:
-    "Nyheder, indblik og fortællinger fra Nooni — 3D-print, design og hverdagsliv.",
+    "Nyheder, indblik og fortællinger fra Nooni om 3D-print, design og hverdagsliv med børn.",
+  alternates: { canonical: "/blog" },
 };
 
 export default function BlogIndex() {

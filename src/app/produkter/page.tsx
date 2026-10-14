@@ -18,9 +18,10 @@ import { getAllProducts } from "@/lib/shopify/products";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Alle produkter — Nooni",
+  title: "Navnemærker og produkter til børn",
   description:
-    "Se hele Noonis sortiment: Dots, Loops, Emblem, Deks og mere.",
+    "Se hele Noonis sortiment: personlige navnemærker til tøj og lynlåse (Dots, Loops, Emblem), kortholdere til børn (Deks) og mere.",
+  alternates: { canonical: "/produkter" },
 };
 
 export default async function ProductsListingPage() {

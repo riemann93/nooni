@@ -27,6 +27,12 @@ import {
 } from "@/lib/shopify/personalization";
 import { getProductByHandle, getProductColors } from "@/lib/shopify/products";
 import { getProductMeta } from "@/lib/product-meta";
+import {
+  jsonLdScript,
+  metaDescription,
+  productJsonLd,
+  UNINDEXED_PRODUCT_HANDLES,
+} from "@/lib/seo";
 
 // Re-fetch the underlying Shopify data at most every 60 seconds.
 export const revalidate = 60;
@@ -43,9 +49,23 @@ export async function generateMetadata({
   if (!product) {
     return { title: "Produkt ikke fundet" };
   }
+  const description = metaDescription(product.description);
+  const image = product.images.nodes[0];
   return {
     title: product.title,
-    description: product.description.slice(0, 160),
+    description,
+    alternates: { canonical: `/produkter/${handle}` },
+    openGraph: {
+      title: product.title,
+      description,
+      url: `/produkter/${handle}`,
+      images: image
+        ? [{ url: image.url, width: image.width, height: image.height, alt: image.altText ?? product.title }]
+        : undefined,
+    },
+    robots: UNINDEXED_PRODUCT_HANDLES.has(handle)
+      ? { index: false, follow: false }
+      : undefined,
   };
 }
 
@@ -96,6 +116,22 @@ export default async function ProductPage({ params }: PageProps) {
 
   return (
     <section className="relative z-[1] mx-auto max-w-[1280px] px-6 py-[45px] md:px-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLdScript(
+            productJsonLd({
+              handle,
+              title: product.title,
+              description: product.description,
+              images: product.images.nodes.map((img) => img.url),
+              availableForSale: product.availableForSale,
+              minPrice,
+              maxPrice,
+            }),
+          ),
+        }}
+      />
       <ProductPageClient
         handle={handle}
         images={product.images.nodes}
