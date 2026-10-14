@@ -3,20 +3,22 @@
 /**
  * HeroClient — homepage hero markup plus the Dots designer.
  *
- * Resting state:
- *   - A cream rounded pill, full content width
- *   - Left: profile picture + "Hej, jeg er Camilla" note, headline, a
- *     short line in Camilla's voice, and the "Design dine Dots" CTA
- *   - Right: a photo of a Dots med navn on a zipper, in the brand's
- *     arch frame, with a reel-style note over its bottom edge
+ * Resting state (desktop):
+ *   - One rounded frame, full content width, filled edge to edge by a
+ *     photo of a Dots med navn on a jacket zipper
+ *   - A cream wash veils the left side so the copy stays legible: the
+ *     profile picture + "Hej, jeg er Camilla" note, headline, a short
+ *     line in Camilla's voice, and the "Design dine Dots" CTA
+ *   - A reel-style note sits on the photo, bottom right
+ * On mobile the photo sits on top and the copy below it, on cream.
  *
  * Designing (after "Design dine Dots"):
+ *   - The photo zooms in on the tag and becomes the preview:
+ *     <DotsPhotoPreview /> paints the chosen colours and name onto it.
  *   - The intro text gives way to the same form and add-to-cart button
- *     the product page uses (<ProductPurchaseSection />), so the hero
- *     grows to fit them. The page never navigates; the cart drawer
- *     opens as usual on add.
- *   - The photo itself becomes the preview: <DotsPhotoPreview /> paints
- *     the chosen colours and name onto the tag in the photo.
+ *     the product page uses (<ProductPurchaseSection />), and the cream
+ *     wash deepens behind it. The frame grows if the form needs room.
+ *     The page never navigates; the cart drawer opens as usual on add.
  *   - The form mounts on first open and then stays mounted, so closing
  *     and reopening keeps what the visitor typed. The resting homepage
  *     ships no form state.
@@ -89,9 +91,42 @@ export default function HeroClient({ designer }: { designer: HeroDesignerData | 
   return (
     <section className="relative" data-screen-label="01 Hero">
       <div className="mx-auto max-w-[1280px] px-4 pt-3 pb-5 md:px-10 md:pt-4 md:pb-8 lg:pt-6 lg:pb-[45px]">
-        <div className="overflow-hidden rounded-[2rem] bg-nooni-bg-warm">
-          <div className="grid grid-cols-1 items-center gap-8 px-5 py-8 md:grid-cols-[1.05fr_0.95fr] md:gap-12 md:px-10 md:py-12 lg:px-14 lg:py-16">
-            <div className="order-2 md:order-1">
+        <div
+          className="relative overflow-hidden bg-nooni-bg-warm md:min-h-[clamp(460px,52vw,680px)]"
+          style={{ borderRadius: 28 }}
+        >
+          {/* Photo: its own block on mobile, the whole frame from md up. */}
+          <div className="relative aspect-[4/3] md:absolute md:inset-0 md:aspect-auto">
+            <DotsPhotoPreview
+              values={values}
+              colors={palette}
+              active={open}
+              priority
+              sizes="(min-width: 1280px) 1232px, 100vw"
+            />
+            {!open && (
+              <InstaNote
+                variant="cream"
+                className="absolute bottom-4 right-4 hidden text-[clamp(14px,1.3vw,18px)] sm:block md:bottom-8 md:right-8"
+              >
+                I lige den farve der passer til dig
+              </InstaNote>
+            )}
+          </div>
+
+          {/* Cream wash behind the copy, deeper while designing. */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 hidden transition-opacity duration-500 md:block"
+            style={{
+              background: open
+                ? "linear-gradient(to right, rgba(247,239,229,0.98) 0%, rgba(247,239,229,0.95) 44%, rgba(247,239,229,0) 62%)"
+                : "linear-gradient(to right, rgba(247,239,229,0.96) 0%, rgba(247,239,229,0.88) 38%, rgba(247,239,229,0) 62%)",
+            }}
+          />
+
+          <div className="relative flex px-5 py-7 md:min-h-[clamp(460px,52vw,680px)] md:w-[50%] md:items-center md:px-10 md:py-12 lg:w-[46%] lg:px-14">
+            <div className="w-full">
               {/* Intro */}
               <div hidden={open}>
                 <div className="flex items-center gap-3">
@@ -207,34 +242,6 @@ export default function HeroClient({ designer }: { designer: HeroDesignerData | 
                     <span aria-hidden>›</span>
                   </Link>
                 </div>
-              )}
-            </div>
-
-            <div
-              className={`relative order-1 mx-auto w-full max-w-[520px] md:order-2 ${
-                open ? "md:sticky md:top-24 md:self-start" : ""
-              }`}
-            >
-              <div
-                className="relative aspect-[4/5] w-full overflow-hidden shadow-[0_18px_40px_-20px_rgba(120,80,70,0.45)]"
-                style={{ borderRadius: "9999px 9999px 28px 28px" }}
-              >
-                <DotsPhotoPreview
-                  values={values}
-                  colors={palette}
-                  active={open}
-                  priority
-                  sizes="(min-width: 768px) 520px, 90vw"
-                />
-              </div>
-
-              {!open && (
-                <InstaNote
-                  variant="cream"
-                  className="absolute bottom-6 left-1/2 w-max max-w-[90%] -translate-x-1/2 text-center text-[clamp(14px,1.3vw,18px)]"
-                >
-                  I lige den farve der passer til dig
-                </InstaNote>
               )}
             </div>
           </div>
