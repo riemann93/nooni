@@ -5,6 +5,9 @@
 - Shipping and delivery numbers come from the human, never guessed ("Fix conflicting shipping and delivery facts").
 
 ## Lately
+- 2026-10-14 Round after homepage rebuild landed (35b8d06). Only the final check (running, already told to flip NAMETAG_HUB_PATH) and the reviews quest (with the human) remain. Nothing to do.
+- 2026-10-14 Product page merge landed (b316233) without flipping NAMETAG_HUB_PATH. Told the running final check to flip it. Only the reviews quest (with the human) and the final check remain.
+- 2026-10-14 Round after hub page (c21717b) and listing sort (4f9f2ba) landed. Hub did not flip NAMETAG_HUB_PATH (still /produkter). Noted on the product page fix-up (no live session to tell) to flip it, and put hub link checks on the final check.
 - 2026-10-14 "Navnemaerker hub page" landed with an llms.ts conflict. Fix-up (sonnet) told: keep both sides, flip NAMETAG_HUB_PATH to /navnemaerker, ids loops/dots/emblem (emblem on the 'emblem' handle), no new nav links (already on Morten). Camilla's claims to check go to the final check.
 - 2026-10-14 "Product page reviews, facts, FAQ" landed with conflicts (page.tsx, product-meta.ts). Fix-up (sonnet) told: keep buy box, one anmeldelser section, hub links via NAMETAG_HUB_PATH, type-check. Accepted its placeholder assumptions. Hub quest noted to flip NAMETAG_HUB_PATH and add loops/dots/emblem ids. Final check gets these to verify.
 - 2026-10-14 Round after "Briefs for the first long-tail posts" landed (4210ce3). Webshop nav landed too (73aa68a), so dropped that Open line. Three in progress, two waiting on After lines, reviews still with the human. Nothing to do.
@@ -21,8 +24,7 @@
 - 2026-10-14 Round after "Bring Morten up to date with Discoverability" landed. Social proof and shipping facts quests in progress. Gave every unstarted quest a Model line (opus for hub page, homepage rebuild, final check; sonnet for the rest). Day look back: clean, nothing went wrong twice.
 
 ## Open
-- Check "Fix the merge of navnemaerker-hub-page" lands with NAMETAG_HUB_PATH = /navnemaerker. If it conflicts again, hand it to an opus session to redo on top of Morten.
+- Check NAMETAG_HUB_PATH is /navnemaerker once "Conversion and SEO check of the new shop" lands. If not, add a small haiku quest to flip it.
 - Human (Camilla) to confirm hub guide claims: washing untested, Dots on zipper pulls with a cord and on hats/mittens; and whether a separate Emblem product is coming.
-- Check "Fix the merge of product-page-reviews-facts-faq-and" lands type-checked. If it conflicts again, hand it to an opus session to redo on top of Morten.
 - Human to confirm shipping facts: is 'Fri fragt over 350 kr.' real? If yes, add it to Shopify policy and SHIPPING in src/lib/store-facts.ts.
 - Human to pick Judge.me or Trustpilot and supply real reviews for "Swap placeholder reviews for real ones before production". Guard in next.config.ts blocks production builds meanwhile.
