@@ -16,7 +16,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 import Stars from "@/components/Stars";
-import { getAllPosts } from "@/lib/blog";
+import { getPublishedPosts } from "@/lib/blog";
 import { FAQ, FIT_ROWS, GUIDE, HUB_INTRO, HUB_PATH, NAME_TAGS } from "@/lib/navnemaerker";
 import { hubJsonLd, jsonLdScript, pageMetadata } from "@/lib/seo";
 import { getProductsByHandles } from "@/lib/shopify/products";
@@ -68,7 +68,7 @@ export default async function NavnemaerkerPage() {
   // A Shopify outage shows the guide and FAQ without the grid, not an error page.
   const products = await getProductsByHandles(NAME_TAGS.map((t) => t.handle)).catch(() => []);
   const taglines = Object.fromEntries(NAME_TAGS.map((t) => [t.handle, t.tagline]));
-  const posts = getAllPosts().slice(0, 3);
+  const posts = getPublishedPosts().slice(0, 3);
 
   return (
     <>

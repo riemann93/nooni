@@ -4,7 +4,7 @@
  * in full. Shared content lives in src/lib/llms.ts. Regenerated hourly.
  */
 
-import { getAllPosts } from "@/lib/blog";
+import { getPublishedPosts } from "@/lib/blog";
 import { ABOUT_LINKS, getCatalogue, hubSection, INTRO, priceText } from "@/lib/llms";
 import { metaDescription, SITE_URL } from "@/lib/seo";
 
@@ -18,7 +18,7 @@ export async function GET() {
     `- [${p.title}](${SITE_URL}/produkter/${p.handle}): ${priceText(p)} ${metaDescription(p.description, 220)}`.trimEnd(),
   );
 
-  const postLines = getAllPosts().map(
+  const postLines = getPublishedPosts().map(
     (post) => `- [${post.title}](${SITE_URL}/blog/${post.slug}): ${post.excerpt}`,
   );
 

@@ -61,6 +61,11 @@ export default function BlogIndex() {
                       className="font-editorial leading-[1.2] text-nooni-ink transition-colors group-hover:text-nooni-headline"
                       style={{ fontSize: "var(--nooni-text-heading-sm)" }}
                     >
+                      {post.draft && (
+                        <span className="mr-3 inline-block -translate-y-1 rounded-full border border-dashed border-nooni-headline px-3 py-0.5 align-middle font-sans text-xs uppercase tracking-[0.18em] text-nooni-headline">
+                          Kladde
+                        </span>
+                      )}
                       {post.title}
                     </h2>
                     <p

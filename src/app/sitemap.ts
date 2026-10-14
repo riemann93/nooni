@@ -13,7 +13,7 @@
  */
 
 import type { MetadataRoute } from "next";
-import { getAllPosts } from "@/lib/blog";
+import { getPublishedPosts } from "@/lib/blog";
 import { SITE_URL, UNINDEXED_PRODUCT_HANDLES } from "@/lib/seo";
 import { getAllProducts } from "@/lib/shopify/products";
 
@@ -37,7 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       })),
     { url: `${SITE_URL}/om-os`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${SITE_URL}/blog`, changeFrequency: "weekly", priority: 0.5 },
-    ...getAllPosts().map((post) => ({
+    ...getPublishedPosts().map((post) => ({
       url: `${SITE_URL}/blog/${post.slug}`,
       lastModified: new Date(post.date),
       changeFrequency: "yearly" as const,

@@ -5,7 +5,7 @@
  * ("kan Dots tåle vask?", "hvad koster fragt?") from our own words.
  */
 
-import { getAllPosts } from "@/lib/blog";
+import { getPublishedPosts } from "@/lib/blog";
 import { ABOUT_LINKS, getCatalogue, hubSection, INTRO, priceText } from "@/lib/llms";
 import { SITE_URL } from "@/lib/seo";
 import { getPolicy, type PolicyKind } from "@/lib/shopify/policies";
@@ -53,7 +53,7 @@ ${p.description.trim()}`,
     return [`### ${meta.title}\n\n${SITE_URL}${meta.path}\n\n${htmlToText(policy.body)}`];
   });
 
-  const postSections = getAllPosts().map(
+  const postSections = getPublishedPosts().map(
     (post) => `### ${post.title}
 
 ${SITE_URL}/blog/${post.slug} (${post.date})

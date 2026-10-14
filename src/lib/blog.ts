@@ -11,6 +11,8 @@ export interface BlogPost {
   /** Shopify handle of the matching name-tag product (CTA card). */
   product: string;
   content: string;
+  /** From content/drafts: waiting for Camilla, never on the live site. */
+  draft: boolean;
 }
 
 function parseFrontmatter(raw: string): { data: Record<string, string>; content: string } {
@@ -26,14 +28,18 @@ function parseFrontmatter(raw: string): { data: Record<string, string>; content:
 }
 
 const POSTS_DIR = path.join(process.cwd(), "content/posts");
+const DRAFTS_DIR = path.join(process.cwd(), "content/drafts");
 
-export function getAllPosts(): BlogPost[] {
-  if (!fs.existsSync(POSTS_DIR)) return [];
+/** Drafts show on previews and locally so Camilla can read them, never on nooni.dk. */
+export const SHOW_DRAFTS = process.env.VERCEL_ENV !== "production";
+
+function readDir(dir: string, draft: boolean): BlogPost[] {
+  if (!fs.existsSync(dir)) return [];
   return fs
-    .readdirSync(POSTS_DIR)
+    .readdirSync(dir)
     .filter((f) => f.endsWith(".md"))
     .map((filename) => {
-      const raw = fs.readFileSync(path.join(POSTS_DIR, filename), "utf-8");
+      const raw = fs.readFileSync(path.join(dir, filename), "utf-8");
       const { data, content } = parseFrontmatter(raw);
       return {
         slug: filename.replace(/\.md$/, ""),
@@ -43,9 +49,21 @@ export function getAllPosts(): BlogPost[] {
         image: data.image ?? "/images/dots_name_lifestyle.jpg",
         product: data.product ?? LEAD_NAME_TAG,
         content,
+        draft,
       };
-    })
-    .sort((a, b) => (a.date > b.date ? -1 : 1));
+    });
+}
+
+/** Published posts, plus drafts where SHOW_DRAFTS allows. */
+export function getAllPosts(): BlogPost[] {
+  return [...readDir(POSTS_DIR, false), ...(SHOW_DRAFTS ? readDir(DRAFTS_DIR, true) : [])].sort(
+    (a, b) => (a.date > b.date ? -1 : 1),
+  );
+}
+
+/** Only posts that are out for real: for the sitemap, llms.txt and the hub. */
+export function getPublishedPosts(): BlogPost[] {
+  return getAllPosts().filter((p) => !p.draft);
 }
 
 export function getPostBySlug(slug: string): BlogPost | null {

@@ -20,7 +20,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) return { title: "Indlæg ikke fundet" };
-  return pageMetadata({
+  const metadata = pageMetadata({
     title: post.title,
     description: post.excerpt,
     path: `/blog/${post.slug}`,
@@ -31,6 +31,7 @@ export async function generateMetadata({
       images: [{ url: post.image, alt: post.title }],
     },
   });
+  return post.draft ? { ...metadata, robots: { index: false, follow: false } } : metadata;
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -52,6 +53,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       >
         Tilbage til gode råd
       </Link>
+
+      {post.draft && (
+        <p className="mt-8 rounded-2xl border border-dashed border-nooni-headline bg-nooni-bg-warm px-5 py-4 text-sm leading-relaxed text-nooni-ink">
+          <strong>Kladde.</strong> Kun synlig på preview, ikke på nooni.dk. Udfyld de
+          markerede felter og tjek fakta, og flyt så filen fra content/drafts til
+          content/posts for at udgive.
+        </p>
+      )}
 
       <p className="mt-10 text-xs uppercase tracking-[0.18em] text-nooni-sub">
         {post.date}
@@ -120,14 +129,30 @@ function renderTitle(title: string): ReactNode {
  *
  * Handles:
  *   - "### " heading lines → <h2> (the post title is the h1)
- *   - Blocks where every line matches "N. " → <ol> with parsed items
+ *   - "<!-- ... -->" notes → a dashed note box (drafts use them for photo
+ *     wishes; they never reach a published post)
+ *   - "| a | b |" tables, with a "|---|" divider after the header row
+ *   - Blocks where every line matches "N. " → <ol>, "- " → <ul>
+ *     ("- [ ] " items get an empty checkbox, for checklists)
  *   - Everything else → <p>, preserving single-newline line breaks
  *
- * Inline `**bold**` is rendered as <strong> inside any of the above.
- * The codebase has no markdown dependency by design; this stays tiny
- * and easy to extend if the post format grows.
+ * Inline `**bold**`, `[text](/link)` and `[CAMILLA: ...]` notes are
+ * rendered inside any of the above. The codebase has no markdown
+ * dependency by design; this stays tiny and easy to extend.
  */
 function renderBlock(block: string, key: number): ReactNode {
+  if (block.startsWith("<!--")) {
+    const note = block.replace(/^<!--\s*/, "").replace(/\s*-->$/, "");
+    return (
+      <div
+        key={key}
+        className="my-6 whitespace-pre-line rounded-2xl border border-dashed border-nooni-sub px-5 py-4 font-sans text-sm leading-relaxed text-nooni-sub"
+      >
+        {note.split(/\s*-->\s*<!--\s*/).join("\n")}
+      </div>
+    );
+  }
+
   if (block.startsWith("### ")) {
     return (
       <h2
@@ -140,7 +165,41 @@ function renderBlock(block: string, key: number): ReactNode {
   }
 
   const lines = block.split(/\r?\n/);
-  if (lines.length > 0 && lines.every((l) => /^\d+\.\s/.test(l))) {
+
+  if (lines.every((l) => l.startsWith("|"))) {
+    const rows = lines
+      .filter((l) => !/^\|[\s|:-]+\|$/.test(l))
+      .map((l) => l.replace(/^\||\|$/g, "").split("|").map((c) => c.trim()));
+    const [head, ...body] = rows;
+    return (
+      <div key={key} className="clear-both my-8 overflow-x-auto">
+        <table className="w-full min-w-[640px] border-collapse font-sans text-sm leading-snug">
+          <thead>
+            <tr>
+              {head.map((cell, i) => (
+                <th key={i} className="border-b border-nooni-line px-3 py-2 text-left font-medium text-nooni-ink">
+                  {renderInline(cell)}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {body.map((row, r) => (
+              <tr key={r}>
+                {row.map((cell, i) => (
+                  <td key={i} className="border-b border-nooni-line px-3 py-2 align-top">
+                    {renderInline(cell)}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  if (lines.every((l) => /^\d+\.\s/.test(l))) {
     return (
       <ol key={key} className="my-6 ml-6 list-decimal space-y-2">
         {lines.map((line, i) => (
@@ -149,6 +208,26 @@ function renderBlock(block: string, key: number): ReactNode {
           </li>
         ))}
       </ol>
+    );
+  }
+
+  if (lines.every((l) => /^- /.test(l))) {
+    const checklist = lines.every((l) => l.startsWith("- [ ] "));
+    return (
+      <ul key={key} className={checklist ? "my-6 space-y-2" : "my-6 ml-6 list-disc space-y-2"}>
+        {lines.map((line, i) =>
+          checklist ? (
+            <li key={i} className="flex items-baseline gap-3">
+              <span aria-hidden className="inline-block h-4 w-4 shrink-0 translate-y-0.5 rounded border border-nooni-sub" />
+              <span>{renderInline(line.slice(6))}</span>
+            </li>
+          ) : (
+            <li key={i} className="pl-1">
+              {renderInline(line.slice(2))}
+            </li>
+          ),
+        )}
+      </ul>
     );
   }
 
@@ -165,14 +244,32 @@ function renderInline(text: string): ReactNode[] {
   let key = 0;
 
   lines.forEach((line, lineIdx) => {
-    const boldRegex = /\*\*([^*]+)\*\*/g;
+    const tokenRegex = /\*\*([^*]+)\*\*|\[(CAMILLA:[^\]]*)\]|\[([^\]]+)\]\(([^)\s]+)\)/g;
     let lastIndex = 0;
     let match: RegExpExecArray | null;
-    while ((match = boldRegex.exec(line)) !== null) {
+    while ((match = tokenRegex.exec(line)) !== null) {
       if (match.index > lastIndex) {
         out.push(line.slice(lastIndex, match.index));
       }
-      out.push(<strong key={`b${key++}`}>{match[1]}</strong>);
+      if (match[1] !== undefined) {
+        out.push(<strong key={`b${key++}`}>{match[1]}</strong>);
+      } else if (match[2] !== undefined) {
+        out.push(
+          <mark key={`c${key++}`} className="rounded bg-nooni-bg-warm px-1 font-sans text-base text-nooni-headline">
+            [{match[2]}]
+          </mark>,
+        );
+      } else {
+        out.push(
+          <Link
+            key={`a${key++}`}
+            href={match[4]}
+            className="text-nooni-headline underline underline-offset-4 hover:text-nooni-ink"
+          >
+            {match[3]}
+          </Link>,
+        );
+      }
       lastIndex = match.index + match[0].length;
     }
     if (lastIndex < line.length) {
