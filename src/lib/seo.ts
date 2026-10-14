@@ -66,8 +66,15 @@ export function pageMetadata({
   };
 }
 
-/** Product handles that exist in Shopify but must never be indexed. */
-export const UNINDEXED_PRODUCT_HANDLES = new Set(["nooni_test_product"]);
+/**
+ * Product handles that exist in Shopify but must never be indexed,
+ * listed or put in the sitemap. The add-on bag only appears as an
+ * add-on on the Tic Tac Take page.
+ */
+export const UNINDEXED_PRODUCT_HANDLES = new Set([
+  "nooni_test_product",
+  "uden-titel-17-jun-_10-36-17",
+]);
 
 /**
  * Serialises JSON-LD for a <script> tag. Escapes `<` so a product

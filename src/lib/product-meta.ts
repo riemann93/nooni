@@ -65,6 +65,11 @@ const NAMETAG_HANDLES = new Set([
   "dots-5stk",
 ]);
 
+/** Position in the name-tag family, Loops first. Used to sort the listing. */
+export function nametagRank(handle: string): number {
+  return [...NAMETAG_HANDLES].indexOf(handle);
+}
+
 export function isNametag(handle: string): boolean {
   return NAMETAG_HANDLES.has(handle);
 }
