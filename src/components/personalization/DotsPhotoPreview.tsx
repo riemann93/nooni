@@ -64,20 +64,21 @@ interface DotsPhotoPreviewProps {
   colors?: readonly ColorOption[];
   /** Zoom in and paint the overlay. False shows the bare photo. */
   active: boolean;
+  /** Where the tag sits at rest, as fractions of the box (the photo's
+   *  edges may keep it from getting all the way there). */
+  restFocus?: Focus;
+  /** Where the tag lands when zoomed, and how wide it gets, as fractions
+   *  of the box. */
+  zoomFocus?: Focus & { tagWidth: number };
   priority?: boolean;
   sizes?: string;
 }
 
-/** Where the zoomed tag lands, as a fraction of the box. From the hero's
- *  side-by-side layout up (Tailwind md, 768px viewport) the form sits
- *  over the left of the photo, so the tag moves into the right side.
- *  Decided by width, not shape: a tall form can make the box nearly
- *  square while the form still covers its left half. */
-const WIDE_BOX_MIN_WIDTH = 700;
-const ZOOM_TARGET = {
-  wide: { x: 0.76, y: 0.5, tagWidth: 0.28 },
-  narrow: { x: 0.5, y: 0.5, tagWidth: 0.62 },
-} as const;
+export interface Focus {
+  x: number;
+  y: number;
+}
+
 const MAX_ZOOM = 4.5;
 
 /** Slow start, long soft landing: reads as a camera move, not a jump. */
@@ -88,6 +89,8 @@ export default function DotsPhotoPreview({
   values,
   colors = [],
   active,
+  restFocus = { x: 0.5, y: 0.5 },
+  zoomFocus = { x: 0.5, y: 0.5, tagWidth: 0.6 },
   priority = false,
   sizes,
 }: DotsPhotoPreviewProps) {
@@ -127,8 +130,8 @@ export default function DotsPhotoPreview({
   // 0.6 ≈ average glyph width of Fredoka Bold, in ems.
   const fontSize = Math.min(MAX_FONT_SIZE, TEXT_BUDGET / (name.length * 0.6));
 
-  // Cover the box, then shift the photo so the tag sits as close to the
-  // box centre as the photo's edges allow.
+  // Cover the box, then shift the photo so the tag sits as close to
+  // restFocus as the photo's edges allow.
   const anchorX = TAG_CX / DOTS_PHOTO.width;
   const anchorY = TAG_CY / DOTS_PHOTO.height;
   let layer: React.CSSProperties | null = null;
@@ -144,11 +147,11 @@ export default function DotsPhotoPreview({
     const scale = Math.max(box.width / DOTS_PHOTO.width, box.height / DOTS_PHOTO.height);
     const w = DOTS_PHOTO.width * scale;
     const h = DOTS_PHOTO.height * scale;
-    const left = clamp(box.width / 2 - TAG_CX * scale, box.width - w, 0);
-    const top = clamp(box.height / 2 - TAG_CY * scale, box.height - h, 0);
+    const left = clamp(restFocus.x * box.width - TAG_CX * scale, box.width - w, 0);
+    const top = clamp(restFocus.y * box.height - TAG_CY * scale, box.height - h, 0);
     layer = { position: "absolute", left, top, width: w, height: h };
 
-    const target = box.width >= WIDE_BOX_MIN_WIDTH ? ZOOM_TARGET.wide : ZOOM_TARGET.narrow;
+    const target = zoomFocus;
     const zoom = clamp((target.tagWidth * box.width) / (TAG.width * scale), 1, MAX_ZOOM);
     const tagX = left + TAG_CX * scale;
     const tagY = top + TAG_CY * scale;

@@ -10,18 +10,18 @@
  *     profile picture + "Hej, jeg er Camilla" note, headline, a short
  *     line in Camilla's voice, and the "Design dine Dots" CTA
  *   - A reel-style note sits on the photo, bottom right
- * On mobile the photo sits on top and the copy below it, on cream.
+ * On mobile a square photo sits on top, fading into the cream copy below.
  *
- * Designing (after "Design dine Dots"), in two beats:
- *   1. Unfold: the intro fades into the same form and add-to-cart button
- *      the product page uses (<ProductPurchaseSection />), the cream wash
- *      deepens, and the hero grows smoothly to fit the form.
- *   2. Zoom: once the hero has its new height, the photo zooms in on the
- *      tag and becomes the preview (<DotsPhotoPreview /> paints the
- *      chosen colours and name onto it).
- *   Closing runs the same beats backwards: zoom out, then fold.
- *   Zooming only while the height is still keeps the photo from
- *   re-fitting mid-zoom, which reads as a jump.
+ * Designing (after "Design dine Dots"), as one movement:
+ *   - the intro fades into the same form and add-to-cart button the
+ *     product page uses (<ProductPurchaseSection />), the cream wash
+ *     deepens, and the hero grows smoothly to fit the form;
+ *   - at the same time the photo zooms in on the tag and becomes the
+ *     preview (<DotsPhotoPreview /> paints the chosen colours and name
+ *     onto it).
+ *   Closing runs it backwards. On desktop the photo stage is sized for
+ *   the tallest state up front, so the hero growing never makes the
+ *   photo re-fit mid-zoom (which reads as a jump).
  *   The page never navigates; the cart drawer opens as usual on add.
  *   Intro and form both stay rendered (the hidden one invisible and
  *   inert), so their heights can be measured and closing and reopening
@@ -35,7 +35,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import InstaNote from "@/components/InstaNote";
-import DotsPhotoPreview, { ZOOM_MS } from "@/components/personalization/DotsPhotoPreview";
+import DotsPhotoPreview from "@/components/personalization/DotsPhotoPreview";
 import ProductPurchaseSection from "@/components/personalization/ProductPurchaseSection";
 import type { ColorOption, PersonalizationSchema } from "@/lib/shopify/personalization";
 import type { ProductVariant } from "@/lib/shopify/types";
@@ -51,11 +51,30 @@ export interface HeroDesignerData {
 
 const DESIGNER_ID = "hero-dots-designer";
 
-/** How long the hero takes to grow or shrink. */
-const UNFOLD_MS = 600;
-/** Fold back only once the zoom-out has finished: resizing the photo
- *  while it is still zooming makes it jump. */
-const FOLD_DELAY_MS = ZOOM_MS + 50;
+/** How long the hero takes to grow or shrink. Runs alongside the zoom,
+ *  so the two read as one movement. */
+const UNFOLD_MS = 900;
+
+/** Where the tag sits and lands on phones (photo above the copy). */
+const MOBILE_REST = { x: 0.5, y: 0.5 };
+const MOBILE_ZOOM = { x: 0.5, y: 0.5, tagWidth: 0.66 };
+/** On desktop the form covers the photo's left half, so the zoomed tag
+ *  lands in the right half. */
+const DESKTOP_ZOOM_X = 0.76;
+const DESKTOP_TAG_WIDTH = 0.28;
+
+/** Tracks the md breakpoint, where the copy moves on top of the photo. */
+function useIsDesktop(): boolean {
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 768px)");
+    const update = () => setIsDesktop(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+  return isDesktop;
+}
 
 /** First colour field's options, for the live preview. */
 function paletteFromSchema(schema: PersonalizationSchema): readonly ColorOption[] | undefined {
@@ -66,55 +85,68 @@ function paletteFromSchema(schema: PersonalizationSchema): readonly ColorOption[
 }
 
 export default function HeroClient({ designer }: { designer: HeroDesignerData | null }) {
-  /** Form shown instead of the intro. */
+  /** Designing: form shown, hero grown, photo zoomed — all at once. */
   const [open, setOpen] = useState(false);
-  /** Hero sized to the form rather than the intro. */
-  const [expanded, setExpanded] = useState(false);
-  /** Photo zoomed in on the tag. */
-  const [zoomed, setZoomed] = useState(false);
   const [values, setValues] = useState<Record<string, string>>({});
   const [introHeight, setIntroHeight] = useState<number | null>(null);
   const [designerHeight, setDesignerHeight] = useState<number | null>(null);
+  /** The copy column's min-height and vertical padding, in px (md up). */
+  const [column, setColumn] = useState<{ minHeight: number; padding: number } | null>(null);
+  const isDesktop = useIsDesktop();
   const introRef = useRef<HTMLDivElement>(null);
   const designerRef = useRef<HTMLDivElement>(null);
+  const columnRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLButtonElement>(null);
-  const timer = useRef<number | undefined>(undefined);
 
   const palette = designer ? paletteFromSchema(designer.schema) : undefined;
   const productHref = `/produkter/${designer?.handle ?? "dots-med-navn-3stk"}`;
 
-  // Track both panels' natural heights, so the hero can animate between them.
+  // Track both panels' natural heights, so the hero can animate between
+  // them, and the column's min-height and padding, to know the hero's
+  // height in each state up front.
   useEffect(() => {
     const measure = () => {
       if (introRef.current) setIntroHeight(introRef.current.offsetHeight);
       if (designerRef.current) setDesignerHeight(designerRef.current.offsetHeight);
+      if (columnRef.current) {
+        const s = getComputedStyle(columnRef.current);
+        setColumn({
+          minHeight: parseFloat(s.minHeight) || 0,
+          padding: parseFloat(s.paddingTop) + parseFloat(s.paddingBottom),
+        });
+      }
     };
     measure();
     const observer = new ResizeObserver(measure);
-    if (introRef.current) observer.observe(introRef.current);
-    if (designerRef.current) observer.observe(designerRef.current);
+    for (const el of [introRef.current, designerRef.current, columnRef.current]) {
+      if (el) observer.observe(el);
+    }
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => () => window.clearTimeout(timer.current), []);
-
-  const openDesigner = useCallback(() => {
-    window.clearTimeout(timer.current);
-    setOpen(true);
-    setExpanded(true);
-    timer.current = window.setTimeout(() => setZoomed(true), UNFOLD_MS);
-  }, []);
+  const openDesigner = useCallback(() => setOpen(true), []);
 
   const closeDesigner = useCallback(() => {
-    window.clearTimeout(timer.current);
     setOpen(false);
-    setZoomed(false);
-    timer.current = window.setTimeout(() => setExpanded(false), FOLD_DELAY_MS);
     // Hand focus back to the button that opened the designer.
     requestAnimationFrame(() => ctaRef.current?.focus());
   }, []);
 
-  const panelHeight = expanded ? designerHeight : introHeight;
+  const panelHeight = open ? designerHeight : introHeight;
+
+  // Desktop: the photo stage is as tall as the hero ever gets and the
+  // frame just reveals more or less of it. The photo then never re-fits
+  // while the hero grows, so growing and zooming can run together.
+  let stageHeight: number | undefined;
+  let restFocus = MOBILE_REST;
+  let zoomFocus = MOBILE_ZOOM;
+  if (isDesktop && column && introHeight && designerHeight) {
+    const restFrame = Math.max(column.minHeight, introHeight + column.padding);
+    const openFrame = Math.max(column.minHeight, designerHeight + column.padding);
+    stageHeight = Math.max(restFrame, openFrame);
+    restFocus = { x: 0.5, y: restFrame / 2 / stageHeight };
+    zoomFocus = { x: DESKTOP_ZOOM_X, y: openFrame / 2 / stageHeight, tagWidth: DESKTOP_TAG_WIDTH };
+  }
 
   // Move focus into the designer once it shows, so keyboard and
   // screen-reader users land on the first field. No scrolling: the
@@ -136,13 +168,23 @@ export default function HeroClient({ designer }: { designer: HeroDesignerData | 
           style={{ borderRadius: 28 }}
         >
           {/* Photo: its own block on mobile, the whole frame from md up. */}
-          <div className="relative aspect-[4/3] md:absolute md:inset-0 md:aspect-auto">
+          <div
+            className="relative aspect-[5/4] max-h-[420px] w-full md:absolute md:inset-x-0 md:top-0 md:aspect-auto md:max-h-none md:h-full"
+            style={stageHeight ? { height: stageHeight } : undefined}
+          >
             <DotsPhotoPreview
               values={values}
               colors={palette}
-              active={zoomed}
+              active={open}
+              restFocus={restFocus}
+              zoomFocus={zoomFocus}
               priority
               sizes="(min-width: 1280px) 1232px, 100vw"
+            />
+            {/* Phone: the photo melts into the cream below it. */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-nooni-bg-warm md:hidden"
             />
             {!open && (
               <InstaNote
@@ -175,7 +217,9 @@ export default function HeroClient({ designer }: { designer: HeroDesignerData | 
             }}
           />
 
-          <div className="relative flex px-5 py-7 md:min-h-[clamp(460px,46vw,620px)] md:w-[50%] md:items-center md:px-10 md:py-10 lg:w-[46%] lg:px-14">
+          <div
+            ref={columnRef}
+            className="relative flex px-5 pb-7 pt-2 md:min-h-[clamp(460px,46vw,620px)] md:w-[50%] md:items-center md:px-10 md:py-10 lg:w-[46%] lg:px-14">
             {/* Sized to the panel on show; the height change animates, and
                 the frame (and photo) follow it smoothly. */}
             <div
