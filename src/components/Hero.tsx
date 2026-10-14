@@ -13,9 +13,8 @@
  * If Shopify can't be reached or the product is missing, the hero
  * still renders and the CTA falls back to a link to the product page.
  *
- * Next step (waiting on a photo): replace the drawn preview with a
- * photo of a white Dots on a zipper, recoloured live with colour
- * layers, so the hero photo itself changes as the visitor designs.
+ * The hero photo is itself the preview: the chosen colours and name
+ * are painted onto the tag in the photo (<DotsPhotoPreview />).
  */
 
 import HeroClient, { type HeroDesignerData } from "@/components/HeroClient";

@@ -114,6 +114,20 @@ span.italic.text-nooni-headline {
   box-decoration-break: clone;
 }
 
+/* Gentle entrance for content that swaps in place (hero designer).
+   The global reduced-motion rule elsewhere is not on this branch, so
+   respect the setting here. */
+@keyframes nooni-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+.nooni-fade-in {
+  animation: nooni-fade-in 0.35s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nooni-fade-in { animation: none; }
+}
+
 .desc-lead {
   color: var(--color-nooni-headline);
   font-size: 1.4em;
