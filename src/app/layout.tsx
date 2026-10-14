@@ -21,6 +21,7 @@
  */
 
 import type { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Cormorant_Garamond, Fredoka, Inter } from "next/font/google";
 import CartDrawer from "@/components/CartDrawer";
 import Footer from "@/components/Footer";
@@ -51,6 +52,11 @@ const cormorant = Cormorant_Garamond({
   weight: ["300", "400"],
   style: ["normal", "italic"],
 });
+
+// GA4 property "nooni.dk". Only loaded on the production deploy so
+// local dev and Vercel preview URLs don't pollute the numbers.
+const GA_MEASUREMENT_ID = "G-F9LMB8H0TG";
+const loadAnalytics = process.env.VERCEL_ENV === "production";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://nooni.dk"),
@@ -87,6 +93,7 @@ export default function RootLayout({
           <CartDrawer />
         </CartProvider>
       </body>
+      {loadAnalytics && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
     </html>
   );
 }
