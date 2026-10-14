@@ -7,6 +7,7 @@
 - Reviews come from Trustpilot (human chose it, no account yet). Never wire Judge.me or another review app. PLACEHOLDER_SOCIAL_PROOF goes false only with real Trustpilot reviews.
 
 ## Lately
+- 2026-10-14 "Put Loops back in the lead" landed (01fca70): LEAD_NAME_TAG loops, Hero, Bestseller and lists Loops first. Dropped that Open line. All 28 quests done, no aim open; the rest waits on the human. Nothing to do.
 - 2026-10-14 "Lead with Dots" fix-up landed (c2321cc) still Dots-first (LEAD_NAME_TAG dots-med-navn-3stk, Hero on Dots). Filed "Put Loops back in the lead" (opus) to restore order, keeping crumbs, taglines, /navnemaerker breadcrumbs and removed claims.
 - 2026-10-14 "Lead with Dots" landed (429c76e) with conflicts and still made Dots lead, against the human's ruling. Fix-up (sonnet) told to keep Morten's Loops-first order and f8b3f23 titles, carrying only crumb names, taglines, /navnemaerker breadcrumbs and the removed claims.
 - 2026-10-14 Round after titles fix-up landed (f8b3f23). Only "Lead with Dots" in progress, nothing blocked, no aim open. 19 landed since last ship, but production builds stay blocked by the Trustpilot guard. Nothing to do.
@@ -35,7 +36,7 @@
 - 2026-10-14 Round after "Bring Morten up to date with Discoverability" landed. Social proof and shipping facts quests in progress. Gave every unstarted quest a Model line (opus for hub page, homepage rebuild, final check; sonnet for the rest). Day look back: clean, nothing went wrong twice.
 
 ## Open
-- Check "Put Loops back in the lead" lands Loops-first (Hero on Loops, Bestseller on Loops, LEAD_NAME_TAG and NAME_TAG_HANDLES Loops first). Sessions keep following the quest title and CONTENT-PLAN.md; if it slips again, consider asking the human to update CONTENT-PLAN.md's keyword map.
+- If a later quest puts Dots first again, ask the human to update CONTENT-PLAN.md's keyword map (sessions follow it).
 - Human (Camilla) to confirm hub guide claims: washing untested, Dots on zipper pulls with a cord and on hats/mittens; and whether a separate Emblem product is coming.
 - Human to confirm shipping facts: is 'Fri fragt over 350 kr.' real? If yes, add it to Shopify policy and SHIPPING in src/lib/store-facts.ts.
 - Human to pick paid Trustpilot product reviews, Judge.me, or free shop-wide Trustpilot, and supply account, business unit ID and API key/export for "Wire Trustpilot reviews...". Guard in next.config.ts blocks production builds meanwhile. If they switch, update the Trustpilot rule.
