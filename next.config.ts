@@ -1,4 +1,16 @@
 import type { NextConfig } from "next";
+import { PLACEHOLDER_SOCIAL_PROOF } from "./src/lib/social-proof";
+
+/**
+ * Ship blocker: invented reviews must never reach nooni.dk. Fails any
+ * Vercel production build (and any build run with NODE_ENV=production
+ * on the production branch) while the placeholder flag is still true.
+ */
+if (PLACEHOLDER_SOCIAL_PROOF && process.env.VERCEL_ENV === "production") {
+  throw new Error(
+    "PLACEHOLDER_SOCIAL_PROOF is true in src/lib/social-proof.ts. Replace the made-up reviews with real ones before building for production.",
+  );
+}
 
 /**
  * Baseline security headers for every route. Checkout runs on Shopify's
