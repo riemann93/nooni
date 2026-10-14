@@ -4,6 +4,11 @@ The road from "nobody knows Nooni" to **#1 on Google for "navnemærker"**.
 Technical SEO and the open issues live in `SEO.md`. This file is about
 content, trust and links.
 
+**Core product:** Dots med navn (`dots-med-navn-3stk`), the name tag on
+the jacket zipper. Dots med motiv comes second and Loops (`emblem`) is
+secondary. This is the owner's final call; see "Product order" in
+`SEARCH-GUIDE.md`.
+
 ## Strategy in one paragraph
 
 We can't win "navnemærker" head-on yet. Established shops have years of

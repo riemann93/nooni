@@ -15,6 +15,20 @@ status and open issues are in `SEO.md`.
   navnemærker in Denmark. They read the same pages Google does, plus
   `/llms.txt`.
 
+## Product order (owner's final decision)
+
+The core navnemærke is **Dots med navn** (`dots-med-navn-3stk`), the
+name tag on the jacket zipper. Camilla sells exactly this on Instagram
+as "Dots - navnemærker". Everywhere products are listed (hero, rows,
+hub, footer, cart, llms.txt, review mix) the order is:
+
+1. Dots med navn (`dots-med-navn-3stk`), lynlås and overtøj
+2. Dots med motiv (`dots-5stk`), for children who can't read yet
+3. Loops (`emblem`, "Loops - Navn"), the bag tag, secondary
+
+The order lives in `NAME_TAG_HANDLES` and `LEAD_NAME_TAG` in
+`src/lib/product-meta.ts`. Don't put Loops first.
+
 ## E-E-A-T in practice
 
 Google judges a shop by Experience, Expertise, Authoritativeness and

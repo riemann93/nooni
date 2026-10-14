@@ -8,14 +8,6 @@ import Link from "next/link";
 import { LEAD_NAME_TAG } from "@/lib/product-meta";
 
 const PRODUCTS: Record<string, { name: string; line: string }> = {
-  loops: {
-    name: "Loops",
-    line: "Navnemærket til tasken, med et motiv dit barn kender, før det kan læse.",
-  },
-  emblem: {
-    name: "Loops med navn",
-    line: "Navnemærket til tasken, med barnets navn.",
-  },
   "dots-med-navn-3stk": {
     name: "Dots med navn",
     line: "Navnemærket til lynlåsen på flyverdragten og jakken. Giver små hænder et bedre greb.",
@@ -23,6 +15,10 @@ const PRODUCTS: Record<string, { name: string; line: string }> = {
   "dots-5stk": {
     name: "Dots med motiv",
     line: "Symbolmærker til lynlåsen, til børn der ikke kan læse deres navn endnu.",
+  },
+  emblem: {
+    name: "Loops",
+    line: "Navnemærket til tasken, med barnets navn.",
   },
 };
 

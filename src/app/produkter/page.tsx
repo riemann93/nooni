@@ -22,7 +22,7 @@ export const revalidate = 60;
 export const metadata: Metadata = pageMetadata({
   title: "Navnemærker til børn og kortspil",
   description:
-    "Se Noonis navnemærker til taske, lynlås og overtøj (Loops, Dots med navn og Dots med motiv), og kortspil til børn: Deks, Box og Tic Tac Take.",
+    "Se Noonis navnemærker til lynlås, overtøj og taske (Dots med navn, Dots med motiv og Loops), og kortspil til børn: Deks, Box og Tic Tac Take.",
   path: "/produkter",
 });
 

@@ -173,11 +173,11 @@ function DrawerHeader({ onClose }: { onClose: () => void }) {
   );
 }
 
-/** The name-tag family, Loops first. Navnemærker are the core product, so they lead. */
+/** The name-tag family, Dots med navn first (CONTENT-PLAN.md keyword map). */
 const NAME_TAGS = [
-  { handle: "loops", label: "Loops" },
-  { handle: "emblem", label: "Loops med navn" },
   { handle: "dots-med-navn-3stk", label: "Dots med navn" },
+  { handle: "dots-5stk", label: "Dots med motiv" },
+  { handle: "emblem", label: "Loops til tasken" },
 ] as const;
 
 function CrossSell({

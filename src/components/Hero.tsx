@@ -3,13 +3,15 @@
  *
  * Holds the page's only H1. Layout:
  *   - A rounded cream frame (bg-nooni-bg-warm) with the copy on the
- *     left and a product-focused Loops image on the right. On mobile
+ *     left and a product-focused Dots med navn image on the right. On mobile
  *     the copy comes first so H1, rating and CTA sit above the fold at
  *     375px, with the image below.
  *   - Stars + review count come from src/lib/social-proof.ts. That data
  *     is placeholder: purely visual, never in JSON-LD.
- *   - "Fra XX kr" is the live price of the lead name tag (LEAD_NAME_TAG,
- *     Loops) from Shopify. If Shopify is unreachable the price line (and the Shopify image) is dropped and
+ *   - "Fra XX kr" is the live Dots med navn price from Shopify. Dots med
+ *     navn leads because it fits what parents search ("navnemærke til
+ *     lynlås", flyverdragt, overtøj; CONTENT-PLAN.md keyword map). If Shopify is
+ *     unreachable the price line (and the Shopify image) is dropped and
  *     a local photo is used, so the hero never breaks.
  *
  * The trust ticks avoid delivery times and shipping prices on purpose:
@@ -28,7 +30,7 @@ export const revalidate = 60;
 
 const FALLBACK_IMAGE = {
   src: "/images/dots_name_lifestyle.jpg",
-  alt: "Personlige navnemærker på børns tøj og tasker",
+  alt: "Dots med navn, navnemærke på lynlåsen",
 };
 
 const TRUST_TICKS = [
@@ -80,7 +82,7 @@ export default async function Hero() {
   const leadHref = `/produkter/${LEAD_NAME_TAG}`;
 
   const image = shopifyImage
-    ? { src: shopifyImage.url, alt: shopifyImage.altText ?? "Loops navnemærke på en taske" }
+    ? { src: shopifyImage.url, alt: shopifyImage.altText ?? "Dots med navn, navnemærke på en lynlås" }
     : FALLBACK_IMAGE;
 
   return (
@@ -113,8 +115,8 @@ export default async function Hero() {
               className="mt-3 font-editorial leading-snug text-nooni-ink-soft"
               style={{ fontSize: "var(--nooni-text-body-lg)" }}
             >
-              Sidder på lynlås og taske, bliver ikke væk i institutionen og kan genkendes af børn,
-              der endnu ikke kan læse.
+              Sidder på lynlåsen på flyverdragten og jakken, bliver ikke væk i institutionen og
+              giver små hænder et bedre greb, når de lyner selv.
             </p>
 
             {price && (

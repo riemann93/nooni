@@ -22,26 +22,26 @@ export interface NameTag {
 }
 
 /**
- * The name-tag family, in the order the grid shows them. Loops lead and
- * Dots come second (the owner's call, ahead of the CONTENT-PLAN.md
- * keyword map order).
+ * The name-tag family, in the order the grid shows them. Dots first:
+ * they are the strongest fit for what parents search ("navnemærke til
+ * lynlås", overtøj, flyverdragt).
  *
  * Handle "emblem" is the product titled "Loops - Navn" (SEO.md issue 4).
  * "loops-navn" is listed too so the page keeps working if the handle is
  * fixed in Shopify. A future Emblem product goes here as well.
  */
 export const NAME_TAGS: NameTag[] = [
-  { handle: "loops", tagline: "Motiv · taske" },
-  { handle: "emblem", tagline: "Navn · taske" },
-  { handle: "loops-navn", tagline: "Navn · taske" },
   { handle: "dots-med-navn-3stk", tagline: "Navn · lynlås" },
   { handle: "dots-5stk", tagline: "Motiv · lynlås" },
+  { handle: "emblem", tagline: "Navn · taske" },
+  { handle: "loops-navn", tagline: "Navn · taske" },
+  { handle: "loops", tagline: "Motiv · taske" },
 ];
 
 export const HUB_INTRO =
-  "Navnemærker til tasken, til lynlåsen på flyverdragt og overtøj og til huen, så dit barns ting ikke bliver forbyttet i institutionen. Med navn eller et motiv, som børn kan genkende, før de kan læse. 3D-printet af Camilla i Borris.";
+  "Navnemærker til lynlåsen på flyverdragt og overtøj, til huen og til tasken, så dit barns ting ikke bliver forbyttet i institutionen. Med navn eller et motiv, som børn kan genkende, før de kan læse. 3D-printet af Camilla i Borris.";
 
-/** "What fits where" rows, Loops places first. `dots` and `loops` say whether that product family fits. */
+/** "What fits where" rows. `dots` and `loops` say whether that product family fits. */
 export interface FitRow {
   place: string;
   dots: boolean;
@@ -51,10 +51,22 @@ export interface FitRow {
 
 export const FIT_ROWS: FitRow[] = [
   {
+    place: "Lynlås på jakke og flyverdragt",
+    dots: true,
+    loops: false,
+    note: "Dots bindes i lynlåsens trækker og bliver et bedre greb for små hænder.",
+  },
+  {
+    place: "Hue og vanter",
+    dots: true,
+    loops: false,
+    note: "Dots kan sættes fast i strikhuer, vanter og handsker.",
+  },
+  {
     place: "Skoletaske og rygsæk",
     dots: true,
     loops: true,
-    note: "En Loop i stroppen eller Dots på lynlåsen. Begge ses tydeligt i garderoben.",
+    note: "Dots på lynlåsen eller en Loop i stroppen. Begge ses tydeligt i garderoben.",
   },
   {
     place: "Pusletaske og penalhus",
@@ -67,18 +79,6 @@ export const FIT_ROWS: FitRow[] = [
     dots: false,
     loops: true,
     note: "Loops sidder på nøgleringen, også til de voksne.",
-  },
-  {
-    place: "Lynlås på jakke og flyverdragt",
-    dots: true,
-    loops: false,
-    note: "Dots bindes i lynlåsens trækker og bliver et bedre greb for små hænder.",
-  },
-  {
-    place: "Hue og vanter",
-    dots: true,
-    loops: false,
-    note: "Dots kan sættes fast i strikhuer, vanter og handsker.",
   },
   {
     place: "Inde i tøjet (bodyer, strømper, skiftetøj)",
@@ -144,7 +144,7 @@ export const FAQ: FaqItem[] = [
   {
     question: "Hvad er Noonis navnemærker?",
     answer:
-      "Små personlige mærker, der hænger udenpå tingene i stedet for at sidde inde i tøjet. Loops er en lille nøglering til tasken, med navn eller motiv. Dots med navn sættes på lynlåsen på flyverdragten, jakken og overtøjet, og Dots med motiv er til børn, der ikke kan læse endnu. Du vælger selv farverne.",
+      "Små personlige mærker, der hænger udenpå tingene i stedet for at sidde inde i tøjet. Dots med navn sættes på lynlåsen på flyverdragten, jakken og overtøjet. Dots med motiv er til børn, der ikke kan læse endnu. Loops er en lille nøglering til tasken. Du vælger selv farverne.",
   },
   {
     question: "Hvor sætter man Dots?",
@@ -154,7 +154,7 @@ export const FAQ: FaqItem[] = [
   {
     question: "Hvad hvis mit barn ikke kan læse endnu?",
     answer:
-      "Så vælg Loops eller Dots med motiv, for eksempel en blomst, en pote, et hjerte, en sky eller kirsebær. Børn genkender deres eget symbol længe før de kan læse deres navn.",
+      "Så vælg Dots med motiv, for eksempel en blomst, en pote, et hjerte, en sky eller kirsebær. Børn genkender deres eget symbol længe før de kan læse deres navn.",
   },
   {
     question: "Hvor mange bogstaver kan der være på et navnemærke?",

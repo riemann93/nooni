@@ -46,18 +46,19 @@ export interface ProductFacts {
 }
 
 /**
- * Name-tag family, lead product first: Loops lead, Dots come second
- * (the owner's call, ahead of the CONTENT-PLAN.md keyword map order).
- * Handle "emblem" is the product titled "Loops - Navn" (SEO.md issue 4).
+ * Name-tag family, lead product first (CONTENT-PLAN.md keyword map):
+ * Dots med navn for lynlås and overtøj, Dots med motiv for children who
+ * can't read yet, then Loops for the bag. Handle "emblem" is the product
+ * titled "Loops - Navn" (SEO.md issue 4).
  */
-export const LEAD_NAME_TAG = "loops";
+export const LEAD_NAME_TAG = "dots-med-navn-3stk";
 
 export const NAME_TAG_HANDLES = [
-  "loops",
-  "emblem",
-  "loops-navn",
   "dots-med-navn-3stk",
   "dots-5stk",
+  "emblem",
+  "loops-navn",
+  "loops",
 ] as const;
 
 export const isNameTag = (handle: string) => (NAME_TAG_HANDLES as readonly string[]).includes(handle);
@@ -66,11 +67,19 @@ export const isNameTag = (handle: string) => (NAME_TAG_HANDLES as readonly strin
 export const NAME_TAG_FACTS: ProductFacts = {};
 
 export const PRODUCT_META: Record<string, ProductMeta> = {
-  loops: {
-    tagline: "Navnemærke til taske",
-    crumbName: "Loops med motiv",
-    title: "Loops med motiv, navnemærke til taske",
+  "dots-med-navn-3stk": {
+    tagline: "Navnemærke til lynlås, flyverdragt og overtøj",
+    crumbName: "Dots med navn",
+    quantityNote: "3 stk. i sættet",
+    title: "Dots med navn, navnemærke til lynlås",
     badge: "Bestseller",
+  },
+  "dots-5stk": {
+    tagline: "Symbolmærker til børn, der ikke kan læse",
+    crumbName: "Dots med motiv",
+    quantityNote: "5 stk. i sættet",
+    title: "Dots med motiv, symbolmærker til lynlås",
+    badge: "Kan personliggøres",
   },
   emblem: {
     tagline: "Navnemærke til taske",
@@ -85,18 +94,10 @@ export const PRODUCT_META: Record<string, ProductMeta> = {
     title: "Loops med navn, navnemærke til taske",
     badge: "Kan personliggøres",
   },
-  "dots-med-navn-3stk": {
-    tagline: "Navnemærke til lynlås, flyverdragt og overtøj",
-    crumbName: "Dots med navn",
-    quantityNote: "3 stk. i sættet",
-    title: "Dots med navn, navnemærke til lynlås",
-    badge: "Kan personliggøres",
-  },
-  "dots-5stk": {
-    tagline: "Symbolmærker til børn, der ikke kan læse",
-    crumbName: "Dots med motiv",
-    quantityNote: "5 stk. i sættet",
-    title: "Dots med motiv, symbolmærker til lynlås",
+  loops: {
+    tagline: "Navnemærke til taske",
+    crumbName: "Loops med motiv",
+    title: "Loops med motiv, navnemærke til taske",
     badge: "Kan personliggøres",
   },
   "tic-tac-take": { addOnHandle: "uden-titel-17-jun-_10-36-17" },
@@ -126,7 +127,7 @@ export function splitTitle(title: string): { name: string; rest: string | null; 
 /** Where the "Navnemærker" crumb and hub links point: the hub that targets the head term. */
 export const NAMETAG_HUB_PATH = "/navnemaerker";
 
-/** Position in the name-tag family, Loops first. Used to sort the listing. */
+/** Position in the name-tag family, Dots med navn first. Used to sort the listing. */
 export function nametagRank(handle: string): number {
   return (NAME_TAG_HANDLES as readonly string[]).indexOf(handle);
 }
