@@ -77,13 +77,13 @@ export default function HeroClient({ designer }: { designer: HeroDesignerData | 
   }, []);
 
   // Move focus into the designer once it shows, so keyboard and
-  // screen-reader users land on the first field.
+  // screen-reader users land on the first field. No scrolling: the
+  // designer opens in place, and a page scroll during the zoom reads as
+  // a jolt.
   useEffect(() => {
     if (!open) return;
     const id = window.setTimeout(() => {
       designerRef.current?.querySelector<HTMLElement>("input, select, button")?.focus({ preventScroll: true });
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      designerRef.current?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "nearest" });
     }, 50);
     return () => window.clearTimeout(id);
   }, [open]);
@@ -92,7 +92,9 @@ export default function HeroClient({ designer }: { designer: HeroDesignerData | 
     <section className="relative" data-screen-label="01 Hero">
       <div className="mx-auto max-w-[1280px] px-4 pt-3 pb-5 md:px-10 md:pt-4 md:pb-8 lg:pt-6 lg:pb-[45px]">
         <div
-          className="relative overflow-hidden bg-nooni-bg-warm md:min-h-[clamp(460px,52vw,680px)]"
+          // Fixed height from md up: if the frame grew when the taller
+          // form swaps in, the photo would re-fit mid-zoom and jump.
+          className="relative overflow-hidden bg-nooni-bg-warm md:h-[clamp(560px,56vw,720px)]"
           style={{ borderRadius: 28 }}
         >
           {/* Photo: its own block on mobile, the whole frame from md up. */}
@@ -135,8 +137,10 @@ export default function HeroClient({ designer }: { designer: HeroDesignerData | 
             }}
           />
 
-          <div className="relative flex px-5 py-7 md:min-h-[clamp(460px,52vw,680px)] md:w-[50%] md:items-center md:px-10 md:py-12 lg:w-[46%] lg:px-14">
-            <div className="w-full">
+          <div className="relative flex px-5 py-7 md:h-full md:w-[50%] md:overflow-y-auto md:px-10 md:py-10 lg:w-[46%] lg:px-14">
+            {/* my-auto centres the copy but, unlike align-items, never
+                clips the top of a form taller than the frame. */}
+            <div className="w-full md:my-auto">
               {/* Intro */}
               <div hidden={open}>
                 <div className="flex items-center gap-3">
@@ -219,8 +223,8 @@ export default function HeroClient({ designer }: { designer: HeroDesignerData | 
                     </button>
                   </div>
                   <h2
-                    className="mt-4 font-editorial leading-[1.1] tracking-tight text-nooni-ink"
-                    style={{ fontSize: "var(--nooni-text-heading-md)" }}
+                    className="mt-3 font-editorial leading-[1.1] tracking-tight text-nooni-ink"
+                    style={{ fontSize: "var(--nooni-text-heading-sm)" }}
                   >
                     Skriv navnet, og vælg{" "}
                     <span className="italic text-nooni-headline">farverne</span>
