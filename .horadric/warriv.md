@@ -5,6 +5,9 @@
 - Shipping and delivery numbers come from the human, never guessed ("Fix conflicting shipping and delivery facts").
 
 ## Lately
+- 2026-10-14 "Navnemaerker hub page" landed with an llms.ts conflict. Fix-up (sonnet) told: keep both sides, flip NAMETAG_HUB_PATH to /navnemaerker, ids loops/dots/emblem (emblem on the 'emblem' handle), no new nav links (already on Morten). Camilla's claims to check go to the final check.
+- 2026-10-14 "Product page reviews, facts, FAQ" landed with conflicts (page.tsx, product-meta.ts). Fix-up (sonnet) told: keep buy box, one anmeldelser section, hub links via NAMETAG_HUB_PATH, type-check. Accepted its placeholder assumptions. Hub quest noted to flip NAMETAG_HUB_PATH and add loops/dots/emblem ids. Final check gets these to verify.
+- 2026-10-14 Round after "Briefs for the first long-tail posts" landed (4210ce3). Webshop nav landed too (73aa68a), so dropped that Open line. Three in progress, two waiting on After lines, reviews still with the human. Nothing to do.
 - 2026-10-14 Woken again with no new events listed. Log unchanged: buy box fix-up in progress, only blocked quest is the reviews one already with the human. Nothing to do.
 - 2026-10-14 "Product page buy box conventions" landed with conflicts (Footer, ValueStrip, llms, product-meta). Fix-up (sonnet) told: Morten's Footer wins, shipping from store-facts.ts, keep both sides of product-meta.
 - 2026-10-14 The nav fix-up hit a second Footer.tsx conflict with the blog quest's 'Gode raad' link. New fix-up (sonnet) told to keep the webshop columns with 'Gode raad' in them, then type-check and build.
@@ -18,6 +21,8 @@
 - 2026-10-14 Round after "Bring Morten up to date with Discoverability" landed. Social proof and shipping facts quests in progress. Gave every unstarted quest a Model line (opus for hub page, homepage rebuild, final check; sonnet for the rest). Day look back: clean, nothing went wrong twice.
 
 ## Open
-- Check the webshop nav lands on Morten via "Fix the merge of fix-the-merge-of-navigation-and-footer-as". If it conflicts a third time, hand it to an opus session to redo the footer on top of Morten instead of cherry-picking.
+- Check "Fix the merge of navnemaerker-hub-page" lands with NAMETAG_HUB_PATH = /navnemaerker. If it conflicts again, hand it to an opus session to redo on top of Morten.
+- Human (Camilla) to confirm hub guide claims: washing untested, Dots on zipper pulls with a cord and on hats/mittens; and whether a separate Emblem product is coming.
+- Check "Fix the merge of product-page-reviews-facts-faq-and" lands type-checked. If it conflicts again, hand it to an opus session to redo on top of Morten.
 - Human to confirm shipping facts: is 'Fri fragt over 350 kr.' real? If yes, add it to Shopify policy and SHIPPING in src/lib/store-facts.ts.
 - Human to pick Judge.me or Trustpilot and supply real reviews for "Swap placeholder reviews for real ones before production". Guard in next.config.ts blocks production builds meanwhile.
