@@ -26,6 +26,7 @@
 
 import Link from "next/link";
 import Logo from "./Logo";
+import { STORE_FACTS } from "@/lib/store-facts";
 
 const SITE_LINKS = [
   { href: "/produkter", label: "Produkter" },
@@ -117,9 +118,9 @@ export default function Footer() {
           </nav>
 
           <p className="mt-6 text-[13px] text-nooni-ink-soft">
-            Fast fragt 55 kr. · Levering i Danmark på 1 til 3 hverdage
+            {STORE_FACTS.shippingPrice} · {STORE_FACTS.delivery}
             <br />
-            Betal med Visa, Mastercard, MobilePay og Dankort
+            {STORE_FACTS.payment}
           </p>
 
           <div className="mt-8 space-y-1 text-xs tracking-[0.12em] text-nooni-ink-soft">

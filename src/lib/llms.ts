@@ -13,6 +13,7 @@ import {
   UNINDEXED_PRODUCT_HANDLES,
 } from "@/lib/seo";
 import { getAllProducts, getProductByHandle } from "@/lib/shopify/products";
+import { STORE_FACTS } from "@/lib/store-facts";
 
 export const INTRO = `# Nooni
 
@@ -28,8 +29,8 @@ Nooni (nooni.dk) er en lille dansk webshop drevet af Camilla fra Borris i Vestjy
 
 export const ABOUT_LINKS = `- [Min historie](${SITE_URL}/om-os): Camilla, personen bag Nooni, og hvordan produkterne bliver til.
 - [Kontakt](${SITE_URL}/kontakt): spørgsmål og særlige ønsker.
-- [Levering og fragt](${SITE_URL}/levering): fast fragt 55 kr., levering i Danmark på 1 til 3 hverdage.
-- [Fortrydelsesret og returnering](${SITE_URL}/returnering): 14 dages fortrydelsesret.
+- [Levering og fragt](${SITE_URL}/levering): ${STORE_FACTS.shippingPrice} ${STORE_FACTS.dispatch}. ${STORE_FACTS.delivery}.
+- [Fortrydelsesret og returnering](${SITE_URL}/returnering): ${STORE_FACTS.withdrawal} og ${STORE_FACTS.complaint}.
 - [Handelsbetingelser](${SITE_URL}/handelsbetingelser)
 - [Privatlivspolitik](${SITE_URL}/privatlivspolitik)`;
 

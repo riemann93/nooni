@@ -1,8 +1,10 @@
+import { STORE_FACTS } from "@/lib/store-facts";
+
 /**
- * ValueStrip — single horizontal band of trust signals between the
+ * ValueStrip: single horizontal band of trust signals between the
  * products section and the story.
  *
- * Solid background (no .glass) — sits above the arches; the strip
+ * Solid background (no .glass). It sits above the arches; the strip
  * is a punctuation mark in the layout so the arches are deliberately
  * hidden behind it.
  */
@@ -10,11 +12,11 @@
 const ITEMS: { icon: React.ReactNode; text: string }[] = [
   {
     icon: <path d="M3 12l2 2 4-4M3 6l2 2 4-4M3 18l2 2 4-4M14 7h7M14 12h7M14 17h7" />,
-    text: "Lavet i Danmark — printet hjemme hos os",
+    text: "Lavet i Danmark, printet hjemme hos os",
   },
   {
     icon: <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0zM12 7v5l3 3" />,
-    text: "Klar til afsendelse på 2–4 dage",
+    text: STORE_FACTS.dispatch,
   },
   {
     icon: (
@@ -26,7 +28,7 @@ const ITEMS: { icon: React.ReactNode; text: string }[] = [
     icon: (
       <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16zM3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" />
     ),
-    text: "Fri fragt over 350 kr.",
+    text: STORE_FACTS.shippingPrice,
   },
 ];
 

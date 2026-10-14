@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import PolicyPage from "@/components/PolicyPage";
 import { pageMetadata } from "@/lib/seo";
+import { STORE_FACTS } from "@/lib/store-facts";
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = pageMetadata({
   title: "Fortrydelsesret og returnering",
-  description: "14 dages fortrydelsesret, returnering og 24 måneders reklamationsret hos Nooni.",
+  description: `${STORE_FACTS.withdrawal}, returnering og ${STORE_FACTS.complaint} hos Nooni.`,
   path: "/returnering",
 });
 

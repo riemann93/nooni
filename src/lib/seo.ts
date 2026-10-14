@@ -9,6 +9,7 @@
  */
 
 import type { Metadata } from "next";
+import { RETURNS, SHIPPING } from "@/lib/store-facts";
 
 type OpenGraph = NonNullable<Metadata["openGraph"]>;
 
@@ -141,26 +142,25 @@ interface ProductJsonLdInput {
 }
 
 /**
- * Shipping and returns, copied from the Shopify store policies (shown
- * at checkout). Google needs both before it shows a product as a rich
- * shopping result. Update these when the policies change in Shopify.
+ * Shipping and returns from store-facts.ts. Google needs both before
+ * it shows a product as a rich shopping result.
  */
 const SHIPPING_DETAILS = {
   "@type": "OfferShippingDetails",
-  shippingRate: { "@type": "MonetaryAmount", value: "55", currency: "DKK" },
-  shippingDestination: { "@type": "DefinedRegion", addressCountry: "DK" },
+  shippingRate: { "@type": "MonetaryAmount", value: String(SHIPPING.priceDkk), currency: "DKK" },
+  shippingDestination: { "@type": "DefinedRegion", addressCountry: SHIPPING.country },
   deliveryTime: {
     "@type": "ShippingDeliveryTime",
-    handlingTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 2, unitCode: "DAY" },
-    transitTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 3, unitCode: "DAY" },
+    handlingTime: { "@type": "QuantitativeValue", minValue: SHIPPING.handlingDays.min, maxValue: SHIPPING.handlingDays.max, unitCode: "DAY" },
+    transitTime: { "@type": "QuantitativeValue", minValue: SHIPPING.transitDays.min, maxValue: SHIPPING.transitDays.max, unitCode: "DAY" },
   },
 };
 
 const RETURN_POLICY = {
   "@type": "MerchantReturnPolicy",
-  applicableCountry: "DK",
+  applicableCountry: SHIPPING.country,
   returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
-  merchantReturnDays: 14,
+  merchantReturnDays: RETURNS.withdrawalDays,
   returnMethod: "https://schema.org/ReturnByMail",
   returnFees: "https://schema.org/ReturnShippingFees",
 };

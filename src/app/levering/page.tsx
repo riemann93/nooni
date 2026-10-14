@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import PolicyPage from "@/components/PolicyPage";
 import { pageMetadata } from "@/lib/seo";
+import { STORE_FACTS } from "@/lib/store-facts";
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = pageMetadata({
   title: "Levering og fragt",
-  description: "Levering i Danmark med DAO, GLS eller PostNord. Fast fragt 55 kr. og 1 til 3 hverdages leveringstid.",
+  description: `${STORE_FACTS.delivery} med ${STORE_FACTS.carriers}. ${STORE_FACTS.shippingPrice} ${STORE_FACTS.dispatch}.`,
   path: "/levering",
 });
 
