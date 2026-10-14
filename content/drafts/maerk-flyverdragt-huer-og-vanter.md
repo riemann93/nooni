@@ -84,9 +84,7 @@ Vil du se det hele samlet, har jeg skrevet mere om [navnemærker til børn](/nav
 
 ### Hvad med vask?
 
-[CAMILLA: Indsæt her, hvad du selv gør, når du har testet. Indtil testen er lavet, skriv kun det, du ved.]
-
-Jeg tager Dotten af lynlåsen, inden flyverdragten skal vaskes. Det tager to sekunder, og så er jeg sikker på, at den har det godt. Følg altid vaskeanvisningen i selve tøjet.
+Dotten kan blive siddende. Jeg har testet Dots i vaskemaskinen, og de klarer det fint, så flyverdragten ryger bare i maskinen, som den er. Jeg lukker lynlåsen først, så mærket ikke slår så meget rundt i tromlen. Følg altid vaskeanvisningen i selve tøjet. [CAMILLA: tilføj gerne temperaturen, du testede ved.]
 
 ### Min søndagsrutine i oktober
 

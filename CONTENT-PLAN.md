@@ -70,11 +70,12 @@ for Dots.** A Dot on a jacket zipper goes in the washing machine with
 the jacket. What material are they printed in (PLA softens around 60°C,
 PETG holds up better)? At what temperature do they survive?
 
-Before we write it: Camilla washes a set at 40°C and 60°C, ten times,
-and photographs the result. That test **is** the blog post, and it is
-the best E-E-A-T content we can make: first-hand experience nobody else
-has. If they don't survive 60°C, we say so and recommend taking them off,
-and the post still ranks because it's honest.
+**Status (2026-10-14): Dots are wash tested and can stay on the zipper
+in the machine.** The site and the drafts now say so, without naming a
+temperature. Still missing for the post: the temperatures and number of
+washes, and before/after photos. That test **is** the blog post, and it
+is the best E-E-A-T content we can make: first-hand experience nobody
+else has. Only name temperatures that were actually tested.
 
 ## E-E-A-T
 

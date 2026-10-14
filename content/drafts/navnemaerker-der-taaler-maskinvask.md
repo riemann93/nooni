@@ -1,18 +1,18 @@
 ---
 title: Navnemærker der tåler maskinvask: vi testede Dots
-excerpt: Kan navnemærker komme med i vaskemaskinen? Jeg vaskede Dots ti gange ved 40 og 60 grader og viser dig præcis, hvordan de så ud bagefter.
+excerpt: Kan navnemærker komme med i vaskemaskinen? Ja. Jeg har testet Dots i vask, og de kan blive siddende på jakken. Her er testen og mine billeder.
 date: 2026-10-14
 image: /images/dots_name_lifestyle.jpg
 product: dots-med-navn-3stk
 ---
 
 <!--
-MÅ IKKE UDGIVES FØR VASKETESTEN ER LAVET.
-Alle [CAMILLA: ...] skal udfyldes med rigtige resultater og rigtige fotos.
-Hvis Dots ikke klarer 60 grader, så skriv det ærligt. Indlægget rangerer stadig, fordi det er sandt.
+Dots ER testet: de tåler maskinvask og kan blive siddende (bekræftet 2026-10-14).
+Udfyld [CAMILLA: ...] med detaljerne fra testen (temperatur, antal vaske, fotos) før udgivelse.
+Nævn kun temperaturer, der faktisk er testet. Slet afsnit, der ikke blev testet.
 -->
 
-Ja, [CAMILLA: resultat efter test, fx "Dots tåler maskinvask ved 40 grader og kan blive siddende på jakken"]. Ved 60 grader [CAMILLA: resultat efter test]. Jeg har vasket et sæt Dots ti gange ved hver temperatur, og herunder kan du se præcis, hvad der skete med farven, formen, snoren og navnet.
+Ja. Dots tåler maskinvask, og de kan blive siddende på lynlåsen, når jakken skal vaskes. Jeg har testet dem i min egen vaskemaskine [CAMILLA: ved hvilken temperatur og hvor mange gange?], og herunder kan du se præcis, hvad der skete med farven, formen, snoren og navnet.
 
 Jeg ved godt, hvorfor I spørger. Når en Dot sidder på lynlåsen på flyverdragten, så ryger den med i maskinen. Det gør den hos os også. Ingen orker at pille mærker af hver gang, der har været mudderleg. Så jeg ville vide det. Ikke gætte, vide det.
 
@@ -77,9 +77,9 @@ Fire ting. Det er dem, der betyder noget, når det er dit barns jakke.
 
 ### Hvad betyder det så for dig?
 
-[CAMILLA: konklusionen i to til tre sætninger, når resultaterne er der. Fx: "Du kan trygt lade Dots sidde på, når du vasker ved 40 grader. Skal tøjet på 60, så klik dem af først."]
+Du kan trygt lade Dots sidde på lynlåsen, når jakken eller flyverdragten skal vaskes. Du skal ikke pille dem af først. [CAMILLA: tilføj den højeste temperatur, du har testet.]
 
-Det korte råd, indtil du har læst resultaterne: Kig i vaskemærket på jakken. Det meste overtøj, flyverdragter og regntøj skal alligevel ikke vaskes varmere end 40 grader. Så hvis jakken kan holde til det, er det dér, Dots også bliver testet.
+Og husk: Kig i vaskemærket på jakken. Det meste overtøj, flyverdragter og regntøj skal alligevel ikke vaskes varmere end 40 grader. Så hvis jakken kan holde til det, er det dér, Dots også bliver testet.
 
 ### Sådan passer du bedst på dine Dots
 
@@ -88,9 +88,7 @@ Det her er de små ting, jeg selv gør derhjemme. De gælder, uanset hvad testen
 - **Luk lynlåsen før vask.** Så slår Dot'en mindre rundt i tromlen, og lynlåsen holder også længere.
 - **Vend jakken på vrangen,** hvis du kan. Det skåner både jakken og mærket.
 - **Undgå blegemiddel og pletfjerner direkte på mærket.** [CAMILLA: bekræft efter test]
-- **Tag den af, hvis du er i tvivl.** En Dot sidder på med en snor og er nem at tage af og sætte på igen. Det tager et halvt minut.
-
-Og det sidste er faktisk det, jeg selv er gladest for. Dots sidder ikke fast i stoffet som et strygemærke. Når jakken bliver for lille, flytter du bare mærket over på den næste. Så selv hvis en vask en dag går galt, har du ikke ødelagt jakken.
+Og så er der det, jeg selv er gladest for. Dots sidder ikke fast i stoffet som et strygemærke. Når jakken bliver for lille, flytter du bare mærket over på den næste. Så selv hvis en vask en dag går galt, har du ikke ødelagt jakken.
 
 ### Hvad med andre navnemærker?
 

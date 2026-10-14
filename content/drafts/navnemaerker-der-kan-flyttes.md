@@ -74,9 +74,7 @@ Det er sådan noget, man som lærer bliver glad for. Selvhjulpne børn er glade 
 
 ### Hvad med vask?
 
-Det er et godt spørgsmål, og jeg vil gerne give dig et ærligt svar. Jeg er i gang med at teste, hvordan Dots klarer vaskemaskinen ved forskellige temperaturer. Indtil jeg har resultatet, er mit råd at tage Dot'en af, inden jakken skal vaskes. Det tager et øjeblik, og så er du helt sikker.
-
-[CAMILLA: Opdater dette afsnit, når vasketesten er lavet. Skriv kun det, testen viser.]
+Det skal du ikke tænke på. Jeg har testet Dots i vaskemaskinen, og de kan blive siddende på lynlåsen, når jakken skal vaskes. Så du skal kun tage den af, når jakken er blevet for lille. Luk lynlåsen før vask, og følg vaskeanvisningen i tøjet. [CAMILLA: tilføj gerne temperaturen, du testede ved.]
 
 ### Spørgsmål jeg tit får
 

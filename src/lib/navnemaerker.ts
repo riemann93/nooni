@@ -7,9 +7,9 @@
  *
  * Only write what Camilla can stand behind (SEARCH-GUIDE.md: "Never
  * claim what we haven't tested"). Facts here come from the Shopify
- * product descriptions and the product photos. Washing is untested, so
- * the page says so. When the wash test is done, update WASHING and the
- * FAQ answer, and link the blog post.
+ * product descriptions and the product photos. Dots are wash tested and
+ * can stay on in the machine (confirmed by the owner 2026-10-14). The
+ * temperature is not written down yet, so the copy does not name one.
  */
 
 export const HUB_PATH = "/navnemaerker";
@@ -129,7 +129,7 @@ export const GUIDE: GuideSection[] = [
   {
     heading: "Vask",
     paragraphs: [
-      "Dots og Loops er 3D-printet i plast. Vi har ikke lavet en vasketest, vi kan stå inde for, så vi lover ikke noget om vaskemaskinen endnu. Tag mærket af, inden tøjet skal vaskes. Vasketesten er på vej, og resultatet kommer her.",
+      "Dots er testet i vaskemaskinen, og de kan blive siddende på lynlåsen, når jakken eller flyverdragten skal vaskes. Følg vaskeanvisningen i tøjet. Luk lynlåsen før vask, så slår mærket mindre rundt i tromlen.",
     ],
   },
 ];
@@ -164,7 +164,7 @@ export const FAQ: FaqItem[] = [
   {
     question: "Kan navnemærkerne komme i vaskemaskinen?",
     answer:
-      "Det har vi ikke testet grundigt nok til at love det. Tag mærket af, inden tøjet skal vaskes. Vi er ved at lave en vasketest og skriver resultatet her.",
+      "Ja. Dots er testet i vaskemaskinen og kan blive siddende på lynlåsen, når tøjet vaskes. Følg vaskeanvisningen i tøjet.",
   },
   {
     question: "Hjælper Dots mit barn med at lyne selv?",

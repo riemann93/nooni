@@ -87,7 +87,7 @@ Det dækker det meste. Og det er overtøjet, der oftest bliver blandet sammen. D
 ### Spørgsmål jeg tit får
 
 **Tåler Dots maskinvask?**
-Jeg er ved at teste det grundigt ved 40 og 60 grader. Indtil resultaterne er der, er mit råd: Følg vaskemærket på jakken, og tag mærket af, hvis du er i tvivl. Det tager et halvt minut. [CAMILLA: erstat med link til vasketesten, når den er udgivet]
+Ja. Jeg har testet Dots i vaskemaskinen, og de kan blive siddende på lynlåsen, når tøjet vaskes. Luk lynlåsen før vask, og følg vaskemærket i jakken. [CAMILLA: link til vasketest-indlægget, når det er udgivet]
 
 **Kan jeg bruge Dots i stedet for strygemærker i alt?**
 Nej, og det skal du heller ikke. Dots er til tøj med lynlås. Til strømper og bodyer er strygemærker stadig bedst.

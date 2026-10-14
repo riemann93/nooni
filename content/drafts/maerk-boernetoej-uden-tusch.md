@@ -98,7 +98,7 @@ Kan dit barn slet ikke læse endnu, kan du bruge [Dots med motiv](/produkter/dot
 ### Spørgsmål jeg tit får
 
 **Kan Dots komme med i vaskemaskinen?**
-[CAMILLA: Indsæt resultatet af vasketesten her, når den er lavet. Indtil da: skriv ærligt, at du anbefaler at tage dem af før vask, eller hvad du selv gør.]
+Ja. Jeg har testet dem i vaskemaskinen, og de kan blive siddende på lynlåsen. Luk lynlåsen før vask, og følg vaskeanvisningen i tøjet. [CAMILLA: tilføj gerne temperaturen, du testede ved.]
 
 **Kan Dot'en sidde på alle lynlåse?**
 Den bindes på trækkeren med en snor, så den passer på de fleste lynlåse på jakker, flyverdragter og regntøj. Er trækkeren meget lille eller uden hul, kan snoren også bindes om selve trækkeren.
