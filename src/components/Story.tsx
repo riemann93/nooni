@@ -16,6 +16,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import InstaNote from "@/components/InstaNote";
 
 export default function StorySection() {
   return (
@@ -43,9 +44,9 @@ export default function StorySection() {
             </div>
 
             <div className="flex flex-col justify-center px-5 py-7 md:px-10 md:py-10 lg:px-14 lg:py-16">
-              <span className="uppercase tracking-[0.22em] text-nooni-sub font-medium" style={{ fontSize: "var(--nooni-text-label)" }}>
-                Personen bag
-              </span>
+              <InstaNote as="span" variant="blush" className="self-start text-[clamp(14px,1.2vw,16px)]">
+                1 mor. 2 printere. 💗
+              </InstaNote>
               <h2 className="mt-4 mb-8 font-editorial leading-[1.08] text-nooni-ink tracking-tight" style={{ fontSize: "var(--nooni-text-heading-lg)" }}>
                 Hvem er bag{" "}
                 <em className="italic text-nooni-headline">Nooni?</em>

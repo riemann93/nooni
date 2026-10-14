@@ -8,6 +8,7 @@
  *   <ProductsGrid />  three featured products + "Se alle produkter"
  *   <Story />         family / process narrative
  *   <BlogTeaser />    newest blog post preview
+ *   <InstagramStrip /> three post-style tiles linking to @hej.nooni
  *
  * The page closes with the site-wide arched <Footer /> mounted in
  * layout.tsx — no per-page Contact section anymore. Each section
@@ -19,6 +20,7 @@ import HowItWorks from "@/components/HowItWorks";
 import ProductsGrid from "@/components/ProductsGrid";
 import Story from "@/components/Story";
 import BlogTeaser from "@/components/BlogTeaser";
+import InstagramStrip from "@/components/InstagramStrip";
 
 export default function Home() {
   return (
@@ -28,6 +30,7 @@ export default function Home() {
       <Story />
       <BlogTeaser />
       <HowItWorks />
+      <InstagramStrip />
     </>
   );
 }

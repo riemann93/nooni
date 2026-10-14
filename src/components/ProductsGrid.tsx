@@ -16,6 +16,7 @@
 
 import Link from "next/link";
 import ProductCarousel from "@/components/ProductCarousel";
+import InstaNote from "@/components/InstaNote";
 import { getProductsByHandles } from "@/lib/shopify/products";
 
 export const revalidate = 60;
@@ -44,9 +45,9 @@ export default async function ProductsGrid() {
       <div className="mx-auto max-w-[1280px] px-4 md:px-10">
         <div className="rounded-[2rem] bg-nooni-bg-warm px-5 py-5 md:px-12 md:py-8">
           <div className="mb-4 max-w-2xl md:mb-8">
-            <p className="uppercase tracking-[0.22em] text-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
-              Mest populære
-            </p>
+            <InstaNote variant="blush" className="text-[clamp(14px,1.2vw,16px)]">
+              Mest populære 💗
+            </InstaNote>
             <h2 className="mt-4 font-editorial leading-[1.1] tracking-tight text-nooni-ink" style={{ fontSize: "var(--nooni-text-heading-md)" }}>
               Mere end{" "}
               <em className="italic text-nooni-headline">personlige mærker</em>

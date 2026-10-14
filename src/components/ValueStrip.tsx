@@ -10,7 +10,7 @@
 const ITEMS: { icon: React.ReactNode; text: string }[] = [
   {
     icon: <path d="M3 12l2 2 4-4M3 6l2 2 4-4M3 18l2 2 4-4M14 7h7M14 12h7M14 17h7" />,
-    text: "Lavet i Danmark — printet hjemme hos os",
+    text: "Lavet i Danmark — printet hjemme hos mig",
   },
   {
     icon: <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0zM12 7v5l3 3" />,

@@ -14,6 +14,12 @@
   --color-nooni-nude:     #E4C9B6;
   --color-nooni-ink-soft: #5a4d40;
 
+  /* Instagram text-box tones (see InstaNote.tsx). Blush is the soft
+     pink behind Camilla's reel hooks; headline-deep is the rose used
+     for text inside it, dark enough to read on the pink. */
+  --color-nooni-blush:         #F4DEDA;
+  --color-nooni-headline-deep: #8F5F5F;
+
   /* Hairlines and dividers */
   --color-nooni-line:      #E2D6C8;
   --color-nooni-line-soft: #EFE6D8;
@@ -90,6 +96,22 @@ body {
 em.italic.text-nooni-headline,
 span.italic.text-nooni-headline {
   font-size: 1.12em;
+}
+
+/* Instagram text box (InstaNote.tsx). The inner span is inline so a
+   wrapped note breaks into one rounded box per line, like on
+   Instagram; box-decoration-break gives every line its own padding
+   and corners. */
+.insta-note {
+  font-family: var(--font-sans);
+  font-weight: 400;
+}
+.insta-note__box {
+  display: inline;
+  padding: 0.18em 0.5em;
+  border-radius: 0.4em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 .desc-lead {

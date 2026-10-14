@@ -8,6 +8,7 @@
  */
 
 import Image from "next/image";
+import InstaNote from "@/components/InstaNote";
 
 interface Step {
   num: string;
@@ -46,9 +47,9 @@ export default function HowItWorks() {
             {/* Text + steps */}
             <div>
               <div className="mb-10">
-                <p className="text-xs uppercase tracking-[0.22em] text-nooni-sub">
-                  Sådan virker det
-                </p>
+                <InstaNote variant="blush" className="text-[clamp(14px,1.2vw,16px)]">
+                  Sådan virker det ✨
+                </InstaNote>
                 <h2 className="mt-4 font-editorial text-[clamp(28px,3.5vw,44px)] leading-[1.1] tracking-tight text-nooni-ink">
                   Fra idé til{" "}
                   <em className="italic text-nooni-headline">postkasse</em>

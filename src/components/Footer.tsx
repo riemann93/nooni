@@ -14,7 +14,7 @@
  * The pill shape keeps the footer cohesive with everything above.
  *
  * Backlog (accepted minor flaws, not blocking soft launch):
- *   - On /kontakt itself, the "Skriv til os" CTA loops back to the
+ *   - On /kontakt itself, the "Skriv til mig" CTA loops back to the
  *     current page. Hide the CTA conditionally on that route when we
  *     touch this again.
  */
@@ -42,7 +42,7 @@ export default function Footer() {
           </Link>
 
           <p className="mx-auto mt-6 max-w-[460px] font-editorial text-base leading-relaxed text-nooni-ink-soft md:text-lg">
-            Spørgsmål, særlige ønsker, eller bare en god idé? Vi svarer hurtigt.
+            Spørgsmål, særlige ønsker, eller bare en god idé? Skriv endelig, jeg svarer hurtigt.
           </p>
 
           <div className="mt-7 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
@@ -50,7 +50,7 @@ export default function Footer() {
               href="/kontakt"
               className="inline-flex items-center gap-2 rounded-full bg-nooni-headline px-6 py-3 text-sm text-white transition-colors hover:bg-[#9d6f6f]"
             >
-              Skriv til os
+              Skriv til mig
               
             </Link>
 

@@ -10,6 +10,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import QuietCTA from "@/components/QuietCTA";
+import InstaNote from "@/components/InstaNote";
 
 export const metadata: Metadata = {
   title: "Min historie",
@@ -28,9 +29,9 @@ export default function OmOs() {
           <div className="rounded-[2rem] bg-nooni-bg-warm px-8 py-14 md:px-16 md:py-20">
             <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-[1.3fr_0.7fr] md:gap-20">
               <div>
-                <span className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub">
-                  Min historie
-                </span>
+                <InstaNote variant="blush" className="text-[clamp(14px,1.2vw,16px)]">
+                  Min historie 💗
+                </InstaNote>
                 <h1
                   className="mt-5 font-editorial text-[clamp(56px,8vw,112px)] leading-[1.02] tracking-tight text-nooni-ink"
                   style={{ fontWeight: 200 }}
