@@ -49,3 +49,22 @@ export const PRODUCT_META: Record<string, ProductMeta> = {
 export function getProductMeta(handle: string): ProductMeta {
   return PRODUCT_META[handle] ?? {};
 }
+
+/**
+ * Where the "Navnemærker" crumb points. Switch to "/navnemaerker" once
+ * the hub page exists.
+ */
+export const NAMETAG_HUB_PATH = "/produkter";
+
+/** Name-tag family: Loops, Dots and Emblem. The core product. */
+const NAMETAG_HANDLES = new Set([
+  "loops-navn",
+  "loops",
+  "emblem",
+  "dots-med-navn-3stk",
+  "dots-5stk",
+]);
+
+export function isNametag(handle: string): boolean {
+  return NAMETAG_HANDLES.has(handle);
+}

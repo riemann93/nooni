@@ -9,6 +9,7 @@
  */
 
 import type { Metadata } from "next";
+import { isNametag, NAMETAG_HUB_PATH } from "@/lib/product-meta";
 import { RETURNS, SHIPPING } from "@/lib/store-facts";
 
 type OpenGraph = NonNullable<Metadata["openGraph"]>;
@@ -214,7 +215,9 @@ export function productJsonLd(p: ProductJsonLdInput) {
       },
       breadcrumbJsonLd([
         { name: "Forside", path: "/" },
-        { name: "Produkter", path: "/produkter" },
+        isNametag(p.handle)
+          ? { name: "Navnemærker", path: NAMETAG_HUB_PATH }
+          : { name: "Produkter", path: "/produkter" },
         { name: p.title, path: `/produkter/${p.handle}` },
       ]),
     ],

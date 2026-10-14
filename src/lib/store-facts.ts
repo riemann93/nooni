@@ -42,3 +42,33 @@ export const STORE_FACTS = {
   madeIn: "Håndlavet i Danmark",
   payment: `Betal med ${PAYMENT_METHODS.slice(0, -1).join(", ")} og ${PAYMENT_METHODS.at(-1)}`,
 };
+
+const DA_WEEKDAYS = ["søndag", "mandag", "tirsdag", "onsdag", "torsdag", "fredag", "lørdag"];
+const DA_MONTHS = [
+  "januar", "februar", "marts", "april", "maj", "juni",
+  "juli", "august", "september", "oktober", "november", "december",
+];
+
+/** Adds business days (Mon to Fri). Danish public holidays are ignored. */
+function addBusinessDays(from: Date, days: number): Date {
+  const d = new Date(from);
+  let left = days;
+  while (left > 0) {
+    d.setDate(d.getDate() + 1);
+    const wd = d.getDay();
+    if (wd !== 0 && wd !== 6) left -= 1;
+  }
+  return d;
+}
+
+function formatDay(d: Date): string {
+  return `${DA_WEEKDAYS[d.getDay()]} d. ${d.getDate()}. ${DA_MONTHS[d.getMonth()]}`;
+}
+
+/** "tirsdag d. 20. oktober til torsdag d. 22. oktober" for an order placed on `from`. */
+export function deliveryWindow(from: Date = new Date()): string {
+  const { handlingDays, transitDays } = SHIPPING;
+  const earliest = addBusinessDays(from, handlingDays.min + transitDays.min);
+  const latest = addBusinessDays(from, handlingDays.max + transitDays.max);
+  return `${formatDay(earliest)} til ${formatDay(latest)}`;
+}

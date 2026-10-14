@@ -26,6 +26,11 @@ import {
   withColorOptions,
 } from "@/lib/shopify/personalization";
 import { getProductByHandle, getProductColors } from "@/lib/shopify/products";
+import {
+  getProductRating,
+  getReviewsFor,
+  PLACEHOLDER_SOCIAL_PROOF,
+} from "@/lib/social-proof";
 import { getProductMeta } from "@/lib/product-meta";
 import {
   jsonLdScript,
@@ -100,10 +105,13 @@ export default async function ProductPage({ params }: PageProps) {
 
   const addOnVariants = addOnProduct?.variants.nodes ?? null;
   const addOnMinPrice = addOnProduct?.priceRange.minVariantPrice ?? null;
-  if (addOnVariants) {
-    console.log("[pose] addOnVariants prices:", JSON.stringify(addOnVariants.map(v => ({ id: v.id, title: v.title, price: v.price }))));
-    console.log("[pose] addOnMinPrice:", JSON.stringify(addOnMinPrice));
-  }
+
+  // Placeholder ratings and reviews are made up: never show them on the
+  // live site, and never put them in the JSON-LD above.
+  const showSocialProof =
+    !PLACEHOLDER_SOCIAL_PROOF || process.env.VERCEL_ENV !== "production";
+  const rating = showSocialProof ? getProductRating(handle) ?? undefined : undefined;
+  const reviews = showSocialProof ? getReviewsFor(handle) : undefined;
 
   const minPrice = product.priceRange.minVariantPrice;
   const maxPrice = product.priceRange.maxVariantPrice;
@@ -141,6 +149,8 @@ export default async function ProductPage({ params }: PageProps) {
         priceLabel={priceLabel}
         availableForSale={product.availableForSale}
         descriptionHtml={product.descriptionHtml}
+        rating={rating}
+        reviews={reviews}
         addOnVariants={addOnVariants ?? undefined}
         addOnMinPrice={addOnMinPrice ?? undefined}
       />

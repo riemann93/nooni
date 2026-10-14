@@ -3,6 +3,9 @@
 import { useState, useCallback, useRef, type ReactNode } from "react";
 import ProductDescription from "@/components/ProductDescription";
 import ProductGallery from "@/components/ProductGallery";
+import Stars from "@/components/Stars";
+import { Breadcrumbs, MadeForYou } from "@/components/personalization/BuyBox";
+import type { ParentReview, Rating } from "@/lib/social-proof";
 import ProductPurchaseSection from "@/components/personalization/ProductPurchaseSection";
 import ProductPreview, {
   PREVIEW_SUPPORTED_HANDLES,
@@ -65,6 +68,9 @@ interface ProductPageClientProps {
   priceLabel: string;
   availableForSale: boolean;
   descriptionHtml?: string;
+  /** Rating under the H1. Omitted when there is no real (or allowed) social proof. */
+  rating?: Rating;
+  reviews?: ParentReview[];
   addOnVariants?: { id: string; title: string; price: Money }[];
   addOnMinPrice?: Money;
 }
@@ -80,6 +86,8 @@ export default function ProductPageClient({
   priceLabel,
   availableForSale,
   descriptionHtml,
+  rating,
+  reviews,
   addOnVariants,
   addOnMinPrice,
 }: ProductPageClientProps) {
@@ -113,6 +121,7 @@ export default function ProductPageClient({
 
   return (
     <>
+      <Breadcrumbs handle={handle} title={productTitle} />
       <div className="grid grid-cols-1 gap-4 md:gap-10 md:grid-cols-2 md:items-start">
 
         {/* Left column */}
@@ -195,6 +204,14 @@ export default function ProductPageClient({
           <h1 className={`font-editorial text-5xl leading-[1.05] tracking-tight text-nooni-ink ${showPreview && activeTab === "preview" ? "hidden md:block" : ""}`}>
             {renderProductTitle(productTitle)}
           </h1>
+          {rating && (
+            <a
+              href="#anmeldelser"
+              className={`mt-3 inline-flex self-start rounded-full underline-offset-4 hover:underline ${showPreview && activeTab === "preview" ? "hidden md:inline-flex" : ""}`}
+            >
+              <Stars rating={rating.rating} count={rating.count} />
+            </a>
+          )}
           {tagline && (
             <p className={`mt-2 font-editorial italic text-lg text-nooni-ink-soft ${showPreview && activeTab === "preview" ? "hidden md:block" : ""}`}>
               {tagline}
@@ -208,6 +225,9 @@ export default function ProductPageClient({
           <div className={showPreview && activeTab === "preview" ? "hidden md:block" : ""}>
             <p className="mt-4 font-editorial text-[1.7rem] font-medium text-nooni-ink">
               {priceLabel}
+              <span className="ml-2 font-sans text-[length:var(--nooni-text-ui)] font-normal text-nooni-ink-soft">
+                inkl. moms
+              </span>
             </p>
             {quantityNote && (
               <p className="mt-1 text-sm text-nooni-ink-soft">
@@ -215,8 +235,15 @@ export default function ProductPageClient({
               </p>
             )}
           </div>
+          {availableForSale && (
+            <div className={showPreview && activeTab === "preview" ? "hidden md:block" : ""}>
+              <MadeForYou />
+            </div>
+          )}
           <ProductPurchaseSection
             handle={handle}
+            productTitle={productTitle}
+            priceLabel={priceLabel}
             variants={variants}
             schema={schema}
             onValuesChange={handleValuesChange}
@@ -225,6 +252,27 @@ export default function ProductPageClient({
           />
         </div>
       </div>
+
+      {reviews && reviews.length > 0 && (
+        <section id="anmeldelser" className="mt-8 scroll-mt-24 border-t border-nooni-line-soft pt-6">
+          <h2 className="font-editorial text-[length:var(--nooni-text-heading-sm)] text-nooni-ink">
+            Det siger forældrene
+          </h2>
+          <ul className="mt-4 grid gap-4 md:grid-cols-2">
+            {reviews.map((r) => (
+              <li key={`${r.name}-${r.town}`} className="rounded-2xl bg-nooni-bg-warm p-5">
+                <Stars rating={r.stars} showRating={false} size={14} />
+                <p className="mt-2 font-editorial text-[length:var(--nooni-text-body)] text-nooni-ink-soft">
+                  {r.text}
+                </p>
+                <p className="mt-2 text-[length:var(--nooni-text-label)] text-nooni-ink-soft">
+                  {r.name}, {r.town}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {descriptionHtml && (
         <div className="mt-8 border-t border-nooni-line-soft pt-6">

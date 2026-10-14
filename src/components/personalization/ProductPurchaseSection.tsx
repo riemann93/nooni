@@ -17,7 +17,8 @@
 
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { TrustRow } from "@/components/personalization/BuyBox";
 import { useCart } from "@/contexts/CartContext";
 import PersonalizationForm from "@/components/personalization/PersonalizationForm";
 import {
@@ -59,6 +60,8 @@ function paletteFromSchema(
 
 interface ProductPurchaseSectionProps {
   handle: string;
+  productTitle: string;
+  priceLabel: string;
   variants: ProductVariant[];
   schema: PersonalizationSchema | null;
   onValuesChange?: (values: Record<string, string>) => void;
@@ -68,6 +71,8 @@ interface ProductPurchaseSectionProps {
 
 export default function ProductPurchaseSection({
   handle,
+  productTitle,
+  priceLabel,
   variants,
   schema,
   onValuesChange,
@@ -128,7 +133,46 @@ export default function ProductPurchaseSection({
     [schema, values],
   );
 
-  const palette = paletteFromSchema(schema);
+  const buttonRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
+  const [showSticky, setShowSticky] = useState(false);
+
+  // Show the sticky bar once the main button has scrolled out above the
+  // viewport (not while it is still below the fold on first load).
+  useEffect(() => {
+    const el = buttonRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setShowSticky(!entry.isIntersecting && entry.boundingClientRect.top < 0),
+      { threshold: 0 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  const handleAdd = useCallback(async () => {
+    try {
+      const lines = [
+        { variantId: selectedVariant?.id ?? "", quantity: 1, attributes },
+        ...(addOnSelected && addOnVariant
+          ? [{ variantId: addOnVariant.id, quantity: 1 }]
+          : []),
+      ];
+      await addLines(lines);
+      setJustAdded(true);
+      window.setTimeout(() => setJustAdded(false), 1600);
+    } catch (err) {
+      console.error("Add to cart failed:", err);
+    }
+  }, [addLines, addOnSelected, addOnVariant, attributes, selectedVariant]);
+
+  const buttonLabel = loading
+    ? "Tilføjer…"
+    : justAdded
+      ? "Tilføjet ✓"
+      : totalPrice
+        ? `Læg i kurv – ${formatPrice(totalPrice)}`
+        : "Læg i kurv";
 
   return (
     <>
@@ -162,7 +206,7 @@ export default function ProductPurchaseSection({
       )}
 
       {schema && (
-        <div className="mt-5 border-t border-nooni-line-soft pt-5">
+        <div ref={formRef} className="mt-5 scroll-mt-4 border-t border-nooni-line-soft pt-5">
           <PersonalizationForm schema={schema} onChange={handleFormChange} />
         </div>
       )}
@@ -212,29 +256,15 @@ export default function ProductPurchaseSection({
         </div>
       )}
 
-      <div className="mt-5">
+      <div ref={buttonRef} className="mt-5">
         {availableForSale ? (
           <button
             type="button"
             disabled={loading || !isValid}
-            onClick={async () => {
-              try {
-                const lines = [
-                  { variantId: selectedVariant?.id ?? "", quantity: 1, attributes },
-                  ...(addOnSelected && addOnVariant
-                    ? [{ variantId: addOnVariant.id, quantity: 1 }]
-                    : []),
-                ];
-                await addLines(lines);
-                setJustAdded(true);
-                window.setTimeout(() => setJustAdded(false), 1600);
-              } catch (err) {
-                console.error("Add to cart failed:", err);
-              }
-            }}
+            onClick={handleAdd}
             className="inline-flex items-center justify-center gap-2 rounded-full bg-nooni-headline px-8 py-3 text-sm text-white transition-colors hover:bg-[#9d6f6f] disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? "Tilføjer…" : justAdded ? "Tilføjet ✓" : totalPrice ? `Læg i kurv – ${formatPrice(totalPrice)}` : "Læg i kurv"}
+            {buttonLabel}
           </button>
         ) : (
           <button type="button" disabled className="inline-flex items-center justify-center rounded-full bg-nooni-line px-8 py-3 text-sm text-nooni-ink-soft cursor-not-allowed">
@@ -247,6 +277,43 @@ export default function ProductPurchaseSection({
           </p>
         )}
       </div>
+
+      <TrustRow personalised={schema !== null} />
+
+      {availableForSale && (
+        <div
+          aria-hidden={!showSticky}
+          className={`fixed inset-x-0 bottom-0 z-40 border-t border-nooni-line-soft bg-nooni-bg/95 px-4 py-3 shadow-[0_-8px_24px_rgba(61,50,40,0.08)] backdrop-blur transition-transform duration-200 md:hidden ${
+            showSticky ? "translate-y-0" : "pointer-events-none translate-y-full"
+          }`}
+        >
+          <div className="mx-auto flex max-w-[1280px] items-center gap-3">
+            <div className="min-w-0 flex-1">
+              <p className="truncate font-editorial text-base text-nooni-ink">
+                {productTitle.split(" - ")[0]}
+              </p>
+              <p className="text-xs text-nooni-ink-soft">
+                {totalPrice ? formatPrice(totalPrice) : priceLabel} inkl. moms
+              </p>
+            </div>
+            <button
+              type="button"
+              tabIndex={showSticky ? 0 : -1}
+              disabled={loading}
+              onClick={() => {
+                if (!isValid) {
+                  formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  return;
+                }
+                void handleAdd();
+              }}
+              className="flex-none rounded-full bg-nooni-headline px-6 py-3 text-sm text-white transition-colors hover:bg-[#9d6f6f] disabled:opacity-50"
+            >
+              {isValid ? (justAdded ? "Tilføjet ✓" : "Læg i kurv") : "Vælg dine valg"}
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
