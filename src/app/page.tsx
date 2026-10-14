@@ -4,12 +4,13 @@
  * Big type, lots of air, a few large photos, no boxes inside boxes.
  * Dots med navn leads; the rest of the shop follows quietly.
  *
- *   <Hero />               the only H1, one line, two actions, one large photo
+ *   <Hero />               the only H1, price, rating, two actions, one large
+ *                          photo, then delivery and return facts
  *   <Statement />          "Ti ens flyverdragter...", reason 1 said big
  *   <NameTagTiles />       the name-tag family as four large tiles
+ *   <ParentQuote />        one parent review, large (placeholder, preview only)
  *   <Everyday />           four small facts with thin line icons
  *   <Maker />              Camilla, in the brand's single arch
- *   <ParentQuote />        one parent review, large (placeholder, preview only)
  *   <NavnemaerkerIntro />  short SEO text about navnemærker, links /navnemaerker
  *   <MoreFromNooni />      Deks, Box, Tic Tac Take, secondary and smaller
  *
@@ -46,9 +47,9 @@ export default function Home() {
       <Hero />
       <Statement />
       <NameTagTiles />
+      <ParentQuote />
       <Everyday />
       <Maker />
-      <ParentQuote />
       <NavnemaerkerIntro />
       <MoreFromNooni />
     </>

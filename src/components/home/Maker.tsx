@@ -25,11 +25,8 @@ export default function Maker() {
         </div>
 
         <div className="text-center md:text-left">
-          <p className="text-nooni-sub" style={{ fontSize: "var(--nooni-text-ui)" }}>
-            Lavet i Vestjylland
-          </p>
           <h2
-            className="mt-3 font-editorial leading-[1.12] tracking-[-0.02em] text-nooni-ink"
+            className="font-editorial leading-[1.12] tracking-[-0.02em] text-nooni-ink"
             style={{ fontSize: "clamp(30px, 3.6vw, 48px)" }}
           >
             Hvert mærke bliver printet til dit barn, hjemme hos{" "}

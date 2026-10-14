@@ -1,20 +1,35 @@
 /**
  * Hero: the homepage's only H1.
  *
- * Calm and centred: a short label, the headline, one line, two
- * actions, then one large photo of the product in use. No boxes, no
- * tick lists. The photo does the selling.
+ * Calm and centred: a short label, the headline, one line, then what
+ * a buyer checks first (price and rating), two actions, a quiet
+ * row of delivery and return facts, then one large photo.
  *
  * "Fra XX kr." is the live Dots med navn price from Shopify. If Shopify
  * is unreachable the price is left out and the hero still renders.
+ * Stars are placeholder data and hidden on the production deploy.
  */
 
 import Image from "next/image";
 import Link from "next/link";
+import Stars from "@/components/Stars";
 import { LEAD_NAME_TAG } from "@/lib/product-meta";
+import { OVERALL_RATING, PLACEHOLDER_SOCIAL_PROOF } from "@/lib/social-proof";
+import { STORE_FACTS } from "@/lib/store-facts";
 import { getProductsByHandles } from "@/lib/shopify/products";
 
 export const revalidate = 60;
+
+// Placeholder ratings never reach the live site (see social-proof.ts).
+const SHOW_STARS = !(PLACEHOLDER_SOCIAL_PROOF && process.env.VERCEL_ENV === "production");
+
+/** What a buyer checks before buying, from the store facts (Shopify policies). */
+const TRUST: { text: string; icon: React.ReactNode }[] = [
+  { text: STORE_FACTS.dispatch, icon: <path d="M3 7h11v9H3zM14 10h4l3 3v3h-7M7 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM17 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" /> },
+  { text: STORE_FACTS.shippingPrice, icon: <path d="M21 8l-9-5-9 5v8l9 5 9-5V8zM3 8l9 5 9-5M12 13v8" /> },
+  { text: STORE_FACTS.withdrawal, icon: <path d="M4 12a8 8 0 1 0 2.3-5.6M4 4v4h4" /> },
+  { text: "Betal med MobilePay", icon: <path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zM11 18h2" /> },
+];
 
 function formatPrice(amount: string, currencyCode: string): string {
   return new Intl.NumberFormat("da-DK", {
@@ -58,6 +73,18 @@ export default async function Hero() {
           tage fat i.
         </p>
 
+        {(price || SHOW_STARS) && (
+          <div className="mt-6 flex flex-col items-center gap-2">
+            {price && (
+              <p className="text-nooni-ink" style={{ fontSize: "var(--nooni-text-body-lg)" }}>
+                Fra <span className="font-medium">{price}</span>
+                <span className="text-nooni-ink-soft"> · 3 stk. i sættet</span>
+              </p>
+            )}
+            {SHOW_STARS && <Stars rating={OVERALL_RATING.rating} count={OVERALL_RATING.count} size={15} />}
+          </div>
+        )}
+
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-7">
           <Link
             href={`/produkter/${LEAD_NAME_TAG}`}
@@ -75,14 +102,23 @@ export default async function Hero() {
             <span aria-hidden className="transition-transform group-hover:translate-x-0.5">›</span>
           </Link>
         </div>
-        {price && (
-          <p className="mt-5 text-nooni-ink-soft" style={{ fontSize: "var(--nooni-text-label)" }}>
-            Fra {price} · 3 stk. i sættet
-          </p>
-        )}
+        <ul
+          aria-label="Køb trygt"
+          className="mx-auto mt-10 flex max-w-[900px] flex-wrap items-center justify-center gap-x-7 gap-y-3 text-nooni-ink-soft"
+          style={{ fontSize: "var(--nooni-text-ui)" }}
+        >
+          {TRUST.map(({ text, icon }) => (
+            <li key={text} className="inline-flex items-center gap-2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="text-nooni-sub">
+                {icon}
+              </svg>
+              {text}
+            </li>
+          ))}
+        </ul>
       </div>
 
-      <div className="mx-auto mt-12 max-w-[1280px] px-4 md:mt-16 md:px-10">
+      <div className="mx-auto mt-10 max-w-[1280px] px-4 md:mt-12 md:px-10">
         <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] sm:aspect-[16/10] md:aspect-[16/8]">
           <Image
             src="/images/dots_name_lifestyle.jpg"
