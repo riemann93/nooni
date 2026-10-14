@@ -45,7 +45,7 @@ export default function StorySection() {
 
             <div className="flex flex-col justify-center px-5 py-7 md:px-10 md:py-10 lg:px-14 lg:py-16">
               <InstaNote as="span" variant="blush" className="self-start text-[clamp(14px,1.2vw,16px)]">
-                1 mor. 2 printere. 💗
+                1 mor. 2 printere.
               </InstaNote>
               <h2 className="mt-4 mb-8 font-editorial leading-[1.08] text-nooni-ink tracking-tight" style={{ fontSize: "var(--nooni-text-heading-lg)" }}>
                 Hvem er bag{" "}

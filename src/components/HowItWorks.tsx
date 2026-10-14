@@ -48,7 +48,7 @@ export default function HowItWorks() {
             <div>
               <div className="mb-10">
                 <InstaNote variant="blush" className="text-[clamp(14px,1.2vw,16px)]">
-                  Sådan virker det ✨
+                  Sådan virker det
                 </InstaNote>
                 <h2 className="mt-4 font-editorial text-[clamp(28px,3.5vw,44px)] leading-[1.1] tracking-tight text-nooni-ink">
                   Fra idé til{" "}

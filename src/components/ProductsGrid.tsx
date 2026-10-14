@@ -46,7 +46,7 @@ export default async function ProductsGrid() {
         <div className="rounded-[2rem] bg-nooni-bg-warm px-5 py-5 md:px-12 md:py-8">
           <div className="mb-4 max-w-2xl md:mb-8">
             <InstaNote variant="blush" className="text-[clamp(14px,1.2vw,16px)]">
-              Mest populære 💗
+              Mest populære
             </InstaNote>
             <h2 className="mt-4 font-editorial leading-[1.1] tracking-tight text-nooni-ink" style={{ fontSize: "var(--nooni-text-heading-md)" }}>
               Mere end{" "}

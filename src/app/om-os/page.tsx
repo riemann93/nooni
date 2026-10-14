@@ -30,7 +30,7 @@ export default function OmOs() {
             <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-[1.3fr_0.7fr] md:gap-20">
               <div>
                 <InstaNote variant="blush" className="text-[clamp(14px,1.2vw,16px)]">
-                  Min historie 💗
+                  Min historie
                 </InstaNote>
                 <h1
                   className="mt-5 font-editorial text-[clamp(56px,8vw,112px)] leading-[1.02] tracking-tight text-nooni-ink"

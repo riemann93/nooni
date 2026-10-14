@@ -2,7 +2,7 @@
  * InstaNote — the rounded text box from Camilla's Instagram posts.
  *
  * On @hej.nooni every reel and post carries its hook in a soft box
- * laid over the photo ("58 navnemærker. 1 printer. 1 mor 😄"). This
+ * laid over the photo ("58 navnemærker. 1 printer. 1 mor"). This
  * component brings that same box to the website, so a visitor coming
  * from Instagram recognises the handwriting straight away.
  *

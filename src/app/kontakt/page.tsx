@@ -25,7 +25,7 @@ export default function KontaktPage() {
       <div className="mx-auto max-w-[640px] px-6 md:px-10">
         <div className="mb-12 text-center">
           <InstaNote variant="blush" className="text-[clamp(14px,1.2vw,16px)]">
-            Sig hej 👋
+            Sig hej
           </InstaNote>
           <h1 className="mt-4 font-editorial text-[clamp(36px,4.5vw,60px)] leading-[1.08] tracking-tight text-nooni-ink">
             Skriv til{" "}

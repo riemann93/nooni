@@ -28,19 +28,19 @@ const TILES: Tile[] = [
   {
     src: "/images/dots_name_lifestyle.jpg",
     alt: "Dots med navnet Elvira på lynlåsen af en rygsæk",
-    note: "I lige den farve der passer til dig 💛💗💚",
+    note: "I lige den farve der passer til dig",
     position: "center 45%",
   },
   {
     src: "/images/familie_2.jpg",
     alt: "Camilla, personen bag Nooni",
-    note: "Fra bestilling til færdig pakke 📦",
+    note: "Fra bestilling til færdig pakke",
     position: "center 20%",
   },
   {
     src: "/images/dots_motif_lifestyle.jpg",
     alt: "Dots med blomst på lynlåsen af en rygsæk",
-    note: "Den perfekte personlige gaveidé 🎀",
+    note: "Den perfekte personlige gaveidé",
     position: "center 45%",
   },
 ];

@@ -38,7 +38,7 @@ export default function Hero() {
           <div className="grid grid-cols-1 items-center gap-8 px-5 py-8 md:grid-cols-[1.05fr_0.95fr] md:gap-12 md:px-10 md:py-12 lg:px-14 lg:py-16">
             <div className="order-2 md:order-1">
               <InstaNote variant="blush" className="text-[clamp(15px,1.4vw,19px)]">
-                Hej, jeg er Camilla 👋
+                Hej, jeg er Camilla
               </InstaNote>
 
               <h1
@@ -96,7 +96,7 @@ export default function Hero() {
                 variant="cream"
                 className="absolute bottom-6 left-1/2 w-max max-w-[90%] -translate-x-1/2 text-center text-[clamp(14px,1.3vw,18px)]"
               >
-                Kan I finde jeres egen jakke? 🧥
+                Kan I finde jeres egen jakke?
               </InstaNote>
             </div>
           </div>
