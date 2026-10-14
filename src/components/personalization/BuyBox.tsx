@@ -110,7 +110,7 @@ export function TrustRow({ personalised }: { personalised: boolean }) {
           <path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5" />
         </Icon>
         <span>
-          {personalised
+          {personalised && RETURNS.personalisedExempt
             ? `Laves efter dine valg, så den almindelige fortrydelsesret på ${RETURNS.withdrawalDays} dage gælder ikke. Fejl dækkes af ${RETURNS.complaintMonths} måneders reklamationsret. `
             : `${RETURNS.withdrawalDays} dages fortrydelsesret og ${RETURNS.complaintMonths} måneders reklamationsret. `}
           <Link href="/returnering" className="underline underline-offset-4 hover:text-nooni-headline">
@@ -124,7 +124,7 @@ export function TrustRow({ personalised }: { personalised: boolean }) {
         </Icon>
         <span>
           Sikker betaling
-          <span className="mt-2 flex flex-wrap gap-2" aria-label={`Vi tager imod ${PAYMENT_METHODS.join(", ")}`}>
+          <span className="mt-2 flex flex-wrap gap-2" role="img" aria-label={`Vi tager imod ${PAYMENT_METHODS.join(", ")}`}>
             {PAYMENT_METHODS.map((m) => (
               <span
                 key={m}

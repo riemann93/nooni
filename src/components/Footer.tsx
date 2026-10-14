@@ -45,14 +45,14 @@ const COLUMNS = [
       { href: "/levering", label: "Fragt og levering" },
       { href: "/returnering", label: "Returnering" },
       { href: "/kontakt", label: "Kontakt" },
-      { href: "/kontakt#faq", label: "FAQ" },
+      { href: "/navnemaerker#faq", label: "FAQ" },
     ],
   },
   {
     title: "Om",
     links: [
       { href: "/om-os", label: "Min historie" },
-      { href: "/blog", label: "Gode raad" },
+      { href: "/blog", label: "Gode råd" },
     ],
   },
 ];

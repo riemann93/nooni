@@ -24,9 +24,23 @@ export const RETURNS = {
   withdrawalDays: 14,
   /** Reklamationsret under købeloven. */
   complaintMonths: 24,
+  /**
+   * Whether personalised items are exempt from the fortrydelsesret.
+   * The law allows it for goods made to the buyer's spec, but the
+   * published Shopify return policy grants 14 days on everything, so
+   * this stays false until that policy says otherwise. When it flips,
+   * also change the product schema's return policy in seo.ts.
+   */
+  personalisedExempt: false,
 } as const;
 
-export const PAYMENT_METHODS = ["Visa", "Mastercard", "MobilePay", "Dankort"] as const;
+/**
+ * What Shopify checkout offers, checked 2026-10-14: cards (Visa,
+ * Mastercard, Maestro, Amex, UnionPay), MobilePay, Klarna, PayPal, plus
+ * Shop Pay, Apple Pay and Google Pay. No Dankort. Recheck after changing
+ * payment providers in Shopify.
+ */
+export const PAYMENT_METHODS = ["MobilePay", "Visa", "Mastercard", "Klarna", "PayPal"] as const;
 
 const range = ({ min, max }: { min: number; max: number }) =>
   min === max ? `${min}` : `${min} til ${max}`;

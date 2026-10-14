@@ -279,7 +279,7 @@ export function blogPostJsonLd(post: BlogPostJsonLdInput) {
       },
       breadcrumbJsonLd([
         { name: "Forside", path: "/" },
-        { name: "Gode raad", path: "/blog" },
+        { name: "Gode råd", path: "/blog" },
         { name: post.title, path: `/blog/${post.slug}` },
       ]),
     ],

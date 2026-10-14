@@ -37,6 +37,17 @@ export const metadata: Metadata = pageMetadata({
 const EYEBROW =
   "inline-flex items-center gap-3 uppercase tracking-[0.22em] text-nooni-sub font-medium before:h-px before:w-7 before:bg-nooni-sub";
 
+/**
+ * Anchors the footer links to (/navnemaerker#loops, #dots, #emblem).
+ * Handle "emblem" is the product titled "Loops - Navn" until a real
+ * Emblem product exists in Shopify.
+ */
+const ANCHORS: Record<string, string> = {
+  loops: "loops",
+  "dots-med-navn-3stk": "dots",
+  emblem: "emblem",
+};
+
 function Check({ yes, label }: { yes: boolean; label: string }) {
   return yes ? (
     <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-nooni-cool text-nooni-ink">
@@ -100,12 +111,18 @@ export default async function NavnemaerkerPage() {
               />
             </div>
 
+            {/* Cards use h3 titles; this keeps the heading order h1 > h2 > h3. */}
+            {products.length > 0 && <h2 className="sr-only">Vælg dit navnemærke</h2>}
             {products.length > 0 && (
               <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-6 md:mt-10 md:gap-x-8 md:gap-y-10 lg:grid-cols-4">
                 {products.map((product, i) => {
                   const rating = getProductRating(product.handle);
                   return (
-                    <li key={product.handle} className="flex flex-col gap-2">
+                    <li
+                      key={product.handle}
+                      id={ANCHORS[product.handle]}
+                      className="flex scroll-mt-28 flex-col gap-2"
+                    >
                       <ProductCard
                         product={product}
                         tagline={taglines[product.handle]}
@@ -149,7 +166,7 @@ export default async function NavnemaerkerPage() {
                     <Link href="/produkter/dots-med-navn-3stk" className="hover:text-nooni-headline">Dots</Link>
                   </th>
                   <th scope="col" className="w-16 py-3 text-center font-medium uppercase tracking-[0.18em] md:w-24">
-                    <Link href="/produkter/emblem" className="hover:text-nooni-headline">Loops</Link>
+                    <Link href="/produkter/loops" className="hover:text-nooni-headline">Loops</Link>
                   </th>
                 </tr>
               </thead>

@@ -58,7 +58,7 @@ export const REVIEWS: ParentReview[] = [
     town: "Aarhus",
     handle: "loops-navn",
     stars: 5,
-    text: "Endelig navnemærker der bliver siddende. Loops har været på madkassen og drikkedunken i vuggestuen hele foråret og ser stadig ud som nye.",
+    text: "Endelig navnemærker der bliver siddende. Loops har hængt på tasken i vuggestuen hele foråret og ser stadig ud som nye.",
   },
   {
     name: "Mads",
@@ -72,14 +72,14 @@ export const REVIEWS: ParentReview[] = [
     town: "Frederiksberg",
     handle: "emblem",
     stars: 5,
-    text: "Emblem sidder på hjemmeskoene og regntøjet. Vores datter peger stolt på sit navn hver morgen i garderoben.",
+    text: "Loops med navn hænger på hendes rygsæk. Vores datter peger stolt på sit navn hver morgen i garderoben.",
   },
   {
     name: "Jonas",
     town: "Aalborg",
     handle: "dots-med-navn-3stk",
     stars: 5,
-    text: "Dots med navn er perfekte til sutteflasker og små ting i vuggestuen. De kan tåle opvaskeren, og det var det vigtigste for os.",
+    text: "Dots med navn sidder på lynlåsen på flyverdragten, og vores søn kan selv få fat i den, når han skal lyne.",
   },
   {
     name: "Line",
@@ -107,14 +107,14 @@ export const REVIEWS: ParentReview[] = [
     town: "Silkeborg",
     handle: "dots-5stk",
     stars: 5,
-    text: "Dots på madkasse, låg og drikkedunk. Hurtig levering, og man kan mærke, at de er lavet med omhu.",
+    text: "Dots på både jakke, regntøj og flyverdragt. Hurtig levering, og man kan mærke, at de er lavet med omhu.",
   },
   {
     name: "Ida",
     town: "Helsingør",
     handle: "loops-navn",
     stars: 5,
-    text: "Købt til opstart i vuggestue. Navnet står tydeligt, og Loops har overlevet både sandkasse og opvaskemaskine.",
+    text: "Købt til opstart i vuggestue. Navnet står tydeligt, og Loops har allerede overlevet et efterår i sandkassen.",
   },
   {
     name: "Anders",

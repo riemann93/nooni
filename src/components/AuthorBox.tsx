@@ -1,5 +1,5 @@
 /**
- * AuthorBox: Camilla's byline at the end of every Gode raad post.
+ * AuthorBox: Camilla's byline at the end of every Gode råd post.
  * E-E-A-T signal (CONTENT-PLAN.md): real person, real background, link
  * to /om-os, where the matching Person schema lives.
  */

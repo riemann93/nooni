@@ -57,7 +57,7 @@ export const NAME_TAG_FACTS: ProductFacts = {};
 
 export const PRODUCT_META: Record<string, ProductMeta> = {
   loops: { cardTitle: "Loops, navnemærke til taske", badge: "Bestseller" },
-  emblem: { cardTitle: "Emblem, navnemærke med motiv", badge: "Kan personliggøres" },
+  emblem: { cardTitle: "Loops med navn, navnemærke til taske", badge: "Kan personliggøres" },
   "dots-5stk": {
     quantityNote: "5 stk. i sættet",
     cardTitle: "Dots, symbolmærker til lynlås",
@@ -80,11 +80,8 @@ export function getProductMeta(handle: string): ProductMeta {
   return PRODUCT_META[handle] ?? {};
 }
 
-/**
- * Where the "Navnemærker" crumb points. Switch to "/navnemaerker" once
- * the hub page exists.
- */
-export const NAMETAG_HUB_PATH = "/produkter";
+/** Where the "Navnemærker" crumb and hub links point. */
+export const NAMETAG_HUB_PATH = "/navnemaerker";
 
 /** Name-tag family: Loops, Dots and Emblem. The core product. */
 const NAMETAG_HANDLES = new Set([

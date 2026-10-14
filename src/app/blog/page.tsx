@@ -1,5 +1,5 @@
 /**
- * /blog: "Gode raad", a simple guide list.
+ * /blog: "Gode råd", a simple guide list.
  *
  * The URL stays /blog (no redirects). The page supports search quietly
  * and points readers at the name tags: a plain list of guides, and one
@@ -12,9 +12,9 @@ import { getAllPosts } from "@/lib/blog";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Gode raad om navnemærker og hverdagen med børn",
+  title: "Gode råd om navnemærker og hverdagen med børn",
   description:
-    "Gode raad fra Camilla, lærer og mor til to: navnemærker, vuggestue og skolestart, og hvordan Noonis ting bliver til.",
+    "Gode råd fra Camilla, lærer og mor til to: navnemærker, vuggestue og skolestart, og hvordan Noonis ting bliver til.",
   path: "/blog",
 });
 
@@ -24,7 +24,7 @@ export default function BlogIndex() {
   return (
     <section
       className="relative z-[1] bg-nooni-bg py-[45px]"
-      data-screen-label="Gode raad"
+      data-screen-label="Gode råd"
     >
       <div className="mx-auto max-w-[1280px] px-6 md:px-10">
         <div className="rounded-[2rem] bg-nooni-bg-warm px-8 py-14 md:px-16 md:py-20">
@@ -35,7 +35,7 @@ export default function BlogIndex() {
             className="mt-5 mb-4 font-editorial leading-[1.05] tracking-tight text-nooni-ink"
             style={{ fontSize: "var(--nooni-text-heading-lg)" }}
           >
-            Gode <em className="italic text-nooni-headline">raad</em>
+            Gode <em className="italic text-nooni-headline">råd</em>
           </h1>
           <p
             className="mb-12 max-w-[560px] font-editorial leading-relaxed text-nooni-ink-soft md:mb-14"

@@ -63,6 +63,23 @@ Mobile, run 2026-10-14 against a local production build.
 | SEO | 100 | 100 |
 | Homepage weight | 13.8 MB | 2 MB |
 
+After the webshop rebuild (same day, mobile, local production build,
+performance / accessibility / best practices / SEO):
+
+| Page | Scores |
+|---|---|
+| `/` | 88 / 96 / 100 / 100 |
+| `/navnemaerker` | 88 / 96 / 100 / 100 |
+| `/produkter` | 86 / 96 / 100 / 100 |
+| `/produkter/dots-med-navn-3stk` | 89 / 97 / 100 / 100 |
+
+Rich Results Test (code input): the product page passes Product
+snippets, Merchant listings and Breadcrumbs, with only "review" and
+"aggregateRating" missing (on purpose until reviews are real).
+`/navnemaerker` passes Breadcrumbs. Its FAQPage is valid schema but
+Google only shows FAQ rich results for government and health sites, so
+it helps AI assistants rather than snippets.
+
 What made the difference: the blog teaser video was a 13 MB HEVC file
 (which Chrome often can't play) and is now a 1.4 MB H.264 file with a
 poster. The photos in `public/images` were up to 12 MB each and are now
