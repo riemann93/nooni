@@ -82,6 +82,31 @@ interface ProductJsonLdInput {
   maxPrice: { amount: string; currencyCode: string };
 }
 
+/**
+ * Shipping and returns, copied from the Shopify store policies (shown
+ * at checkout). Google needs both before it shows a product as a rich
+ * shopping result. Update these when the policies change in Shopify.
+ */
+const SHIPPING_DETAILS = {
+  "@type": "OfferShippingDetails",
+  shippingRate: { "@type": "MonetaryAmount", value: "55", currency: "DKK" },
+  shippingDestination: { "@type": "DefinedRegion", addressCountry: "DK" },
+  deliveryTime: {
+    "@type": "ShippingDeliveryTime",
+    handlingTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 2, unitCode: "DAY" },
+    transitTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 3, unitCode: "DAY" },
+  },
+};
+
+const RETURN_POLICY = {
+  "@type": "MerchantReturnPolicy",
+  applicableCountry: "DK",
+  returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+  merchantReturnDays: 14,
+  returnMethod: "https://schema.org/ReturnByMail",
+  returnFees: "https://schema.org/ReturnShippingFees",
+};
+
 const AVAILABILITY = {
   in: "https://schema.org/InStock",
   out: "https://schema.org/OutOfStock",
@@ -100,6 +125,8 @@ export function productJsonLd(p: ProductJsonLdInput) {
           priceCurrency: p.minPrice.currencyCode,
           availability,
           itemCondition: "https://schema.org/NewCondition",
+          shippingDetails: SHIPPING_DETAILS,
+          hasMerchantReturnPolicy: RETURN_POLICY,
           seller: { "@id": ORG_ID },
         }
       : {
@@ -109,6 +136,8 @@ export function productJsonLd(p: ProductJsonLdInput) {
           highPrice: p.maxPrice.amount,
           priceCurrency: p.minPrice.currencyCode,
           availability,
+          shippingDetails: SHIPPING_DETAILS,
+          hasMerchantReturnPolicy: RETURN_POLICY,
           seller: { "@id": ORG_ID },
         };
 
