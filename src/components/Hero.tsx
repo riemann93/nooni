@@ -37,9 +37,18 @@ export default function Hero() {
         <div className="overflow-hidden rounded-[2rem] bg-nooni-bg-warm">
           <div className="grid grid-cols-1 items-center gap-8 px-5 py-8 md:grid-cols-[1.05fr_0.95fr] md:gap-12 md:px-10 md:py-12 lg:px-14 lg:py-16">
             <div className="order-2 md:order-1">
-              <InstaNote variant="blush" className="text-[clamp(15px,1.4vw,19px)]">
-                Hej, jeg er Camilla
-              </InstaNote>
+              <div className="flex items-center gap-3">
+                <Image
+                  src="/images/camilla-profil.png"
+                  alt="Camilla"
+                  width={56}
+                  height={56}
+                  className="h-12 w-12 rounded-full ring-2 ring-nooni-bg md:h-14 md:w-14"
+                />
+                <InstaNote variant="blush" className="text-[clamp(15px,1.4vw,19px)]">
+                  Hej, jeg er Camilla
+                </InstaNote>
+              </div>
 
               <h1
                 className="mt-5 font-editorial leading-[1.05] tracking-tight text-nooni-ink"

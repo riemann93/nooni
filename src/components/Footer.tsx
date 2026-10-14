@@ -19,6 +19,7 @@
  *     touch this again.
  */
 
+import Image from "next/image";
 import Link from "next/link";
 import Logo from "./Logo";
 
@@ -41,7 +42,15 @@ export default function Footer() {
             <Logo className="text-3xl md:text-4xl" />
           </Link>
 
-          <p className="mx-auto mt-6 max-w-[460px] font-editorial text-base leading-relaxed text-nooni-ink-soft md:text-lg">
+          <Image
+            src="/images/camilla-profil.png"
+            alt="Camilla"
+            width={64}
+            height={64}
+            className="mx-auto mt-6 h-14 w-14 rounded-full ring-2 ring-nooni-bg md:h-16 md:w-16"
+          />
+
+          <p className="mx-auto mt-4 max-w-[460px] font-editorial text-base leading-relaxed text-nooni-ink-soft md:text-lg">
             Spørgsmål, særlige ønsker, eller bare en god idé? Skriv endelig, jeg svarer hurtigt.
           </p>
 

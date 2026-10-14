@@ -50,6 +50,21 @@ export default function InstagramStrip() {
     <section className="relative z-[1] bg-nooni-bg py-5 md:py-[45px]" data-screen-label="06 Instagram">
       <div className="mx-auto max-w-[1280px] px-4 md:px-10">
         <div className="mb-6 flex flex-col items-center text-center md:mb-10">
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Camilla på Instagram, @hej.nooni"
+            className="mb-4 rounded-full bg-gradient-to-tr from-nooni-warm via-nooni-headline to-nooni-blush p-[3px]"
+          >
+            <Image
+              src="/images/camilla-profil.png"
+              alt="Camilla"
+              width={80}
+              height={80}
+              className="h-16 w-16 rounded-full ring-2 ring-nooni-bg md:h-20 md:w-20"
+            />
+          </a>
           <InstaNote variant="blush" className="text-[clamp(14px,1.2vw,16px)]">
             Kig med i hverdagen
           </InstaNote>
