@@ -95,7 +95,7 @@ export default function ProductCarousel({ products, taglinesByHandle, imageAspec
         onClick={() => setActive((i) => i - 1)}
         disabled={!canPrev}
         aria-label="Forrige produkt"
-        className="absolute left-0 top-1/3 z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-[#B48383]/30 text-[#B48383] shadow-sm transition hover:scale-105 disabled:opacity-0"
+        className="absolute left-0 top-1/3 z-[1] -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-[#B48383]/30 text-[#B48383] shadow-sm transition hover:scale-105 disabled:opacity-0"
         style={{ background: "rgba(180,131,131,0.15)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)" }}
       >
         ←
@@ -105,7 +105,7 @@ export default function ProductCarousel({ products, taglinesByHandle, imageAspec
         onClick={() => setActive((i) => i + 1)}
         disabled={!canNext}
         aria-label="Næste produkt"
-        className="absolute right-0 top-1/3 z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-[#B48383]/30 text-[#B48383] shadow-sm transition hover:scale-105 disabled:opacity-0"
+        className="absolute right-0 top-1/3 z-[1] -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-[#B48383]/30 text-[#B48383] shadow-sm transition hover:scale-105 disabled:opacity-0"
         style={{ background: "rgba(180,131,131,0.15)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)" }}
       >
         →

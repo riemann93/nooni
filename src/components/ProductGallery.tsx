@@ -59,8 +59,8 @@ export default function ProductGallery({
       {hasMultiple && (
         <div className="relative mt-4">
           {/* Fade edges */}
-          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-10 bg-gradient-to-r from-nooni-bg to-transparent" />
-          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-10 bg-gradient-to-l from-nooni-bg to-transparent" />
+          <div className="pointer-events-none absolute left-0 top-0 z-[1] h-full w-10 bg-gradient-to-r from-nooni-bg to-transparent" />
+          <div className="pointer-events-none absolute right-0 top-0 z-[1] h-full w-10 bg-gradient-to-l from-nooni-bg to-transparent" />
 
           {/* Scrollable strip — py-1 gives ring room so it isn't clipped */}
           <div

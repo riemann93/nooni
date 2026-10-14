@@ -143,8 +143,8 @@ export default function ProductPageClient({
 
           {/* Snapshot carousel — only shown on preview tab, always reserves space so layout matches gallery */}
           <div className={`relative mt-4 ${activeTab !== "preview" || !showPreview ? "hidden" : snapshots.length === 0 ? "hidden md:block md:invisible md:pointer-events-none" : ""}`}>
-            <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-8 bg-gradient-to-r from-nooni-bg to-transparent" />
-            <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-8 bg-gradient-to-l from-nooni-bg to-transparent" />
+            <div className="pointer-events-none absolute left-0 top-0 z-[1] h-full w-8 bg-gradient-to-r from-nooni-bg to-transparent" />
+            <div className="pointer-events-none absolute right-0 top-0 z-[1] h-full w-8 bg-gradient-to-l from-nooni-bg to-transparent" />
             <div
               ref={snapshotRef}
               className="flex gap-3 overflow-x-auto px-1 py-1 [scroll-snap-type:x_mandatory] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
