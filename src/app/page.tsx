@@ -22,6 +22,10 @@ import Story from "@/components/Story";
 import BlogTeaser from "@/components/BlogTeaser";
 import InstagramStrip from "@/components/InstagramStrip";
 
+// The hero designer and product row read live Shopify data; refresh
+// it at most every 60 seconds, like the product pages.
+export const revalidate = 60;
+
 export default function Home() {
   return (
     <>

@@ -1,114 +1,67 @@
 /**
- * Hero — resting state.
+ * Hero — data loader for the homepage hero.
  *
- * Source: design/homepage-spec.md §1, revised so the site feels like
- * Camilla's Instagram: her own face first, her own voice ("jeg"), and
- * the rounded text boxes from her reels (<InstaNote />).
+ * Source: design/homepage-spec.md §1 ("Expanded state"), now built:
+ * "Design dine Dots" unfolds a Dots med navn designer inside the hero,
+ * so a visitor can write a name, pick two colours and add to cart
+ * without leaving the homepage.
  *
- * What this renders:
- *   - A cream rounded pill, full content width
- *   - Left: a "Hej, jeg er Camilla" note, the headline, a short line in
- *     Camilla's voice, and the Dots CTA (IDENTITY.md: visitors must be
- *     able to go straight to Dots)
- *   - Right: a Dots lifestyle photo in the brand's arch frame, with a
- *     reel-style note laid over its bottom edge, so the picture shows
- *     the product the CTA leads to
+ * This server component fetches the Dots med navn product, its
+ * Shopify colour palette and personalization schema, and hands them
+ * to <HeroClient />, which owns the open/closed state and the markup.
  *
- * Not yet wired (deferred — possibly past Dalager Marked):
- *   - The expand-on-click configurator
- *   - The basketball-arc cart animation
+ * If Shopify can't be reached or the product is missing, the hero
+ * still renders and the CTA falls back to a link to the product page.
+ *
+ * Next step (waiting on a photo): replace the drawn preview with a
+ * photo of a white Dots on a zipper, recoloured live with colour
+ * layers, so the hero photo itself changes as the visitor designs.
  */
 
-import Image from "next/image";
-import Link from "next/link";
-import InstaNote from "@/components/InstaNote";
+import HeroClient, { type HeroDesignerData } from "@/components/HeroClient";
+import {
+  getSchemaForHandle,
+  withColorOptions,
+} from "@/lib/shopify/personalization";
+import { getProductByHandle, getProductColors } from "@/lib/shopify/products";
 
-const HERO_PHOTO = {
-  src: "/images/dots_name_lifestyle.jpg",
-  alt: "Dots med navnet Elvira på lynlåsen af en børnerygsæk",
-};
+/** The product the hero designer sells. */
+export const HERO_DESIGNER_HANDLE = "dots-med-navn-3stk";
 
-export default function Hero() {
-  return (
-    <section className="relative" data-screen-label="01 Hero">
-      <div className="mx-auto max-w-[1280px] px-4 pt-3 pb-5 md:px-10 md:pt-4 md:pb-8 lg:pt-6 lg:pb-[45px]">
-        <div className="overflow-hidden rounded-[2rem] bg-nooni-bg-warm">
-          <div className="grid grid-cols-1 items-center gap-8 px-5 py-8 md:grid-cols-[1.05fr_0.95fr] md:gap-12 md:px-10 md:py-12 lg:px-14 lg:py-16">
-            <div className="order-2 md:order-1">
-              <div className="flex items-center gap-3">
-                <Image
-                  src="/images/camilla-profil.png"
-                  alt="Camilla"
-                  width={56}
-                  height={56}
-                  className="h-12 w-12 rounded-full ring-2 ring-nooni-bg md:h-14 md:w-14"
-                />
-                <InstaNote variant="blush" className="text-[clamp(15px,1.4vw,19px)]">
-                  Hej, jeg er Camilla
-                </InstaNote>
-              </div>
+function formatPrice(amount: string, currencyCode: string): string {
+  return new Intl.NumberFormat("da-DK", {
+    style: "currency",
+    currency: currencyCode,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  }).format(parseFloat(amount));
+}
 
-              <h1
-                className="mt-5 font-editorial leading-[1.05] tracking-tight text-nooni-ink"
-                style={{ fontSize: "var(--nooni-text-heading-lg)" }}
-              >
-                Små hjælpere, så dit barn{" "}
-                <span className="italic text-nooni-headline">kan selv</span>
-              </h1>
+async function loadDesigner(): Promise<HeroDesignerData | null> {
+  try {
+    const [product, colors] = await Promise.all([
+      getProductByHandle(HERO_DESIGNER_HANDLE),
+      getProductColors(HERO_DESIGNER_HANDLE),
+    ]);
+    const baseSchema = getSchemaForHandle(HERO_DESIGNER_HANDLE);
+    if (!product || !baseSchema) return null;
 
-              <p
-                className="mt-5 max-w-[460px] font-editorial leading-relaxed text-nooni-ink-soft"
-                style={{ fontSize: "var(--nooni-text-body-lg)" }}
-              >
-                Jeg er mor til to små piger og tidligere lærer. Jeg designer og
-                3D-printer ting, der hjælper børn med at klare lidt mere selv.
-                Alt bliver printet hjemme hos mig, i lige de farver, du vælger.
-              </p>
+    const price = product.priceRange.minVariantPrice;
+    return {
+      handle: HERO_DESIGNER_HANDLE,
+      title: product.title,
+      variants: product.variants.nodes,
+      schema: withColorOptions(baseSchema, colors),
+      priceLabel: formatPrice(price.amount, price.currencyCode),
+      availableForSale: product.availableForSale,
+    };
+  } catch (err) {
+    console.error("Hero designer: could not load Dots med navn", err);
+    return null;
+  }
+}
 
-              <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
-                <Link
-                  href="/produkter/dots-med-navn-3stk"
-                  className="inline-flex items-center gap-2 rounded-full bg-nooni-headline px-7 py-3 text-white transition-colors hover:bg-[#9d6f6f]"
-                  style={{ fontSize: "var(--nooni-text-ui)" }}
-                >
-                  Design dine Dots
-                </Link>
-                <Link
-                  href="/produkter"
-                  className="inline-flex items-center gap-1 py-3 text-nooni-sub transition-colors hover:text-nooni-headline"
-                  style={{ fontSize: "var(--nooni-text-ui)" }}
-                >
-                  Se alle produkter
-                  <span aria-hidden>›</span>
-                </Link>
-              </div>
-            </div>
-
-            <div className="relative order-1 mx-auto w-full max-w-[520px] md:order-2">
-              <div
-                className="relative aspect-[4/5] w-full overflow-hidden shadow-[0_18px_40px_-20px_rgba(120,80,70,0.45)]"
-                style={{ borderRadius: "9999px 9999px 28px 28px" }}
-              >
-                <Image
-                  src={HERO_PHOTO.src}
-                  alt={HERO_PHOTO.alt}
-                  fill
-                  priority
-                  sizes="(min-width: 768px) 520px, 90vw"
-                  className="object-cover object-[center_45%] scale-110"
-                />
-              </div>
-
-              <InstaNote
-                variant="cream"
-                className="absolute bottom-6 left-1/2 w-max max-w-[90%] -translate-x-1/2 text-center text-[clamp(14px,1.3vw,18px)]"
-              >
-                I lige den farve der passer til dig
-              </InstaNote>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+export default async function Hero() {
+  const designer = await loadDesigner();
+  return <HeroClient designer={designer} />;
 }
