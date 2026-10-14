@@ -12,16 +12,20 @@
  *   - A reel-style note sits on the photo, bottom right
  * On mobile the photo sits on top and the copy below it, on cream.
  *
- * Designing (after "Design dine Dots"):
- *   - The photo zooms in on the tag and becomes the preview:
- *     <DotsPhotoPreview /> paints the chosen colours and name onto it.
- *   - The intro text gives way to the same form and add-to-cart button
- *     the product page uses (<ProductPurchaseSection />), and the cream
- *     wash deepens behind it. *     The page never navigates; the cart drawer opens as usual on add.
- *   - Intro and form are both always rendered in one grid cell (the
- *     hidden one invisible and inert), so the hero's height never
- *     changes when they swap, and closing and reopening keeps what the
- *     visitor typed.
+ * Designing (after "Design dine Dots"), in two beats:
+ *   1. Unfold: the intro fades into the same form and add-to-cart button
+ *      the product page uses (<ProductPurchaseSection />), the cream wash
+ *      deepens, and the hero grows smoothly to fit the form.
+ *   2. Zoom: once the hero has its new height, the photo zooms in on the
+ *      tag and becomes the preview (<DotsPhotoPreview /> paints the
+ *      chosen colours and name onto it).
+ *   Closing runs the same beats backwards: zoom out, then fold.
+ *   Zooming only while the height is still keeps the photo from
+ *   re-fitting mid-zoom, which reads as a jump.
+ *   The page never navigates; the cart drawer opens as usual on add.
+ *   Intro and form both stay rendered (the hidden one invisible and
+ *   inert), so their heights can be measured and closing and reopening
+ *   keeps what the visitor typed.
  *
  * Without designer data (Shopify unreachable), the CTA is a plain link
  * to the product page.
@@ -47,6 +51,11 @@ export interface HeroDesignerData {
 
 const DESIGNER_ID = "hero-dots-designer";
 
+/** How long the hero takes to grow or shrink. */
+const UNFOLD_MS = 600;
+/** Wait for the zoom-out to mostly finish before folding back. */
+const FOLD_DELAY_MS = 1000;
+
 /** First colour field's options, for the live preview. */
 function paletteFromSchema(schema: PersonalizationSchema): readonly ColorOption[] | undefined {
   for (const f of schema.fields) {
@@ -56,21 +65,55 @@ function paletteFromSchema(schema: PersonalizationSchema): readonly ColorOption[
 }
 
 export default function HeroClient({ designer }: { designer: HeroDesignerData | null }) {
+  /** Form shown instead of the intro. */
   const [open, setOpen] = useState(false);
+  /** Hero sized to the form rather than the intro. */
+  const [expanded, setExpanded] = useState(false);
+  /** Photo zoomed in on the tag. */
+  const [zoomed, setZoomed] = useState(false);
   const [values, setValues] = useState<Record<string, string>>({});
+  const [introHeight, setIntroHeight] = useState<number | null>(null);
+  const [designerHeight, setDesignerHeight] = useState<number | null>(null);
+  const introRef = useRef<HTMLDivElement>(null);
   const designerRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLButtonElement>(null);
+  const timer = useRef<number | undefined>(undefined);
 
   const palette = designer ? paletteFromSchema(designer.schema) : undefined;
   const productHref = `/produkter/${designer?.handle ?? "dots-med-navn-3stk"}`;
 
-  const openDesigner = useCallback(() => setOpen(true), []);
+  // Track both panels' natural heights, so the hero can animate between them.
+  useEffect(() => {
+    const measure = () => {
+      if (introRef.current) setIntroHeight(introRef.current.offsetHeight);
+      if (designerRef.current) setDesignerHeight(designerRef.current.offsetHeight);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    if (introRef.current) observer.observe(introRef.current);
+    if (designerRef.current) observer.observe(designerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => () => window.clearTimeout(timer.current), []);
+
+  const openDesigner = useCallback(() => {
+    window.clearTimeout(timer.current);
+    setOpen(true);
+    setExpanded(true);
+    timer.current = window.setTimeout(() => setZoomed(true), UNFOLD_MS);
+  }, []);
 
   const closeDesigner = useCallback(() => {
+    window.clearTimeout(timer.current);
     setOpen(false);
+    setZoomed(false);
+    timer.current = window.setTimeout(() => setExpanded(false), FOLD_DELAY_MS);
     // Hand focus back to the button that opened the designer.
     requestAnimationFrame(() => ctaRef.current?.focus());
   }, []);
+
+  const panelHeight = expanded ? designerHeight : introHeight;
 
   // Move focus into the designer once it shows, so keyboard and
   // screen-reader users land on the first field. No scrolling: the
@@ -88,7 +131,7 @@ export default function HeroClient({ designer }: { designer: HeroDesignerData | 
     <section className="relative" data-screen-label="01 Hero">
       <div className="mx-auto max-w-[1280px] px-4 pt-3 pb-5 md:px-10 md:pt-4 md:pb-8 lg:pt-6 lg:pb-[45px]">
         <div
-          className="relative overflow-hidden bg-nooni-bg-warm md:min-h-[clamp(520px,52vw,680px)]"
+          className="relative overflow-hidden bg-nooni-bg-warm"
           style={{ borderRadius: 28 }}
         >
           {/* Photo: its own block on mobile, the whole frame from md up. */}
@@ -96,7 +139,7 @@ export default function HeroClient({ designer }: { designer: HeroDesignerData | 
             <DotsPhotoPreview
               values={values}
               colors={palette}
-              active={open}
+              active={zoomed}
               priority
               sizes="(min-width: 1280px) 1232px, 100vw"
             />
@@ -131,15 +174,21 @@ export default function HeroClient({ designer }: { designer: HeroDesignerData | 
             }}
           />
 
-          {/* Intro and designer share one grid cell, so the hero is always
-              as tall as the taller of the two. Swapping them never changes
-              the frame's height, which would make the photo re-fit (and
-              jump) mid-zoom. The one not shown is invisible and inert. */}
-          <div className="relative grid items-center px-5 py-7 md:min-h-[clamp(520px,52vw,680px)] md:w-[50%] md:px-10 md:py-10 lg:w-[46%] lg:px-14">
+          <div className="relative flex px-5 py-7 md:min-h-[clamp(460px,46vw,620px)] md:w-[50%] md:items-center md:px-10 md:py-10 lg:w-[46%] lg:px-14">
+            {/* Sized to the panel on show; the height change animates, and
+                the frame (and photo) follow it smoothly. */}
+            <div
+              className="relative w-full"
+              style={{
+                height: panelHeight ?? undefined,
+                transition: `height ${UNFOLD_MS}ms cubic-bezier(0.65, 0, 0.35, 1)`,
+              }}
+            >
               {/* Intro */}
               <div
+                ref={introRef}
                 inert={open}
-                className={`[grid-area:1/1] transition-opacity duration-500 ${
+                className={`transition-opacity duration-500 ${
                   open ? "invisible opacity-0" : "visible opacity-100"
                 }`}
               >
@@ -212,7 +261,7 @@ export default function HeroClient({ designer }: { designer: HeroDesignerData | 
                   id={DESIGNER_ID}
                   ref={designerRef}
                   inert={!open}
-                  className={`[grid-area:1/1] transition-opacity duration-700 ${
+                  className={`absolute inset-x-0 top-0 transition-opacity duration-700 ${
                     open ? "visible opacity-100 delay-200" : "invisible opacity-0"
                   }`}
                 >
@@ -264,6 +313,7 @@ export default function HeroClient({ designer }: { designer: HeroDesignerData | 
                   </Link>
                 </div>
               )}
+            </div>
           </div>
         </div>
       </div>
