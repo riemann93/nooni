@@ -5,6 +5,8 @@
 - Shipping and delivery numbers come from the human, never guessed ("Fix conflicting shipping and delivery facts").
 
 ## Lately
+- 2026-10-14 Woken again with no new events listed. Log unchanged: buy box fix-up in progress, only blocked quest is the reviews one already with the human. Nothing to do.
+- 2026-10-14 "Product page buy box conventions" landed with conflicts (Footer, ValueStrip, llms, product-meta). Fix-up (sonnet) told: Morten's Footer wins, shipping from store-facts.ts, keep both sides of product-meta.
 - 2026-10-14 The nav fix-up hit a second Footer.tsx conflict with the blog quest's 'Gode raad' link. New fix-up (sonnet) told to keep the webshop columns with 'Gode raad' in them, then type-check and build.
 - 2026-10-14 Round after "Make the blog serve the navnemaerker goal" landed (checks pass on main at 69dd99b). Briefs started on it; the two unstarted quests wait on their After lines. Both Open items still wait on the human. Nothing to do.
 - 2026-10-14 Round after a landing (hero, cart drawer on main). Six in progress, none blocked, unstarted ones wait on their After lines. Both Open items still wait on the human. Nothing to do.
