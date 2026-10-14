@@ -5,7 +5,7 @@ import ProductDescription from "@/components/ProductDescription";
 import ProductGallery from "@/components/ProductGallery";
 import Stars from "@/components/Stars";
 import { Breadcrumbs, MadeForYou } from "@/components/personalization/BuyBox";
-import type { ParentReview, Rating } from "@/lib/social-proof";
+import type { Rating } from "@/lib/social-proof";
 import ProductPurchaseSection from "@/components/personalization/ProductPurchaseSection";
 import ProductPreview, {
   PREVIEW_SUPPORTED_HANDLES,
@@ -70,7 +70,6 @@ interface ProductPageClientProps {
   descriptionHtml?: string;
   /** Rating under the H1. Omitted when there is no real (or allowed) social proof. */
   rating?: Rating;
-  reviews?: ParentReview[];
   addOnVariants?: { id: string; title: string; price: Money }[];
   addOnMinPrice?: Money;
 }
@@ -87,7 +86,6 @@ export default function ProductPageClient({
   availableForSale,
   descriptionHtml,
   rating,
-  reviews,
   addOnVariants,
   addOnMinPrice,
 }: ProductPageClientProps) {
@@ -252,27 +250,6 @@ export default function ProductPageClient({
           />
         </div>
       </div>
-
-      {reviews && reviews.length > 0 && (
-        <section id="anmeldelser" className="mt-8 scroll-mt-24 border-t border-nooni-line-soft pt-6">
-          <h2 className="font-editorial text-[length:var(--nooni-text-heading-sm)] text-nooni-ink">
-            Det siger forældrene
-          </h2>
-          <ul className="mt-4 grid gap-4 md:grid-cols-2">
-            {reviews.map((r) => (
-              <li key={`${r.name}-${r.town}`} className="rounded-2xl bg-nooni-bg-warm p-5">
-                <Stars rating={r.stars} showRating={false} size={14} />
-                <p className="mt-2 font-editorial text-[length:var(--nooni-text-body)] text-nooni-ink-soft">
-                  {r.text}
-                </p>
-                <p className="mt-2 text-[length:var(--nooni-text-label)] text-nooni-ink-soft">
-                  {r.name}, {r.town}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
 
       {descriptionHtml && (
         <div className="mt-8 border-t border-nooni-line-soft pt-6">

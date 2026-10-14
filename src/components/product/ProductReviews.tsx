@@ -17,12 +17,12 @@ export default function ProductReviews({ handle }: { handle: string }) {
   const distribution = getRatingDistribution(rating);
 
   return (
-    <section aria-labelledby="anmeldelser" className="mt-16 md:mt-24">
+    <section id="anmeldelser" aria-labelledby="anmeldelser-titel" className="mt-16 scroll-mt-24 md:mt-24">
       <p className="uppercase tracking-[0.22em] text-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
         Anmeldelser
       </p>
       <h2
-        id="anmeldelser"
+        id="anmeldelser-titel"
         className="mt-3 font-editorial leading-[1.1] tracking-tight text-nooni-ink"
         style={{ fontSize: "var(--nooni-text-heading-md)" }}
       >

@@ -28,7 +28,6 @@ import {
 import { getProductByHandle, getProductColors } from "@/lib/shopify/products";
 import {
   getProductRating,
-  getReviewsFor,
   PLACEHOLDER_SOCIAL_PROOF,
 } from "@/lib/social-proof";
 import ProductReviews from "@/components/product/ProductReviews";
@@ -110,12 +109,11 @@ export default async function ProductPage({ params }: PageProps) {
   const addOnVariants = addOnProduct?.variants.nodes ?? null;
   const addOnMinPrice = addOnProduct?.priceRange.minVariantPrice ?? null;
 
-  // Placeholder ratings and reviews are made up: never show them on the
+  // Placeholder ratings are made up: never show them on the
   // live site, and never put them in the JSON-LD above.
   const showSocialProof =
     !PLACEHOLDER_SOCIAL_PROOF || process.env.VERCEL_ENV !== "production";
   const rating = showSocialProof ? getProductRating(handle) ?? undefined : undefined;
-  const reviews = showSocialProof ? getReviewsFor(handle) : undefined;
 
   const minPrice = product.priceRange.minVariantPrice;
   const maxPrice = product.priceRange.maxVariantPrice;
@@ -154,7 +152,6 @@ export default async function ProductPage({ params }: PageProps) {
         availableForSale={product.availableForSale}
         descriptionHtml={product.descriptionHtml}
         rating={rating}
-        reviews={reviews}
         addOnVariants={addOnVariants ?? undefined}
         addOnMinPrice={addOnMinPrice ?? undefined}
       />
