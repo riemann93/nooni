@@ -5,7 +5,7 @@
  */
 
 import { getAllPosts } from "@/lib/blog";
-import { ABOUT_LINKS, getCatalogue, INTRO, priceText } from "@/lib/llms";
+import { ABOUT_LINKS, getCatalogue, hubSection, INTRO, priceText } from "@/lib/llms";
 import { metaDescription, SITE_URL } from "@/lib/seo";
 
 export const revalidate = 3600;
@@ -23,6 +23,8 @@ export async function GET() {
   );
 
   const body = `${INTRO}
+
+${hubSection({ full: false })}
 
 ## Produkter
 

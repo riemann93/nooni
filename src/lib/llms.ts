@@ -14,6 +14,7 @@ import {
 } from "@/lib/seo";
 import { getAllProducts, getProductByHandle } from "@/lib/shopify/products";
 import { STORE_FACTS } from "@/lib/store-facts";
+import { FAQ, FIT_ROWS, HUB_INTRO, HUB_PATH } from "@/lib/navnemaerker";
 
 export const INTRO = `# Nooni
 
@@ -33,6 +34,23 @@ export const ABOUT_LINKS = `- [Min historie](${SITE_URL}/om-os): Camilla, person
 - [Fortrydelsesret og returnering](${SITE_URL}/returnering): ${STORE_FACTS.withdrawal} og ${STORE_FACTS.complaint}.
 - [Handelsbetingelser](${SITE_URL}/handelsbetingelser)
 - [Privatlivspolitik](${SITE_URL}/privatlivspolitik)`;
+
+/** The navnemærker hub: where each product fits and the FAQ, as on the page. */
+export function hubSection({ full }: { full: boolean }) {
+  const fit = FIT_ROWS.map((r) => `- ${r.place}: ${r.note}`).join("\n");
+  const faq = FAQ.map((f) => (full ? `### ${f.question}\n\n${f.answer}` : `- ${f.question} ${f.answer}`)).join(
+    full ? "\n\n" : "\n",
+  );
+  return `## Navnemærker
+
+[Navnemærker til børn](${SITE_URL}${HUB_PATH}): ${HUB_INTRO}
+
+Hvad passer hvor:
+
+${fit}
+
+${full ? "" : "Ofte stillede spørgsmål:\n\n"}${faq}`;
+}
 
 export function formatPrice(amount: string, currencyCode: string) {
   return new Intl.NumberFormat("da-DK", {

@@ -25,6 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     { url: `${SITE_URL}/`, changeFrequency: "weekly", priority: 1 },
+    { url: `${SITE_URL}/navnemaerker`, changeFrequency: "weekly", priority: 0.95 },
     { url: `${SITE_URL}/produkter`, changeFrequency: "weekly", priority: 0.9 },
     ...products
       .filter((p) => !UNINDEXED_PRODUCT_HANDLES.has(p.handle))

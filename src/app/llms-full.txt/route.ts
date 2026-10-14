@@ -6,7 +6,7 @@
  */
 
 import { getAllPosts } from "@/lib/blog";
-import { ABOUT_LINKS, getCatalogue, INTRO, priceText } from "@/lib/llms";
+import { ABOUT_LINKS, getCatalogue, hubSection, INTRO, priceText } from "@/lib/llms";
 import { SITE_URL } from "@/lib/seo";
 import { getPolicy, type PolicyKind } from "@/lib/shopify/policies";
 
@@ -62,6 +62,8 @@ ${post.content.replace(/^###\s+/gm, "#### ")}`,
   );
 
   const body = `${INTRO}
+
+${hubSection({ full: true })}
 
 ## Om Nooni
 

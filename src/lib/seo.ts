@@ -279,6 +279,59 @@ export function blogPostJsonLd(post: BlogPostJsonLdInput) {
   };
 }
 
+interface HubJsonLdInput {
+  path: string;
+  title: string;
+  description: string;
+  products: { handle: string; title: string }[];
+  faq: { question: string; answer: string }[];
+}
+
+/**
+ * CollectionPage (with the products as an ItemList), FAQPage and
+ * breadcrumb for a category hub such as /navnemaerker. No ratings: the
+ * review data is placeholder until real reviews are in.
+ */
+export function hubJsonLd(hub: HubJsonLdInput) {
+  const url = `${SITE_URL}${hub.path}`;
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${url}#page`,
+        name: hub.title,
+        description: hub.description,
+        url,
+        inLanguage: "da-DK",
+        isPartOf: { "@id": `${SITE_URL}/#website` },
+        mainEntity: {
+          "@type": "ItemList",
+          itemListElement: hub.products.map((p, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            name: p.title,
+            url: `${SITE_URL}/produkter/${p.handle}`,
+          })),
+        },
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${url}#faq`,
+        mainEntity: hub.faq.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: { "@type": "Answer", text: f.answer },
+        })),
+      },
+      breadcrumbJsonLd([
+        { name: "Forside", path: "/" },
+        { name: hub.title, path: hub.path },
+      ]),
+    ],
+  };
+}
+
 function breadcrumbJsonLd(items: { name: string; path: string }[]) {
   return {
     "@type": "BreadcrumbList",
