@@ -8,6 +8,10 @@
  * LLMs trust a business more when every source agrees.
  */
 
+import type { Metadata } from "next";
+
+type OpenGraph = NonNullable<Metadata["openGraph"]>;
+
 export const SITE_URL = "https://nooni.dk";
 export const SITE_NAME = "Nooni";
 export const CONTACT_EMAIL = "hej@nooni.dk";
@@ -15,6 +19,50 @@ export const INSTAGRAM_URL = "https://www.instagram.com/hej.nooni/";
 
 export const SITE_DESCRIPTION =
   "Nooni laver personlige navnemærker og smarte 3D-printede løsninger til børn og familier. Designet og printet hjemme i Borris, Danmark.";
+
+const DEFAULT_OG_IMAGE = [
+  {
+    url: "/opengraph-image",
+    width: 1200,
+    height: 630,
+    alt: "Nooni: personlige navnemærker og 3D-printede ting til børn",
+  },
+];
+
+/**
+ * Metadata for one page: title, description, canonical and a complete
+ * Open Graph block. Use it on every page. Next replaces (not merges) a
+ * page's `openGraph` with the layout's, so a page that set only a title
+ * used to lose site name and locale, and inherit the homepage's og:url.
+ * Without explicit images the default share card is used.
+ */
+export function pageMetadata({
+  title,
+  description,
+  path,
+  openGraph = {},
+}: {
+  title: string;
+  description: string;
+  path: string;
+  openGraph?: OpenGraph;
+}): Metadata {
+  return {
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      type: "website",
+      locale: "da_DK",
+      siteName: SITE_NAME,
+      title,
+      description,
+      url: path,
+      images: DEFAULT_OG_IMAGE,
+      ...openGraph,
+    } as OpenGraph,
+  };
+}
 
 /** Product handles that exist in Shopify but must never be indexed. */
 export const UNINDEXED_PRODUCT_HANDLES = new Set(["nooni_test_product"]);
@@ -51,6 +99,12 @@ export function organizationJsonLd() {
         image: `${SITE_URL}/opengraph-image`,
         description: SITE_DESCRIPTION,
         email: CONTACT_EMAIL,
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "customer service",
+          email: CONTACT_EMAIL,
+          availableLanguage: "Danish",
+        },
         founder: { "@type": "Person", name: "Camilla" },
         taxID: "46558804",
         // Borris is the village; 6900 Skjern is its postal town.

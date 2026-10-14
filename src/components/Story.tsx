@@ -33,9 +33,8 @@ export default function StorySection() {
             >
               <Image
                 src="/images/familie_2.jpg"
-                alt="Camilla — personen bag Nooni"
+                alt="Camilla, personen bag Nooni"
                 fill
-                priority
                 quality={90}
                 className="object-cover object-top"
                 sizes="(min-width: 768px) 45vw, 90vw"

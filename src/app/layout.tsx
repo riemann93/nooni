@@ -20,7 +20,7 @@
  *   blur.
  */
 
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Cormorant_Garamond, Fredoka, Inter } from "next/font/google";
 import CartDrawer from "@/components/CartDrawer";
@@ -73,16 +73,20 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
+  manifest: "/manifest.webmanifest",
   openGraph: {
     type: "website",
     locale: "da_DK",
     siteName: SITE_NAME,
-    url: SITE_URL,
   },
   twitter: { card: "summary_large_image" },
   verification: {
     google: "TQIGTEQEtx6fQ12dCcdpXGJIFihUicZxFuIvwS4IZRs",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#FFFCF7",
 };
 
 export default function RootLayout({
@@ -98,9 +102,12 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLdScript(organizationJsonLd()) }}
         />
+        <a href="#indhold" className="skip-link">
+          Spring til indhold
+        </a>
         <CartProvider>
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main id="indhold" className="flex-1">{children}</main>
           <Footer />
           <CartDrawer />
         </CartProvider>

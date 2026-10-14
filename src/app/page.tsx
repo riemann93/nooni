@@ -16,6 +16,7 @@
 
 import type { Metadata } from "next";
 import Hero from "@/components/Hero";
+import { pageMetadata, SITE_DESCRIPTION } from "@/lib/seo";
 import HowItWorks from "@/components/HowItWorks";
 import ProductsGrid from "@/components/ProductsGrid";
 import Story from "@/components/Story";
@@ -24,7 +25,13 @@ import BlogTeaser from "@/components/BlogTeaser";
 // Canonical is set per page, never in the root layout: a layout
 // canonical would be inherited by every page that forgets its own.
 export const metadata: Metadata = {
-  alternates: { canonical: "/" },
+  ...pageMetadata({
+    title: "Nooni · Personlige navnemærker og smarte løsninger til børn",
+    description: SITE_DESCRIPTION,
+    path: "/",
+  }),
+  // The homepage title is the full brand line, not "x · Nooni".
+  title: { absolute: "Nooni · Personlige navnemærker og smarte løsninger til børn" },
 };
 
 export default function Home() {

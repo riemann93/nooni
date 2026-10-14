@@ -7,15 +7,17 @@
  */
 
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { getAllPosts } from "@/lib/blog";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Blog",
   description:
     "Nyheder, indblik og fortællinger fra Nooni om 3D-print, design og hverdagsliv med børn.",
-  alternates: { canonical: "/blog" },
-};
+  path: "/blog",
+});
 
 export default function BlogIndex() {
   const posts = getAllPosts();
@@ -47,15 +49,14 @@ export default function BlogIndex() {
                     href={`/blog/${post.slug}`}
                     className="group block overflow-hidden rounded-[1.5rem] bg-nooni-bg transition-shadow hover:shadow-[0_18px_36px_-12px_rgba(180,131,131,0.28)]"
                   >
-                    <div
-                      className="relative aspect-[16/10] w-full overflow-hidden bg-nooni-bg-warm"
-                      style={{
-                        backgroundImage: `url(${post.image})`,
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                      }}
-                    >
-                      <div className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-105" />
+                    <div className="relative aspect-[16/10] w-full overflow-hidden bg-nooni-bg-warm">
+                      <Image
+                        src={post.image}
+                        alt=""
+                        fill
+                        sizes="(min-width: 768px) 600px, 100vw"
+                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                      />
                     </div>
                     <div className="px-8 py-7">
                       <p className="mb-3 text-xs uppercase tracking-[0.18em] text-nooni-sub">

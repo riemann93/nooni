@@ -26,3 +26,7 @@ Two long-lived branches. They are not interchangeable.
 ## Why this matters
 
 `production` is the live site under-construction page (or, after launch, the live shop). Accidental commits there change what real customers see. The protection on GitHub catches it server-side, but stopping earlier — at the local commit stage — saves cleanup time.
+
+# Search and SEO
+
+Before working on anything that affects how Nooni is found (blog posts, product copy, new pages, metadata, schema), read `SEARCH-GUIDE.md`. The plan is in `CONTENT-PLAN.md` and the technical status and open issues are in `SEO.md`.

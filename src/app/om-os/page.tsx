@@ -10,13 +10,14 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import QuietCTA from "@/components/QuietCTA";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Min historie",
   description:
     "Mød Camilla, personen bag Nooni. Personlige navnemærker og produkter til børn, designet og 3D-printet hjemme i Borris.",
-  alternates: { canonical: "/om-os" },
-};
+  path: "/om-os",
+});
 
 export default function OmOs() {
   return (
@@ -47,11 +48,11 @@ export default function OmOs() {
               >
                 <Image
                   src="/images/familie_2.jpg"
-                  alt="Camilla — personen bag Nooni"
+                  alt="Camilla, personen bag Nooni"
                   fill
                   className="object-cover object-top"
                   sizes="(min-width: 768px) 35vw, 90vw"
-                  priority
+                  preload
                 />
               </div>
             </div>

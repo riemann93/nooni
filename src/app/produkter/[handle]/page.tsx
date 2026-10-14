@@ -30,6 +30,7 @@ import { getProductMeta } from "@/lib/product-meta";
 import {
   jsonLdScript,
   metaDescription,
+  pageMetadata,
   productJsonLd,
   UNINDEXED_PRODUCT_HANDLES,
 } from "@/lib/seo";
@@ -52,17 +53,14 @@ export async function generateMetadata({
   const description = metaDescription(product.description);
   const image = product.images.nodes[0];
   return {
-    title: product.title,
-    description,
-    alternates: { canonical: `/produkter/${handle}` },
-    openGraph: {
+    ...pageMetadata({
       title: product.title,
       description,
-      url: `/produkter/${handle}`,
-      images: image
-        ? [{ url: image.url, width: image.width, height: image.height, alt: image.altText ?? product.title }]
-        : undefined,
-    },
+      path: `/produkter/${handle}`,
+      openGraph: image
+        ? { images: [{ url: image.url, width: image.width, height: image.height, alt: image.altText ?? product.title }] }
+        : {},
+    }),
     robots: UNINDEXED_PRODUCT_HANDLES.has(handle)
       ? { index: false, follow: false }
       : undefined,

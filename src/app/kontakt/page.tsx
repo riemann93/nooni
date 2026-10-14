@@ -8,13 +8,14 @@
 
 import type { Metadata } from "next";
 import ContactForm from "./ContactForm";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Kontakt",
   description:
     "Spørgsmål, særlige ønsker eller en god idé? Skriv til Nooni på hej@nooni.dk. Vi svarer som regel inden for et døgn.",
-  alternates: { canonical: "/kontakt" },
-};
+  path: "/kontakt",
+});
 
 export default function KontaktPage() {
   return (

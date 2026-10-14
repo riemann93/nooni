@@ -38,6 +38,38 @@ Shipped on the `Discoverability` branch:
   the live catalogue.
 - Store policies on nooni.dk, linked from the footer with CVR, address,
   shipping and payment methods.
+- `/llms-full.txt`: every product, policy and blog post in full.
+- `robots.txt` names the AI crawlers (GPTBot, ClaudeBot, PerplexityBot
+  and others) explicitly.
+- IndexNow key (`public/<key>.txt`) and `npm run seo:indexnow`, which
+  pushes every sitemap URL to Bing after a deploy.
+- `pageMetadata()` in `src/lib/seo.ts` gives every page a canonical,
+  og:url, site name, locale and share image. Use it for new pages.
+- Sitemap only sends real dates (blog posts), never "now".
+- Web app manifest, theme colour, branded 404, skip link ("Spring til
+  indhold"), global keyboard focus ring and reduced-motion support.
+- Security headers (nosniff, Referrer-Policy, X-Frame-Options,
+  Permissions-Policy), AVIF images, cache headers on `/images`.
+
+## Lighthouse
+
+Mobile, run 2026-10-14 against a local production build.
+
+| | Live site before | After this work |
+|---|---|---|
+| Performance (home) | 73 | 83 to 84 |
+| Accessibility | 92 | 96 |
+| Best practices | 100 | 100 |
+| SEO | 100 | 100 |
+| Homepage weight | 13.8 MB | 2 MB |
+
+What made the difference: the blog teaser video was a 13 MB HEVC file
+(which Chrome often can't play) and is now a 1.4 MB H.264 file with a
+poster. The photos in `public/images` were up to 12 MB each and are now
+resized to at most 2400 px. A below-the-fold photo was preloaded and
+competed with the hero. The closed cart drawer trapped keyboard focus.
+
+Remaining Lighthouse items are below as issues 6 and 7.
 
 ## Open issues
 
@@ -122,3 +154,44 @@ The shipping and return details in the product schema
 line are copied from these policies: 55 kr. flat rate, Denmark only, 1
 to 2 days production, 1 to 3 days delivery, 14 day returns paid by the
 customer. Update them when the policies change.
+
+### 6. Brand colours fail text contrast
+
+Lighthouse's only remaining accessibility failure. Measured against the
+cream backgrounds:
+
+- White text on rose `#B48383` buttons (Kurv, Køb nu, Skriv til os):
+  3.2:1. Needs 4.5:1 for normal text.
+- Green `#678061` labels and outline buttons on `#F7EFE5`: 3.8:1.
+- Rose `#B48383` italic accent words on `#F7EFE5`: 2.8:1. Large text
+  needs 3:1.
+
+This is a design decision, not a code bug. Options: a darker rose for
+buttons and small text only (around `#8F5F5F` passes 4.5:1 with white),
+a slightly darker green (around `#56704F`), and keeping the current rose
+for large display text and the logo. Low contrast also hurts older
+parents reading on a phone in sunlight.
+
+### 7. Mobile LCP is still around 4.5 seconds in the lab
+
+The hero image now loads first, but most of the time is "render delay":
+the browser waiting for CSS and three web fonts (Fredoka in 4 weights,
+Inter variable with italics, Cormorant in 4 styles) on a throttled
+connection. Ideas, in order of payoff:
+
+- Load only the font weights actually used (Fredoka is probably only
+  700 for the logo).
+- Turn on Vercel Speed Insights to see real visitors' numbers. Lab
+  scores are pessimistic, and Google ranks on field data.
+
+### 8. Search tooling for later
+
+Patterns from exit1, day3 and sanktknuds worth copying when there is
+traffic to analyse:
+
+- Search Console and GA4 report script (`scripts/seo/pull-seo.mjs` in
+  those repos): striking-distance queries, brand vs non-brand.
+- FAQPage schema once the `/navnemaerker` hub has an FAQ.
+- Visible breadcrumbs on product pages (the schema already has them).
+- Bing Webmaster verification (`BingSiteAuth.xml`, as horadric does) if
+  importing from Search Console doesn't work.

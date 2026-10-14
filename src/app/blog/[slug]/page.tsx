@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { getPostBySlug, getAllPosts } from "@/lib/blog";
-import { blogPostJsonLd, jsonLdScript } from "@/lib/seo";
+import { blogPostJsonLd, jsonLdScript, pageMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));
@@ -18,19 +18,17 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) return { title: "Indlæg ikke fundet" };
-  return {
+  return pageMetadata({
     title: post.title,
     description: post.excerpt,
-    alternates: { canonical: `/blog/${post.slug}` },
+    path: `/blog/${post.slug}`,
     openGraph: {
       type: "article",
-      title: post.title,
-      description: post.excerpt,
-      url: `/blog/${post.slug}`,
       publishedTime: post.date,
+      authors: ["Camilla"],
       images: [{ url: post.image, alt: post.title }],
     },
-  };
+  });
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -75,7 +73,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               src={post.image}
               alt={post.title}
               fill
-              priority
+              preload
               className="object-cover"
               sizes="(min-width: 768px) 40vw, 100vw"
             />
@@ -116,7 +114,7 @@ function renderTitle(title: string): ReactNode {
  * Minimal markdown block renderer for blog content.
  *
  * Handles:
- *   - "### " heading lines → <h3>
+ *   - "### " heading lines → <h2> (the post title is the h1)
  *   - Blocks where every line matches "N. " → <ol> with parsed items
  *   - Everything else → <p>, preserving single-newline line breaks
  *
@@ -127,12 +125,12 @@ function renderTitle(title: string): ReactNode {
 function renderBlock(block: string, key: number): ReactNode {
   if (block.startsWith("### ")) {
     return (
-      <h3
+      <h2
         key={key}
         className="mt-10 mb-3 first:mt-0 font-editorial text-2xl leading-snug text-nooni-ink"
       >
         {renderInline(block.slice(4))}
-      </h3>
+      </h2>
     );
   }
 

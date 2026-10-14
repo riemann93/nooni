@@ -70,6 +70,9 @@ export default async function BlogTeaser() {
               >
                 <div className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-110">
                   <video
+                    aria-hidden
+                    poster="/images/blog-teaser-poster.jpg"
+                    preload="metadata"
                     autoPlay
                     muted
                     loop
@@ -77,7 +80,7 @@ export default async function BlogTeaser() {
                     className="absolute inset-0 h-full w-full object-cover"
                     style={{ objectPosition: "center 30%" }}
                   >
-                    <source src="/images/20260610_212110.mp4" type="video/mp4" />
+                    <source src="/images/blog-teaser.mp4" type="video/mp4" />
                   </video>
                 </div>
               </div>

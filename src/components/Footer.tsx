@@ -55,7 +55,7 @@ export default function Footer() {
           <Link
             href="/"
             aria-label="Nooni, til forsiden"
-            className="inline-block"
+            className="inline-block py-2"
           >
             <Logo className="text-3xl md:text-4xl" />
           </Link>
@@ -122,7 +122,7 @@ export default function Footer() {
             Betal med Visa, Mastercard, MobilePay og Dankort
           </p>
 
-          <div className="mt-8 space-y-1 text-xs tracking-[0.12em] text-nooni-ink-soft/70">
+          <div className="mt-8 space-y-1 text-xs tracking-[0.12em] text-nooni-ink-soft">
             <p>Nooni v/Camilla Riemann Sinnbeck · Storegade 47, Borris · 6900 Skjern · CVR 46558804</p>
             <p>© {new Date().getFullYear()} Nooni · lavet med kærlighed i Danmark</p>
           </div>

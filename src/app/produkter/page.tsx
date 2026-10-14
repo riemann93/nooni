@@ -14,15 +14,16 @@
 import type { Metadata } from "next";
 import ProductCard from "@/components/ProductCard";
 import { getAllProducts } from "@/lib/shopify/products";
+import { pageMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Navnemærker og produkter til børn",
   description:
     "Se hele Noonis sortiment: personlige navnemærker til tøj og lynlåse (Dots, Loops, Emblem), kortholdere til børn (Deks) og mere.",
-  alternates: { canonical: "/produkter" },
-};
+  path: "/produkter",
+});
 
 export default async function ProductsListingPage() {
   const products = await getAllProducts();

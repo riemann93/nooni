@@ -85,6 +85,7 @@ export default function ProductCarousel({ products, taglinesByHandle, imageAspec
                 tagline={taglinesByHandle[product.handle]}
                 sizes="(min-width: 1024px) 30vw, 60vw"
                 imageAspect={imageAspect ?? "aspect-[3/4]"}
+                eager={i === Math.floor(products.length / 2)}
               />
             </div>
           ))}
