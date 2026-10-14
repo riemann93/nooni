@@ -3,8 +3,12 @@
 ## Rules
 - Work happens on branch Morten. Placeholder social proof must never reach production ("Swap placeholder reviews..." is the ship blocker).
 - Shipping and delivery numbers come from the human, never guessed ("Fix conflicting shipping and delivery facts").
+- Reviews come from Trustpilot (human chose it, no account yet). Never wire Judge.me or another review app. PLACEHOLDER_SOCIAL_PROOF goes false only with real Trustpilot reviews.
 
 ## Lately
+- 2026-10-14 Round: "Wire Trustpilot reviews..." marked done with no commit (main still a9cc90a, placeholders and guard on). Plan question stays open with the human. Final check still running. Nothing to do.
+- 2026-10-14 Trustpilot quest needs account, unit ID, API key/export; free plan gives no product stars. Handed plan choice (paid Trustpilot, Judge.me, or free shop-wide) and details to the human, told the session to stop.
+- 2026-10-14 Round: human settled reviews as Trustpilot (made a rule) and filed "Wire Trustpilot reviews..."; gave it Model: sonnet. Final check still running, NAMETAG_HUB_PATH still /produkter (it was told to flip it). Nothing else to do.
 - 2026-10-14 Round after homepage rebuild landed (35b8d06). Only the final check (running, already told to flip NAMETAG_HUB_PATH) and the reviews quest (with the human) remain. Nothing to do.
 - 2026-10-14 Product page merge landed (b316233) without flipping NAMETAG_HUB_PATH. Told the running final check to flip it. Only the reviews quest (with the human) and the final check remain.
 - 2026-10-14 Round after hub page (c21717b) and listing sort (4f9f2ba) landed. Hub did not flip NAMETAG_HUB_PATH (still /produkter). Noted on the product page fix-up (no live session to tell) to flip it, and put hub link checks on the final check.
@@ -27,4 +31,4 @@
 - Check NAMETAG_HUB_PATH is /navnemaerker once "Conversion and SEO check of the new shop" lands. If not, add a small haiku quest to flip it.
 - Human (Camilla) to confirm hub guide claims: washing untested, Dots on zipper pulls with a cord and on hats/mittens; and whether a separate Emblem product is coming.
 - Human to confirm shipping facts: is 'Fri fragt over 350 kr.' real? If yes, add it to Shopify policy and SHIPPING in src/lib/store-facts.ts.
-- Human to pick Judge.me or Trustpilot and supply real reviews for "Swap placeholder reviews for real ones before production". Guard in next.config.ts blocks production builds meanwhile.
+- Human to pick paid Trustpilot product reviews, Judge.me, or free shop-wide Trustpilot, and supply account, business unit ID and API key/export for "Wire Trustpilot reviews...". Guard in next.config.ts blocks production builds meanwhile. If they switch, update the Trustpilot rule.
