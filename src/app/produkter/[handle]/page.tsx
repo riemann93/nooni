@@ -31,6 +31,10 @@ import {
   getReviewsFor,
   PLACEHOLDER_SOCIAL_PROOF,
 } from "@/lib/social-proof";
+import ProductReviews from "@/components/product/ProductReviews";
+import ProductFacts from "@/components/product/ProductFacts";
+import ProductFaq from "@/components/product/ProductFaq";
+import RelatedNameTags from "@/components/product/RelatedNameTags";
 import { getProductMeta } from "@/lib/product-meta";
 import {
   jsonLdScript,
@@ -154,6 +158,10 @@ export default async function ProductPage({ params }: PageProps) {
         addOnVariants={addOnVariants ?? undefined}
         addOnMinPrice={addOnMinPrice ?? undefined}
       />
+      <ProductReviews handle={handle} />
+      <ProductFacts handle={handle} />
+      <ProductFaq handle={handle} />
+      <RelatedNameTags handle={handle} />
     </section>
   );
 }

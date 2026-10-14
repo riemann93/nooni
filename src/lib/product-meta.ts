@@ -23,7 +23,37 @@ export interface ProductMeta {
   quantityNote?: string;
   /** Handle of an optional add-on product shown as a toggle on the product page. */
   addOnHandle?: string;
+  facts?: ProductFacts;
 }
+
+/**
+ * Product facts shown in the facts block below the buy box. Every field
+ * is optional: leave it out until Camilla has confirmed it. Never fill
+ * one in from guesswork (SEARCH-GUIDE.md: no claim without a test).
+ * Missing facts show as "Camilla udfylder" in previews and are hidden
+ * on the live shop.
+ */
+export interface ProductFacts {
+  material?: string;
+  size?: string;
+  mounting?: string;
+  washing?: string;
+  age?: string;
+}
+
+/** Name-tag family. These link to the /navnemaerker hub. */
+export const NAME_TAG_HANDLES = [
+  "loops-navn",
+  "loops",
+  "dots-med-navn-3stk",
+  "dots-5stk",
+  "emblem",
+] as const;
+
+export const isNameTag = (handle: string) => (NAME_TAG_HANDLES as readonly string[]).includes(handle);
+
+/** Confirmed facts shared by the whole name-tag family (see the 3D-print post). */
+export const NAME_TAG_FACTS: ProductFacts = {};
 
 export const PRODUCT_META: Record<string, ProductMeta> = {
   loops: { cardTitle: "Loops, navnemærke til taske", badge: "Bestseller" },

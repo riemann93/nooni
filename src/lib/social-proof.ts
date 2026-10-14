@@ -132,3 +132,17 @@ export function getProductRating(handle: string): Rating | null {
 export function getReviewsFor(handle: string): ParentReview[] {
   return REVIEWS.filter((r) => r.handle === handle);
 }
+
+/**
+ * Placeholder star distribution for a product, index 0 = 1 star up to
+ * index 4 = 5 stars. Derived from the (made up) average and count so the
+ * bars agree with the headline number. Not real data.
+ */
+export function getRatingDistribution(rating: Rating): number[] {
+  const deficit = Math.max(0, 5 - rating.rating);
+  const share = [0, 0.01, 0.02, Math.max(0, deficit - 0.07), 0];
+  share[4] = Math.max(0, 1 - share[1] - share[2] - share[3]);
+  const counts = share.map((s) => Math.round(s * rating.count));
+  counts[4] += rating.count - counts.reduce((a, b) => a + b, 0);
+  return counts;
+}
