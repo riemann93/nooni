@@ -64,17 +64,27 @@ interface DotsPhotoPreviewProps {
   colors?: readonly ColorOption[];
   /** Zoom in and paint the overlay. False shows the bare photo. */
   active: boolean;
-  /** How far to zoom in on the tag while active. */
-  zoom?: number;
   priority?: boolean;
   sizes?: string;
 }
+
+/** Where the zoomed tag lands, as a fraction of the box. In a wide box
+ *  the left side holds the form, so the tag moves into the right side. */
+const WIDE_BOX_RATIO = 1.2;
+const ZOOM_TARGET = {
+  wide: { x: 0.76, y: 0.5, tagWidth: 0.28 },
+  narrow: { x: 0.5, y: 0.5, tagWidth: 0.62 },
+} as const;
+const MAX_ZOOM = 4.5;
+
+/** Slow start, long soft landing: reads as a camera move, not a jump. */
+const ZOOM_EASING = "cubic-bezier(0.65, 0, 0.35, 1)";
+const ZOOM_MS = 1400;
 
 export default function DotsPhotoPreview({
   values,
   colors = [],
   active,
-  zoom = 3.5,
   priority = false,
   sizes,
 }: DotsPhotoPreviewProps) {
@@ -102,7 +112,9 @@ export default function DotsPhotoPreview({
   const anchorX = TAG_CX / DOTS_PHOTO.width;
   const anchorY = TAG_CY / DOTS_PHOTO.height;
   let layer: React.CSSProperties | null = null;
-  let origin = `${anchorX * 100}% ${anchorY * 100}%`;
+  // Zoomed state as translate + scale from the top-left corner, so the
+  // move and the zoom animate together along one smooth path.
+  let zoomTransform = "translate(0px, 0px) scale(1)";
   if (box && box.width > 0 && box.height > 0) {
     const scale = Math.max(box.width / DOTS_PHOTO.width, box.height / DOTS_PHOTO.height);
     const w = DOTS_PHOTO.width * scale;
@@ -110,14 +122,28 @@ export default function DotsPhotoPreview({
     const left = clamp(box.width / 2 - TAG_CX * scale, box.width - w, 0);
     const top = clamp(box.height / 2 - TAG_CY * scale, box.height - h, 0);
     layer = { position: "absolute", left, top, width: w, height: h };
-    origin = `${left + TAG_CX * scale}px ${top + TAG_CY * scale}px`;
+
+    const target = box.width / box.height > WIDE_BOX_RATIO ? ZOOM_TARGET.wide : ZOOM_TARGET.narrow;
+    const zoom = clamp((target.tagWidth * box.width) / (TAG.width * scale), 1, MAX_ZOOM);
+    const tagX = left + TAG_CX * scale;
+    const tagY = top + TAG_CY * scale;
+    // Move the tag to its target, but never so far that the photo's edge
+    // comes into view.
+    const tx = clamp(target.x * box.width - zoom * tagX, box.width - zoom * (left + w), -zoom * left);
+    const ty = clamp(target.y * box.height - zoom * tagY, box.height - zoom * (top + h), -zoom * top);
+    if (active) zoomTransform = `translate(${tx}px, ${ty}px) scale(${zoom})`;
   }
 
   return (
     <div ref={boxRef} className="absolute inset-0 overflow-hidden">
       <div
-        className="absolute inset-0 transition-transform duration-700 ease-out motion-reduce:transition-none"
-        style={{ transform: `scale(${active ? zoom : 1})`, transformOrigin: origin }}
+        className="absolute inset-0 motion-reduce:!transition-none"
+        style={{
+          transform: zoomTransform,
+          transformOrigin: "0 0",
+          transition: `transform ${ZOOM_MS}ms ${ZOOM_EASING}`,
+          willChange: "transform",
+        }}
       >
         <div style={layer ?? { position: "absolute", inset: 0 }}>
           <Image
@@ -133,8 +159,10 @@ export default function DotsPhotoPreview({
           {layer && (
             <svg
               viewBox={`0 0 ${DOTS_PHOTO.width} ${DOTS_PHOTO.height}`}
-              className={`absolute inset-0 h-full w-full transition-opacity duration-300 ${
-                active ? "opacity-100" : "opacity-0"
+              // Paint the new colours once the camera has nearly arrived;
+              // drop them at once when zooming back out.
+              className={`absolute inset-0 h-full w-full transition-opacity ${
+                active ? "opacity-100 delay-[900ms] duration-500" : "opacity-0 duration-200"
               }`}
               role={active ? "img" : undefined}
               aria-label={active ? `Din Dots med navnet ${name}` : undefined}

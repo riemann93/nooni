@@ -115,13 +115,23 @@ export default function HeroClient({ designer }: { designer: HeroDesignerData | 
           </div>
 
           {/* Cream wash behind the copy, deeper while designing. */}
+          {/* Two layers cross-faded, since a gradient itself can't animate. */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 hidden transition-opacity duration-500 md:block"
+            className="pointer-events-none absolute inset-0 hidden md:block"
             style={{
-              background: open
-                ? "linear-gradient(to right, rgba(247,239,229,0.98) 0%, rgba(247,239,229,0.95) 44%, rgba(247,239,229,0) 62%)"
-                : "linear-gradient(to right, rgba(247,239,229,0.96) 0%, rgba(247,239,229,0.88) 38%, rgba(247,239,229,0) 62%)",
+              background:
+                "linear-gradient(to right, rgba(247,239,229,0.96) 0%, rgba(247,239,229,0.88) 38%, rgba(247,239,229,0) 62%)",
+            }}
+          />
+          <div
+            aria-hidden
+            className={`pointer-events-none absolute inset-0 hidden transition-opacity duration-1000 ease-in-out md:block ${
+              open ? "opacity-100" : "opacity-0"
+            }`}
+            style={{
+              background:
+                "linear-gradient(to right, rgba(247,239,229,0.98) 0%, rgba(247,239,229,0.95) 44%, rgba(247,239,229,0) 58%)",
             }}
           />
 
