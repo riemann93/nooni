@@ -28,7 +28,7 @@
  * before launch.
  */
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import type { ColorOption } from "@/lib/shopify/personalization";
 import { resolveColor } from "@/components/personalization/ProductPreview";
@@ -68,9 +68,12 @@ interface DotsPhotoPreviewProps {
   sizes?: string;
 }
 
-/** Where the zoomed tag lands, as a fraction of the box. In a wide box
- *  the left side holds the form, so the tag moves into the right side. */
-const WIDE_BOX_RATIO = 1.2;
+/** Where the zoomed tag lands, as a fraction of the box. From the hero's
+ *  side-by-side layout up (Tailwind md, 768px viewport) the form sits
+ *  over the left of the photo, so the tag moves into the right side.
+ *  Decided by width, not shape: a tall form can make the box nearly
+ *  square while the form still covers its left half. */
+const WIDE_BOX_MIN_WIDTH = 700;
 const ZOOM_TARGET = {
   wide: { x: 0.76, y: 0.5, tagWidth: 0.28 },
   narrow: { x: 0.5, y: 0.5, tagWidth: 0.62 },
@@ -79,7 +82,7 @@ const MAX_ZOOM = 4.5;
 
 /** Slow start, long soft landing: reads as a camera move, not a jump. */
 const ZOOM_EASING = "cubic-bezier(0.65, 0, 0.35, 1)";
-const ZOOM_MS = 1400;
+export const ZOOM_MS = 1400;
 
 export default function DotsPhotoPreview({
   values,
@@ -90,6 +93,23 @@ export default function DotsPhotoPreview({
 }: DotsPhotoPreviewProps) {
   const boxRef = useRef<HTMLDivElement>(null);
   const [box, setBox] = useState<Box | null>(null);
+  // Only the zoom in and out are animated. When the box itself changes
+  // size (the form grows, the window resizes) the photo and the colour
+  // layer follow at once and together; animating that too would leave
+  // the photo drifting under a layer that has already moved.
+  const [animating, setAnimating] = useState(false);
+  const [prevActive, setPrevActive] = useState(active);
+  // Set during render (React's "adjust state on prop change" pattern), so
+  // the very render that flips `active` already carries the transition.
+  if (active !== prevActive) {
+    setPrevActive(active);
+    setAnimating(true);
+  }
+  useEffect(() => {
+    if (!animating) return;
+    const id = window.setTimeout(() => setAnimating(false), ZOOM_MS + 50);
+    return () => window.clearTimeout(id);
+  }, [animating, active]);
 
   useLayoutEffect(() => {
     const el = boxRef.current;
@@ -115,6 +135,11 @@ export default function DotsPhotoPreview({
   // Zoomed state as translate + scale from the top-left corner, so the
   // move and the zoom animate together along one smooth path.
   let zoomTransform = "translate(0px, 0px) scale(1)";
+  // Where the tag ends up once zoomed, in box pixels. The colour layer is
+  // drawn there at full size, outside the scaled photo: browsers paint a
+  // scaled layer from a bitmap at its original size, which would blur
+  // the name.
+  let tagBox: React.CSSProperties | null = null;
   if (box && box.width > 0 && box.height > 0) {
     const scale = Math.max(box.width / DOTS_PHOTO.width, box.height / DOTS_PHOTO.height);
     const w = DOTS_PHOTO.width * scale;
@@ -123,7 +148,7 @@ export default function DotsPhotoPreview({
     const top = clamp(box.height / 2 - TAG_CY * scale, box.height - h, 0);
     layer = { position: "absolute", left, top, width: w, height: h };
 
-    const target = box.width / box.height > WIDE_BOX_RATIO ? ZOOM_TARGET.wide : ZOOM_TARGET.narrow;
+    const target = box.width >= WIDE_BOX_MIN_WIDTH ? ZOOM_TARGET.wide : ZOOM_TARGET.narrow;
     const zoom = clamp((target.tagWidth * box.width) / (TAG.width * scale), 1, MAX_ZOOM);
     const tagX = left + TAG_CX * scale;
     const tagY = top + TAG_CY * scale;
@@ -132,6 +157,13 @@ export default function DotsPhotoPreview({
     const tx = clamp(target.x * box.width - zoom * tagX, box.width - zoom * (left + w), -zoom * left);
     const ty = clamp(target.y * box.height - zoom * tagY, box.height - zoom * (top + h), -zoom * top);
     if (active) zoomTransform = `translate(${tx}px, ${ty}px) scale(${zoom})`;
+    tagBox = {
+      position: "absolute",
+      left: tx + zoom * (left + TAG.x * scale),
+      top: ty + zoom * (top + TAG.y * scale),
+      width: zoom * TAG.width * scale,
+      height: zoom * TAG.height * scale,
+    };
   }
 
   return (
@@ -141,8 +173,9 @@ export default function DotsPhotoPreview({
         style={{
           transform: zoomTransform,
           transformOrigin: "0 0",
-          transition: `transform ${ZOOM_MS}ms ${ZOOM_EASING}`,
-          willChange: "transform",
+          // No will-change: it makes the browser keep the layer as a
+          // bitmap at rest size, so the zoomed name comes out blurry.
+          transition: animating ? `transform ${ZOOM_MS}ms ${ZOOM_EASING}` : "none",
         }}
       >
         <div style={layer ?? { position: "absolute", inset: 0 }}>
@@ -155,15 +188,20 @@ export default function DotsPhotoPreview({
             className="object-cover"
             style={layer ? undefined : { objectPosition: `${anchorX * 100}% ${anchorY * 100}%` }}
           />
+        </div>
+      </div>
 
-          {layer && (
+      {tagBox && (
             <svg
-              viewBox={`0 0 ${DOTS_PHOTO.width} ${DOTS_PHOTO.height}`}
-              // Paint the new colours once the camera has nearly arrived;
-              // drop them at once when zooming back out.
-              className={`absolute inset-0 h-full w-full transition-opacity ${
-                active ? "opacity-100 delay-[900ms] duration-500" : "opacity-0 duration-200"
-              }`}
+              viewBox={`${TAG.x} ${TAG.y} ${TAG.width} ${TAG.height}`}
+              overflow="visible"
+              style={{
+                ...tagBox,
+                // The layer sits at the zoomed position, so show it only as
+                // the camera arrives; drop it at once when zooming out.
+                transitionDelay: active && animating ? `${ZOOM_MS - 250}ms` : "0ms",
+              }}
+              className={`transition-opacity ${active ? "opacity-100 duration-300" : "opacity-0 duration-150"}`}
               role={active ? "img" : undefined}
               aria-label={active ? `Din Dots med navnet ${name}` : undefined}
               aria-hidden={active ? undefined : true}
@@ -219,11 +257,10 @@ export default function DotsPhotoPreview({
                 stroke="#000"
                 strokeOpacity="0.18"
                 strokeWidth="1"
+                vectorEffect="non-scaling-stroke"
               />
             </svg>
-          )}
-        </div>
-      </div>
+      )}
     </div>
   );
 }

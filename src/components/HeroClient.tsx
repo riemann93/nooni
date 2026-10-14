@@ -35,7 +35,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import InstaNote from "@/components/InstaNote";
-import DotsPhotoPreview from "@/components/personalization/DotsPhotoPreview";
+import DotsPhotoPreview, { ZOOM_MS } from "@/components/personalization/DotsPhotoPreview";
 import ProductPurchaseSection from "@/components/personalization/ProductPurchaseSection";
 import type { ColorOption, PersonalizationSchema } from "@/lib/shopify/personalization";
 import type { ProductVariant } from "@/lib/shopify/types";
@@ -53,8 +53,9 @@ const DESIGNER_ID = "hero-dots-designer";
 
 /** How long the hero takes to grow or shrink. */
 const UNFOLD_MS = 600;
-/** Wait for the zoom-out to mostly finish before folding back. */
-const FOLD_DELAY_MS = 1000;
+/** Fold back only once the zoom-out has finished: resizing the photo
+ *  while it is still zooming makes it jump. */
+const FOLD_DELAY_MS = ZOOM_MS + 50;
 
 /** First colour field's options, for the live preview. */
 function paletteFromSchema(schema: PersonalizationSchema): readonly ColorOption[] | undefined {
