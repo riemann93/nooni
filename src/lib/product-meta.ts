@@ -25,6 +25,12 @@ export interface ProductMeta {
   badge?: "Bestseller" | "Kan personliggøres";
   /** Short note shown below the price, e.g. "5 stk. i sættet". */
   quantityNote?: string;
+  /**
+   * The fixed price in DKK, confirmed by the owner. Shown when Shopify
+   * can't be reached; Shopify's price wins whenever it loads. Change it
+   * here when the price changes in Shopify.
+   */
+  priceDkk?: number;
   /** Handle of an optional add-on product shown as a toggle on the product page. */
   addOnHandle?: string;
   facts?: ProductFacts;
@@ -71,6 +77,7 @@ export const PRODUCT_META: Record<string, ProductMeta> = {
     tagline: "Navnemærke til lynlås, flyverdragt og overtøj",
     crumbName: "Dots med navn",
     quantityNote: "3 stk. i sættet",
+    priceDkk: 70,
     title: "Dots med navn, navnemærke til lynlås",
     badge: "Bestseller",
   },
@@ -78,6 +85,7 @@ export const PRODUCT_META: Record<string, ProductMeta> = {
     tagline: "Symbolmærker til børn, der ikke kan læse",
     crumbName: "Dots med motiv",
     quantityNote: "5 stk. i sættet",
+    priceDkk: 50,
     title: "Dots med motiv, symbolmærker til lynlås",
     badge: "Kan personliggøres",
   },
@@ -105,6 +113,19 @@ export const PRODUCT_META: Record<string, ProductMeta> = {
 
 export function getProductMeta(handle: string): ProductMeta {
   return PRODUCT_META[handle] ?? {};
+}
+
+/**
+ * The price to show for a product: Shopify's when it loaded, else the
+ * fixed price above, formatted "70 kr.". Null when neither is known.
+ */
+export function displayPrice(
+  handle: string,
+  shopifyPrice?: { amount: string; currencyCode: string } | null,
+): string | null {
+  const amount = shopifyPrice ? parseFloat(shopifyPrice.amount) : PRODUCT_META[handle]?.priceDkk;
+  if (amount === undefined || Number.isNaN(amount)) return null;
+  return `${new Intl.NumberFormat("da-DK", { maximumFractionDigits: 2 }).format(amount)} kr.`;
 }
 
 /** The title to show for a product: ours from PRODUCT_META, else Shopify's. */

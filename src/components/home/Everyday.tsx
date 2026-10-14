@@ -30,7 +30,7 @@ const ITEMS: { title: string; body: string; icon: React.ReactNode }[] = [
 
 export default function Everyday() {
   return (
-    <section className="bg-nooni-bg py-20 md:py-32" data-screen-label="04 Everyday">
+    <section className="bg-nooni-bg py-16 md:py-32" data-screen-label="04 Everyday">
       <div className="mx-auto max-w-[1180px] px-6 md:px-10">
         <h2
           className="mx-auto max-w-[720px] text-center font-editorial leading-[1.1] tracking-[-0.02em] text-nooni-ink"
@@ -39,7 +39,7 @@ export default function Everyday() {
           Små ting, der gør <span className="italic text-nooni-headline">morgenen lettere</span>
         </h2>
 
-        <ul className="mt-14 grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2 md:mt-20 lg:grid-cols-4">
+        <ul className="mt-10 grid grid-cols-2 gap-x-5 gap-y-9 md:mt-20 md:gap-x-10 lg:grid-cols-4">
           {ITEMS.map((item) => (
             <li key={item.title} className="text-center sm:text-left">
               <svg
@@ -59,7 +59,7 @@ export default function Everyday() {
               <h3 className="mt-4 font-medium text-nooni-ink" style={{ fontSize: "var(--nooni-text-body)" }}>
                 {item.title}
               </h3>
-              <p className="mt-1.5 font-editorial leading-relaxed text-nooni-ink-soft" style={{ fontSize: "var(--nooni-text-body)" }}>
+              <p className="mt-1.5 font-editorial text-[14px] leading-relaxed text-nooni-ink-soft md:text-[length:var(--nooni-text-body)]">
                 {item.body}
               </p>
             </li>

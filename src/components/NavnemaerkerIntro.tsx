@@ -18,9 +18,9 @@ const linkClass =
 
 export default function NavnemaerkerIntro() {
   return (
-    <section className="bg-nooni-bg py-20 md:py-28" data-screen-label="07 Om navnemærker">
+    <section className="bg-nooni-bg py-10 md:py-28" data-screen-label="07 Om navnemærker">
       <div className="mx-auto max-w-[1280px] px-6 md:px-10">
-        <div className="mx-auto max-w-[640px] border-t border-nooni-line-soft pt-16 md:pt-20">
+        <div className="mx-auto max-w-[640px] border-t border-nooni-line-soft pt-12 md:pt-20">
           <h2 className="text-center font-editorial leading-[1.15] tracking-[-0.01em] text-nooni-ink" style={{ fontSize: "var(--nooni-text-heading-sm)" }}>
             Navnemærker der sidder{" "}
             <em className="italic text-nooni-headline">uden på tøjet</em>

@@ -17,7 +17,7 @@ export default function ParentQuote() {
   const review = REVIEWS.find((r) => r.handle === "dots-med-navn-3stk" && r.stars === 5) ?? REVIEWS[0];
 
   return (
-    <section className="bg-nooni-bg-warm py-20 md:py-32" data-screen-label="06 Quote">
+    <section className="bg-nooni-bg-warm py-16 md:py-32" data-screen-label="06 Quote">
       <figure className="mx-auto flex max-w-[860px] flex-col items-center px-6 text-center">
         <Stars rating={OVERALL_RATING.rating} count={OVERALL_RATING.count} size={16} />
         <blockquote

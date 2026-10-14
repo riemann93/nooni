@@ -1,17 +1,20 @@
 /**
- * NameTagTiles: the name-tag family as four large, quiet tiles. Name,
- * one line, price and a link on top, the product photo below.
+ * NameTagTiles: the name-tag family as four quiet tiles. On a desktop
+ * they are large, with name, one line, price and a link on top and the
+ * photo below. On a phone they become the usual two-column shop grid:
+ * photo, name, price.
  *
  * Dots med navn first (the core product), then Dots med motiv, then
  * the two Loops for the bag. Photos and prices are live from Shopify;
  * if Shopify is unreachable the tiles still render with local photos
- * (or the tag's outline) and no price, so the section never empties.
+ * (or the tag's outline) and the fixed prices from product-meta.ts.
+ * Prices are fixed, so no "Fra".
  */
 
 import Image from "next/image";
 import Link from "next/link";
 import { ProductShape } from "@/components/personalization/ProductPreview";
-import { getProductMeta } from "@/lib/product-meta";
+import { displayPrice, getProductMeta } from "@/lib/product-meta";
 import { getProductsByHandles, type ProductSummary } from "@/lib/shopify/products";
 
 export const revalidate = 60;
@@ -22,14 +25,6 @@ const TILES: { handle: string; line: string; fallback?: string }[] = [
   { handle: "emblem", line: "Til skoletasken og penalhuset." },
   { handle: "loops", line: "Til tasken og nøglerne." },
 ];
-
-function formatPrice(amount: string, currencyCode: string): string {
-  return new Intl.NumberFormat("da-DK", {
-    style: "currency",
-    currency: currencyCode,
-    maximumFractionDigits: 0,
-  }).format(parseFloat(amount));
-}
 
 async function getProducts(): Promise<Map<string, ProductSummary>> {
   try {
@@ -53,7 +48,7 @@ export default async function NameTagTiles() {
           Find det rigtige <span className="italic text-nooni-headline">navnemærke</span>
         </h2>
 
-        <ul className="mt-10 grid grid-cols-1 gap-4 md:mt-14 md:grid-cols-2 md:gap-5">
+        <ul className="mt-8 grid grid-cols-2 gap-3 md:mt-14 md:gap-5">
           {TILES.map((tile) => {
             const product = products.get(tile.handle);
             const name = getProductMeta(tile.handle).crumbName ?? product?.title ?? tile.handle;
@@ -63,25 +58,30 @@ export default async function NameTagTiles() {
               : tile.fallback
                 ? { src: tile.fallback, alt: name }
                 : null;
-            const price = product?.priceRange.minVariantPrice;
+            const priceLabel = displayPrice(tile.handle, product?.priceRange.minVariantPrice);
 
             return (
               <li key={tile.handle}>
+                {/* Phone: image first, then name and price, like any shop grid.
+                    Desktop: a large tile with the text on top. */}
                 <Link
                   href={`/produkter/${tile.handle}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-[28px] bg-nooni-bg-warm text-center"
+                  className="group flex h-full flex-col overflow-hidden rounded-[20px] bg-nooni-bg-warm text-center md:rounded-[28px]"
                 >
-                  <div className="px-6 pt-10 md:pt-12">
-                    <h3 className="font-editorial tracking-[-0.01em] text-nooni-ink" style={{ fontSize: "var(--nooni-text-heading-sm)" }}>
+                  <div className="order-2 px-3 pt-3 pb-4 md:order-1 md:px-6 md:pt-12 md:pb-0">
+                    <h3 className="font-editorial tracking-[-0.01em] text-nooni-ink text-[15px] leading-snug md:text-[length:var(--nooni-text-heading-sm)]">
                       {name}
                     </h3>
-                    <p className="mt-1.5 font-editorial text-nooni-ink-soft" style={{ fontSize: "var(--nooni-text-body)" }}>
+                    <p className="mt-1.5 hidden font-editorial text-nooni-ink-soft md:block" style={{ fontSize: "var(--nooni-text-body)" }}>
                       {tile.line}
                     </p>
-                    <p className="mt-4 text-nooni-headline" style={{ fontSize: "var(--nooni-text-ui)" }}>
-                      {price && (
+                    {priceLabel && (
+                      <p className="mt-0.5 text-[13px] text-nooni-ink-soft md:hidden">{priceLabel}</p>
+                    )}
+                    <p className="mt-4 hidden text-nooni-headline md:block" style={{ fontSize: "var(--nooni-text-ui)" }}>
+                      {priceLabel && (
                         <span className="text-nooni-ink-soft">
-                          Fra {formatPrice(price.amount, price.currencyCode)}
+                          {priceLabel}
                           <span className="mx-2">·</span>
                         </span>
                       )}
@@ -89,18 +89,18 @@ export default async function NameTagTiles() {
                       <span aria-hidden className="inline-block transition-transform group-hover:translate-x-0.5">›</span>
                     </p>
                   </div>
-                  <div className="relative mx-6 mt-8 mb-6 aspect-[4/3] overflow-hidden rounded-[20px] md:mx-8 md:mb-8">
+                  <div className="relative order-1 m-2 aspect-square overflow-hidden rounded-[14px] md:order-2 md:mx-8 md:mt-8 md:mb-8 md:aspect-[4/3] md:rounded-[20px]">
                     {image ? (
                       <Image
                         src={image.src}
                         alt={image.alt}
                         fill
-                        sizes="(min-width: 768px) 560px, 90vw"
+                        sizes="(min-width: 768px) 560px, 46vw"
                         className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                       />
                     ) : (
                       <div className="flex h-full items-center justify-center bg-nooni-bg">
-                        <svg viewBox="0 0 100 100" className="w-1/3" aria-hidden>
+                        <svg viewBox="0 0 100 100" className="w-1/2 md:w-1/3" aria-hidden>
                           <ProductShape handle={tile.handle} fill="#E4C9B6" />
                         </svg>
                       </div>
@@ -112,8 +112,8 @@ export default async function NameTagTiles() {
           })}
         </ul>
 
-        <p className="mt-10 text-center">
-          <Link href="/navnemaerker" className="group inline-flex items-center gap-1 text-nooni-headline" style={{ fontSize: "var(--nooni-text-ui)" }}>
+        <p className="mt-6 text-center md:mt-10">
+          <Link href="/navnemaerker" className="group inline-flex items-center gap-1 py-3 text-nooni-headline" style={{ fontSize: "var(--nooni-text-ui)" }}>
             Sammenlign alle navnemærker
             <span aria-hidden className="transition-transform group-hover:translate-x-0.5">›</span>
           </Link>

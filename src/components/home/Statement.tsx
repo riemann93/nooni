@@ -6,7 +6,7 @@
 
 export default function Statement() {
   return (
-    <section className="bg-nooni-bg py-24 md:py-40" data-screen-label="02 Statement">
+    <section className="bg-nooni-bg py-20 md:py-40" data-screen-label="02 Statement">
       <div className="mx-auto max-w-[980px] px-6 text-center">
         <h2
           className="font-editorial leading-[1.12] tracking-[-0.02em] text-nooni-ink-soft/60"

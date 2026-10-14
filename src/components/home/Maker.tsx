@@ -9,8 +9,8 @@ import Link from "next/link";
 
 export default function Maker() {
   return (
-    <section id="historie" className="bg-nooni-bg py-20 md:py-32" data-screen-label="05 Maker">
-      <div className="mx-auto grid max-w-[1180px] items-center gap-12 px-6 md:grid-cols-2 md:gap-20 md:px-10">
+    <section id="historie" className="bg-nooni-bg py-14 md:py-32" data-screen-label="05 Maker">
+      <div className="mx-auto grid max-w-[1180px] items-center gap-9 px-6 md:grid-cols-2 md:gap-20 md:px-10">
         <div
           className="relative mx-auto aspect-[3/4] w-full max-w-[460px] overflow-hidden"
           style={{ borderRadius: "50% 50% 28px 28px / 37.5% 37.5% 28px 28px" }}
@@ -41,7 +41,7 @@ export default function Maker() {
           </p>
           <Link
             href="/om-os"
-            className="group mt-8 inline-flex items-center gap-1 text-nooni-headline"
+            className="group mt-5 inline-flex items-center gap-1 py-3 text-nooni-headline md:mt-8"
             style={{ fontSize: "var(--nooni-text-ui)" }}
           >
             Mød Camilla
