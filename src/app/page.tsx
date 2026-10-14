@@ -1,7 +1,7 @@
 /**
  * Homepage: navnemærker first, everything else after.
  *
- *   <Hero />               the page's only H1, rating, Dots med navn CTA
+ *   <Hero />               the page's only H1, rating, Loops CTA
  *   <ValueStrip />         USP band from the store facts
  *   <ProductsGrid />       "Vores navnemærker": the name-tag family only
  *   <ReviewsBand />        overall rating + three parent reviews

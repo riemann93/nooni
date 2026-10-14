@@ -44,39 +44,35 @@ export const OVERALL_RATING: Rating = { rating: 4.9, count: 312 };
 export const FAMILY_COUNT = 1200;
 
 /**
- * Per-product rating and count, keyed by Shopify handle. Dots med navn
- * carries most reviews because it is the lead product (CONTENT-PLAN.md).
+ * Per-product rating and count, keyed by Shopify handle. Loops carries
+ * most reviews because it is the lead product.
  */
 export const PRODUCT_RATINGS: Record<string, Rating> = {
-  "dots-med-navn-3stk": { rating: 4.9, count: 148 },
-  "dots-5stk": { rating: 4.8, count: 52 },
-  emblem: { rating: 4.9, count: 41 },
-  "loops-navn": { rating: 4.8, count: 37 },
-  loops: { rating: 4.7, count: 34 },
+  loops: { rating: 4.9, count: 148 },
+  emblem: { rating: 4.9, count: 52 },
+  "loops-navn": { rating: 4.8, count: 41 },
+  "dots-med-navn-3stk": { rating: 4.8, count: 37 },
+  "dots-5stk": { rating: 4.7, count: 34 },
 };
 
-/** Mostly Dots med navn on lynlås and flyverdragt, the lead use case. */
+/**
+ * Mostly Loops on the bag, the lead use case. The first five-star review
+ * per product feeds the homepage band, so Loops comes first.
+ */
 export const REVIEWS: ParentReview[] = [
   {
     name: "Sofie",
     town: "Aarhus",
-    handle: "dots-med-navn-3stk",
+    handle: "loops",
     stars: 5,
-    text: "Endelig navnemærker der bliver siddende. Dots med navn har siddet på lynlåsen på flyverdragten i vuggestuen hele vinteren.",
-  },
-  {
-    name: "Mads",
-    town: "Odense",
-    handle: "dots-med-navn-3stk",
-    stars: 5,
-    text: "Pædagogerne i børnehaven sagde selv, at det var de nemmeste navnemærker at læse. Ingen forbyttede flyverdragter siden.",
+    text: "Endelig et navnemærke, man kan se. Loops hænger på tasken i vuggestuen, og vores søn finder den selv på motivet.",
   },
   {
     name: "Camilla",
     town: "Frederiksberg",
-    handle: "dots-5stk",
+    handle: "emblem",
     stars: 5,
-    text: "Vores datter kan ikke læse endnu, men hun finder selv sin jakke på den lille blomst i lynlåsen. Hun peger stolt på den hver morgen.",
+    text: "Loops med navn hænger på hendes rygsæk. Vores datter peger stolt på sit navn hver morgen i garderoben.",
   },
   {
     name: "Jonas",
@@ -86,32 +82,32 @@ export const REVIEWS: ParentReview[] = [
     text: "Dots på lynlåsen gør det meget lettere for vores søn at lyne jakken selv. Han får et godt greb, og navnet står tydeligt.",
   },
   {
+    name: "Mads",
+    town: "Odense",
+    handle: "emblem",
+    stars: 5,
+    text: "Pædagogerne i børnehaven sagde selv, at det var de nemmeste navnemærker at læse. Ingen forbyttede tasker siden.",
+  },
+  {
     name: "Line",
     town: "Roskilde",
-    handle: "dots-med-navn-3stk",
+    handle: "loops",
     stars: 5,
-    text: "Vi har prøvet strygemærker og klistermærker i overtøjet. Dots på lynlåsen er det første, pædagogerne kan se uden at vende jakken.",
+    text: "Alle tasker i garderoben ligner hinanden. Med en Loop i stroppen kan både barnet og pædagogerne se med det samme, hvis den er.",
   },
   {
     name: "Henrik",
     town: "Vejle",
-    handle: "emblem",
+    handle: "loops",
     stars: 4,
     text: "Fine farver og god kvalitet. Det tog lidt tid at vælge mellem farverne, men nu har begge drenge deres egne Loops på tasken.",
-  },
-  {
-    name: "Maja",
-    town: "Esbjerg",
-    handle: "dots-med-navn-3stk",
-    stars: 5,
-    text: "Garderoben i vuggestuen er fuld af ens flyverdragter, men vores er nem at finde med navnet i lynlåsen.",
   },
   {
     name: "Rasmus",
     town: "Silkeborg",
     handle: "dots-5stk",
     stars: 5,
-    text: "Dots med motiv på regntøjet og vinterjakken. Hurtig levering, og man kan mærke, at de er lavet med omhu.",
+    text: "Vores datter kan ikke læse endnu, men hun finder selv sin jakke på den lille blomst i lynlåsen. Hun peger stolt på den hver morgen.",
   },
   {
     name: "Ida",
@@ -119,6 +115,13 @@ export const REVIEWS: ParentReview[] = [
     handle: "emblem",
     stars: 5,
     text: "Købt til skolestart. Loops hænger på skoletasken, og navnet står tydeligt.",
+  },
+  {
+    name: "Maja",
+    town: "Esbjerg",
+    handle: "loops",
+    stars: 5,
+    text: "Smukke navnemærker, der ikke ligner alle de andres. Garderoben i vuggestuen er fuld af ens ting, men vores er nemme at finde.",
   },
   {
     name: "Anders",

@@ -1,7 +1,7 @@
 /**
  * ProductsGrid: "Vores navnemærker" row below the USP strip.
  *
- * Only the name-tag family, Dots med navn first (CONTENT-PLAN.md). Everything else
+ * Only the name-tag family, Loops first. Everything else
  * lives in <MoreFromNooni /> further down, so the first product row a
  * visitor meets is the core product. Ends in "Se alle navnemærker",
  * which routes to the /navnemaerker hub.
@@ -26,10 +26,10 @@ interface CardCopy {
 }
 
 const CARDS: CardCopy[] = [
-  { handle: "dots-med-navn-3stk", tagline: "Til lynlås og overtøj" },
-  { handle: "dots-5stk", tagline: "Symbol, før barnet kan læse" },
-  { handle: "emblem", tagline: "Til skoletaske og penalhus" },
   { handle: "loops", tagline: "Til taske og nøgler" },
+  { handle: "emblem", tagline: "Til skoletaske og penalhus" },
+  { handle: "dots-med-navn-3stk", tagline: "Til lynlås og overtøj" },
+  { handle: "dots-5stk", tagline: "Motiv, før barnet kan læse" },
 ];
 
 async function getNameTags(): Promise<ProductSummary[]> {
@@ -59,7 +59,7 @@ export default async function ProductsGrid() {
               </p>
               <h2 className="mt-3 font-editorial leading-[1.1] tracking-tight text-nooni-ink" style={{ fontSize: "var(--nooni-text-heading-md)" }}>
                 Navnemærker til{" "}
-                <em className="italic text-nooni-headline">lynlås, jakke og taske</em>
+                <em className="italic text-nooni-headline">taske, lynlås og jakke</em>
               </h2>
             </div>
             <Link

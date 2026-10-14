@@ -154,8 +154,8 @@ export default async function NavnemaerkerPage() {
               Hvilket navnemærke passer <em className="italic text-nooni-headline">hvor?</em>
             </h2>
             <p className="mt-4 text-nooni-ink-soft" style={{ fontSize: "var(--nooni-text-body)" }}>
-              Dots med navn sidder på lynlåsen på flyverdragten og overtøjet, og Dots med motiv er til
-              børn, der ikke kan læse endnu. Loops hænger på tasken og nøglebundtet. Til tøj
+              Loops hænger på tasken og nøglebundtet. Dots med navn sidder på lynlåsen på
+              flyverdragten og overtøjet, og Dots med motiv er til børn, der ikke kan læse endnu. Til tøj
               indvendigt skal du bruge noget andet, og det siger vi gerne ærligt.
             </p>
 
@@ -164,10 +164,10 @@ export default async function NavnemaerkerPage() {
                 <tr className="border-b border-nooni-line text-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
                   <th scope="col" className="py-3 pr-3 font-medium uppercase tracking-[0.18em]">Hvor</th>
                   <th scope="col" className="w-16 py-3 text-center font-medium uppercase tracking-[0.18em] md:w-24">
-                    <Link href="/produkter/dots-med-navn-3stk" className="hover:text-nooni-headline">Dots</Link>
+                    <Link href="/produkter/loops" className="hover:text-nooni-headline">Loops</Link>
                   </th>
                   <th scope="col" className="w-16 py-3 text-center font-medium uppercase tracking-[0.18em] md:w-24">
-                    <Link href="/produkter/loops" className="hover:text-nooni-headline">Loops</Link>
+                    <Link href="/produkter/dots-med-navn-3stk" className="hover:text-nooni-headline">Dots</Link>
                   </th>
                 </tr>
               </thead>
@@ -180,8 +180,8 @@ export default async function NavnemaerkerPage() {
                         {row.note}
                       </span>
                     </th>
-                    <td className="py-4 text-center"><Check yes={row.dots} label="Dots" /></td>
                     <td className="py-4 text-center"><Check yes={row.loops} label="Loops" /></td>
+                    <td className="py-4 text-center"><Check yes={row.dots} label="Dots" /></td>
                   </tr>
                 ))}
               </tbody>

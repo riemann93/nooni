@@ -3,7 +3,7 @@ title: Hvad er 3D-print egentlig? (Og hvordan bliver Noonis produkter til)
 excerpt: Når jeg fortæller, at jeg designer Noonis produkter på 3D-printere, får jeg tit et spørgende blik. Lad mig vise dig, hvordan magien sker hjemme hos Wall-E og EVA.
 date: 2026-05-10
 image: /images/familie_2.jpg
-product: dots-med-navn-3stk
+product: loops
 ---
 
 Når jeg fortæller, at jeg designer og laver Noonis produkter på 3D-printere, får jeg tit et lidt spørgende blik. For hvad er 3D-print egentlig? Er det ikke sådan noget vildt science fiction-noget for computernørder, eller er det bare plastikdimser?
