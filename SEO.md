@@ -153,6 +153,11 @@ These are edits in Shopify Admin, not code:
 - Add alt text to product images in Shopify. It is used as the image
   description for Google Images.
 
+Until the Shopify titles say what each product is, the `title` field in
+`src/lib/product-meta.ts` overrides them in the H1, `<title>`, Product
+schema, cards and llms.txt. Once Shopify has titles like "Dots,
+navnemærke til lynlås", that field can go.
+
 After changing a handle, update any hardcoded references in the code
 (`src/components/ProductsGrid.tsx`, `src/lib/product-meta.ts`,
 `src/components/Hero.tsx`).

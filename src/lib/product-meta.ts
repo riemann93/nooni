@@ -13,10 +13,11 @@
 export interface ProductMeta {
   tagline?: string;
   /**
-   * Title shown on product cards, saying what the product is. Stands in
+   * Title that says what the product is ("Dots, navnemærke til lynlås").
+   * Used for the H1, <title>, schema name, cards and listings. Stands in
    * for the Shopify title until SEO.md issue 4 is fixed there.
    */
-  cardTitle?: string;
+  title?: string;
   /** Optional badge on the card photo. */
   badge?: "Bestseller" | "Kan personliggøres";
   /** Short note shown below the price, e.g. "5 stk. i sættet". */
@@ -56,21 +57,21 @@ export const isNameTag = (handle: string) => (NAME_TAG_HANDLES as readonly strin
 export const NAME_TAG_FACTS: ProductFacts = {};
 
 export const PRODUCT_META: Record<string, ProductMeta> = {
-  loops: { cardTitle: "Loops, navnemærke til taske", badge: "Bestseller" },
-  emblem: { cardTitle: "Loops med navn, navnemærke til taske", badge: "Kan personliggøres" },
+  loops: { title: "Loops, navnemærke til taske", badge: "Bestseller" },
+  emblem: { title: "Loops med navn, navnemærke til taske", badge: "Kan personliggøres" },
   "dots-5stk": {
     quantityNote: "5 stk. i sættet",
-    cardTitle: "Dots, symbolmærker til lynlås",
+    title: "Dots, symbolmærker til lynlås",
     badge: "Kan personliggøres",
   },
   "dots-med-navn-3stk": {
     quantityNote: "3 stk. i sættet",
-    cardTitle: "Dots med navn, navnemærke til lynlås",
+    title: "Dots med navn, navnemærke til lynlås",
     badge: "Kan personliggøres",
   },
   "loops-navn": {
     quantityNote: "3 stk. i sættet",
-    cardTitle: "Loops med navn, navnemærke til taske",
+    title: "Loops med navn, navnemærke til taske",
     badge: "Bestseller",
   },
   "tic-tac-take": { addOnHandle: "uden-titel-17-jun-_10-36-17" },
@@ -78,6 +79,23 @@ export const PRODUCT_META: Record<string, ProductMeta> = {
 
 export function getProductMeta(handle: string): ProductMeta {
   return PRODUCT_META[handle] ?? {};
+}
+
+/** The title to show for a product: ours from PRODUCT_META, else Shopify's. */
+export function productTitle(handle: string, shopifyTitle: string): string {
+  return PRODUCT_META[handle]?.title ?? shopifyTitle;
+}
+
+/**
+ * Splits "Dots, navnemærke til lynlås" (or Shopify's "Loops - Navn")
+ * into the short name and the rest. `rest` is null when there is none.
+ */
+export function splitTitle(title: string): { name: string; rest: string | null; sep: string } {
+  for (const sep of [" - ", ", "]) {
+    const idx = title.indexOf(sep);
+    if (idx !== -1) return { name: title.slice(0, idx), rest: title.slice(idx + sep.length), sep };
+  }
+  return { name: title, rest: null, sep: "" };
 }
 
 /** Where the "Navnemærker" crumb and hub links point. */

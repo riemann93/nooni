@@ -34,7 +34,7 @@ import ProductReviews from "@/components/product/ProductReviews";
 import ProductFacts from "@/components/product/ProductFacts";
 import ProductFaq from "@/components/product/ProductFaq";
 import RelatedNameTags from "@/components/product/RelatedNameTags";
-import { getProductMeta } from "@/lib/product-meta";
+import { getProductMeta, productTitle } from "@/lib/product-meta";
 import {
   jsonLdScript,
   metaDescription,
@@ -60,13 +60,14 @@ export async function generateMetadata({
   }
   const description = metaDescription(product.description);
   const image = product.images.nodes[0];
+  const title = productTitle(handle, product.title);
   return {
     ...pageMetadata({
-      title: product.title,
+      title,
       description,
       path: `/produkter/${handle}`,
       openGraph: image
-        ? { images: [{ url: image.url, width: image.width, height: image.height, alt: image.altText ?? product.title }] }
+        ? { images: [{ url: image.url, width: image.width, height: image.height, alt: image.altText ?? title }] }
         : {},
     }),
     robots: UNINDEXED_PRODUCT_HANDLES.has(handle)
@@ -115,6 +116,7 @@ export default async function ProductPage({ params }: PageProps) {
     !PLACEHOLDER_SOCIAL_PROOF || process.env.VERCEL_ENV !== "production";
   const rating = showSocialProof ? getProductRating(handle) ?? undefined : undefined;
 
+  const title = productTitle(handle, product.title);
   const minPrice = product.priceRange.minVariantPrice;
   const maxPrice = product.priceRange.maxVariantPrice;
   const priceLabel =
@@ -130,7 +132,7 @@ export default async function ProductPage({ params }: PageProps) {
           __html: jsonLdScript(
             productJsonLd({
               handle,
-              title: product.title,
+              title,
               description: product.description,
               images: product.images.nodes.map((img) => img.url),
               availableForSale: product.availableForSale,
@@ -143,7 +145,7 @@ export default async function ProductPage({ params }: PageProps) {
       <ProductPageClient
         handle={handle}
         images={product.images.nodes}
-        productTitle={product.title}
+        productTitle={title}
         variants={product.variants.nodes}
         schema={schema}
         tagline={meta.tagline}

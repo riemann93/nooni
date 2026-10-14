@@ -69,7 +69,7 @@ export default function ProductCard({
   const image = product.images.nodes[0];
   const price = product.priceRange.minVariantPrice;
   const meta = getProductMeta(product.handle);
-  const title = meta.cardTitle ?? product.title;
+  const title = meta.title ?? product.title;
   const rating = SHOW_RATINGS ? getProductRating(product.handle) : null;
 
   return (

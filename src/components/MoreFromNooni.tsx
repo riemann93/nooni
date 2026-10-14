@@ -12,6 +12,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { productTitle } from "@/lib/product-meta";
 import { getProductsByHandles, type ProductSummary } from "@/lib/shopify/products";
 
 export const revalidate = 60;
@@ -85,7 +86,7 @@ export default async function MoreFromNooni() {
                       {taglines[product.handle]}
                     </p>
                     <h3 className="mt-1 font-editorial text-xl italic font-medium leading-tight text-nooni-headline">
-                      {product.title}
+                      {productTitle(product.handle, product.title)}
                     </h3>
                     <p className="mt-0.5 text-nooni-ink-soft" style={{ fontSize: "var(--nooni-text-ui)" }}>
                       Fra {formatPrice(price.amount, price.currencyCode)}

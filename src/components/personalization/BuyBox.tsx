@@ -9,7 +9,7 @@
 
 import Link from "next/link";
 import { useSyncExternalStore } from "react";
-import { isNametag, NAMETAG_HUB_PATH } from "@/lib/product-meta";
+import { isNametag, NAMETAG_HUB_PATH, splitTitle } from "@/lib/product-meta";
 import {
   deliveryWindow,
   PAYMENT_METHODS,
@@ -20,7 +20,7 @@ import {
 
 /** Short product name for the last crumb: "Loops - Navnemærke" becomes "Loops". */
 export function crumbName(title: string): string {
-  return title.split(" - ")[0];
+  return splitTitle(title).name;
 }
 
 export function Breadcrumbs({ handle, title }: { handle: string; title: string }) {

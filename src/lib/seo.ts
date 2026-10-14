@@ -9,7 +9,7 @@
  */
 
 import type { Metadata } from "next";
-import { isNametag, NAMETAG_HUB_PATH } from "@/lib/product-meta";
+import { isNametag, NAMETAG_HUB_PATH, productTitle } from "@/lib/product-meta";
 import { RETURNS, SHIPPING } from "@/lib/store-facts";
 
 type OpenGraph = NonNullable<Metadata["openGraph"]>;
@@ -317,7 +317,7 @@ export function hubJsonLd(hub: HubJsonLdInput) {
           itemListElement: hub.products.map((p, i) => ({
             "@type": "ListItem",
             position: i + 1,
-            name: p.title,
+            name: productTitle(p.handle, p.title),
             url: `${SITE_URL}/produkter/${p.handle}`,
           })),
         },

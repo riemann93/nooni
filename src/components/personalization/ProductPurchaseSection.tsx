@@ -28,6 +28,7 @@ import {
   type PersonalizationSchema,
 } from "@/lib/shopify/personalization";
 import type { Money, ProductVariant } from "@/lib/shopify/types";
+import { splitTitle } from "@/lib/product-meta";
 
 function formatPrice(money: Money): string {
   return new Intl.NumberFormat("da-DK", {
@@ -290,7 +291,7 @@ export default function ProductPurchaseSection({
           <div className="mx-auto flex max-w-[1280px] items-center gap-3">
             <div className="min-w-0 flex-1">
               <p className="truncate font-editorial text-base text-nooni-ink">
-                {productTitle.split(" - ")[0]}
+                {splitTitle(productTitle).name}
               </p>
               <p className="text-xs text-nooni-ink-soft">
                 {totalPrice ? formatPrice(totalPrice) : priceLabel} inkl. moms

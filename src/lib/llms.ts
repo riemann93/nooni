@@ -12,6 +12,7 @@ import {
   SITE_URL,
   UNINDEXED_PRODUCT_HANDLES,
 } from "@/lib/seo";
+import { productTitle } from "@/lib/product-meta";
 import { getAllProducts, getProductByHandle } from "@/lib/shopify/products";
 import { STORE_FACTS } from "@/lib/store-facts";
 import { FAQ, FIT_ROWS, HUB_INTRO, HUB_PATH } from "@/lib/navnemaerker";
@@ -80,6 +81,8 @@ export async function getCatalogue() {
       .filter((p) => !UNINDEXED_PRODUCT_HANDLES.has(p.handle))
       .map((p) => getProductByHandle(p.handle).catch(() => null)),
   );
-  return products.filter((p) => p !== null);
+  return products
+    .filter((p) => p !== null)
+    .map((p) => ({ ...p, title: productTitle(p.handle, p.title) }));
 }
 

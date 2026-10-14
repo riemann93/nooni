@@ -6,6 +6,7 @@ import ProductGallery from "@/components/ProductGallery";
 import Stars from "@/components/Stars";
 import { Breadcrumbs, MadeForYou } from "@/components/personalization/BuyBox";
 import type { Rating } from "@/lib/social-proof";
+import { splitTitle } from "@/lib/product-meta";
 import ProductPurchaseSection from "@/components/personalization/ProductPurchaseSection";
 import ProductPreview, {
   PREVIEW_SUPPORTED_HANDLES,
@@ -19,15 +20,12 @@ import type { ColorOption, PersonalizationSchema } from "@/lib/shopify/personali
 import type { Money, ProductVariant, ShopifyImage } from "@/lib/shopify/types";
 
 function renderProductTitle(title: string): ReactNode {
-  const sep = " - ";
-  const idx = title.indexOf(sep);
-  if (idx === -1) return title;
-  const main = title.slice(0, idx);
-  const accent = title.slice(idx + sep.length);
+  const { name, rest, sep } = splitTitle(title);
+  if (rest === null) return title;
   return (
     <>
-      {main}{" "}
-      <em className="italic text-nooni-headline">{accent}</em>
+      {name}{sep === ", " ? "," : ""}{" "}
+      <em className="italic text-nooni-headline">{rest}</em>
     </>
   );
 }
