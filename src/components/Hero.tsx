@@ -10,11 +10,9 @@
  *   - Left: a "Hej, jeg er Camilla" note, the headline, a short line in
  *     Camilla's voice, and the Dots CTA (IDENTITY.md: visitors must be
  *     able to go straight to Dots)
- *   - Right: the family photo in the brand's arch frame, with a reel-
- *     style note laid over its bottom edge
- *
- * The photo sits in its own column rather than under a cream wash, so
- * no faces are veiled by the copy.
+ *   - Right: a Dots lifestyle photo in the brand's arch frame, with a
+ *     reel-style note laid over its bottom edge, so the picture shows
+ *     the product the CTA leads to
  *
  * Not yet wired (deferred — possibly past Dalager Marked):
  *   - The expand-on-click configurator
@@ -26,8 +24,8 @@ import Link from "next/link";
 import InstaNote from "@/components/InstaNote";
 
 const HERO_PHOTO = {
-  src: "/images/familie_1.jpg",
-  alt: "Camilla med sine to piger, familien bag Nooni",
+  src: "/images/dots_name_lifestyle.jpg",
+  alt: "Dots med navnet Elvira på lynlåsen af en børnerygsæk",
 };
 
 export default function Hero() {
@@ -97,7 +95,7 @@ export default function Hero() {
                   fill
                   priority
                   sizes="(min-width: 768px) 520px, 90vw"
-                  className="object-cover object-[22%_center]"
+                  className="object-cover object-[center_45%] scale-110"
                 />
               </div>
 
@@ -105,7 +103,7 @@ export default function Hero() {
                 variant="cream"
                 className="absolute bottom-6 left-1/2 w-max max-w-[90%] -translate-x-1/2 text-center text-[clamp(14px,1.3vw,18px)]"
               >
-                Kan I finde jeres egen jakke?
+                I lige den farve der passer til dig
               </InstaNote>
             </div>
           </div>

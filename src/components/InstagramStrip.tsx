@@ -26,10 +26,10 @@ interface Tile {
 
 const TILES: Tile[] = [
   {
-    src: "/images/dots_name_lifestyle.jpg",
-    alt: "Dots med navnet Elvira på lynlåsen af en rygsæk",
-    note: "I lige den farve der passer til dig",
-    position: "center 45%",
+    src: "/images/familie_1.jpg",
+    alt: "Camilla med sine to piger, familien bag Nooni",
+    note: "Kan I finde jeres egen jakke?",
+    position: "22% center",
   },
   {
     src: "/images/familie_2.jpg",
