@@ -6,6 +6,7 @@
 - Reviews come from Trustpilot (human chose it, no account yet). Never wire Judge.me or another review app. PLACEHOLDER_SOCIAL_PROOF goes false only with real Trustpilot reviews.
 
 ## Lately
+- 2026-10-14 Round after final check landed (c82fbae). NAMETAG_HUB_PATH is /navnemaerker, so dropped that Open line. Gave Model lines to the three new quests (Dots lead opus, titles and colours sonnet). Nothing else to do.
 - 2026-10-14 Round: "Wire Trustpilot reviews..." marked done with no commit (main still a9cc90a, placeholders and guard on). Plan question stays open with the human. Final check still running. Nothing to do.
 - 2026-10-14 Trustpilot quest needs account, unit ID, API key/export; free plan gives no product stars. Handed plan choice (paid Trustpilot, Judge.me, or free shop-wide) and details to the human, told the session to stop.
 - 2026-10-14 Round: human settled reviews as Trustpilot (made a rule) and filed "Wire Trustpilot reviews..."; gave it Model: sonnet. Final check still running, NAMETAG_HUB_PATH still /produkter (it was told to flip it). Nothing else to do.
@@ -28,7 +29,6 @@
 - 2026-10-14 Round after "Bring Morten up to date with Discoverability" landed. Social proof and shipping facts quests in progress. Gave every unstarted quest a Model line (opus for hub page, homepage rebuild, final check; sonnet for the rest). Day look back: clean, nothing went wrong twice.
 
 ## Open
-- Check NAMETAG_HUB_PATH is /navnemaerker once "Conversion and SEO check of the new shop" lands. If not, add a small haiku quest to flip it.
 - Human (Camilla) to confirm hub guide claims: washing untested, Dots on zipper pulls with a cord and on hats/mittens; and whether a separate Emblem product is coming.
 - Human to confirm shipping facts: is 'Fri fragt over 350 kr.' real? If yes, add it to Shopify policy and SHIPPING in src/lib/store-facts.ts.
 - Human to pick paid Trustpilot product reviews, Judge.me, or free shop-wide Trustpilot, and supply account, business unit ID and API key/export for "Wire Trustpilot reviews...". Guard in next.config.ts blocks production builds meanwhile. If they switch, update the Trustpilot rule.
