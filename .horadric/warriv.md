@@ -6,6 +6,7 @@
 - Reviews come from Trustpilot (human chose it, no account yet). Never wire Judge.me or another review app. PLACEHOLDER_SOCIAL_PROOF goes false only with real Trustpilot reviews.
 
 ## Lately
+- 2026-10-14 "Product titles and H1s" landed with a product-meta.ts conflict against the final check (c82fbae). Fix-up (sonnet) told: rename cardTitle to title but keep Morten's values (emblem 'Loops med navn...', hub path /navnemaerker). Accepted its assumption: product-meta titles drive H1/title/schema until Shopify titles are fixed.
 - 2026-10-14 Round after "Decide brand colours for small text" landed (346e525). Dots lead and titles quests in progress, nothing blocked, no aim open. Shipping waits on the Trustpilot guard. Nothing to do.
 - 2026-10-14 Round after final check landed (c82fbae). NAMETAG_HUB_PATH is /navnemaerker, so dropped that Open line. Gave Model lines to the three new quests (Dots lead opus, titles and colours sonnet). Nothing else to do.
 - 2026-10-14 Round: "Wire Trustpilot reviews..." marked done with no commit (main still a9cc90a, placeholders and guard on). Plan question stays open with the human. Final check still running. Nothing to do.
