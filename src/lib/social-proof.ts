@@ -43,85 +43,89 @@ export const OVERALL_RATING: Rating = { rating: 4.9, count: 312 };
 /** Shown as "{FAMILY_COUNT} familier bruger Nooni". */
 export const FAMILY_COUNT = 1200;
 
-/** Per-product rating and count, keyed by Shopify handle. */
+/**
+ * Per-product rating and count, keyed by Shopify handle. Dots med navn
+ * carries most reviews because it is the lead product (CONTENT-PLAN.md).
+ */
 export const PRODUCT_RATINGS: Record<string, Rating> = {
-  "loops-navn": { rating: 4.9, count: 148 },
-  loops: { rating: 4.8, count: 41 },
-  emblem: { rating: 4.9, count: 37 },
-  "dots-med-navn-3stk": { rating: 4.8, count: 52 },
-  "dots-5stk": { rating: 4.7, count: 34 },
+  "dots-med-navn-3stk": { rating: 4.9, count: 148 },
+  "dots-5stk": { rating: 4.8, count: 52 },
+  emblem: { rating: 4.9, count: 41 },
+  "loops-navn": { rating: 4.8, count: 37 },
+  loops: { rating: 4.7, count: 34 },
 };
 
+/** Mostly Dots med navn on lynlås and flyverdragt, the lead use case. */
 export const REVIEWS: ParentReview[] = [
   {
     name: "Sofie",
     town: "Aarhus",
-    handle: "loops-navn",
+    handle: "dots-med-navn-3stk",
     stars: 5,
-    text: "Endelig navnemærker der bliver siddende. Loops har hængt på tasken i vuggestuen hele foråret og ser stadig ud som nye.",
+    text: "Endelig navnemærker der bliver siddende. Dots med navn har siddet på lynlåsen på flyverdragten i vuggestuen hele vinteren.",
   },
   {
     name: "Mads",
     town: "Odense",
-    handle: "loops-navn",
+    handle: "dots-med-navn-3stk",
     stars: 5,
     text: "Pædagogerne i børnehaven sagde selv, at det var de nemmeste navnemærker at læse. Ingen forbyttede flyverdragter siden.",
   },
   {
     name: "Camilla",
     town: "Frederiksberg",
-    handle: "emblem",
+    handle: "dots-5stk",
     stars: 5,
-    text: "Loops med navn hænger på hendes rygsæk. Vores datter peger stolt på sit navn hver morgen i garderoben.",
+    text: "Vores datter kan ikke læse endnu, men hun finder selv sin jakke på den lille blomst i lynlåsen. Hun peger stolt på den hver morgen.",
   },
   {
     name: "Jonas",
     town: "Aalborg",
     handle: "dots-med-navn-3stk",
     stars: 5,
-    text: "Dots med navn sidder på lynlåsen på flyverdragten, og vores søn kan selv få fat i den, når han skal lyne.",
+    text: "Dots på lynlåsen gør det meget lettere for vores søn at lyne jakken selv. Han får et godt greb, og navnet står tydeligt.",
   },
   {
     name: "Line",
     town: "Roskilde",
-    handle: "loops-navn",
+    handle: "dots-med-navn-3stk",
     stars: 5,
-    text: "Vi har prøvet strygemærker og klistermærker. Loops er de første navnemærker, vi ikke skal sætte på igen efter et par uger.",
+    text: "Vi har prøvet strygemærker og klistermærker i overtøjet. Dots på lynlåsen er det første, pædagogerne kan se uden at vende jakken.",
   },
   {
     name: "Henrik",
     town: "Vejle",
-    handle: "loops",
+    handle: "emblem",
     stars: 4,
-    text: "Fine farver og god kvalitet. Det tog lidt tid at vælge mellem farverne, men nu har begge drenge deres egne Loops i børnehaven.",
+    text: "Fine farver og god kvalitet. Det tog lidt tid at vælge mellem farverne, men nu har begge drenge deres egne Loops på tasken.",
   },
   {
     name: "Maja",
     town: "Esbjerg",
-    handle: "emblem",
+    handle: "dots-med-navn-3stk",
     stars: 5,
-    text: "Smukke navnemærker, der ikke ligner alle de andres. Garderoben i vuggestuen er fuld af ens ting, men vores er nemme at finde.",
+    text: "Garderoben i vuggestuen er fuld af ens flyverdragter, men vores er nem at finde med navnet i lynlåsen.",
   },
   {
     name: "Rasmus",
     town: "Silkeborg",
     handle: "dots-5stk",
     stars: 5,
-    text: "Dots på både jakke, regntøj og flyverdragt. Hurtig levering, og man kan mærke, at de er lavet med omhu.",
+    text: "Dots med motiv på regntøjet og vinterjakken. Hurtig levering, og man kan mærke, at de er lavet med omhu.",
   },
   {
     name: "Ida",
     town: "Helsingør",
-    handle: "loops-navn",
+    handle: "emblem",
     stars: 5,
-    text: "Købt til opstart i vuggestue. Navnet står tydeligt, og Loops har allerede overlevet et efterår i sandkassen.",
+    text: "Købt til skolestart. Loops hænger på skoletasken, og navnet står tydeligt.",
   },
   {
     name: "Anders",
     town: "Horsens",
     handle: "dots-med-navn-3stk",
     stars: 5,
-    text: "Vi skulle mærke alt til børnehaven på én weekend. Navnemærkerne kom hurtigt, og de sad fast med det samme.",
+    text: "Vi skulle mærke alt overtøjet til børnehaven på én weekend. Dots kom hurtigt, og de sad fast på lynlåsene med det samme.",
   },
 ];
 

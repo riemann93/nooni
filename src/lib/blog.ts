@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { LEAD_NAME_TAG } from "@/lib/product-meta";
 
 export interface BlogPost {
   slug: string;
@@ -40,7 +41,7 @@ export function getAllPosts(): BlogPost[] {
         excerpt: data.excerpt ?? "",
         date: data.date ?? "",
         image: data.image ?? "/images/dots_name_lifestyle.jpg",
-        product: data.product ?? "loops-navn",
+        product: data.product ?? LEAD_NAME_TAG,
         content,
       };
     })

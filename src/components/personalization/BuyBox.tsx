@@ -9,7 +9,7 @@
 
 import Link from "next/link";
 import { useSyncExternalStore } from "react";
-import { isNametag, NAMETAG_HUB_PATH, splitTitle } from "@/lib/product-meta";
+import { getProductMeta, isNametag, NAMETAG_HUB_PATH, splitTitle } from "@/lib/product-meta";
 import {
   deliveryWindow,
   PAYMENT_METHODS,
@@ -18,9 +18,12 @@ import {
   STORE_FACTS,
 } from "@/lib/store-facts";
 
-/** Short product name for the last crumb: "Loops - Navnemærke" becomes "Loops". */
-export function crumbName(title: string): string {
-  return splitTitle(title).name;
+/**
+ * Short product name for the last crumb: the name set in product-meta
+ * ("Dots med navn"), else the title up to its first separator.
+ */
+export function crumbName(handle: string, title: string): string {
+  return getProductMeta(handle).crumbName ?? splitTitle(title).name;
 }
 
 export function Breadcrumbs({ handle, title }: { handle: string; title: string }) {
@@ -41,7 +44,7 @@ export function Breadcrumbs({ handle, title }: { handle: string; title: string }
             <span aria-hidden="true" className="text-nooni-arch">›</span>
           </li>
         ))}
-        <li aria-current="page" className="text-nooni-ink">{crumbName(title)}</li>
+        <li aria-current="page" className="text-nooni-ink">{crumbName(handle, title)}</li>
       </ol>
     </nav>
   );

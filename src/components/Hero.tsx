@@ -3,12 +3,14 @@
  *
  * Holds the page's only H1. Layout:
  *   - A rounded cream frame (bg-nooni-bg-warm) with the copy on the
- *     left and a product-focused Loops image on the right. On mobile
+ *     left and a product-focused Dots med navn image on the right. On mobile
  *     the copy comes first so H1, rating and CTA sit above the fold at
  *     375px, with the image below.
  *   - Stars + review count come from src/lib/social-proof.ts. That data
  *     is placeholder: purely visual, never in JSON-LD.
- *   - "Fra XX kr" is the live Loops price from Shopify. If Shopify is
+ *   - "Fra XX kr" is the live Dots med navn price from Shopify. Dots med
+ *     navn leads because it fits what parents search ("navnemærke til
+ *     lynlås", flyverdragt, overtøj; CONTENT-PLAN.md keyword map). If Shopify is
  *     unreachable the price line (and the Shopify image) is dropped and
  *     a local photo is used, so the hero never breaks.
  *
@@ -20,12 +22,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import Stars from "@/components/Stars";
+import { LEAD_NAME_TAG } from "@/lib/product-meta";
 import { OVERALL_RATING } from "@/lib/social-proof";
 import { getProductsByHandles, type ProductSummary } from "@/lib/shopify/products";
 
 export const revalidate = 60;
-
-const LOOPS_HANDLE = "loops";
 
 const FALLBACK_IMAGE = {
   src: "/images/dots_name_lifestyle.jpg",
@@ -46,10 +47,10 @@ function formatPrice(amount: string, currencyCode: string): string {
   }).format(parseFloat(amount));
 }
 
-async function getLoops(): Promise<ProductSummary | null> {
+async function getLeadProduct(): Promise<ProductSummary | null> {
   try {
-    const [loops] = await getProductsByHandles([LOOPS_HANDLE]);
-    return loops ?? null;
+    const [product] = await getProductsByHandles([LEAD_NAME_TAG]);
+    return product ?? null;
   } catch {
     return null;
   }
@@ -75,13 +76,13 @@ function Tick() {
 }
 
 export default async function Hero() {
-  const loops = await getLoops();
-  const shopifyImage = loops?.images.nodes[0];
-  const price = loops?.priceRange.minVariantPrice;
-  const loopsHref = `/produkter/${LOOPS_HANDLE}`;
+  const lead = await getLeadProduct();
+  const shopifyImage = lead?.images.nodes[0];
+  const price = lead?.priceRange.minVariantPrice;
+  const leadHref = `/produkter/${LEAD_NAME_TAG}`;
 
   const image = shopifyImage
-    ? { src: shopifyImage.url, alt: shopifyImage.altText ?? "Loops navnemærke på en lynlås" }
+    ? { src: shopifyImage.url, alt: shopifyImage.altText ?? "Dots med navn, navnemærke på en lynlås" }
     : FALLBACK_IMAGE;
 
   return (
@@ -114,8 +115,8 @@ export default async function Hero() {
               className="mt-3 font-editorial leading-snug text-nooni-ink-soft"
               style={{ fontSize: "var(--nooni-text-body-lg)" }}
             >
-              Sidder på lynlås og taske, bliver ikke væk i institutionen og kan genkendes af børn,
-              der endnu ikke kan læse.
+              Sidder på lynlåsen på flyverdragten og jakken, bliver ikke væk i institutionen og
+              giver små hænder et bedre greb, når de lyner selv.
             </p>
 
             {price && (
@@ -126,7 +127,7 @@ export default async function Hero() {
 
             <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
-                href={loopsHref}
+                href={leadHref}
                 className="inline-flex items-center justify-center rounded-full bg-nooni-headline px-7 py-3.5 text-white transition-colors hover:bg-[#9d6f6f]"
                 style={{ fontSize: "var(--nooni-text-ui)" }}
               >

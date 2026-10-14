@@ -33,9 +33,9 @@ const COLUMNS = [
     title: "Shop",
     links: [
       { href: "/navnemaerker", label: "Navnemærker" },
-      { href: "/navnemaerker#loops", label: "Loops" },
-      { href: "/navnemaerker#dots", label: "Dots" },
-      { href: "/navnemaerker#emblem", label: "Emblem" },
+      { href: "/produkter/dots-med-navn-3stk", label: "Dots med navn" },
+      { href: "/produkter/dots-5stk", label: "Dots med motiv" },
+      { href: "/produkter/emblem", label: "Loops" },
       { href: "/produkter", label: "Alle produkter" },
     ],
   },

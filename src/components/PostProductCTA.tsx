@@ -5,21 +5,27 @@
  */
 
 import Link from "next/link";
+import { LEAD_NAME_TAG } from "@/lib/product-meta";
 
 const PRODUCTS: Record<string, { name: string; line: string }> = {
-  "loops-navn": {
-    name: "Loops",
-    line: "Navnemærket med dit barns navn, der sidder fast i vask efter vask.",
-  },
   "dots-med-navn-3stk": {
     name: "Dots med navn",
-    line: "Små navnemærker til sutteflasker, drikkedunke og madkasser.",
+    line: "Navnemærket til lynlåsen på flyverdragten og jakken. Giver små hænder et bedre greb.",
+  },
+  "dots-5stk": {
+    name: "Dots med motiv",
+    line: "Symbolmærker til lynlåsen, til børn der ikke kan læse deres navn endnu.",
+  },
+  emblem: {
+    name: "Loops",
+    line: "Navnemærket til tasken, med barnets navn.",
   },
 };
 
 export default function PostProductCTA({ handle }: { handle: string }) {
-  const product = PRODUCTS[handle] ?? PRODUCTS["loops-navn"];
-  const href = PRODUCTS[handle] ? `/produkter/${handle}` : "/produkter/loops-navn";
+  const key = PRODUCTS[handle] ? handle : LEAD_NAME_TAG;
+  const product = PRODUCTS[key];
+  const href = `/produkter/${key}`;
 
   return (
     <aside

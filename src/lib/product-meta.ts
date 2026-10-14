@@ -11,7 +11,10 @@
  */
 
 export interface ProductMeta {
+  /** Italic line above the product title. Names the keyword-map search the page targets (CONTENT-PLAN.md). */
   tagline?: string;
+  /** Short name for the last breadcrumb, e.g. "Dots med navn". Falls back to the Shopify title. */
+  crumbName?: string;
   /**
    * Title that says what the product is ("Dots, navnemærke til lynlås").
    * Used for the H1, <title>, schema name, cards and listings. Stands in
@@ -42,13 +45,20 @@ export interface ProductFacts {
   age?: string;
 }
 
-/** Name-tag family. These link to the /navnemaerker hub. */
+/**
+ * Name-tag family, lead product first (CONTENT-PLAN.md keyword map):
+ * Dots med navn for lynlås and overtøj, Dots med motiv for children who
+ * can't read yet, then Loops for the bag. Handle "emblem" is the product
+ * titled "Loops - Navn" (SEO.md issue 4).
+ */
+export const LEAD_NAME_TAG = "dots-med-navn-3stk";
+
 export const NAME_TAG_HANDLES = [
-  "loops-navn",
-  "loops",
   "dots-med-navn-3stk",
   "dots-5stk",
   "emblem",
+  "loops-navn",
+  "loops",
 ] as const;
 
 export const isNameTag = (handle: string) => (NAME_TAG_HANDLES as readonly string[]).includes(handle);
@@ -57,22 +67,38 @@ export const isNameTag = (handle: string) => (NAME_TAG_HANDLES as readonly strin
 export const NAME_TAG_FACTS: ProductFacts = {};
 
 export const PRODUCT_META: Record<string, ProductMeta> = {
-  loops: { title: "Loops, navnemærke til taske", badge: "Bestseller" },
-  emblem: { title: "Loops med navn, navnemærke til taske", badge: "Kan personliggøres" },
-  "dots-5stk": {
-    quantityNote: "5 stk. i sættet",
-    title: "Dots, symbolmærker til lynlås",
-    badge: "Kan personliggøres",
-  },
   "dots-med-navn-3stk": {
+    tagline: "Navnemærke til lynlås, flyverdragt og overtøj",
+    crumbName: "Dots med navn",
     quantityNote: "3 stk. i sættet",
     title: "Dots med navn, navnemærke til lynlås",
+    badge: "Bestseller",
+  },
+  "dots-5stk": {
+    tagline: "Symbolmærker til børn, der ikke kan læse",
+    crumbName: "Dots med motiv",
+    quantityNote: "5 stk. i sættet",
+    title: "Dots med motiv, symbolmærker til lynlås",
+    badge: "Kan personliggøres",
+  },
+  emblem: {
+    tagline: "Navnemærke til taske",
+    crumbName: "Loops med navn",
+    title: "Loops med navn, navnemærke til taske",
     badge: "Kan personliggøres",
   },
   "loops-navn": {
+    tagline: "Navnemærke til taske",
+    crumbName: "Loops med navn",
     quantityNote: "3 stk. i sættet",
     title: "Loops med navn, navnemærke til taske",
-    badge: "Bestseller",
+    badge: "Kan personliggøres",
+  },
+  loops: {
+    tagline: "Navnemærke til taske",
+    crumbName: "Loops med motiv",
+    title: "Loops med motiv, navnemærke til taske",
+    badge: "Kan personliggøres",
   },
   "tic-tac-take": { addOnHandle: "uden-titel-17-jun-_10-36-17" },
 };
@@ -98,23 +124,12 @@ export function splitTitle(title: string): { name: string; rest: string | null; 
   return { name: title, rest: null, sep: "" };
 }
 
-/** Where the "Navnemærker" crumb and hub links point. */
+/** Where the "Navnemærker" crumb and hub links point: the hub that targets the head term. */
 export const NAMETAG_HUB_PATH = "/navnemaerker";
 
-/** Name-tag family: Loops, Dots and Emblem. The core product. */
-const NAMETAG_HANDLES = new Set([
-  "loops-navn",
-  "loops",
-  "emblem",
-  "dots-med-navn-3stk",
-  "dots-5stk",
-]);
-
-/** Position in the name-tag family, Loops first. Used to sort the listing. */
+/** Position in the name-tag family, Dots med navn first. Used to sort the listing. */
 export function nametagRank(handle: string): number {
-  return [...NAMETAG_HANDLES].indexOf(handle);
+  return (NAME_TAG_HANDLES as readonly string[]).indexOf(handle);
 }
 
-export function isNametag(handle: string): boolean {
-  return NAMETAG_HANDLES.has(handle);
-}
+export const isNametag = isNameTag;

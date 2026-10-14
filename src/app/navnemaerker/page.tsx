@@ -154,7 +154,8 @@ export default async function NavnemaerkerPage() {
               Hvilket navnemærke passer <em className="italic text-nooni-headline">hvor?</em>
             </h2>
             <p className="mt-4 text-nooni-ink-soft" style={{ fontSize: "var(--nooni-text-body)" }}>
-              Dots sidder på lynlåsen og overtøjet. Loops hænger på tasken og nøglebundtet. Til tøj
+              Dots med navn sidder på lynlåsen på flyverdragten og overtøjet, og Dots med motiv er til
+              børn, der ikke kan læse endnu. Loops hænger på tasken og nøglebundtet. Til tøj
               indvendigt skal du bruge noget andet, og det siger vi gerne ærligt.
             </p>
 
@@ -268,7 +269,7 @@ export default async function NavnemaerkerPage() {
                     />
                   </div>
                   <figcaption className="mt-3 text-center text-nooni-ink-soft" style={{ fontSize: "var(--nooni-text-ui)" }}>
-                    Dots med symbol, til børn der ikke kan læse endnu.
+                    Dots med motiv, til børn der ikke kan læse endnu.
                   </figcaption>
                 </figure>
               </div>

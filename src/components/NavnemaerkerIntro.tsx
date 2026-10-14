@@ -40,7 +40,7 @@ export default function NavnemaerkerIntro() {
               også i en travl garderobe i vuggestuen, børnehaven eller skolen.
             </p>
             <p>
-              Dots med navn har barnets navn skrevet tydeligt. Dots med symbol er til børn, der endnu
+              Dots med navn har barnets navn skrevet tydeligt. Dots med motiv er til børn, der endnu
               ikke kan læse, men nemt kender deres eget symbol. Formen giver små hænder et bedre greb
               om lynlåsen, så barnet lettere kan lyne jakken selv. Loops hænger på tasken eller
               nøglerne, så den ikke bliver forbyttet med de andres.

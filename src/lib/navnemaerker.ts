@@ -32,14 +32,14 @@ export interface NameTag {
  */
 export const NAME_TAGS: NameTag[] = [
   { handle: "dots-med-navn-3stk", tagline: "Navn · lynlås" },
-  { handle: "dots-5stk", tagline: "Symbol · lynlås" },
+  { handle: "dots-5stk", tagline: "Motiv · lynlås" },
   { handle: "emblem", tagline: "Navn · taske" },
   { handle: "loops-navn", tagline: "Navn · taske" },
-  { handle: "loops", tagline: "Symbol · taske" },
+  { handle: "loops", tagline: "Motiv · taske" },
 ];
 
 export const HUB_INTRO =
-  "Navnemærker til lynlås, hue og taske, så dit barns ting ikke bliver forbyttet i institutionen. Med navn eller et symbol, som børn kan genkende, før de kan læse. 3D-printet af Camilla i Borris.";
+  "Navnemærker til lynlåsen på flyverdragt og overtøj, til huen og til tasken, så dit barns ting ikke bliver forbyttet i institutionen. Med navn eller et motiv, som børn kan genkende, før de kan læse. 3D-printet af Camilla i Borris.";
 
 /** "What fits where" rows. `dots` and `loops` say whether that product family fits. */
 export interface FitRow {
@@ -144,7 +144,7 @@ export const FAQ: FaqItem[] = [
   {
     question: "Hvad er Noonis navnemærker?",
     answer:
-      "Små personlige mærker, der hænger udenpå tingene i stedet for at sidde inde i tøjet. Dots sættes på lynlåsen, huen eller vanterne. Loops er en lille nøglering til tasken eller nøglebundtet. Du vælger navn eller symbol og selv farverne.",
+      "Små personlige mærker, der hænger udenpå tingene i stedet for at sidde inde i tøjet. Dots med navn sættes på lynlåsen på flyverdragten, jakken og overtøjet. Dots med motiv er til børn, der ikke kan læse endnu. Loops er en lille nøglering til tasken. Du vælger selv farverne.",
   },
   {
     question: "Hvor sætter man Dots?",
@@ -154,7 +154,7 @@ export const FAQ: FaqItem[] = [
   {
     question: "Hvad hvis mit barn ikke kan læse endnu?",
     answer:
-      "Så vælg Dots eller Loops med symbol, for eksempel en blomst, en pote, et hjerte, en sky eller kirsebær. Børn genkender deres eget symbol længe før de kan læse deres navn.",
+      "Så vælg Dots med motiv, for eksempel en blomst, en pote, et hjerte, en sky eller kirsebær. Børn genkender deres eget symbol længe før de kan læse deres navn.",
   },
   {
     question: "Hvor mange bogstaver kan der være på et navnemærke?",

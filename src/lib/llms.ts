@@ -21,7 +21,7 @@ export const INTRO = `# Nooni
 
 > ${SITE_DESCRIPTION}
 
-Nooni (nooni.dk) er en lille dansk webshop drevet af Camilla fra Borris i Vestjylland. Alle produkter er designet af hende og 3D-printet hjemme. Kerneproduktet er personlige navnemærker til børnetøj, lynlåse, tasker og overtøj, så børnenes ting ikke bliver forbyttet i institutionen. Mange produkter kan personliggøres med barnets navn, motiv og farver direkte på produktsiden.
+Nooni (nooni.dk) er en lille dansk webshop drevet af Camilla fra Borris i Vestjylland. Alle produkter er designet af hende og 3D-printet hjemme. Kerneproduktet er Dots med navn, et personligt navnemærke til lynlåsen på flyverdragt, jakke og overtøj, så børnenes ting ikke bliver forbyttet i institutionen. Dots med motiv er symbolmærker til børn, der ikke kan læse endnu, og Loops er navnemærket til tasken. Mange produkter kan personliggøres med barnets navn, motiv og farver direkte på produktsiden.
 
 - Webshop: ${SITE_URL}
 - Sprog: dansk
