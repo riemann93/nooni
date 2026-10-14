@@ -139,3 +139,13 @@ span.italic.text-nooni-headline {
     scroll-behavior: auto !important;
   }
 }
+
+/* Homepage hero: the name tag sways a little, like it hangs on a zipper. */
+@keyframes nooni-tag-sway {
+  0%, 100% { transform: rotate(-1.5deg); }
+  50% { transform: rotate(1.5deg); }
+}
+.nooni-tag-float {
+  transform-origin: 4% 50%;
+  animation: nooni-tag-sway 5s ease-in-out infinite;
+}

@@ -1,40 +1,41 @@
 /**
- * Hero: navnemærker first.
+ * Hero: the homepage's only H1, and the shop's front counter.
  *
- * Holds the page's only H1. Layout:
- *   - A rounded cream frame (bg-nooni-bg-warm) with the copy on the
- *     left and a product-focused Dots med navn image on the right. On mobile
- *     the copy comes first so H1, rating and CTA sit above the fold at
- *     375px, with the image below.
- *   - Stars + review count come from src/lib/social-proof.ts. That data
- *     is placeholder: purely visual, never in JSON-LD.
- *   - "Fra XX kr" is the live Dots med navn price from Shopify. Dots med
- *     navn leads because it fits what parents search ("navnemærke til
- *     lynlås", flyverdragt, overtøj; CONTENT-PLAN.md keyword map). If Shopify is
- *     unreachable the price line (and the Shopify image) is dropped and
- *     a local photo is used, so the hero never breaks.
+ * The first thing a parent meets is "Hvad hedder dit barn?" and a Dots
+ * med navn that draws the name as they type (<NameTagDesigner />). They
+ * can pick colours and add it to the cart right here, so the most
+ * common order takes one screen on a phone.
  *
- * The eyebrow and subline tell reason 1 from the Instagram posts that
- * sell ("Det er min, den her!"), and the ticks are three of the five
- * reasons parents buy, not generic shop promises. All of that copy
- * lives in src/lib/why-parents-buy.ts. Delivery and shipping facts sit
- * in the <ValueStrip /> right below.
+ *   - H1, eyebrow and stars are server-rendered for search. The
+ *     designer is the client part.
+ *   - Price, variant and colours are live from Shopify. If Shopify is
+ *     unreachable the designer still draws, with the code palette, and
+ *     the button goes to the product page instead of the cart.
+ *   - Stars come from src/lib/social-proof.ts, which is placeholder
+ *     data: hidden on the production deploy, never in JSON-LD.
+ *   - Delivery and the small facts come from the store facts, so the
+ *     hero can't promise what checkout doesn't. The wash fact is
+ *     tested (Dots stay on in the machine); never add a temperature
+ *     until Camilla has one.
  */
 
 import Image from "next/image";
-import Link from "next/link";
 import Stars from "@/components/Stars";
-import { LEAD_NAME_TAG } from "@/lib/product-meta";
-import { OVERALL_RATING } from "@/lib/social-proof";
-import { HERO_BENEFITS } from "@/lib/why-parents-buy";
-import { getProductsByHandles, type ProductSummary } from "@/lib/shopify/products";
+import NameTagDesigner from "@/components/home/NameTagDesigner";
+import { getProductMeta, LEAD_NAME_TAG } from "@/lib/product-meta";
+import { OVERALL_RATING, PLACEHOLDER_SOCIAL_PROOF } from "@/lib/social-proof";
+import { deliveryWindow, STORE_FACTS } from "@/lib/store-facts";
+import {
+  getSchemaForHandle,
+  NOONI_COLORS,
+  withColorOptions,
+} from "@/lib/shopify/personalization";
+import { getProductByHandle, getProductColors } from "@/lib/shopify/products";
+import type { Product } from "@/lib/shopify/types";
 
 export const revalidate = 60;
 
-const FALLBACK_IMAGE = {
-  src: "/images/dots_name_lifestyle.jpg",
-  alt: "Dots med navn, navnemærke på lynlåsen",
-};
+const SHOW_STARS = !(PLACEHOLDER_SOCIAL_PROOF && process.env.VERCEL_ENV === "production");
 
 function formatPrice(amount: string, currencyCode: string): string {
   return new Intl.NumberFormat("da-DK", {
@@ -44,131 +45,74 @@ function formatPrice(amount: string, currencyCode: string): string {
   }).format(parseFloat(amount));
 }
 
-async function getLeadProduct(): Promise<ProductSummary | null> {
+async function getLead(): Promise<Product | null> {
   try {
-    const [product] = await getProductsByHandles([LEAD_NAME_TAG]);
-    return product ?? null;
+    return await getProductByHandle(LEAD_NAME_TAG);
   } catch {
     return null;
   }
 }
 
-function Tick() {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className="shrink-0 text-nooni-sub"
-    >
-      <path d="M5 12.5l4.5 4.5L19 7.5" />
-    </svg>
-  );
-}
-
 export default async function Hero() {
-  const lead = await getLeadProduct();
-  const shopifyImage = lead?.images.nodes[0];
-  const price = lead?.priceRange.minVariantPrice;
-  const leadHref = `/produkter/${LEAD_NAME_TAG}`;
-
-  const image = shopifyImage
-    ? { src: shopifyImage.url, alt: shopifyImage.altText ?? "Dots med navn, navnemærke på en lynlås" }
-    : FALLBACK_IMAGE;
+  const [lead, colors] = await Promise.all([getLead(), getProductColors(LEAD_NAME_TAG)]);
+  const schema = withColorOptions(getSchemaForHandle(LEAD_NAME_TAG)!, colors);
+  const palette = colors.length > 0 ? colors : NOONI_COLORS;
+  const variant = lead?.variants.nodes.find((v) => v.availableForSale) ?? null;
+  const price = variant?.price ?? lead?.priceRange.minVariantPrice;
+  const photo = lead?.images.nodes[1] ?? lead?.images.nodes[0];
 
   return (
     <section className="relative" data-screen-label="01 Hero">
-      <div className="mx-auto max-w-[1280px] px-4 pt-3 pb-5 md:px-10 md:pt-4 md:pb-8 lg:pt-6 lg:pb-[45px]">
-        <div className="overflow-hidden rounded-[28px] bg-nooni-bg-warm md:grid md:grid-cols-[1.1fr_1fr] md:items-stretch">
-          <div className="flex flex-col justify-center px-5 pt-6 pb-5 md:px-10 md:py-12 lg:px-14">
-            <p
-              className="uppercase tracking-[0.22em] text-nooni-sub"
-              style={{ fontSize: "var(--nooni-text-label)" }}
-            >
-              „Det er min, den her!“
-            </p>
-
-            <h1
-              className="mt-3 font-editorial italic leading-[1.05] text-nooni-headline"
-              style={{ fontSize: "var(--nooni-text-heading-lg)" }}
-            >
-              Personlige navnemærker til børn
-            </h1>
-
-            <Stars
-              rating={OVERALL_RATING.rating}
-              count={OVERALL_RATING.count}
-              size={18}
-              className="mt-3"
-            />
-
-            <p
-              className="mt-3 font-editorial leading-snug text-nooni-ink-soft"
-              style={{ fontSize: "var(--nooni-text-body-lg)" }}
-            >
-              Ti ens flyverdragter i garderoben, og dit barn finder selv sin egen. Dots sidder på
-              lynlåsen og giver små hænder et greb, så de kan lyne selv.
-            </p>
-
-            {price && (
-              <p className="mt-4 text-nooni-ink" style={{ fontSize: "var(--nooni-text-body)" }}>
-                Fra <span className="font-medium">{formatPrice(price.amount, price.currencyCode)}</span>
+      <div className="mx-auto max-w-[1280px] px-4 pt-3 pb-6 md:px-10 md:pt-4 md:pb-10">
+        <div className="rounded-[28px] bg-nooni-bg-warm px-4 pt-6 pb-6 md:px-10 md:pt-12 md:pb-10 lg:px-14">
+          <div className="md:flex md:items-end md:justify-between md:gap-10">
+            <div className="max-w-[640px]">
+              <p
+                className="uppercase tracking-[0.22em] text-nooni-sub"
+                style={{ fontSize: "var(--nooni-text-label)" }}
+              >
+                „Det er min, den her!“
               </p>
-            )}
-
-            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Link
-                href={leadHref}
-                className="inline-flex items-center justify-center rounded-full bg-nooni-headline px-7 py-3.5 text-white transition-colors hover:bg-[#9d6f6f]"
-                style={{ fontSize: "var(--nooni-text-ui)" }}
+              <h1
+                className="mt-2 font-editorial italic leading-[1.05] text-nooni-headline"
+                style={{ fontSize: "var(--nooni-text-heading-lg)" }}
               >
-                Design dit navnemærke
-              </Link>
-              <Link
-                href="/navnemaerker"
-                className="inline-flex items-center justify-center rounded-full border border-nooni-sub px-7 py-3.5 text-nooni-sub transition-colors hover:bg-nooni-sub hover:text-white"
-                style={{ fontSize: "var(--nooni-text-ui)" }}
+                Personlige navnemærker til børn
+              </h1>
+              <p
+                className="mt-3 max-w-[520px] font-editorial leading-snug text-nooni-ink-soft"
+                style={{ fontSize: "var(--nooni-text-body-lg)" }}
               >
-                Se alle navnemærker
-              </Link>
+                Dots sidder på lynlåsen, så dit barn selv finder sin flyverdragt i garderoben og
+                har noget at tage fat i, når det lyner.
+              </p>
+              {SHOW_STARS && (
+                <Stars rating={OVERALL_RATING.rating} count={OVERALL_RATING.count} size={16} className="mt-3" />
+              )}
             </div>
 
-            <ul
-              className="mt-5 flex flex-col gap-1.5 text-nooni-ink-soft sm:flex-row sm:flex-wrap sm:gap-x-5"
-              style={{ fontSize: "var(--nooni-text-ui)" }}
-            >
-              {HERO_BENEFITS.map((tick) => (
-                <li key={tick} className="inline-flex items-center gap-2">
-                  <Tick />
-                  {tick}
-                </li>
-              ))}
-            </ul>
+            {photo && (
+              <figure className="mt-5 hidden shrink-0 items-center gap-3 md:flex">
+                <div className="relative h-20 w-20 overflow-hidden rounded-t-full rounded-b-[14px]">
+                  <Image src={photo.url} alt={photo.altText ?? "Dots med navn på en lynlås"} fill sizes="80px" className="object-cover" />
+                </div>
+                <figcaption className="max-w-[140px] text-nooni-ink-soft" style={{ fontSize: "var(--nooni-text-label)" }}>
+                  Sådan sidder den på lynlåsen
+                </figcaption>
+              </figure>
+            )}
           </div>
 
-          <div className="relative aspect-[4/3] md:aspect-auto md:min-h-[460px]">
-            <Image
-              src={image.src}
-              alt={image.alt}
-              fill
-              preload
-              fetchPriority="high"
-              sizes="(min-width: 768px) 560px, 100vw"
-              className="object-cover"
-            />
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(to right, rgba(247,239,229,0.55) 0%, rgba(247,239,229,0) 30%)",
-              }}
+          <div className="mt-4 md:mt-10">
+            <NameTagDesigner
+              handle={LEAD_NAME_TAG}
+              schema={schema}
+              palette={palette}
+              variantId={variant?.id ?? null}
+              priceLabel={price ? formatPrice(price.amount, price.currencyCode) : null}
+              quantityNote={getProductMeta(LEAD_NAME_TAG).quantityNote}
+              deliveryWindow={deliveryWindow()}
+              facts={["Kan blive siddende i vask", STORE_FACTS.shippingPrice, STORE_FACTS.withdrawal, "Betal med MobilePay"]}
             />
           </div>
         </div>

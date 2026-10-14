@@ -1,19 +1,17 @@
 /**
- * Homepage: navnemærker first, everything else after.
+ * Homepage: the shop's front counter, built for a parent on a phone.
  *
- * The story is why parents buy, as told in the Instagram posts that
- * sell (src/lib/why-parents-buy.ts), inside the usual shop layout.
+ * The page opens with the designer: type the child's name, see the
+ * tag, add it to the cart. Everything after it answers "why" and
+ * "who", then offers the rest of the range.
  *
- *   <Hero />               the only H1, "Det er min, den her!", rating, price, CTA
- *   <ValueStrip />         USP band from the store facts
+ *   <Hero />               the only H1, plus the live Dots med navn designer
+ *   <WhyParentsBuy />      the five reasons from the Instagram posts that sell
  *   <ProductsGrid />       "Vores navnemærker": the name-tag family only
- *   <WhyParentsBuy />      the five reasons from the Instagram posts
  *   <ReviewsBand />        overall rating + three parent reviews
- *   <ThreeThings />        "3 ting, jeg ville ønske, jeg havde vidst", parent to parent
- *   <HowItWorks />         "Sådan virker det", three short steps
+ *   <Workshop />           Camilla, the printers and the three steps
  *   <NavnemaerkerIntro />  short SEO text about navnemærker, links /navnemaerker
  *   <MoreFromNooni />      Deks, Box, Tic Tac Take, secondary and smaller
- *   <Story />              founder trust beat with the proof line, links /om-os
  *   <InstagramStrip />     photos linking to @hej.nooni
  *
  * Every section below the hero uses H2 and H3 only. The page closes
@@ -23,15 +21,12 @@
 import type { Metadata } from "next";
 import Hero from "@/components/Hero";
 import { pageMetadata, SITE_DESCRIPTION } from "@/lib/seo";
-import ValueStrip from "@/components/ValueStrip";
 import ProductsGrid from "@/components/ProductsGrid";
 import ReviewsBand from "@/components/ReviewsBand";
-import HowItWorks from "@/components/HowItWorks";
 import NavnemaerkerIntro from "@/components/NavnemaerkerIntro";
 import MoreFromNooni from "@/components/MoreFromNooni";
-import Story from "@/components/Story";
+import Workshop from "@/components/Workshop";
 import WhyParentsBuy from "@/components/WhyParentsBuy";
-import ThreeThings from "@/components/ThreeThings";
 import InstagramStrip from "@/components/InstagramStrip";
 
 // Canonical is set per page, never in the root layout: a layout
@@ -50,15 +45,12 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <ValueStrip />
-      <ProductsGrid />
       <WhyParentsBuy />
+      <ProductsGrid />
       <ReviewsBand />
-      <ThreeThings />
-      <HowItWorks />
+      <Workshop />
       <NavnemaerkerIntro />
       <MoreFromNooni />
-      <Story />
       <InstagramStrip />
     </>
   );

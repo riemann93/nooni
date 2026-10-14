@@ -15,9 +15,6 @@
  *   - PROOF_LINE: "58 navnemærker" is the number given in the quest,
  *     not checked against Shopify orders. The quest suggested
  *     "1 printer", but the printer video shows two, so it is left out.
- *   - THREE_THINGS is written in the style of her "3 ting jeg ville
- *     ønske jeg vidste som ny mor" post from the five reasons below.
- *     Swap in her own three when she has them.
  */
 
 export const INSTAGRAM_HANDLE = "hej.nooni";
@@ -55,30 +52,6 @@ export const REASONS: Reason[] = [
     key: "mor",
     title: "Én mor, dine farver",
     body: "Hvert mærke er designet og printet til dit barn hjemme hos Camilla, uddannet lærer og mor til to.",
-  },
-];
-
-/** The three reasons short enough for the hero's benefit ticks. */
-export const HERO_BENEFITS = ["Ingen tusch i tøjet", "Flyttes med til næste jakke", "Håndlavet af en mor"];
-
-export interface Tip {
-  title: string;
-  body: string;
-}
-
-/** Parent-to-parent tips, in Camilla's voice. See TO CHECK above. */
-export const THREE_THINGS: Tip[] = [
-  {
-    title: "Børn vil gerne selv",
-    body: "Et barn, der kan finde sin egen jakke og lyne den selv, går stolt ud ad døren. Giv dem noget at tage fat i, og lad dem prøve.",
-  },
-  {
-    title: "Skriv ikke i tøjet",
-    body: "Tusch i nakken af en flyverdragt bliver der. Hæng navnet udenpå i stedet, så tøjet kan gå videre til den næste.",
-  },
-  {
-    title: "Køb til barnet, ikke til jakken",
-    body: "Børn vokser ud af tøjet hvert år. Et mærke, der kan flyttes, følger med fra størrelse til størrelse.",
   },
 ];
 

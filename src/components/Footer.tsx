@@ -4,7 +4,7 @@
  * Mounted in src/app/layout.tsx so it appears at the bottom of every
  * page.
  *
- * Shape: the same pill silhouette used by HowItWorks, Story and
+ * Shape: the same pill silhouette used by Workshop and
  * BlogTeaser: top corners rounded with `2rem`, bottom corners square,
  * full content width. The flat bottom edge sits flush against the
  * viewport bottom so the footer reads as the page's actual end.

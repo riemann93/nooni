@@ -25,6 +25,7 @@ import {
   type SelectFieldDef,
   type TextFieldDef,
 } from "@/lib/shopify/personalization";
+import { readStoredDesign } from "@/lib/design-storage";
 
 interface PersonalizationFormProps {
   schema: PersonalizationSchema;
@@ -49,6 +50,30 @@ export default function PersonalizationForm({
       return next;
     });
   }, []);
+
+  // Prefill from a shared link (?name=Ida&main_color=...) or, failing
+  // that, the name remembered by the homepage designer. Only top-level
+  // text, colour and select fields, and only values the field accepts.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const stored = readStoredDesign();
+    const fromLink = schema.fields.some((f) => params.has(f.key));
+    const next: Record<string, string> = {};
+    for (const field of schema.fields) {
+      const raw = fromLink ? params.get(field.key) : field.key === "name" ? stored?.name : null;
+      if (!raw) continue;
+      if (field.type === "text") {
+        next[field.key] = raw.slice(0, field.maxLength ?? raw.length);
+      } else if (field.type === "color" && (field.options ?? NOONI_COLORS).some((o) => o.value === raw)) {
+        next[field.key] = raw;
+      } else if (field.type === "select" && field.options.some((o) => o.value === raw)) {
+        next[field.key] = raw;
+      }
+    }
+    // URL and localStorage only exist after hydration, so this has to be an effect.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (Object.keys(next).length > 0) setValues((prev) => ({ ...next, ...prev }));
+  }, [schema]);
 
   // Whenever values change, notify the parent with the latest validity.
   useEffect(() => {
