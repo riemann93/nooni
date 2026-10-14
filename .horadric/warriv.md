@@ -3,9 +3,11 @@
 ## Rules
 - Work happens on branch Morten. Placeholder social proof must never reach production ("Swap placeholder reviews..." is the ship blocker).
 - Shipping and delivery numbers come from the human, never guessed ("Fix conflicting shipping and delivery facts").
+- Loops lead, Dots are secondary (human's ruling, overrides the "Lead with Dots" quest title and CONTENT-PLAN.md's keyword map order).
 - Reviews come from Trustpilot (human chose it, no account yet). Never wire Judge.me or another review app. PLACEHOLDER_SOCIAL_PROOF goes false only with real Trustpilot reviews.
 
 ## Lately
+- 2026-10-14 "Lead with Dots" landed (429c76e) with conflicts and still made Dots lead, against the human's ruling. Fix-up (sonnet) told to keep Morten's Loops-first order and f8b3f23 titles, carrying only crumb names, taglines, /navnemaerker breadcrumbs and the removed claims.
 - 2026-10-14 Round after titles fix-up landed (f8b3f23). Only "Lead with Dots" in progress, nothing blocked, no aim open. 19 landed since last ship, but production builds stay blocked by the Trustpilot guard. Nothing to do.
 - 2026-10-14 "Product titles and H1s" landed with a product-meta.ts conflict against the final check (c82fbae). Fix-up (sonnet) told: rename cardTitle to title but keep Morten's values (emblem 'Loops med navn...', hub path /navnemaerker). Accepted its assumption: product-meta titles drive H1/title/schema until Shopify titles are fixed.
 - 2026-10-14 Round after "Decide brand colours for small text" landed (346e525). Dots lead and titles quests in progress, nothing blocked, no aim open. Shipping waits on the Trustpilot guard. Nothing to do.
@@ -32,6 +34,7 @@
 - 2026-10-14 Round after "Bring Morten up to date with Discoverability" landed. Social proof and shipping facts quests in progress. Gave every unstarted quest a Model line (opus for hub page, homepage rebuild, final check; sonnet for the rest). Day look back: clean, nothing went wrong twice.
 
 ## Open
+- Check the "Lead with Dots" fix-up lands Loops-first (Hero on Loops, Bestseller on Loops, NAME_TAG_HANDLES Loops first).
 - Human (Camilla) to confirm hub guide claims: washing untested, Dots on zipper pulls with a cord and on hats/mittens; and whether a separate Emblem product is coming.
 - Human to confirm shipping facts: is 'Fri fragt over 350 kr.' real? If yes, add it to Shopify policy and SHIPPING in src/lib/store-facts.ts.
 - Human to pick paid Trustpilot product reviews, Judge.me, or free shop-wide Trustpilot, and supply account, business unit ID and API key/export for "Wire Trustpilot reviews...". Guard in next.config.ts blocks production builds meanwhile. If they switch, update the Trustpilot rule.
