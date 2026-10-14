@@ -5,8 +5,10 @@
 - Shipping and delivery numbers come from the human, never guessed ("Fix conflicting shipping and delivery facts").
 - Dots med navn (dots-med-navn-3stk) is the core product, then Dots motiv, then Loops/Emblem. Human's FINAL decision (quest "Make Dots med navn the core product"), overrides the earlier Loops-first ruling.
 - Reviews come from Trustpilot (human chose it, no account yet). Never wire Judge.me or another review app. PLACEHOLDER_SOCIAL_PROOF goes false only with real Trustpilot reviews.
+- No video on the site for now, and no Borris in the copy (human). Short claims say 'hjemme', longer ones 'Vestjylland'; footer and schema address keep Borris.
 
 ## Lately
+- 2026-10-14 Round after "Add the Augusta reel..." landed (ac29c2a): no video, Borris out of copy per human. Made it a rule, trimmed the homepage Open line. All 31 done, no aim open, ship still blocked by the Trustpilot guard. Nothing else to do.
 - 2026-10-14 Round after "Homepage built on what sells on Instagram" landed (42b8d9b). Gave the reel quest Model: sonnet; it waits on Camilla's files. Added an Open line for the homepage's assumed copy. Nothing else to do.
 - 2026-10-14 Round after "Make Dots med navn the core product" landed (cec697c). Rewrote the lead rule to Dots first (human's final call), dropped the Dots-first Open line. Gave "Homepage built on what sells on Instagram" Model: opus. Nothing else to do.
 - 2026-10-14 "Put Loops back in the lead" landed (01fca70): LEAD_NAME_TAG loops, Hero, Bestseller and lists Loops first. Dropped that Open line. All 28 quests done, no aim open; the rest waits on the human. Nothing to do.
@@ -41,4 +43,4 @@
 - Human (Camilla) to confirm hub guide claims: washing untested, Dots on zipper pulls with a cord and on hats/mittens; and whether a separate Emblem product is coming.
 - Human to confirm shipping facts: is 'Fri fragt over 350 kr.' real? If yes, add it to Shopify policy and SHIPPING in src/lib/store-facts.ts.
 - Human to pick paid Trustpilot product reviews, Judge.me, or free shop-wide Trustpilot, and supply account, business unit ID and API key/export for "Wire Trustpilot reviews...". Guard in next.config.ts blocks production builds meanwhile. If they switch, update the Trustpilot rule.
-- Human (Camilla) to check homepage copy assumed in 42b8d9b: PROOF_LINE '58 navnemaerker. 1 mor. Printet i Borris.' (58 unchecked) and THREE_THINGS (should be her real three) in src/lib/why-parents-buy.ts. Reel quest waits on her mp4, poster and 4 stills.
+- Human (Camilla) to check homepage copy in src/lib/why-parents-buy.ts: PROOF_LINE '58 navnemaerker, 1 mor, Printet hjemme' (58 unchecked) and THREE_THINGS (should be her real three).
