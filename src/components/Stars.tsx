@@ -21,13 +21,15 @@ interface StarsProps {
   size?: number;
   /** Show the numeric rating (e.g. "4,9") before the count. */
   showRating?: boolean;
+  /** Show the count as "(148)" instead of "148 anmeldelser", for narrow cards. */
+  compact?: boolean;
   className?: string;
 }
 
 const formatRating = (n: number) =>
   n.toLocaleString("da-DK", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
-export default function Stars({ rating, count, size = 16, showRating = true, className = "" }: StarsProps) {
+export default function Stars({ rating, count, size = 16, showRating = true, compact = false, className = "" }: StarsProps) {
   const clamped = Math.max(0, Math.min(5, rating));
   const label =
     `${formatRating(clamped)} ud af 5 stjerner` +
@@ -64,7 +66,7 @@ export default function Stars({ rating, count, size = 16, showRating = true, cla
           {count !== undefined && (
             <span>
               {showRating ? " · " : ""}
-              {count.toLocaleString("da-DK")} anmeldelser
+              {compact ? `(${count.toLocaleString("da-DK")})` : `${count.toLocaleString("da-DK")} anmeldelser`}
             </span>
           )}
         </span>

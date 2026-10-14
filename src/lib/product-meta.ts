@@ -12,6 +12,13 @@
 
 export interface ProductMeta {
   tagline?: string;
+  /**
+   * Title shown on product cards, saying what the product is. Stands in
+   * for the Shopify title until SEO.md issue 4 is fixed there.
+   */
+  cardTitle?: string;
+  /** Optional badge on the card photo. */
+  badge?: "Bestseller" | "Kan personliggøres";
   /** Short note shown below the price, e.g. "5 stk. i sættet". */
   quantityNote?: string;
   /** Handle of an optional add-on product shown as a toggle on the product page. */
@@ -19,9 +26,23 @@ export interface ProductMeta {
 }
 
 export const PRODUCT_META: Record<string, ProductMeta> = {
-  "dots-5stk": { quantityNote: "5 stk. i sættet" },
-  "dots-med-navn-3stk": { quantityNote: "3 stk. i sættet" },
-  "loops-navn": { quantityNote: "3 stk. i sættet" },
+  loops: { cardTitle: "Loops, navnemærke til taske", badge: "Bestseller" },
+  emblem: { cardTitle: "Emblem, navnemærke med motiv", badge: "Kan personliggøres" },
+  "dots-5stk": {
+    quantityNote: "5 stk. i sættet",
+    cardTitle: "Dots, symbolmærker til lynlås",
+    badge: "Kan personliggøres",
+  },
+  "dots-med-navn-3stk": {
+    quantityNote: "3 stk. i sættet",
+    cardTitle: "Dots med navn, navnemærke til lynlås",
+    badge: "Kan personliggøres",
+  },
+  "loops-navn": {
+    quantityNote: "3 stk. i sættet",
+    cardTitle: "Loops med navn, navnemærke til taske",
+    badge: "Bestseller",
+  },
   "tic-tac-take": { addOnHandle: "uden-titel-17-jun-_10-36-17" },
 };
 
