@@ -16,6 +16,9 @@ issues.
 3. **Recommended by AI assistants** when someone asks for navnemærker or
    personal children's products in Denmark.
 
+The content, E-E-A-T and link-building plan for these goals is in
+`CONTENT-PLAN.md`.
+
 ## In place
 
 Shipped on the `Discoverability` branch:
