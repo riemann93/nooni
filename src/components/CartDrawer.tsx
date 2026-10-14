@@ -14,6 +14,10 @@
  * z-index: 10 (backdrop) and 11 (drawer). Sits above the sticky
  * Navbar (z:2). Other content uses default z so the drawer always wins.
  *
+ * No free-shipping progress bar: the store has one flat fragt price and
+ * no free-shipping threshold (see store-facts.ts). Add the bar only if
+ * Shopify gets a real threshold.
+ *
  * Empty state: the drawer still renders even with an empty cart so the
  * user can dismiss it; it just shows a "Din kurv er tom" message.
  */
@@ -21,8 +25,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Fragment, useEffect } from "react";
 import { useCart } from "@/contexts/CartContext";
+import { PAYMENT_METHODS, SHIPPING, STORE_FACTS } from "@/lib/store-facts";
 import type { CartLine } from "@/lib/shopify/types";
 
 function formatPrice(amount: string, currencyCode: string): string {
@@ -115,6 +121,12 @@ export default function CartDrawer() {
               ))}
             </ul>
           )}
+          {!isEmpty && (
+            <CrossSell
+              inCart={lines.map((l) => l.merchandise.product.handle)}
+              onNavigate={closeDrawer}
+            />
+          )}
         </div>
 
         {!isEmpty && cart && (
@@ -161,6 +173,53 @@ function DrawerHeader({ onClose }: { onClose: () => void }) {
   );
 }
 
+/** The name-tag family. Navnemærker are the core product, so they lead. */
+const NAME_TAGS = [
+  { handle: "loops", label: "Loops" },
+  { handle: "dots-5stk", label: "Dots" },
+  { handle: "emblem", label: "Emblem" },
+] as const;
+
+function CrossSell({
+  inCart,
+  onNavigate,
+}: {
+  inCart: string[];
+  onNavigate: () => void;
+}) {
+  const options = NAME_TAGS.filter((t) => !inCart.includes(t.handle));
+  if (options.length === 0) return null;
+  return (
+    <section
+      aria-labelledby="cross-sell-title"
+      className="mt-6 rounded-2xl bg-nooni-bg-warm px-4 py-4"
+    >
+      <h3
+        id="cross-sell-title"
+        className="font-editorial italic text-lg text-nooni-headline"
+      >
+        Mangler du et navnemærke mere?
+      </h3>
+      <p className="mt-1 text-sm text-nooni-ink-soft">
+        Mærk flere ting med barnets navn.
+      </p>
+      <ul className="mt-3 flex flex-wrap gap-2">
+        {options.map((t) => (
+          <li key={t.handle}>
+            <Link
+              href={`/produkter/${t.handle}`}
+              onClick={onNavigate}
+              className="inline-block rounded-full border border-nooni-line bg-nooni-bg px-4 py-2 text-sm text-nooni-ink transition-colors hover:border-nooni-headline hover:text-nooni-headline"
+            >
+              {t.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 function EmptyState() {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-3 py-16 text-center">
@@ -168,7 +227,7 @@ function EmptyState() {
         Din kurv er tom
       </p>
       <p className="text-sm text-nooni-ink-soft">
-        Tilføj et produkt for at komme i gang.
+        Start med et personligt navnemærke.
       </p>
     </div>
   );
@@ -300,7 +359,7 @@ interface DrawerFooterProps {
 function DrawerFooter({ subtotal, disabled, onCheckout }: DrawerFooterProps) {
   return (
     <footer className="border-t border-nooni-line-soft px-6 py-5">
-      <div className="mb-4 flex items-center justify-between">
+      <div className="flex items-baseline justify-between">
         <span className="text-sm uppercase tracking-[0.18em] text-nooni-sub">
           Subtotal
         </span>
@@ -308,6 +367,9 @@ function DrawerFooter({ subtotal, disabled, onCheckout }: DrawerFooterProps) {
           {subtotal}
         </span>
       </div>
+      <p className="mb-4 mt-1 text-right text-xs text-nooni-ink-soft">
+        inkl. moms. Fragt {SHIPPING.priceDkk} kr. lægges til i kassen.
+      </p>
       <button
         type="button"
         onClick={onCheckout}
@@ -316,6 +378,22 @@ function DrawerFooter({ subtotal, disabled, onCheckout }: DrawerFooterProps) {
       >
         Til kassen
       </button>
+      <p className="mt-3 text-center text-xs text-nooni-ink-soft">
+        {STORE_FACTS.dispatch}. {STORE_FACTS.delivery}.
+      </p>
+      <ul
+        aria-label="Betalingsmetoder"
+        className="mt-3 flex flex-wrap justify-center gap-2"
+      >
+        {PAYMENT_METHODS.map((m) => (
+          <li
+            key={m}
+            className="rounded-full border border-nooni-line-soft px-3 py-1 text-[11px] text-nooni-ink-soft"
+          >
+            {m}
+          </li>
+        ))}
+      </ul>
       <p className="mt-3 text-center text-[11px] uppercase tracking-[0.18em] text-nooni-ink-soft/70">
         Sikker betaling via Shopify
       </p>
