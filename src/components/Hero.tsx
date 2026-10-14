@@ -14,9 +14,14 @@
  *     unreachable the price line (and the Shopify image) is dropped and
  *     a local photo is used, so the hero never breaks.
  *
- * The trust ticks avoid delivery times and shipping prices on purpose:
- * those facts are being unified in the store-facts module. Swap the
- * first tick to use it when it lands.
+ * The eyebrow and subline tell reason 1 from the Instagram posts that
+ * sell ("Det er min, den her!"), and the ticks are three of the five
+ * reasons parents buy, not generic shop promises. All of that copy
+ * lives in src/lib/why-parents-buy.ts. Delivery and shipping facts sit
+ * in the <ValueStrip /> right below.
+ *
+ * When HERO_VIDEO is set the image slot plays that short muted loop
+ * instead, with the photo as its poster.
  */
 
 import Image from "next/image";
@@ -24,6 +29,7 @@ import Link from "next/link";
 import Stars from "@/components/Stars";
 import { LEAD_NAME_TAG } from "@/lib/product-meta";
 import { OVERALL_RATING } from "@/lib/social-proof";
+import { HERO_BENEFITS, HERO_VIDEO } from "@/lib/why-parents-buy";
 import { getProductsByHandles, type ProductSummary } from "@/lib/shopify/products";
 
 export const revalidate = 60;
@@ -32,12 +38,6 @@ const FALLBACK_IMAGE = {
   src: "/images/dots_name_lifestyle.jpg",
   alt: "Dots med navn, navnemærke på lynlåsen",
 };
-
-const TRUST_TICKS = [
-  "Håndlavet i Borris, Danmark",
-  "Personligt med barnets navn",
-  "Sendes fra Danmark",
-];
 
 function formatPrice(amount: string, currencyCode: string): string {
   return new Intl.NumberFormat("da-DK", {
@@ -94,7 +94,7 @@ export default async function Hero() {
               className="uppercase tracking-[0.22em] text-nooni-sub"
               style={{ fontSize: "var(--nooni-text-label)" }}
             >
-              Navnemærker til børn
+              „Det er min, den her!“
             </p>
 
             <h1
@@ -115,8 +115,8 @@ export default async function Hero() {
               className="mt-3 font-editorial leading-snug text-nooni-ink-soft"
               style={{ fontSize: "var(--nooni-text-body-lg)" }}
             >
-              Sidder på lynlåsen på flyverdragten og jakken, bliver ikke væk i institutionen og
-              giver små hænder et bedre greb, når de lyner selv.
+              Ti ens flyverdragter i garderoben, og dit barn finder selv sin egen. Dots sidder på
+              lynlåsen og giver små hænder et greb, så de kan lyne selv.
             </p>
 
             {price && (
@@ -146,7 +146,7 @@ export default async function Hero() {
               className="mt-5 flex flex-col gap-1.5 text-nooni-ink-soft sm:flex-row sm:flex-wrap sm:gap-x-5"
               style={{ fontSize: "var(--nooni-text-ui)" }}
             >
-              {TRUST_TICKS.map((tick) => (
+              {HERO_BENEFITS.map((tick) => (
                 <li key={tick} className="inline-flex items-center gap-2">
                   <Tick />
                   {tick}
@@ -156,15 +156,30 @@ export default async function Hero() {
           </div>
 
           <div className="relative aspect-[4/3] md:aspect-auto md:min-h-[460px]">
-            <Image
-              src={image.src}
-              alt={image.alt}
-              fill
-              preload
-              fetchPriority="high"
-              sizes="(min-width: 768px) 560px, 100vw"
-              className="object-cover"
-            />
+            {HERO_VIDEO ? (
+              <video
+                aria-label={image.alt}
+                poster={HERO_VIDEO.poster}
+                preload="metadata"
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute inset-0 h-full w-full object-cover"
+              >
+                <source src={HERO_VIDEO.src} type="video/mp4" />
+              </video>
+            ) : (
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                preload
+                fetchPriority="high"
+                sizes="(min-width: 768px) 560px, 100vw"
+                className="object-cover"
+              />
+            )}
             <div
               aria-hidden
               className="pointer-events-none absolute inset-0"

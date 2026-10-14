@@ -10,11 +10,14 @@
  * matching HowItWorks: the cream tone marks a content beat.
  *
  * The earlier stats row ("1.412 print sendt" etc.) was removed because
- * the figure was fabricated.
+ * the figure was fabricated. The proof line now comes from PROOF_LINE
+ * in src/lib/why-parents-buy.ts, which only holds numbers Camilla
+ * stands behind.
  */
 
 import Image from "next/image";
 import Link from "next/link";
+import { PROOF_LINE } from "@/lib/why-parents-buy";
 
 export default function StorySection() {
   return (
@@ -56,13 +59,18 @@ export default function StorySection() {
                   klare lidt mere selv i garderoben.
                 </p>
               </div>
+              <p
+                className="mt-6 font-display font-medium leading-snug text-nooni-headline"
+                style={{ fontSize: "var(--nooni-text-heading-sm)" }}
+              >
+                {PROOF_LINE.map((part) => `${part}.`).join(" ")}
+              </p>
               <Link
                 href="/om-os"
                 className="mt-8 self-start inline-flex items-center gap-2 rounded-full border border-nooni-sub px-6 py-2.5 text-nooni-sub transition-colors hover:bg-nooni-sub hover:text-white"
                 style={{ fontSize: "var(--nooni-text-ui)" }}
               >
                 Min historie
-                
               </Link>
             </div>
           </div>
