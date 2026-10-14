@@ -5,6 +5,7 @@
 - Shipping and delivery numbers come from the human, never guessed ("Fix conflicting shipping and delivery facts").
 
 ## Lately
+- 2026-10-14 Round after a landing (hero, cart drawer on main). Six in progress, none blocked, unstarted ones wait on their After lines. Both Open items still wait on the human. Nothing to do.
 - 2026-10-14 Round after a ship. Hero landed, homepage rebuild started, six in progress. Both Open items still wait on the human. Nothing to do.
 - 2026-10-14 "Navigation and footer" landed with a merge conflict; fix-up quest (sonnet) told to type-check and build. Accepted its assumptions (footer anchors, FAQ link, payment chips) and put their verification on the final conversion and SEO check.
 - 2026-10-14 "Swap placeholder reviews" blocked after adding the production build guard. Handed the review service choice (Judge.me or Trustpilot) and real reviews to the human.
