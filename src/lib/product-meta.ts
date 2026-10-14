@@ -31,6 +31,14 @@ export interface ProductMeta {
    * here when the price changes in Shopify.
    */
   priceDkk?: number;
+  /** True when the product has several prices (variants), so the price reads "Fra 75 kr.". */
+  priceFrom?: boolean;
+  /**
+   * Shopify CDN photo used when Shopify can't be reached, so product
+   * rows on the homepage never show up empty. Copied from the product's
+   * first image in Shopify; update it if that photo changes.
+   */
+  fallbackImage?: string;
   /** Handle of an optional add-on product shown as a toggle on the product page. */
   addOnHandle?: string;
   facts?: ProductFacts;
@@ -92,6 +100,8 @@ export const PRODUCT_META: Record<string, ProductMeta> = {
   emblem: {
     tagline: "Navnemærke til taske",
     crumbName: "Loops med navn",
+    priceDkk: 40,
+    fallbackImage: "https://cdn.shopify.com/s/files/1/1039/4196/4106/files/20260623_135033.jpg?v=1782216202",
     title: "Loops med navn, navnemærke til taske",
     badge: "Kan personliggøres",
   },
@@ -105,10 +115,28 @@ export const PRODUCT_META: Record<string, ProductMeta> = {
   loops: {
     tagline: "Navnemærke til taske",
     crumbName: "Loops med motiv",
+    priceDkk: 50,
+    fallbackImage: "https://cdn.shopify.com/s/files/1/1039/4196/4106/files/20260623_135056.jpg?v=1782216204",
     title: "Loops med motiv, navnemærke til taske",
     badge: "Kan personliggøres",
   },
-  "tic-tac-take": { addOnHandle: "uden-titel-17-jun-_10-36-17" },
+  "deks-single": {
+    crumbName: "Deks",
+    priceDkk: 80,
+    fallbackImage: "https://cdn.shopify.com/s/files/1/1039/4196/4106/files/DSC04375.jpg?v=1779267217",
+  },
+  "box-kort-aesker": {
+    crumbName: "Box",
+    priceDkk: 75,
+    priceFrom: true,
+    fallbackImage: "https://cdn.shopify.com/s/files/1/1039/4196/4106/files/Mellem_tre_farver.jpg?v=1781473120",
+  },
+  "tic-tac-take": {
+    crumbName: "Haps",
+    priceDkk: 150,
+    fallbackImage: "https://cdn.shopify.com/s/files/1/1039/4196/4106/files/20260623_135329.jpg?v=1782216203",
+    addOnHandle: "uden-titel-17-jun-_10-36-17",
+  },
 };
 
 export function getProductMeta(handle: string): ProductMeta {
@@ -117,7 +145,8 @@ export function getProductMeta(handle: string): ProductMeta {
 
 /**
  * The price to show for a product: Shopify's when it loaded, else the
- * fixed price above, formatted "70 kr.". Null when neither is known.
+ * fixed price above, formatted "70 kr." ("Fra 75 kr." for products with
+ * several prices). Null when neither is known.
  */
 export function displayPrice(
   handle: string,
@@ -125,7 +154,8 @@ export function displayPrice(
 ): string | null {
   const amount = shopifyPrice ? parseFloat(shopifyPrice.amount) : PRODUCT_META[handle]?.priceDkk;
   if (amount === undefined || Number.isNaN(amount)) return null;
-  return `${new Intl.NumberFormat("da-DK", { maximumFractionDigits: 2 }).format(amount)} kr.`;
+  const label = `${new Intl.NumberFormat("da-DK", { maximumFractionDigits: 2 }).format(amount)} kr.`;
+  return PRODUCT_META[handle]?.priceFrom ? `Fra ${label}` : label;
 }
 
 /** The title to show for a product: ours from PRODUCT_META, else Shopify's. */

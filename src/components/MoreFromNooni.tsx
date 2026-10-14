@@ -1,95 +1,99 @@
 /**
- * MoreFromNooni: the secondary product row (Deks, Box, Tic Tac Take).
+ * MoreFromNooni: the rest of the shop, near the bottom of the homepage,
+ * so a visitor who scrolled all the way down still meets real products
+ * with a photo and a price.
  *
- * Deliberately smaller than the navnemærker row: compact horizontal
- * cards with a small arched thumbnail, title and price. These products
- * are part of the shop but not the core, so they sit low on the page
- * and never compete with the name-tag family.
+ * Deks, Box and Haps (handle tic-tac-take). Same quiet card as the
+ * name-tag tiles on a phone: photo, name, one line, price. Three across
+ * from md up; on a phone a swipeable row whose next card peeks in.
  *
- * Server-rendered with ISR (60s). Renders nothing if Shopify is
- * unreachable.
+ * Photos and prices are live from Shopify. If Shopify is unreachable
+ * the row still renders, with the fallback photo and fixed price from
+ * product-meta.ts, so it never disappears.
  */
 
 import Image from "next/image";
 import Link from "next/link";
-import { productTitle } from "@/lib/product-meta";
+import { displayPrice, getProductMeta } from "@/lib/product-meta";
 import { getProductsByHandles, type ProductSummary } from "@/lib/shopify/products";
 
 export const revalidate = 60;
 
-const ITEMS: { handle: string; tagline: string }[] = [
-  { handle: "deks-single", tagline: "Kortholder til kortspil" },
-  { handle: "box-kort-aesker", tagline: "Æske til kortspil" },
-  { handle: "tic-tac-take", tagline: "Spil til farten" },
+const ITEMS: { handle: string; line: string }[] = [
+  { handle: "deks-single", line: "Kortholder til kortspillet." },
+  { handle: "box-kort-aesker", line: "Æske til kortene, i jeres farver." },
+  { handle: "tic-tac-take", line: "Kryds og bolle, også på farten." },
 ];
 
-function formatPrice(amount: string, currencyCode: string): string {
-  return new Intl.NumberFormat("da-DK", {
-    style: "currency",
-    currency: currencyCode,
-    maximumFractionDigits: 0,
-  }).format(parseFloat(amount));
-}
-
-async function getProducts(): Promise<ProductSummary[]> {
+async function getProducts(): Promise<Map<string, ProductSummary>> {
   try {
-    return await getProductsByHandles(ITEMS.map((i) => i.handle));
+    const products = await getProductsByHandles(ITEMS.map((i) => i.handle));
+    return new Map(products.map((p) => [p.handle, p]));
   } catch {
-    return [];
+    return new Map();
   }
 }
 
 export default async function MoreFromNooni() {
   const products = await getProducts();
-  if (products.length === 0) return null;
-  const taglines = Object.fromEntries(ITEMS.map((i) => [i.handle, i.tagline]));
 
   return (
-    <section className="bg-nooni-bg pt-4 pb-20 md:pb-28" data-screen-label="08 Mere fra Nooni">
-      <div className="mx-auto max-w-[1280px] px-4 md:px-10">
-        <div className="flex items-end justify-between gap-4">
-          <h2 className="font-editorial leading-[1.1] tracking-tight text-nooni-ink" style={{ fontSize: "var(--nooni-text-heading-sm)" }}>
-            Mere fra <em className="italic text-nooni-headline">Nooni</em>
-          </h2>
-          <Link
-            href="/produkter"
-            className="shrink-0 text-nooni-sub underline decoration-nooni-line underline-offset-4 transition-colors hover:decoration-nooni-sub"
-            style={{ fontSize: "var(--nooni-text-ui)" }}
+    <section className="bg-nooni-bg py-16 md:py-28" data-screen-label="08 Mere fra Nooni">
+      <div className="mx-auto max-w-[1280px] md:px-10">
+        <div className="px-6 text-center md:px-0">
+          <h2
+            className="font-editorial leading-[1.1] tracking-[-0.02em] text-nooni-ink"
+            style={{ fontSize: "clamp(28px, 3.6vw, 48px)" }}
           >
-            Alle produkter
-          </Link>
+            Mere fra <span className="italic text-nooni-headline">Nooni</span>
+          </h2>
+          <p className="mt-3 font-editorial text-nooni-ink-soft" style={{ fontSize: "var(--nooni-text-body)" }}>
+            Til spilleaftenen og turen, printet på samme måde.
+          </p>
         </div>
 
-        <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3 md:gap-5">
-          {products.map((product) => {
-            const image = product.images.nodes[0];
-            const price = product.priceRange.minVariantPrice;
+        <ul className="mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 pb-2 [scrollbar-width:none] md:mt-12 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0 md:pb-0">
+          {ITEMS.map((item) => {
+            const product = products.get(item.handle);
+            const meta = getProductMeta(item.handle);
+            const name = meta.crumbName ?? product?.title ?? item.handle;
+            const shopifyImage = product?.images.nodes[0];
+            const src = shopifyImage?.url ?? meta.fallbackImage;
+            const price = displayPrice(item.handle, product?.priceRange.minVariantPrice);
+
             return (
-              <li key={product.handle}>
+              <li key={item.handle} className="w-[72%] shrink-0 snap-start sm:w-[45%] md:w-auto">
                 <Link
-                  href={`/produkter/${product.handle}`}
-                  className="group flex items-center gap-4 rounded-[24px] bg-nooni-bg-warm p-3 pr-5 transition-colors hover:bg-nooni-line-soft"
+                  href={`/produkter/${item.handle}`}
+                  className="group flex h-full flex-col overflow-hidden rounded-[20px] bg-nooni-bg-warm md:rounded-[28px]"
                 >
-                  {image && (
-                    <div className="relative h-20 w-16 shrink-0 overflow-hidden rounded-t-full rounded-b-[14px] md:h-24 md:w-20">
+                  <div className="relative m-2 aspect-square overflow-hidden rounded-[14px] md:m-3 md:rounded-[20px]">
+                    {src && (
                       <Image
-                        src={image.url}
-                        alt={image.altText ?? product.title}
+                        src={src}
+                        alt={shopifyImage?.altText ?? name}
                         fill
-                        sizes="80px"
-                        className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+                        sizes="(min-width: 768px) 380px, 72vw"
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                       />
-                    </div>
-                  )}
-                  <div className="min-w-0">
-                    <p className="text-nooni-sub" style={{ fontSize: "var(--nooni-text-label)" }}>
-                      {taglines[product.handle]}
-                    </p>
-                    <h3 className="mt-0.5 font-editorial text-lg leading-tight text-nooni-ink">
-                      {productTitle(product.handle, product.title)}
+                    )}
+                  </div>
+                  <div className="flex flex-1 flex-col px-4 pt-2 pb-5 text-center md:px-6 md:pb-7">
+                    <h3 className="font-editorial text-nooni-ink" style={{ fontSize: "var(--nooni-text-heading-sm)" }}>
+                      {name}
                     </h3>
-                    <p className="mt-0.5 text-nooni-ink-soft" style={{ fontSize: "var(--nooni-text-ui)" }}>
-                      Fra {formatPrice(price.amount, price.currencyCode)}
+                    <p className="mt-1 font-editorial leading-snug text-nooni-ink-soft" style={{ fontSize: "var(--nooni-text-ui)" }}>
+                      {item.line}
+                    </p>
+                    <p className="mt-auto pt-3 text-nooni-headline" style={{ fontSize: "var(--nooni-text-ui)" }}>
+                      {price && (
+                        <span className="text-nooni-ink">
+                          {price}
+                          <span className="mx-2 text-nooni-ink-soft">·</span>
+                        </span>
+                      )}
+                      Se mere{" "}
+                      <span aria-hidden className="inline-block transition-transform group-hover:translate-x-0.5">›</span>
                     </p>
                   </div>
                 </Link>
@@ -97,6 +101,17 @@ export default async function MoreFromNooni() {
             );
           })}
         </ul>
+
+        <p className="mt-6 text-center md:mt-10">
+          <Link
+            href="/produkter"
+            className="group inline-flex items-center gap-1 py-3 text-nooni-headline"
+            style={{ fontSize: "var(--nooni-text-ui)" }}
+          >
+            Se alle produkter
+            <span aria-hidden className="transition-transform group-hover:translate-x-0.5">›</span>
+          </Link>
+        </p>
       </div>
     </section>
   );

@@ -5,8 +5,9 @@
  * in one file.
  *
  * Rules for this file:
- *   - Only claims Camilla makes herself in her posts. Washing is still
- *     untested, so nothing here says the tags survive the machine.
+ *   - Only claims Camilla makes herself in her posts. Dots are wash
+ *     tested and can stay on in the machine (owner, 2026-10-14). Name
+ *     no temperature until Camilla gives one.
  *   - Copy is parent to parent, in Camilla's voice where it says "jeg".
  *     The best post was tips, not an ad, and the page should read the
  *     same way.

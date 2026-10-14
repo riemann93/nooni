@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "mode": "auto",
+    "parallel": 8
+  }
+}

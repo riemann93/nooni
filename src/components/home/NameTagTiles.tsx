@@ -7,7 +7,7 @@
  * Dots med navn first (the core product), then Dots med motiv, then
  * the two Loops for the bag. Photos and prices are live from Shopify;
  * if Shopify is unreachable the tiles still render with local photos
- * (or the tag's outline) and the fixed prices from product-meta.ts.
+ * (or the fallback photos) and the fixed prices from product-meta.ts.
  * Prices are fixed, so no "Fra".
  */
 
@@ -53,10 +53,11 @@ export default async function NameTagTiles() {
             const product = products.get(tile.handle);
             const name = getProductMeta(tile.handle).crumbName ?? product?.title ?? tile.handle;
             const shopifyImage = product?.images.nodes[0];
+            const fallback = tile.fallback ?? getProductMeta(tile.handle).fallbackImage;
             const image = shopifyImage
               ? { src: shopifyImage.url, alt: shopifyImage.altText ?? name }
-              : tile.fallback
-                ? { src: tile.fallback, alt: name }
+              : fallback
+                ? { src: fallback, alt: name }
                 : null;
             const priceLabel = displayPrice(tile.handle, product?.priceRange.minVariantPrice);
 
