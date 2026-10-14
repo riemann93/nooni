@@ -23,6 +23,7 @@
 import type { Metadata, Viewport } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Cormorant_Garamond, Fredoka, Inter } from "next/font/google";
+import AnnouncementBar from "@/components/AnnouncementBar";
 import CartDrawer from "@/components/CartDrawer";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
@@ -106,6 +107,7 @@ export default function RootLayout({
           Spring til indhold
         </a>
         <CartProvider>
+          <AnnouncementBar />
           <Navbar />
           <main id="indhold" className="flex-1">{children}</main>
           <Footer />

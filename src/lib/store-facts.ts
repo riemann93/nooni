@@ -39,5 +39,6 @@ export const STORE_FACTS = {
   carriers: SHIPPING.carriers.join(", ").replace(/, ([^,]*)$/, " eller $1"),
   withdrawal: `${RETURNS.withdrawalDays} dages fortrydelsesret`,
   complaint: `${RETURNS.complaintMonths} måneders reklamationsret`,
+  madeIn: "Håndlavet i Danmark",
   payment: `Betal med ${PAYMENT_METHODS.slice(0, -1).join(", ")} og ${PAYMENT_METHODS.at(-1)}`,
 };

@@ -22,24 +22,24 @@ export default function Navbar() {
             <Logo className="text-3xl md:text-4xl" />
           </Link>
 
-          <nav className="hidden items-center gap-10 text-base text-nooni-ink-soft sm:flex">
+          <nav className="hidden items-center gap-8 lg:gap-10 text-base text-nooni-ink-soft sm:flex">
+            <Link
+              href="/navnemaerker"
+              className="font-medium text-nooni-headline transition-colors hover:text-nooni-ink"
+            >
+              Navnemærker
+            </Link>
             <Link
               href="/produkter"
               className="transition-colors hover:text-nooni-headline"
             >
-              Produkter
+              Alle produkter
             </Link>
             <Link
               href="/om-os"
               className="transition-colors hover:text-nooni-headline"
             >
-              Min historie
-            </Link>
-            <Link
-              href="/blog"
-              className="transition-colors hover:text-nooni-headline"
-            >
-              Blog
+              Om Nooni
             </Link>
             <Link
               href="/kontakt"

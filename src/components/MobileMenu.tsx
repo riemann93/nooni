@@ -5,9 +5,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const LINKS = [
-  { href: "/produkter", label: "Produkter" },
-  { href: "/om-os", label: "Min historie" },
-  { href: "/blog", label: "Blog" },
+  { href: "/navnemaerker", label: "Navnemærker" },
+  { href: "/produkter", label: "Alle produkter" },
+  { href: "/om-os", label: "Om Nooni" },
   { href: "/kontakt", label: "Kontakt" },
 ];
 
@@ -45,7 +45,7 @@ export default function MobileMenu() {
                   pathname === href
                     ? "font-medium text-nooni-headline"
                     : "text-nooni-ink-soft hover:text-nooni-headline"
-                }`}
+                } ${href === "/navnemaerker" ? "font-medium text-nooni-headline" : ""}`}
               >
                 {label}
               </Link>

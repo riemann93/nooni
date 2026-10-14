@@ -1,16 +1,16 @@
 /**
- * Footer — the closing element. Site-wide.
+ * Footer: the closing element. Site-wide.
  *
  * Mounted in src/app/layout.tsx so it appears at the bottom of every
  * page.
  *
  * Shape: the same pill silhouette used by HowItWorks, Story and
- * BlogTeaser — top corners rounded with `2rem`, bottom corners square,
+ * BlogTeaser: top corners rounded with `2rem`, bottom corners square,
  * full content width. The flat bottom edge sits flush against the
  * viewport bottom so the footer reads as the page's actual end.
  *
  * We tried a true 2:1 semi-circle dome here and it didn't survive
- * Camilla's review — too theatrical, didn't match the other sections.
+ * Camilla's review: too theatrical, didn't match the other sections.
  * The pill shape keeps the footer cohesive with everything above.
  *
  * Below the contact row: site links, the store policies (rendered
@@ -26,13 +26,35 @@
 
 import Link from "next/link";
 import Logo from "./Logo";
-import { STORE_FACTS } from "@/lib/store-facts";
+import { PAYMENT_METHODS, STORE_FACTS } from "@/lib/store-facts";
 
-const SITE_LINKS = [
-  { href: "/produkter", label: "Produkter" },
-  { href: "/om-os", label: "Min historie" },
-  { href: "/blog", label: "Gode raad" },
-  { href: "/kontakt", label: "Kontakt" },
+const COLUMNS = [
+  {
+    title: "Shop",
+    links: [
+      { href: "/navnemaerker", label: "Navnemærker" },
+      { href: "/navnemaerker#loops", label: "Loops" },
+      { href: "/navnemaerker#dots", label: "Dots" },
+      { href: "/navnemaerker#emblem", label: "Emblem" },
+      { href: "/produkter", label: "Alle produkter" },
+    ],
+  },
+  {
+    title: "Hjælp",
+    links: [
+      { href: "/levering", label: "Fragt og levering" },
+      { href: "/returnering", label: "Returnering" },
+      { href: "/kontakt", label: "Kontakt" },
+      { href: "/kontakt#faq", label: "FAQ" },
+    ],
+  },
+  {
+    title: "Om",
+    links: [
+      { href: "/om-os", label: "Min historie" },
+      { href: "/blog", label: "Gode raad" },
+    ],
+  },
 ];
 
 const POLICY_LINKS = [
@@ -93,17 +115,24 @@ export default function Footer() {
             </a>
           </div>
 
-          <nav aria-label="Sider" className="mt-10 border-t border-nooni-line pt-8">
-            <ul className="flex flex-wrap justify-center gap-x-7 gap-y-2 text-[15px] text-nooni-ink">
-              {SITE_LINKS.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="transition-colors hover:text-nooni-headline">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <div className="mt-10 grid grid-cols-1 gap-8 border-t border-nooni-line pt-8 text-left sm:grid-cols-3 sm:text-center">
+            {COLUMNS.map((col) => (
+              <nav key={col.title} aria-label={col.title}>
+                <h2 className="font-display text-lg text-nooni-headline">
+                  {col.title}
+                </h2>
+                <ul className="mt-3 space-y-2 text-[15px] text-nooni-ink">
+                  {col.links.map((link) => (
+                    <li key={link.label}>
+                      <Link href={link.href} className="transition-colors hover:text-nooni-headline">
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            ))}
+          </div>
 
           <nav aria-label="Vilkår" className="mt-4">
             <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[13px] text-nooni-ink-soft">
@@ -119,13 +148,25 @@ export default function Footer() {
 
           <p className="mt-6 text-[13px] text-nooni-ink-soft">
             {STORE_FACTS.shippingPrice} · {STORE_FACTS.delivery}
-            <br />
-            {STORE_FACTS.payment}
           </p>
+
+          <ul
+            aria-label="Betalingsmetoder"
+            className="mt-3 flex flex-wrap items-center justify-center gap-2"
+          >
+            {PAYMENT_METHODS.map((name) => (
+              <li
+                key={name}
+                className="rounded-md border border-nooni-line bg-nooni-bg px-3 py-1 text-[12px] font-medium tracking-wide text-nooni-ink-soft"
+              >
+                {name}
+              </li>
+            ))}
+          </ul>
 
           <div className="mt-8 space-y-1 text-xs tracking-[0.12em] text-nooni-ink-soft">
             <p>Nooni v/Camilla Riemann Sinnbeck · Storegade 47, Borris · 6900 Skjern · CVR 46558804</p>
-            <p>© {new Date().getFullYear()} Nooni · lavet med kærlighed i Danmark</p>
+            <p>© {new Date().getFullYear()} Nooni · håndlavet med kærlighed i Danmark</p>
           </div>
         </div>
       </div>
