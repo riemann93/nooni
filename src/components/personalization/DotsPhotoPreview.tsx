@@ -41,7 +41,7 @@ export const DOTS_PHOTO = {
 } as const;
 
 /** The tag on the photo, in photo pixels. */
-const TAG = { x: 1500, y: 884, width: 180, height: 61, radius: 30 } as const;
+const TAG = { x: 1504, y: 883, width: 188, height: 64, radius: 32 } as const;
 const TAG_CX = TAG.x + TAG.width / 2;
 const TAG_CY = TAG.y + TAG.height / 2;
 
