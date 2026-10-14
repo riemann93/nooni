@@ -189,11 +189,13 @@ cream backgrounds:
 - Rose `#B48383` italic accent words on `#F7EFE5`: 2.8:1. Large text
   needs 3:1.
 
-This is a design decision, not a code bug. Options: a darker rose for
-buttons and small text only (around `#8F5F5F` passes 4.5:1 with white),
-a slightly darker green (around `#56704F`), and keeping the current rose
-for large display text and the logo. Low contrast also hurts older
-parents reading on a phone in sunlight.
+Done (2026-10-14, pending brand sign-off): `--color-nooni-headline` is now
+`#8F5F5F` and `--color-nooni-sub` is `#56704F` in `src/app/globals.css`.
+Both pass 4.5:1 on white, `#FFFCF7` and `#F7EFE5` (rose 5.3, 5.2, 4.6;
+green 5.5, 5.4, 4.8). The original `#B48383` lives on as
+`--color-nooni-rose`, used only by the wordmark in `Logo.tsx`. Product
+colour swatches and OG images keep the original hexes. To undo, put the
+two old values back in `globals.css`.
 
 ### 7. Mobile LCP is still around 4.5 seconds in the lab
 

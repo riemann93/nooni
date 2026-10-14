@@ -29,6 +29,10 @@ font and colour.
 | **Color** | `#B48383` — RGB(180, 131, 131) |
 | **Background** | `#FFFCF7` Nooni cream, or pure white |
 
+On the website the wordmark uses `--color-nooni-rose`. Body text, labels and
+buttons use the darker `#8F5F5F` rose and `#56704F` green so they stay
+readable (WCAG AA). The wordmark itself keeps `#B48383`.
+
 That is the entire spec. Size, position, and surrounding negative space are
 free choices made per surface. Everything else is fixed.
 

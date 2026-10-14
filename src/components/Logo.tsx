@@ -11,7 +11,7 @@
  *   Font:           Fredoka
  *   Weight:         700 (bold)
  *   Letter spacing: 0 (normal)
- *   Color:          #B48383  (--color-nooni-headline)
+ *   Color:          #B48383  (--color-nooni-rose)
  *   Line height:    1 (none)  — keeps the bounding box tight at any size
  *
  * Configurable:
@@ -35,7 +35,7 @@ export default function Logo<T extends React.ElementType = "span">({
   const Component = as ?? "span";
   return (
     <Component
-      className={`font-display font-bold tracking-normal leading-none text-nooni-headline ${className}`}
+      className={`font-display font-bold tracking-normal leading-none text-nooni-rose ${className}`}
       {...rest}
     >
       Nooni

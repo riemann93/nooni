@@ -5,8 +5,13 @@
   --color-nooni-bg: #FFFCF7;
   --color-nooni-warm: #D9B4A7;
   --color-nooni-cool: #D0E1C1;
-  --color-nooni-headline: #B48383;
-  --color-nooni-sub: #678061;
+  /* Text and button colours. Darkened from the original #B48383 rose and
+     #678061 green so small text and white-on-rose buttons pass WCAG AA
+     (4.5:1) on white, #FFFCF7 and #F7EFE5. See SEO.md issue 6. */
+  --color-nooni-headline: #8F5F5F;
+  --color-nooni-sub: #56704F;
+  /* The original brand rose, kept for the Nooni wordmark only (BRAND.md). */
+  --color-nooni-rose: #B48383;
   --color-nooni-ink: #3d3228;
 
   /* Surface tones (handoff additions) */
