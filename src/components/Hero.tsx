@@ -40,7 +40,8 @@ export default function Hero() {
               src={HERO_PHOTO.src}
               alt={HERO_PHOTO.alt}
               fill
-              priority
+              preload
+              fetchPriority="high"
               sizes="(min-width: 1280px) 1232px, 100vw"
               className="object-cover object-[center_10%] brightness-[1.35] scale-110 lg:scale-125"
             />
