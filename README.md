@@ -81,16 +81,24 @@ gh pr create --base production --head main --title "Ship to production"
 
 ## Where SEO and content live
 
+Rules for search work (blog posts, product copy, new pages) are in
+`SEARCH-GUIDE.md`. Open SEO tasks are GitHub Issues.
+
 | What | Where |
 |---|---|
-| Site-wide title, description, Open Graph, Search Console verification | `metadata` in `src/app/layout.tsx` |
-| Per-page title and description | `metadata` in each `src/app/*/page.tsx` |
+| Shared SEO facts (site URL, description, address, shipping and return terms) | `src/lib/seo.ts` |
+| Site-wide title template, Open Graph, Search Console verification | `metadata` in `src/app/layout.tsx` |
+| Per-page title, description, canonical URL and share card | `pageMetadata()` from `src/lib/seo.ts`, used in each `src/app/*/page.tsx` |
 | Product page title and description | `generateMetadata` in `src/app/produkter/[handle]/page.tsx`, built from the product's title and description in Shopify |
 | Product titles, descriptions, images, prices | Shopify Admin, not this repo |
+| Store policies (terms, shipping, returns, privacy) | Shopify Admin → Settings → Policies; shown on `/handelsbetingelser`, `/levering`, `/returnering`, `/privatlivspolitik` |
 | Blog posts | Markdown files in `content/posts/`, loaded by `src/lib/blog.ts` |
-| `sitemap.xml` | `src/app/sitemap.ts`, a hand-maintained list of URLs |
-| `robots.txt` | `src/app/robots.ts` |
-| Structured data (JSON-LD) | none yet |
+| Structured data (JSON-LD) | builders in `src/lib/seo.ts`: store and website on every page, Product on product pages, BlogPosting on posts |
+| `sitemap.xml` | `src/app/sitemap.ts`: every published Shopify product and blog post, plus the fixed pages |
+| `robots.txt` | `src/app/robots.ts` (allows all crawlers, AI crawlers named explicitly) |
+| `/llms.txt`, `/llms-full.txt` | summaries for AI assistants: `src/app/llms*.txt/route.ts` and `src/lib/llms.ts` |
+| Favicon, Apple icon, default share card | `src/app/icon.tsx`, `apple-icon.tsx`, `opengraph-image.tsx` |
+| IndexNow (tell Bing about new URLs) | `npm run seo:indexnow` after a production release |
 
 ## Codebase tour
 

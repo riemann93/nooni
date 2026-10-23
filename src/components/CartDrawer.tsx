@@ -90,6 +90,9 @@ export default function CartDrawer() {
         aria-modal="true"
         aria-label="Indkøbskurv"
         aria-hidden={!isDrawerOpen}
+        // Closed drawer is off-screen; inert keeps its buttons out of
+        // the Tab order so keyboard users don't land on invisible ones.
+        inert={!isDrawerOpen}
         className={`fixed top-0 right-0 z-[11] flex h-full w-full max-w-[440px] flex-col bg-nooni-bg shadow-xl transition-transform duration-300 ${
           isDrawerOpen ? "translate-x-0" : "translate-x-full"
         }`}

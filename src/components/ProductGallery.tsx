@@ -38,7 +38,7 @@ export default function ProductGallery({
           fill
           sizes="(min-width: 768px) 50vw, 100vw"
           className="object-cover scale-110 transition-transform duration-500 hover:scale-125"
-          priority
+          preload
         />
 
         {hasMultiple && (

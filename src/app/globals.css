@@ -98,3 +98,39 @@ span.italic.text-nooni-headline {
   line-height: 1.3;
   margin-bottom: 1rem;
 }
+
+/* Keyboard focus: one visible ring site-wide. Mouse clicks don't show
+   it (focus-visible), and components with their own ring keep theirs. */
+:focus-visible {
+  outline: 2px solid var(--color-nooni-headline);
+  outline-offset: 3px;
+}
+
+/* "Spring til indhold" link: hidden until a keyboard user tabs to it. */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 50;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  background: var(--color-nooni-headline);
+  color: #fff;
+  font-size: 0.875rem;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* Respect the OS "reduce motion" setting: no slides, zooms or autoplay
+   style motion for people who get dizzy from it. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

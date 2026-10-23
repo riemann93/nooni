@@ -37,3 +37,7 @@ Several people work on this repo, mostly through AI agents. Work out which case 
 ## Why this matters
 
 `production` is the live shop. Accidental commits there change what real customers see. The protection on GitHub catches it server-side, but stopping earlier — at the local commit stage — saves cleanup time. And because the repo is public, anything ever pushed (including to branches deleted later) can be read by anyone.
+
+# Search and SEO
+
+Before working on anything that affects how Nooni is found (blog posts, product copy, new pages, metadata, schema), read `SEARCH-GUIDE.md`. Open SEO work is tracked as GitHub Issues.
