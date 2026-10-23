@@ -48,6 +48,8 @@ interface ProductCardProps {
   sizes?: string;
   /** Override the image container aspect ratio class. Defaults to aspect-[3/4]. */
   imageAspect?: string;
+  /** Load eagerly instead of lazily (cards visible on first paint). */
+  eager?: boolean;
 }
 
 export default function ProductCard({
@@ -55,6 +57,7 @@ export default function ProductCard({
   tagline,
   sizes = "(min-width: 1024px) 30vw, 45vw",
   imageAspect = "aspect-[3/4]",
+  eager = false,
 }: ProductCardProps) {
   const image = product.images.nodes[0];
   const price = product.priceRange.minVariantPrice;
@@ -74,6 +77,7 @@ export default function ProductCard({
             alt={image.altText ?? product.title}
             fill
             sizes={sizes}
+            loading={eager ? "eager" : undefined}
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
         </div>

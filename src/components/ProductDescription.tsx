@@ -75,7 +75,7 @@ export default function ProductDescription({
         <button
           type="button"
           onClick={() => setExpanded((e) => !e)}
-          className="mt-5 inline-flex items-center gap-2 text-sm text-nooni-sub transition-colors hover:text-nooni-headline"
+          className="mt-3 inline-flex min-h-11 items-center gap-2 py-2 text-sm text-nooni-sub transition-colors hover:text-nooni-headline"
           aria-expanded={expanded}
         >
           {expanded ? "Skjul" : "Læs mere"}

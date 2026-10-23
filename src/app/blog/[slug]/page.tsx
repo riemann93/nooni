@@ -2,10 +2,33 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import type { Metadata } from "next";
 import { getPostBySlug, getAllPosts } from "@/lib/blog";
+import { blogPostJsonLd, jsonLdScript, pageMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
+  if (!post) return { title: "Indlæg ikke fundet" };
+  return pageMetadata({
+    title: post.title,
+    description: post.excerpt,
+    path: `/blog/${post.slug}`,
+    openGraph: {
+      type: "article",
+      publishedTime: post.date,
+      authors: ["Camilla"],
+      images: [{ url: post.image, alt: post.title }],
+    },
+  });
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -16,7 +39,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const blocks = post.content.split(/\r?\n\r?\n+/).filter(Boolean);
 
   return (
-    <main className="mx-auto max-w-[920px] px-6 pt-8 pb-16 md:px-10 md:pt-14 md:pb-28">
+    <article className="mx-auto max-w-[920px] px-6 pt-8 pb-16 md:px-10 md:pt-14 md:pb-28">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(blogPostJsonLd(post)) }}
+      />
       <Link
         href="/blog"
         className="inline-flex items-center gap-2 text-sm text-nooni-sub transition-colors hover:text-nooni-headline"
@@ -46,7 +73,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               src={post.image}
               alt={post.title}
               fill
-              priority
+              preload
               className="object-cover"
               sizes="(min-width: 768px) 40vw, 100vw"
             />
@@ -58,7 +85,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         {/* Make sure floating image is contained — prevents overflow */}
         <div className="clear-both" />
       </div>
-    </main>
+    </article>
   );
 }
 
@@ -87,7 +114,7 @@ function renderTitle(title: string): ReactNode {
  * Minimal markdown block renderer for blog content.
  *
  * Handles:
- *   - "### " heading lines → <h3>
+ *   - "### " heading lines → <h2> (the post title is the h1)
  *   - Blocks where every line matches "N. " → <ol> with parsed items
  *   - Everything else → <p>, preserving single-newline line breaks
  *
@@ -98,12 +125,12 @@ function renderTitle(title: string): ReactNode {
 function renderBlock(block: string, key: number): ReactNode {
   if (block.startsWith("### ")) {
     return (
-      <h3
+      <h2
         key={key}
         className="mt-10 mb-3 first:mt-0 font-editorial text-2xl leading-snug text-nooni-ink"
       >
         {renderInline(block.slice(4))}
-      </h3>
+      </h2>
     );
   }
 
