@@ -340,12 +340,17 @@ interface MultiSelectFieldProps {
 
 function MultiSelectField({ field, value, onChange }: MultiSelectFieldProps) {
   const chosen = value ? value.split(", ") : [];
-  const full = field.max !== undefined && chosen.length >= field.max;
+  // With room for just one, a new pick swaps the old one out instead of
+  // locking the other chips.
+  const single = field.max === 1;
+  const full = !single && field.max !== undefined && chosen.length >= field.max;
 
   function toggle(optionValue: string) {
     const next = chosen.includes(optionValue)
       ? chosen.filter((v) => v !== optionValue)
-      : [...chosen, optionValue];
+      : single
+        ? [optionValue]
+        : [...chosen, optionValue];
     // Keep the options' order, so the order line reads the same every time.
     onChange(
       field.options
