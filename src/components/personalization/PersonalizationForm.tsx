@@ -14,6 +14,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import MotifRenderer, { hasMotifRenderer } from "@/components/personalization/motifs";
 import {
   NOONI_COLORS,
   isSchemaValid,
@@ -328,7 +329,10 @@ function SelectField({ field, value, onChange }: SelectFieldProps) {
           open ? "border-nooni-headline" : "border-nooni-line"
         } ${selected ? "text-nooni-ink" : "text-nooni-ink-soft"}`}
       >
-        {selected?.label ?? "Vælg…"}
+        <span className="flex items-center gap-2">
+          {selected && <OptionIcon value={selected.value} />}
+          {selected?.label ?? "Vælg…"}
+        </span>
         <svg
           className={`pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-nooni-ink-soft transition-transform ${open ? "rotate-180" : ""}`}
           width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -356,12 +360,13 @@ function SelectField({ field, value, onChange }: SelectFieldProps) {
                   onChange(opt.value);
                   setOpen(false);
                 }}
-                className={`rounded-full px-4 py-2 text-left text-sm transition-colors ${
+                className={`flex items-center gap-2 rounded-full px-4 py-2 text-left text-sm transition-colors ${
                   isSelected
                     ? "bg-nooni-headline text-white"
                     : "text-nooni-ink hover:bg-nooni-bg-warm hover:text-nooni-headline"
                 }`}
               >
+                <OptionIcon value={opt.value} />
                 {opt.label}
               </button>
             );
@@ -369,6 +374,16 @@ function SelectField({ field, value, onChange }: SelectFieldProps) {
         </div>
       )}
     </div>
+  );
+}
+
+/** Small motif drawing beside an option, so customers see it before choosing. */
+function OptionIcon({ value }: { value: string }) {
+  if (!hasMotifRenderer(value)) return null;
+  return (
+    <svg viewBox="0 0 100 100" className="h-5 w-5 flex-none" aria-hidden>
+      <MotifRenderer motifKey={value} color="currentColor" />
+    </svg>
   );
 }
 
