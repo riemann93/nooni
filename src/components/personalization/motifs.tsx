@@ -49,3 +49,8 @@ export function hasMotifRenderer(motifKey: string): boolean {
 
 /** All motif keys currently available, sorted alphabetically by the generator. */
 export const ALL_MOTIF_KEYS = GENERATED_MOTIF_KEYS;
+
+/** Motifs printed in fixed colours only (e.g. Citron), so the symbol colour is not asked for. */
+export const FIXED_COLOUR_MOTIF_KEYS = GENERATED_MOTIF_KEYS.filter(
+  (key) => GENERATED_MOTIFS[key].fixedColour,
+);

@@ -17,6 +17,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import MotifRenderer, { hasMotifRenderer } from "@/components/personalization/motifs";
 import {
   NOONI_COLORS,
+  isFieldHidden,
   isSchemaValid,
   type ChoiceFieldDef,
   type ColorFieldDef,
@@ -79,6 +80,7 @@ interface FieldRowProps {
 }
 
 function FieldRow({ field, values, setField }: FieldRowProps) {
+  if (isFieldHidden(field, values)) return null;
   switch (field.type) {
     case "color":
       return (

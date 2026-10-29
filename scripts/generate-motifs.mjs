@@ -84,8 +84,16 @@ function stripMetadata(svgInner) {
 /**
  * Replace concrete fill/stroke colours with `currentColor` so the
  * renderer can drive the colour via CSS `color`. Preserves `none`.
+ * Elements marked `data-fixed` keep their own colour: parts that are
+ * always printed in one filament, like the lemon's leaf.
  */
 function recolour(svgInner) {
+  return svgInner.replace(/<[^>]+>/g, (tag) =>
+    tag.includes("data-fixed") ? tag : recolourTag(tag),
+  );
+}
+
+function recolourTag(svgInner) {
   return svgInner
     .replace(/fill:\s*#[0-9a-fA-F]+/g, "fill:currentColor")
     .replace(/stroke:\s*#[0-9a-fA-F]+/g, "stroke:currentColor")
@@ -178,7 +186,9 @@ function main() {
     inner = recolour(inner);
     inner = inner.replace(/\s+/g, " ").trim();
     const transform = fitTransform(viewBox);
-    entries.push({ key, filename, inner, transform });
+    // Every part has its own colour, so the customer's pick does nothing.
+    const fixedColour = !inner.includes("currentColor");
+    entries.push({ key, filename, inner, transform, fixedColour });
   }
 
   // Emit the TS file.
@@ -194,8 +204,8 @@ function main() {
 
   const recordLines = entries
     .map(
-      ({ key, filename, inner, transform }) =>
-        `  // ${filename}\n  ${JSON.stringify(key)}: { inner: "${escapeForTsString(inner)}", transform: "${transform}" },`,
+      ({ key, filename, inner, transform, fixedColour }) =>
+        `  // ${filename}\n  ${JSON.stringify(key)}: { inner: "${escapeForTsString(inner)}", transform: "${transform}", fixedColour: ${fixedColour} },`,
     )
     .join("\n");
 
@@ -208,6 +218,8 @@ function main() {
   inner: string;
   /** SVG transform that fits the source viewBox into a 0 0 100 100 box. */
   transform: string;
+  /** True when every part has a fixed colour, so no symbol colour applies. */
+  fixedColour: boolean;
 }
 
 export const GENERATED_MOTIFS: Record<string, GeneratedMotif> = {
