@@ -47,5 +47,15 @@ export function hasMotifRenderer(motifKey: string): boolean {
   return motifKey in GENERATED_MOTIFS;
 }
 
+/**
+ * Picks the motif to draw from a motif value, which may hold several
+ * motifs joined by ", " (Dots lets the customer pick more than one).
+ * Returns the first one that has a renderer, or undefined.
+ */
+export function previewMotifKey(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+  return value.split(", ").find(hasMotifRenderer);
+}
+
 /** All motif keys currently available, sorted alphabetically by the generator. */
 export const ALL_MOTIF_KEYS = GENERATED_MOTIF_KEYS;

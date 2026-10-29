@@ -21,6 +21,7 @@ import {
   type ColorFieldDef,
   type ColorOption,
   type FieldDef,
+  type MultiSelectFieldDef,
   type PersonalizationSchema,
   type SelectFieldDef,
   type TextFieldDef,
@@ -98,6 +99,14 @@ function FieldRow({ field, values, setField }: FieldRowProps) {
     case "select":
       return (
         <SelectField
+          field={field}
+          value={values[field.key] ?? ""}
+          onChange={(v) => setField(field.key, v)}
+        />
+      );
+    case "multiselect":
+      return (
+        <MultiSelectField
           field={field}
           value={values[field.key] ?? ""}
           onChange={(v) => setField(field.key, v)}
@@ -316,6 +325,65 @@ function SelectField({ field, value, onChange }: SelectFieldProps) {
         >
           <polyline points="6 9 12 15 18 9" />
         </svg>
+      </div>
+    </div>
+  );
+}
+
+/* ── Multi-select chips ─────────────────────────────────────────────── */
+
+interface MultiSelectFieldProps {
+  field: MultiSelectFieldDef;
+  value: string;
+  onChange: (value: string) => void;
+}
+
+function MultiSelectField({ field, value, onChange }: MultiSelectFieldProps) {
+  const chosen = value ? value.split(", ") : [];
+  const full = field.max !== undefined && chosen.length >= field.max;
+
+  function toggle(optionValue: string) {
+    const next = chosen.includes(optionValue)
+      ? chosen.filter((v) => v !== optionValue)
+      : [...chosen, optionValue];
+    // Keep the options' order, so the order line reads the same every time.
+    onChange(
+      field.options
+        .map((o) => o.value)
+        .filter((v) => next.includes(v))
+        .join(", "),
+    );
+  }
+
+  return (
+    <div>
+      <FieldLabel required={field.required}>{field.label}</FieldLabel>
+      {field.hint && (
+        <p className="mt-1 text-sm text-nooni-ink-soft">{field.hint}</p>
+      )}
+      <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label={field.label}>
+        {field.options.map((opt) => {
+          const selected = chosen.includes(opt.value);
+          const disabled = full && !selected;
+          return (
+            <button
+              key={opt.value}
+              type="button"
+              aria-pressed={selected}
+              disabled={disabled}
+              onClick={() => toggle(opt.value)}
+              className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
+                selected
+                  ? "border-nooni-headline bg-nooni-headline text-white"
+                  : disabled
+                    ? "cursor-not-allowed border-nooni-line-soft text-nooni-ink-soft/40"
+                    : "border-nooni-line text-nooni-ink hover:border-nooni-headline hover:text-nooni-headline"
+              }`}
+            >
+              {opt.label}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
