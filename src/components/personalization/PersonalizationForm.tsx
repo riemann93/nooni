@@ -13,7 +13,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   NOONI_COLORS,
   isSchemaValid,
@@ -286,37 +286,88 @@ interface SelectFieldProps {
   onChange: (value: string) => void;
 }
 
+/**
+ * A dropdown that unfolds in place as a two-column list, so a long list
+ * of motifs stays short. It opens inline rather than floating, so it
+ * pushes the fields below down instead of being cut off by the
+ * scrolling right column.
+ */
 function SelectField({ field, value, onChange }: SelectFieldProps) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const selected = field.options.find((o) => o.value === value);
+
+  useEffect(() => {
+    if (!open) return;
+    function onPointerDown(e: PointerEvent) {
+      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+    }
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
   return (
-    <div>
+    <div ref={rootRef}>
       <FieldLabel htmlFor={field.key} required={field.required}>
         {field.label}
       </FieldLabel>
-      <div className="relative mt-2">
-        <select
-          id={field.key}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="w-full appearance-none rounded-full border border-nooni-line bg-nooni-bg pl-5 pr-10 py-3 text-base text-nooni-ink focus:border-nooni-headline focus:outline-none"
-        >
-          <option value="" disabled>
-            Vælg…
-          </option>
-          {field.options.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
+      <button
+        id={field.key}
+        type="button"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+        className={`relative mt-2 w-full rounded-full border bg-nooni-bg py-3 pl-5 pr-10 text-left text-base focus:border-nooni-headline focus:outline-none ${
+          open ? "border-nooni-headline" : "border-nooni-line"
+        } ${selected ? "text-nooni-ink" : "text-nooni-ink-soft"}`}
+      >
+        {selected?.label ?? "Vælg…"}
         <svg
-          className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-nooni-ink-soft"
+          className={`pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-nooni-ink-soft transition-transform ${open ? "rotate-180" : ""}`}
           width="16" height="16" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
           aria-hidden
         >
           <polyline points="6 9 12 15 18 9" />
         </svg>
-      </div>
+      </button>
+      {open && (
+        <div
+          role="listbox"
+          aria-labelledby={field.key}
+          className="mt-2 grid grid-cols-2 gap-1 rounded-2xl border border-nooni-line-soft bg-nooni-bg p-2 shadow-[0_8px_18px_-6px_rgba(61,50,40,0.18)]"
+        >
+          {field.options.map((opt) => {
+            const isSelected = opt.value === value;
+            return (
+              <button
+                key={opt.value}
+                type="button"
+                role="option"
+                aria-selected={isSelected}
+                onClick={() => {
+                  onChange(opt.value);
+                  setOpen(false);
+                }}
+                className={`rounded-full px-4 py-2 text-left text-sm transition-colors ${
+                  isSelected
+                    ? "bg-nooni-headline text-white"
+                    : "text-nooni-ink hover:bg-nooni-bg-warm hover:text-nooni-headline"
+                }`}
+              >
+                {opt.label}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
