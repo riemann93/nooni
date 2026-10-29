@@ -4,7 +4,7 @@ import {
   NOONI_COLORS,
   type ColorOption,
 } from "@/lib/shopify/personalization";
-import MotifRenderer, { previewMotifKey } from "./motifs";
+import MotifRenderer, { hasMotifRenderer } from "./motifs";
 
 export const PREVIEW_SUPPORTED_HANDLES = new Set<string>([
   "dots-5stk",
@@ -34,8 +34,8 @@ export default function ProductPreview({
 }: ProductPreviewProps) {
   const mainHex = resolveColor(colors, values.main_color, NEUTRAL_MAIN_HEX);
   const secondaryHex = resolveColor(colors, values.secondary_color, NEUTRAL_SECONDARY_HEX);
-  const motifKey = previewMotifKey(values.motif);
-  const showMotif = Boolean(motifKey);
+  const motifKey = values.motif;
+  const showMotif = Boolean(motifKey && hasMotifRenderer(motifKey));
   const nameText = values.name?.trim() ?? "";
   const isPill = handle === "dots-med-navn-3stk" || handle === "loops-navn" || handle === "emblem";
   // Scale font to fill the shape: width budget / chars, capped by height budget.

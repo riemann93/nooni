@@ -102,19 +102,6 @@ export interface SelectFieldDef extends FieldBase {
 }
 
 /**
- * Pick one or more options, shown as toggle chips. The value is the
- * chosen option values joined by ", ", in the options' order.
- */
-export interface MultiSelectFieldDef extends FieldBase {
-  type: "multiselect";
-  options: readonly { value: string; label: string }[];
-  /** Most options the customer may pick. */
-  max?: number;
-  /** Short help line under the label. */
-  hint?: string;
-}
-
-/**
  * A mutually-exclusive choice between options, each of which can carry
  * its own sub-fields. Used by Dots: the customer picks either "Motiv"
  * or "Navn", and the corresponding sub-field renders below.
@@ -128,12 +115,7 @@ export interface ChoiceFieldDef extends FieldBase {
   }[];
 }
 
-export type FieldDef =
-  | ColorFieldDef
-  | TextFieldDef
-  | SelectFieldDef
-  | MultiSelectFieldDef
-  | ChoiceFieldDef;
+export type FieldDef = ColorFieldDef | TextFieldDef | SelectFieldDef | ChoiceFieldDef;
 
 export interface PersonalizationSchema {
   fields: readonly FieldDef[];
@@ -208,19 +190,7 @@ export const PERSONALIZATION_SCHEMAS: Record<string, PersonalizationSchema> = {
   // ── Dots: 5stk er en pakke med 5 ens motiv-dots. Med-navn-3stk er
   //    3 ens navne-dots (de er aflange og fylder mere). ─────────────
   "dots-5stk": {
-    fields: [
-      {
-        type: "multiselect",
-        key: "motif",
-        label: "Motiv",
-        required: true,
-        options: MOTIFS,
-        max: 1,
-        hint: "Alle 5 dots i pakken får det samme motiv.",
-      },
-      mainColorField,
-      secondaryColorField,
-    ],
+    fields: [motifField(MOTIFS), mainColorField, secondaryColorField],
   },
   "dots-med-navn-3stk": {
     fields: [nameField("Alma"), mainColorField, secondaryColorField],
@@ -386,11 +356,6 @@ export function toLineItemAttributes(
         displayValue = palette.find((c) => c.value === v)?.label ?? v;
       } else if (field.type === "select") {
         displayValue = field.options.find((o) => o.value === v)?.label ?? v;
-      } else if (field.type === "multiselect") {
-        displayValue = v
-          .split(", ")
-          .map((part) => field.options.find((o) => o.value === part)?.label ?? part)
-          .join(", ");
       }
 
       out.push({ key: field.label, value: displayValue });

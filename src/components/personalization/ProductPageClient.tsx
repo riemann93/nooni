@@ -11,7 +11,7 @@ import ProductPreview, {
   NEUTRAL_MAIN_HEX,
   NEUTRAL_SECONDARY_HEX,
 } from "@/components/personalization/ProductPreview";
-import MotifRenderer, { previewMotifKey } from "@/components/personalization/motifs";
+import MotifRenderer, { hasMotifRenderer } from "@/components/personalization/motifs";
 import type { ColorOption, PersonalizationSchema } from "@/lib/shopify/personalization";
 import type { Money, ProductVariant, ShopifyImage } from "@/lib/shopify/types";
 
@@ -250,8 +250,8 @@ function SnapshotDot({
   const palette = colors ?? [];
   const mainHex = resolveColor(palette, values.main_color, NEUTRAL_MAIN_HEX);
   const secondaryHex = resolveColor(palette, values.secondary_color, NEUTRAL_SECONDARY_HEX);
-  const motifKey = previewMotifKey(values.motif);
-  const showMotif = Boolean(motifKey);
+  const motifKey = values.motif;
+  const showMotif = Boolean(motifKey && hasMotifRenderer(motifKey));
   const nameText = values.name?.trim() ?? "";
   const isPill = handle === "dots-med-navn-3stk" || handle === "loops-navn" || handle === "emblem";
   const nameFontSize = nameText.length === 0 ? 0 : isPill
