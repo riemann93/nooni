@@ -17,7 +17,10 @@
  * stays the same; only the source changes.
  */
 
-import { ALL_MOTIF_KEYS } from "@/components/personalization/motifs";
+import {
+  ALL_MOTIF_KEYS,
+  FIXED_COLOUR_MOTIF_KEYS,
+} from "@/components/personalization/motifs";
 
 /* ── Palette ──────────────────────────────────────────────────────── */
 
@@ -82,6 +85,17 @@ interface FieldBase {
   /** Danish label shown on the form AND used as the line-item-property key on Shopify orders. */
   label: string;
   required?: boolean;
+  /** Hide (and skip) this field while another field holds one of these values. */
+  hiddenWhen?: { key: string; values: readonly string[] };
+}
+
+/** True when the field is hidden by its `hiddenWhen` rule. */
+export function isFieldHidden(
+  field: FieldDef,
+  values: Record<string, string>,
+): boolean {
+  const rule = field.hiddenWhen;
+  return Boolean(rule && rule.values.includes(values[rule.key]));
 }
 
 export interface ColorFieldDef extends FieldBase {
@@ -139,6 +153,8 @@ const secondaryColorField: FieldDef = {
   key: "secondary_color",
   label: "Tekst- eller symbolfarve",
   required: true,
+  // Motifs like Citron are always printed in their own colours.
+  hiddenWhen: { key: "motif", values: FIXED_COLOUR_MOTIF_KEYS },
 };
 
 const motifField = (options: readonly MotifOption[]): FieldDef => ({
@@ -303,6 +319,7 @@ export function isSchemaValid(
 ): boolean {
   function check(fields: readonly FieldDef[]): boolean {
     for (const field of fields) {
+      if (isFieldHidden(field, values)) continue;
       if (field.type === "choice") {
         const selected = values[field.key];
         if (field.required && !selected) return false;
@@ -338,6 +355,7 @@ export function toLineItemAttributes(
 
   function emit(fields: readonly FieldDef[]) {
     for (const field of fields) {
+      if (isFieldHidden(field, values)) continue;
       if (field.type === "choice") {
         const selected = values[field.key];
         if (selected) {
