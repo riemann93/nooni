@@ -74,31 +74,6 @@ export const MOTIFS: readonly MotifOption[] = ALL_MOTIF_KEYS.map((key) => ({
   label: key,
 }));
 
-/**
- * Every motif Camilla has a product photo of, for Dots. Only the ones
- * with an SVG in design/motifs/ (so far Blomst) get a live preview; the
- * rest are listed so customers can order them anyway. Add a name here
- * when a new motif is photographed.
- */
-const PHOTOGRAPHED_DOTS_MOTIFS = [
-  "Bil",
-  "Bille",
-  "Blomst",
-  "Citron",
-  "Hjerte",
-  "Kirsebær",
-  "Pote",
-  "Puslespil",
-  "Sky",
-  "Spire",
-];
-
-export const DOTS_MOTIFS: readonly MotifOption[] = Array.from(
-  new Set([...PHOTOGRAPHED_DOTS_MOTIFS, ...ALL_MOTIF_KEYS]),
-)
-  .sort((a, b) => a.localeCompare(b, "da"))
-  .map((key) => ({ value: key, label: key }));
-
 /* ── Field types ──────────────────────────────────────────────────── */
 
 interface FieldBase {
@@ -239,7 +214,7 @@ export const PERSONALIZATION_SCHEMAS: Record<string, PersonalizationSchema> = {
         key: "motif",
         label: "Motiv",
         required: true,
-        options: DOTS_MOTIFS,
+        options: MOTIFS,
         max: 1,
         hint: "Alle 5 dots i pakken får det samme motiv.",
       },

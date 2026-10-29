@@ -109,6 +109,21 @@ function extractInner(svgText) {
 }
 
 /**
+ * Icon SVGs (e.g. Tabler) set fill/stroke on the root <svg>, which
+ * extractInner drops. Carry those onto a wrapping <g> so outline icons
+ * stay outlines and filled icons stay filled.
+ */
+function wrapWithRootPaint(svgText, inner) {
+  const rootTag = svgText.match(/<svg\b[^>]*>/)?.[0] ?? "";
+  const attrs = [];
+  for (const name of ["fill", "stroke", "stroke-width", "stroke-linecap", "stroke-linejoin"]) {
+    const match = rootTag.match(new RegExp(`\\s${name}="([^"]*)"`));
+    if (match) attrs.push(`${name}="${match[1]}"`);
+  }
+  return attrs.length ? `<g ${attrs.join(" ")}>${inner}</g>` : inner;
+}
+
+/**
  * Compute the SVG transform that fits a source viewBox into the
  * renderer's 0 0 RENDER_BOX RENDER_BOX coordinate space, centred.
  */
@@ -159,7 +174,7 @@ function main() {
     const svgText = readFileSync(join(INPUT_DIR, filename), "utf8");
     const viewBox = extractViewBox(svgText);
     let inner = extractInner(svgText);
-    inner = stripMetadata(inner);
+    inner = wrapWithRootPaint(svgText, stripMetadata(inner));
     inner = recolour(inner);
     inner = inner.replace(/\s+/g, " ").trim();
     const transform = fitTransform(viewBox);

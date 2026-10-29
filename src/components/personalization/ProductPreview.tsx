@@ -64,7 +64,8 @@ export default function ProductPreview({
       <ProductShape handle={handle} fill={mainHex} filter="url(#shape-shadow)" />
 
       {showMotif && motifKey && (
-        <g transform="translate(9.5 5.5) scale(0.81)" filter="url(#motif-shadow)">
+        // Centred, and small enough that a square motif's corners stay inside the dot.
+        <g transform="translate(15 15) scale(0.7)" filter="url(#motif-shadow)">
           <MotifRenderer motifKey={motifKey} color={secondaryHex} />
         </g>
       )}

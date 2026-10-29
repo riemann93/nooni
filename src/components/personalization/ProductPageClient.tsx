@@ -266,7 +266,7 @@ function SnapshotDot({
       </defs>
       <ProductShape handle={handle} fill={mainHex} />
       {showMotif && motifKey && (
-        <g transform="translate(5 5) scale(0.9)" filter="url(#snap-shadow)">
+        <g transform="translate(15 15) scale(0.7)" filter="url(#snap-shadow)">
           <MotifRenderer motifKey={motifKey} color={secondaryHex} />
         </g>
       )}
