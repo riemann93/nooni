@@ -37,18 +37,6 @@ export const metadata: Metadata = {
   title: { absolute: "Nooni · Personlige navnemærker og smarte løsninger til børn" },
 };
 
-// Canonical is set per page, never in the root layout: a layout
-// canonical would be inherited by every page that forgets its own.
-export const metadata: Metadata = {
-  ...pageMetadata({
-    title: "Nooni · Personlige navnemærker og smarte løsninger til børn",
-    description: SITE_DESCRIPTION,
-    path: "/",
-  }),
-  // The homepage title is the full brand line, not "x · Nooni".
-  title: { absolute: "Nooni · Personlige navnemærker og smarte løsninger til børn" },
-};
-
 export default function Home() {
   return (
     <>
