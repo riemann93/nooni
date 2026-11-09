@@ -42,7 +42,7 @@ export default function CustomerMap() {
             </p>
             <div className="mt-8 w-full max-w-[420px]">
               <Image
-                src="/images/danmarkskort-kunder.png"
+                src="/images/danmarkskort-kunder-n.png"
                 alt="Danmarkskort med prikker for de byer, Nooni har sendt pakker til"
                 width={1200}
                 height={1200}
