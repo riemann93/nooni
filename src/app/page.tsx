@@ -8,6 +8,8 @@
  *   <ProductsGrid />  three featured products + "Se alle produkter"
  *   <Story />         family / process narrative
  *   <BlogTeaser />    newest blog post preview
+ *   <CustomerMap />   Danmarkskort over byer, Nooni er sendt til (last,
+ *                     just above the footer)
  *
  * The page closes with the site-wide arched <Footer /> mounted in
  * layout.tsx — no per-page Contact section anymore. Each section
@@ -21,6 +23,7 @@ import HowItWorks from "@/components/HowItWorks";
 import ProductsGrid from "@/components/ProductsGrid";
 import Story from "@/components/Story";
 import BlogTeaser from "@/components/BlogTeaser";
+import CustomerMap from "@/components/CustomerMap";
 
 // Canonical is set per page, never in the root layout: a layout
 // canonical would be inherited by every page that forgets its own.
@@ -42,6 +45,7 @@ export default function Home() {
       <Story />
       <BlogTeaser />
       <HowItWorks />
+      <CustomerMap />
     </>
   );
 }
