@@ -325,6 +325,12 @@ export const PRODUCT_BY_HANDLE_QUERY = /* GraphQL */ `
             currencyCode
           }
           availableForSale
+          image {
+            url
+            altText
+            width
+            height
+          }
         }
       }
     }
