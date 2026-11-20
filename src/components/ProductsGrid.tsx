@@ -28,9 +28,6 @@ interface CardCopy {
 const CARDS: CardCopy[] = [
   { handle: "loops", tagline: "Til tasker & nøgler" },
   { handle: "emblem", tagline: "Større mærker med motiv" },
-  // Juleby sits third so it is the centred (active) card on load.
-  // Seasonal: remove after Christmas.
-  { handle: "juleby", tagline: "Byg jeres egen juleby" },
   { handle: "deks-single", tagline: "Korteholder til kortspil" },
 ];
 
