@@ -316,7 +316,7 @@ export const PRODUCT_BY_HANDLE_QUERY = /* GraphQL */ `
           currencyCode
         }
       }
-      variants(first: 10) {
+      variants(first: 30) {
         nodes {
           id
           title
@@ -325,6 +325,12 @@ export const PRODUCT_BY_HANDLE_QUERY = /* GraphQL */ `
             currencyCode
           }
           availableForSale
+          image {
+            url
+            altText
+            width
+            height
+          }
         }
       }
     }

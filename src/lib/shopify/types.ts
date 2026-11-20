@@ -51,6 +51,8 @@ export interface ProductVariant {
   title: string;
   price: Money;
   availableForSale: boolean;
+  /** Variant image set in Shopify admin; null when none is assigned. */
+  image?: ShopifyImage | null;
 }
 
 export interface Product {
