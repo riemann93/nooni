@@ -13,7 +13,7 @@ import ProductPreview, {
 } from "@/components/personalization/ProductPreview";
 import MotifRenderer, { hasMotifRenderer } from "@/components/personalization/motifs";
 import type { ColorOption, PersonalizationSchema } from "@/lib/shopify/personalization";
-import type { Money, ProductVariant, ShopifyImage } from "@/lib/shopify/types";
+import type { GalleryItem, Money, ProductVariant } from "@/lib/shopify/types";
 
 function renderProductTitle(title: string): ReactNode {
   const sep = " - ";
@@ -56,7 +56,7 @@ interface Snapshot {
 
 interface ProductPageClientProps {
   handle: string;
-  images: ShopifyImage[];
+  images: GalleryItem[];
   productTitle: string;
   variants: ProductVariant[];
   schema: PersonalizationSchema | null;
