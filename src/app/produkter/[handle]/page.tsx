@@ -25,7 +25,11 @@ import {
   getSchemaForHandle,
   withColorOptions,
 } from "@/lib/shopify/personalization";
-import { getProductByHandle, getProductColors } from "@/lib/shopify/products";
+import {
+  getGalleryItems,
+  getProductByHandle,
+  getProductColors,
+} from "@/lib/shopify/products";
 import { getProductMeta } from "@/lib/product-meta";
 import {
   jsonLdScript,
@@ -132,7 +136,7 @@ export default async function ProductPage({ params }: PageProps) {
       />
       <ProductPageClient
         handle={handle}
-        images={product.images.nodes}
+        images={getGalleryItems(product)}
         productTitle={product.title}
         variants={product.variants.nodes}
         schema={schema}

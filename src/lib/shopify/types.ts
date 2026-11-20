@@ -18,11 +18,41 @@ export interface ShopifyImage {
   height: number;
 }
 
+/**
+ * One video source as returned by the Storefront API (`Video.sources`).
+ * Shopify transcodes uploads into several renditions (mp4 at several
+ * heights + an HLS m3u8); we pick the mp4s for a plain <video> tag.
+ */
+export interface ShopifyVideoSource {
+  url: string;
+  mimeType: string;
+  height: number;
+}
+
+/**
+ * Product media item: either an image or a video. Both carry an image
+ * (for videos it's Shopify's preview frame) so galleries and thumbnails
+ * can treat them the same and only branch when rendering the main view.
+ */
+export interface ProductMediaNode {
+  mediaContentType: "IMAGE" | "VIDEO" | "EXTERNAL_VIDEO" | "MODEL_3D";
+  image?: ShopifyImage | null;
+  previewImage?: ShopifyImage | null;
+  sources?: ShopifyVideoSource[];
+}
+
+/** Gallery item: an image, optionally with video sources to play. */
+export interface GalleryItem extends ShopifyImage {
+  videoSources?: ShopifyVideoSource[];
+}
+
 export interface ProductVariant {
   id: string;
   title: string;
   price: Money;
   availableForSale: boolean;
+  /** Variant image set in Shopify admin; null when none is assigned. */
+  image?: ShopifyImage | null;
 }
 
 export interface Product {
@@ -33,6 +63,7 @@ export interface Product {
   descriptionHtml: string;
   availableForSale: boolean;
   images: { nodes: ShopifyImage[] };
+  media: { nodes: ProductMediaNode[] };
   priceRange: {
     minVariantPrice: Money;
     maxVariantPrice: Money;

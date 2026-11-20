@@ -280,6 +280,32 @@ export const PRODUCT_BY_HANDLE_QUERY = /* GraphQL */ `
           height
         }
       }
+      media(first: 20) {
+        nodes {
+          mediaContentType
+          ... on MediaImage {
+            image {
+              url
+              altText
+              width
+              height
+            }
+          }
+          ... on Video {
+            previewImage {
+              url
+              altText
+              width
+              height
+            }
+            sources {
+              url
+              mimeType
+              height
+            }
+          }
+        }
+      }
       priceRange {
         minVariantPrice {
           amount
@@ -290,7 +316,7 @@ export const PRODUCT_BY_HANDLE_QUERY = /* GraphQL */ `
           currencyCode
         }
       }
-      variants(first: 10) {
+      variants(first: 30) {
         nodes {
           id
           title
@@ -299,6 +325,12 @@ export const PRODUCT_BY_HANDLE_QUERY = /* GraphQL */ `
             currencyCode
           }
           availableForSale
+          image {
+            url
+            altText
+            width
+            height
+          }
         }
       }
     }

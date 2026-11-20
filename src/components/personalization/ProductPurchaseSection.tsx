@@ -26,6 +26,7 @@ import {
   type FieldDef,
   type PersonalizationSchema,
 } from "@/lib/shopify/personalization";
+import Image from "next/image";
 import type { Money, ProductVariant } from "@/lib/shopify/types";
 
 function formatPrice(money: Money): string {
@@ -81,6 +82,10 @@ export default function ProductPurchaseSection({
     variants[0]?.id ?? "",
   );
   const selectedVariant = variants.find((v) => v.id === selectedVariantId) ?? variants[0];
+  // Show picture tiles instead of pills when most variants have an image.
+  const showVariantTiles =
+    variants.length > 1 &&
+    variants.filter((v) => v.image).length >= Math.ceil(variants.length * 0.6);
   const availableForSale = selectedVariant?.availableForSale ?? false;
 
   const [values, setValues] = useState<Record<string, string>>({});
@@ -132,7 +137,7 @@ export default function ProductPurchaseSection({
 
   return (
     <>
-      {variants.length > 1 && (
+      {variants.length > 1 && !showVariantTiles && (
         <div className="mt-5 border-t border-nooni-line-soft pt-5">
           <p className="mb-2 text-sm font-medium uppercase tracking-[0.18em] text-nooni-ink">
             Størrelse
@@ -157,6 +162,64 @@ export default function ProductPurchaseSection({
                 <span className="block text-xs opacity-70">{formatPrice(v.price)}</span>
               </button>
             ))}
+          </div>
+        </div>
+      )}
+
+      {showVariantTiles && (
+        // Picture tiles: used when (nearly) every variant has its own image
+        // in Shopify, e.g. Juleby where each part is a different house.
+        // Image + name + price on each tile so the price per part is clear.
+        <div className="mt-5 border-t border-nooni-line-soft pt-5">
+          <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-nooni-ink">
+            Vælg
+          </p>
+          <div className="grid grid-cols-3 gap-2 sm:gap-3">
+            {variants.map((v) => {
+              const selected = v.id === selectedVariantId;
+              return (
+                <button
+                  key={v.id}
+                  type="button"
+                  onClick={() => setSelectedVariantId(v.id)}
+                  disabled={!v.availableForSale}
+                  aria-pressed={selected}
+                  className={[
+                    "group flex flex-col overflow-hidden rounded-xl border bg-white/60 text-left transition-all",
+                    selected
+                      ? "border-nooni-headline ring-2 ring-nooni-headline/40"
+                      : "border-nooni-line-soft hover:border-nooni-headline/60",
+                    !v.availableForSale ? "cursor-not-allowed opacity-40" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                >
+                  <span className="relative block aspect-square w-full bg-nooni-bg-warm">
+                    {v.image && (
+                      <Image
+                        src={v.image.url}
+                        alt=""
+                        fill
+                        sizes="(min-width: 768px) 140px, 30vw"
+                        className="object-cover"
+                      />
+                    )}
+                  </span>
+                  <span className="flex flex-1 flex-col px-2 py-2">
+                    <span className="text-[13px] leading-snug text-nooni-ink">
+                      {v.title}
+                    </span>
+                    <span
+                      className={`mt-0.5 text-sm font-medium ${
+                        selected ? "text-nooni-headline" : "text-nooni-ink-soft"
+                      }`}
+                    >
+                      {formatPrice(v.price)}
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
       )}
@@ -234,7 +297,11 @@ export default function ProductPurchaseSection({
             }}
             className="inline-flex items-center justify-center gap-2 rounded-full bg-nooni-headline px-8 py-3 text-sm text-white transition-colors hover:bg-[#9d6f6f] disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? "Tilføjer…" : justAdded ? "Tilføjet ✓" : totalPrice ? `Læg i kurv – ${formatPrice(totalPrice)}` : "Læg i kurv"}
+            {loading ? "Tilføjer…" : justAdded ? "Tilføjet ✓" : totalPrice
+                    ? `Læg i kurv – ${formatPrice(totalPrice)}`
+                    : variants.length > 1 && selectedVariant
+                      ? `Læg i kurv – ${formatPrice(selectedVariant.price)}`
+                      : "Læg i kurv"}
           </button>
         ) : (
           <button type="button" disabled className="inline-flex items-center justify-center rounded-full bg-nooni-line px-8 py-3 text-sm text-nooni-ink-soft cursor-not-allowed">

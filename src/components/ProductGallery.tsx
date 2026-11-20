@@ -3,10 +3,10 @@
 import Image from "next/image";
 import { useState, useRef } from "react";
 import type { ReactNode } from "react";
-import type { ShopifyImage } from "@/lib/shopify/types";
+import type { GalleryItem } from "@/lib/shopify/types";
 
 interface ProductGalleryProps {
-  images: ShopifyImage[];
+  images: GalleryItem[];
   productTitle: string;
   overlay?: ReactNode;
 }
@@ -31,15 +31,38 @@ export default function ProductGallery({
     <div>
       {/* Main image */}
       <div className="relative aspect-square overflow-hidden rounded-2xl bg-nooni-bg-warm">
-        <Image
-          key={active.url}
-          src={active.url}
-          alt={active.altText ?? productTitle}
-          fill
-          sizes="(min-width: 768px) 50vw, 100vw"
-          className="object-cover scale-110 transition-transform duration-500 hover:scale-125"
-          preload
-        />
+        {active.videoSources ? (
+          // Product video: muted autoplay loop, like a short reel. The
+          // preview frame shows until the video loads. Controls let the
+          // visitor pause; playsInline keeps iOS from going fullscreen.
+          <video
+            key={active.url}
+            poster={active.url}
+            className="absolute inset-0 h-full w-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            controls
+            preload="metadata"
+            aria-label={active.altText ?? productTitle}
+          >
+            {/* Smallest first is fine for mobile; browsers take the first playable source. */}
+            {pickVideoSources(active.videoSources).map((src) => (
+              <source key={src.url} src={src.url} type={src.mimeType} />
+            ))}
+          </video>
+        ) : (
+          <Image
+            key={active.url}
+            src={active.url}
+            alt={active.altText ?? productTitle}
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="object-cover scale-110 transition-transform duration-500 hover:scale-125"
+            preload
+          />
+        )}
 
         {hasMultiple && (
           <>
@@ -89,7 +112,7 @@ export default function ProductGallery({
                       }
                     }
                   }}
-                  aria-label={`Vis billede ${i + 1} af ${images.length}`}
+                  aria-label={`Vis ${img.videoSources ? "video" : "billede"} ${i + 1} af ${images.length}`}
                   aria-pressed={selected}
                   className={`relative aspect-square w-[19%] flex-none overflow-hidden rounded-lg bg-nooni-bg-warm transition-all [scroll-snap-align:start] ${
                     selected
@@ -104,6 +127,7 @@ export default function ProductGallery({
                     sizes="100px"
                     className="object-cover"
                   />
+                  {img.videoSources && <PlayBadge />}
                 </button>
               );
             })}
@@ -111,6 +135,27 @@ export default function ProductGallery({
         </div>
       )}
     </div>
+  );
+}
+
+/**
+ * Prefer a mid-size rendition (~720p) so the main view looks sharp
+ * without pulling a full-HD file on mobile; keep the rest as fallbacks.
+ */
+function pickVideoSources(sources: NonNullable<GalleryItem["videoSources"]>) {
+  const preferred = sources.find((s) => s.height >= 720) ?? sources[sources.length - 1];
+  return [preferred, ...sources.filter((s) => s !== preferred)];
+}
+
+function PlayBadge() {
+  return (
+    <span className="pointer-events-none absolute inset-0 flex items-center justify-center">
+      <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/80 text-nooni-ink shadow-sm">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+          <polygon points="7 4 20 12 7 20" />
+        </svg>
+      </span>
+    </span>
   );
 }
 

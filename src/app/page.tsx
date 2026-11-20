@@ -16,6 +16,7 @@
  * owns its own background and spacing.
  */
 
+import JuleBanner from "@/components/JuleBanner";
 import type { Metadata } from "next";
 import Hero from "@/components/Hero";
 import { pageMetadata, SITE_DESCRIPTION } from "@/lib/seo";
@@ -41,6 +42,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <JuleBanner />
       <ProductsGrid />
       <Story />
       <BlogTeaser />

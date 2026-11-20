@@ -13,7 +13,12 @@ import {
   PRODUCTS_QUERY,
 } from "./queries";
 import type { ColorOption } from "./personalization";
-import type { Money, Product, ShopifyImage } from "./types";
+import type {
+  GalleryItem,
+  Money,
+  Product,
+  ShopifyImage,
+} from "./types";
 
 /**
  * Skinny product summary used by listing surfaces (homepage product
@@ -194,4 +199,30 @@ export async function getProductColors(handle: string): Promise<ColorOption[]> {
     console.error("[colors] getProductColors failed for", handle, err);
     return [];
   }
+}
+
+/* ── Gallery media (images + videos) ──────────────────────────────── */
+
+/**
+ * Turn a product's media list into gallery items, in the order set in
+ * Shopify admin. Images pass through; videos become their preview frame
+ * plus mp4 sources, so the gallery can play them. Media types we can't
+ * render (external video, 3D) are skipped. Falls back to the plain
+ * `images` list if media is empty, so nothing breaks for old products.
+ */
+export function getGalleryItems(product: Product): GalleryItem[] {
+  const items: GalleryItem[] = [];
+  for (const node of product.media?.nodes ?? []) {
+    if (node.mediaContentType === "IMAGE" && node.image) {
+      items.push(node.image);
+    } else if (node.mediaContentType === "VIDEO" && node.previewImage) {
+      const mp4 = (node.sources ?? [])
+        .filter((s) => s.mimeType === "video/mp4")
+        .sort((a, b) => a.height - b.height);
+      if (mp4.length > 0) {
+        items.push({ ...node.previewImage, videoSources: mp4 });
+      }
+    }
+  }
+  return items.length > 0 ? items : product.images.nodes;
 }
