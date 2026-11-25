@@ -16,6 +16,7 @@
  * owns its own background and spacing.
  */
 
+import BlackFridayGuide from "@/components/BlackFridayGuide";
 import JuleBanner from "@/components/JuleBanner";
 import type { Metadata } from "next";
 import Hero from "@/components/Hero";
@@ -41,6 +42,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
+      <BlackFridayGuide />
       <Hero />
       <JuleBanner />
       <ProductsGrid />
